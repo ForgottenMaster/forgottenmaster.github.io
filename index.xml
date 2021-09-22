@@ -5,7 +5,20 @@
     <link>https://forgottenmaster.github.io/</link>
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-gb</language>
+    <lastBuildDate>Wed, 22 Sep 2021 02:14:06 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Résumé</title>
+      <link>https://forgottenmaster.github.io/resume/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/resume/</guid>
+      <description>Ubisoft Reflections
+Senior Gameplay Programmer
+April 2020 - Present
+As a senior gameplay programmer I have been responsible for architecting and implementing large systems in Assassin&amp;rsquo;s Creed VR. Where the product statement isn&amp;rsquo;t clear or is incomplete, I have worked with other disciplines to ensure the final design does what is required. During this time I have gained experience in Unity3D including DOTS and best practices for efficient programs. Additionally, I attempt to always share my knowledge as I develop it myself so as to allow others to also build their skills.</description>
+    </item>
     
     
   </channel>

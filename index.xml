@@ -6,7 +6,27 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 22 Sep 2021 02:14:06 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Sep 2021 01:45:11 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</link>
+      <pubDate>Fri, 24 Sep 2021 01:17:07 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</guid>
+      <description>This series of posts will be my notes from the following book 
+The main reason for this series of posts will be to allow me to create notes in my own words in order to understand the concepts being taught in this book.
+One thing to note is that any code snippets I include in these posts will be in Rust, rather than Python. I will be using the Rust crate ndarray as my data structure, in lieu of numpy&amp;rsquo;s ndarray.</description>
+    </item>
+    
+    <item>
+      <title>Functions</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</link>
+      <pubDate>Fri, 24 Sep 2021 01:45:11 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</guid>
+      <description>There isn&amp;rsquo;t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I&amp;rsquo;ll include a post here.
+For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</description>
+    </item>
     
     <item>
       <title>Résumé</title>
@@ -19,7 +39,6 @@ Senior Gameplay Programmer
 April 2020 - Present
 As a senior gameplay programmer I have been responsible for architecting and implementing large systems in Assassin&amp;rsquo;s Creed VR. Where the product statement isn&amp;rsquo;t clear or is incomplete, I have worked with other disciplines to ensure the final design does what is required. During this time I have gained experience in Unity3D including DOTS and best practices for efficient programs. Additionally, I attempt to always share my knowledge as I develop it myself so as to allow others to also build their skills.</description>
     </item>
-    
     
   </channel>
 </rss>

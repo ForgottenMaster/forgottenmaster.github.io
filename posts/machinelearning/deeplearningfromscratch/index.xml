@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Deep Learning From Scratch on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/</link>
+    <description>Recent content in Deep Learning From Scratch on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Fri, 24 Sep 2021 01:13:55 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</link>
+      <pubDate>Fri, 24 Sep 2021 01:17:07 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</guid>
+      <description>This series of posts will be my notes from the following book 
+The main reason for this series of posts will be to allow me to create notes in my own words in order to understand the concepts being taught in this book.
+One thing to note is that any code snippets I include in these posts will be in Rust, rather than Python. I will be using the Rust crate ndarray as my data structure, in lieu of numpy&amp;rsquo;s ndarray.</description>
+    </item>
+    
+  </channel>
+</rss>

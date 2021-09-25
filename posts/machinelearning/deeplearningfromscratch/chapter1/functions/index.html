@@ -11,8 +11,8 @@
 For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9f1d947375927e9847272b1f4e9be81336f539e513bf04d52cade31f81cad1af.css" integrity="sha256-nx2Uc3WSfphHJysfTpvoEzb1OeUTvwTVLK3jH4HK0a8=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.75cded8a36cd4ccf26d25de0a4001ff6d85d17693e9ee431744de71f351e8d79.css" integrity="sha256-dc3tijbNTM8m0l3gpAAf9thdF2k&#43;nuQxdE3nHzUejXk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ For our purposes it will help to think of a function as a black box, that takes 
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.88.1" />
+<meta name="generator" content="Hugo 0.68.3" />
 <noscript>
     <style>
         #theme-toggle,
@@ -76,31 +76,7 @@ For our purposes it will help to think of a function as a black box, that takes 
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 1 - Foundations",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/"
-    }, 
+  "itemListElement": [, 
     {
       "@type": "ListItem",
       "position":  5 ,
@@ -120,8 +96,8 @@ For our purposes it will help to think of a function as a black box, that takes 
   "keywords": [
     
   ],
-  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of two functions f and g which take a single argument and return a value, running through these functions will look as follows\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0; let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  ",
-  "wordCount" : "209",
+  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of the following two functions, each of which takes a single parameter:\n$$ f(x) = x^2 $$ $$ g(x) = x + 10 $$\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0; let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  ",
+  "wordCount" : "210",
   "inLanguage": "en",
   "datePublished": "2021-09-24T01:45:11+01:00",
   "dateModified": "2021-09-24T01:45:11+01:00",
@@ -194,11 +170,24 @@ For our purposes it will help to think of a function as a black box, that takes 
         </ul>
     </nav>
 </header>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\$', '\\$'], ['\\(', '\\)']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <main class="main">
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/">Chapter 1 - Foundations</a></div>
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a></div>
     <h1 class="post-title">
       Functions
     </h1>
@@ -208,8 +197,10 @@ For our purposes it will help to think of a function as a black box, that takes 
   <div class="post-content"><p>There isn&rsquo;t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I&rsquo;ll include a post here.</p>
 <p>For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</p>
 <p>The advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.</p>
-<p>Assuming the existence of two functions f and g which take a single argument and return a value, running through these functions will look as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x;
+<p>Assuming the existence of the following two functions, each of which takes a single parameter:</p>
+<p>$$ f(x) = x^2 $$
+$$ g(x) = x + 10 $$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x;
 <span style="color:#66d9ef">let</span> g <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10.0</span>;
 
 <span style="color:#66d9ef">let</span> input <span style="color:#f92672">=</span> <span style="color:#ae81ff">42.0</span>;                   <span style="color:#75715e">// input into the first function in the chain

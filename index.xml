@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 26 Sep 2021 00:42:04 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Sep 2021 16:09:52 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</link>
@@ -35,6 +35,17 @@ For our purposes it will help to think of a function as a black box, that takes 
       
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</guid>
       <description>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.</description>
+    </item>
+    
+    <item>
+      <title>Chain Rule</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/</link>
+      <pubDate>Sun, 26 Sep 2021 16:09:52 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/</guid>
+      <description>The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.
+The reason this is a product is because, say you had a function &amp;ldquo;f&amp;rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.
+Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivative of 5 at the value output by &amp;ldquo;f&amp;rdquo; for x.</description>
     </item>
     
     <item>

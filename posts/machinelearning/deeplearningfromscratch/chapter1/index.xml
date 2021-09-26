@@ -17,5 +17,14 @@
 For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</description>
     </item>
     
+    <item>
+      <title>Derivatives</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</link>
+      <pubDate>Sun, 26 Sep 2021 00:42:04 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</guid>
+      <description>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.</description>
+    </item>
+    
   </channel>
 </rss>

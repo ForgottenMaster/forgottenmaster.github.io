@@ -120,8 +120,8 @@ For our purposes it will help to think of a function as a black box, that takes 
   "keywords": [
     
   ],
-  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of the following two functions, each of which takes a single parameter:\n$$ f(x) = x^2 $$ $$ g(x) = x + 10 $$\nWe can code these functions as below, along with how they’re chained together to act as one big composite function that takes input into the first, and extracts output from the last:\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0; let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  ",
-  "wordCount" : "242",
+  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of the following two functions, each of which takes a single parameter:\n$$ f(x) = x^2 $$ $$ g(x) = x + 10 $$\nWe can code these functions as below, along with how they’re chained together to act as one big composite function that takes input into the first, and extracts output from the last:\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0; let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  A diagram showing function omposition would look something like this, where the chain of two functions results in the same as running through a single function that is the composite of the two\n",
+  "wordCount" : "275",
   "inLanguage": "en",
   "datePublished": "2021-09-24T01:45:11+01:00",
   "dateModified": "2021-09-24T01:45:11+01:00",
@@ -221,6 +221,9 @@ $$ g(x) = x + 10 $$</p>
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> intermediate <span style="color:#f92672">=</span> f(input);        <span style="color:#75715e">// after invoking function &#34;f&#34;, the output is an intermediate result
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> g(intermediate);       <span style="color:#75715e">// to get the final input, we can pass this intermediate result through &#34;g&#34;
 </span></code></pre></div>
+<p>A diagram showing function omposition would look something like this, where the chain of two functions results in the same as running through a single function that is the composite of the two</p>
+<p><img loading="lazy" src="functioncomposition.png" alt="Function Composition Diagram"  />
+</p>
 
 
   </div>

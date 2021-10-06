@@ -2,29 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</loc>
-    <lastmod>2021-09-24T01:17:07+01:00</lastmod>
+    <loc>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</loc>
+    <lastmod>2021-09-26T17:11:38+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/rust/whyrust/</loc>
+    <lastmod>2021-09-26T17:10:58+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/rust/</loc>
+    <lastmod>2021-09-26T17:08:21+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</loc>
     <lastmod>2021-09-24T01:45:11+01:00</lastmod>
   </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/</loc>
-    <lastmod>2021-09-24T01:45:06+01:00</lastmod>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</loc>
+    <lastmod>2021-09-24T01:17:07+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/</loc>
+    <lastmod>2021-09-24T01:13:55+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</loc>
+    <lastmod>2021-09-26T17:14:48+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</loc>
     <lastmod>2021-09-26T00:42:04+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/</loc>
+    <lastmod>2021-09-24T01:45:06+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/</loc>
+    <lastmod>2021-09-24T01:12:01+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/</loc>
     <lastmod>2021-09-26T16:09:52+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/</loc>
-    <lastmod>2021-09-26T16:09:52+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/</loc>
-    <lastmod>2021-09-24T01:13:55+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/</loc>
-    <lastmod>2021-09-24T01:12:01+01:00</lastmod>
+    <lastmod>2021-09-26T17:14:48+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/</loc>
     <lastmod>2021-09-22T02:14:06+01:00</lastmod>

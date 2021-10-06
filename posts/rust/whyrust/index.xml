@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Why Rust? on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/rust/whyrust/</link>
+    <description>Recent content in Why Rust? on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sun, 26 Sep 2021 17:10:58 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/rust/whyrust/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
+      <pubDate>Sun, 26 Sep 2021 17:11:38 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</guid>
+      <description>This series of posts is intended to be a set of reasons I love using the Rust programming language. This isn&amp;rsquo;t a statement to say that you should use it, but hopefully it can bring some light on the differences between languages such as C++/C# and Rust, and show what Rust could bring to the table.
+Each post will just be a self-contained entry about a single feature of Rust that I appreciate, so feel free to flick through as needed.</description>
+    </item>
+    
+    <item>
+      <title>Enums</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</link>
+      <pubDate>Sun, 26 Sep 2021 17:14:48 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</guid>
+      <description>C Style Enums In C#, C++, and a lot of other popular programming languages, we have access to a type called an &amp;ldquo;enumeration&amp;rdquo; (or enum for short). This is simply a type safe collection of named constant values.
+For example in C++, making an enum whose variants represent a set of allowed colors for a hypothetical UI framework could be written as (with the values of the variants explicitly typed out for transparency):</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 26 Sep 2021 17:14:48 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Oct 2021 15:40:05 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
@@ -66,6 +66,16 @@ For example in C++, making an enum whose variants represent a set of allowed col
       <description>The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.
 The reason this is a product is because, say you had a function &amp;ldquo;f&amp;rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.
 Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivative of 5 at the value output by &amp;ldquo;f&amp;rdquo; for x.</description>
+    </item>
+    
+    <item>
+      <title>Multiple Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</link>
+      <pubDate>Sat, 09 Oct 2021 15:40:05 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</guid>
+      <description>So far, we&amp;rsquo;ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We&amp;rsquo;ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
+As it turns out, we can calculate the derivative in the same way!</description>
     </item>
     
     <item>

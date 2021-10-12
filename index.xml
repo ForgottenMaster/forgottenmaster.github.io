@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 09 Oct 2021 15:40:05 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 Oct 2021 00:41:56 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
@@ -76,6 +76,16 @@ Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivati
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</guid>
       <description>So far, we&amp;rsquo;ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We&amp;rsquo;ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
 As it turns out, we can calculate the derivative in the same way!</description>
+    </item>
+    
+    <item>
+      <title>Vector Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</link>
+      <pubDate>Tue, 12 Oct 2021 00:41:56 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</guid>
+      <description>After learning what a derivative of a function is, and how to apply the chain rule to a composite function, we then learned how to calculate the derivative of a function with multiple inputs by tracing back through the chain of functions following the route of one of the parameters while holding the others constant.
+The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector.</description>
     </item>
     
     <item>

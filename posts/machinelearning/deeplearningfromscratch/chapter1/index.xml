@@ -57,5 +57,16 @@ As it turns out, we can calculate the derivative in the same way!</description>
 The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector.</description>
     </item>
     
+    <item>
+      <title>Matrix Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</link>
+      <pubDate>Wed, 13 Oct 2021 23:47:35 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</guid>
+      <description>The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
+In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
+Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together.</description>
+    </item>
+    
   </channel>
 </rss>

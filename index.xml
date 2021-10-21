@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 13 Oct 2021 23:47:35 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Oct 2021 01:31:14 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
@@ -55,6 +55,16 @@ For example in C++, making an enum whose variants represent a set of allowed col
       
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</guid>
       <description>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.</description>
+    </item>
+    
+    <item>
+      <title>Memory Safety</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</link>
+      <pubDate>Fri, 15 Oct 2021 01:31:14 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</guid>
+      <description>Move By Default In most programming languages, there is no one true &amp;ldquo;owner&amp;rdquo; of any given piece of data. Data can be allocated on the stack or the heap but references to it can be passed around as needed. There isn&amp;rsquo;t a way of the compiler to track ownership of a piece of data in most languages such as C++.
+Additionally expensive copies of structures may be done without us realising, or being able to opt out of it.</description>
     </item>
     
     <item>

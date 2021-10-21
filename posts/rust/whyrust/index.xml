@@ -27,5 +27,15 @@ Each post will just be a self-contained entry about a single feature of Rust tha
 For example in C++, making an enum whose variants represent a set of allowed colors for a hypothetical UI framework could be written as (with the values of the variants explicitly typed out for transparency):</description>
     </item>
     
+    <item>
+      <title>Memory Safety</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</link>
+      <pubDate>Fri, 15 Oct 2021 01:31:14 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</guid>
+      <description>Move By Default In most programming languages, there is no one true &amp;ldquo;owner&amp;rdquo; of any given piece of data. Data can be allocated on the stack or the heap but references to it can be passed around as needed. There isn&amp;rsquo;t a way of the compiler to track ownership of a piece of data in most languages such as C++.
+Additionally expensive copies of structures may be done without us realising, or being able to opt out of it.</description>
+    </item>
+    
   </channel>
 </rss>

@@ -200,7 +200,27 @@ Additionally expensive copies of structures may be done without us realising, or
     </h1>
     <div class="post-meta">October 15, 2021
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#move-by-default" aria-label="Move By Default">Move By Default</a></li>
+                <li>
+                    <a href="#use-after-free" aria-label="Use After Free">Use After Free</a></li>
+                <li>
+                    <a href="#modification-while-reading" aria-label="Modification While Reading">Modification While Reading</a></li>
+                <li>
+                    <a href="#thread-safety" aria-label="Thread Safety">Thread Safety</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h3 id="move-by-default">Move By Default<a hidden class="anchor" aria-hidden="true" href="#move-by-default">#</a></h3>
 <p>In most programming languages, there is no one true &ldquo;owner&rdquo; of any given piece of data. Data can be allocated on the stack or the heap but references to it can be passed around as needed. There isn&rsquo;t a way of the compiler to track ownership of a piece of data in most languages such as C++.</p>
 <p>Additionally expensive copies of structures may be done without us realising, or being able to opt out of it. For example in C++ and C# the following code will result in making a copy of SomeLargeStruct</p>

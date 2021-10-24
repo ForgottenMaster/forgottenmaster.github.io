@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 15 Oct 2021 01:31:14 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Oct 2021 09:55:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
@@ -76,6 +76,16 @@ Additionally expensive copies of structures may be done without us realising, or
       <description>The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.
 The reason this is a product is because, say you had a function &amp;ldquo;f&amp;rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.
 Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivative of 5 at the value output by &amp;ldquo;f&amp;rdquo; for x.</description>
+    </item>
+    
+    <item>
+      <title>Traits</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</link>
+      <pubDate>Sat, 23 Oct 2021 09:55:16 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</guid>
+      <description>What are traits? Traits in Rust can basically be thought of as interfaces in C#. They can do everything that a C# interface can do except with a few more capabilities. We will start off by equating the common functionality of traits in Rust with C# interfaces, and then explore the additional capabilities we get with Rust traits.
+Describes capabilities In C# interfaces, we can describe a set of function signatures which will tell the user the capabilities of that interface, such that they know when they call something what data to pass in, and what they should get back.</description>
     </item>
     
     <item>

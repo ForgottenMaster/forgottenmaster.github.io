@@ -37,5 +37,15 @@ For example in C++, making an enum whose variants represent a set of allowed col
 Additionally expensive copies of structures may be done without us realising, or being able to opt out of it.</description>
     </item>
     
+    <item>
+      <title>Traits</title>
+      <link>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</link>
+      <pubDate>Sat, 23 Oct 2021 09:55:16 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</guid>
+      <description>What are traits? Traits in Rust can basically be thought of as interfaces in C#. They can do everything that a C# interface can do except with a few more capabilities. We will start off by equating the common functionality of traits in Rust with C# interfaces, and then explore the additional capabilities we get with Rust traits.
+Describes capabilities In C# interfaces, we can describe a set of function signatures which will tell the user the capabilities of that interface, such that they know when they call something what data to pass in, and what they should get back.</description>
+    </item>
+    
   </channel>
 </rss>

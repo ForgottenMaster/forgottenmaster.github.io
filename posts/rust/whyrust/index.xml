@@ -8,16 +8,6 @@
     <language>en-gb</language>
     <lastBuildDate>Sun, 26 Sep 2021 17:10:58 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/rust/whyrust/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Introduction</title>
-      <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
-      <pubDate>Sun, 26 Sep 2021 17:11:38 +0100</pubDate>
-      
-      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</guid>
-      <description>This series of posts is intended to be a set of reasons I love using the Rust programming language. This isn&amp;rsquo;t a statement to say that you should use it, but hopefully it can bring some light on the differences between languages such as C++/C# and Rust, and show what Rust could bring to the table.
-Each post will just be a self-contained entry about a single feature of Rust that I appreciate, so feel free to flick through as needed.</description>
-    </item>
-    
-    <item>
       <title>Enums</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</link>
       <pubDate>Sun, 26 Sep 2021 17:14:48 +0100</pubDate>

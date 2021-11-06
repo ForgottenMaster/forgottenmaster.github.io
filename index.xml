@@ -19,16 +19,6 @@ Initialising a new repository This is how we can create a brand new Git reposito
     </item>
     
     <item>
-      <title>Introduction</title>
-      <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>
-      <pubDate>Sun, 26 Sep 2021 17:11:38 +0100</pubDate>
-      
-      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</guid>
-      <description>This series of posts is intended to be a set of reasons I love using the Rust programming language. This isn&amp;rsquo;t a statement to say that you should use it, but hopefully it can bring some light on the differences between languages such as C++/C# and Rust, and show what Rust could bring to the table.
-Each post will just be a self-contained entry about a single feature of Rust that I appreciate, so feel free to flick through as needed.</description>
-    </item>
-    
-    <item>
       <title>Functions</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</link>
       <pubDate>Fri, 24 Sep 2021 01:45:11 +0100</pubDate>
@@ -36,17 +26,6 @@ Each post will just be a self-contained entry about a single feature of Rust tha
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</guid>
       <description>There isn&amp;rsquo;t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I&amp;rsquo;ll include a post here.
 For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</description>
-    </item>
-    
-    <item>
-      <title>Introduction</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</link>
-      <pubDate>Fri, 24 Sep 2021 01:17:07 +0100</pubDate>
-      
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/introduction/</guid>
-      <description>This series of posts will be my notes from the following book 
-The main reason for this series of posts will be to allow me to create notes in my own words in order to understand the concepts being taught in this book.
-One thing to note is that any code snippets I include in these posts will be in Rust, rather than Python. I will be using the Rust crate ndarray as my data structure, in lieu of numpy&amp;rsquo;s ndarray.</description>
     </item>
     
     <item>

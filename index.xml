@@ -6,7 +6,7 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 06 Nov 2021 18:36:42 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 20:51:06 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Basic Usage</title>
       <link>https://forgottenmaster.github.io/posts/git/basic_usage/</link>
@@ -47,6 +47,17 @@ For our purposes it will help to think of a function as a black box, that takes 
       <description>This series of posts will be my notes from the following book 
 The main reason for this series of posts will be to allow me to create notes in my own words in order to understand the concepts being taught in this book.
 One thing to note is that any code snippets I include in these posts will be in Rust, rather than Python. I will be using the Rust crate ndarray as my data structure, in lieu of numpy&amp;rsquo;s ndarray.</description>
+    </item>
+    
+    <item>
+      <title>Basic Concepts</title>
+      <link>https://forgottenmaster.github.io/posts/git/basic_concepts/</link>
+      <pubDate>Sat, 06 Nov 2021 20:51:06 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/git/basic_concepts/</guid>
+      <description>Repository A Git repository has 2 main storages:
+  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository. This is efficiently copied across when cloning an existing repository to provide an exact duplicate of not only the data but the whole history.
+  The index This is a temporary store which records changes that have yet to be made to the repository but have been staged.</description>
     </item>
     
     <item>

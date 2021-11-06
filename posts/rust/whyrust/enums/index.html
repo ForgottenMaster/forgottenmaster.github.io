@@ -11,7 +11,7 @@
 For example in C&#43;&#43;, making an enum whose variants represent a set of allowed colors for a hypothetical UI framework could be written as (with the values of the variants explicitly typed out for transparency):">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/rust/whyrust/enums/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9f1d947375927e9847272b1f4e9be81336f539e513bf04d52cade31f81cad1af.css" integrity="sha256-nx2Uc3WSfphHJysfTpvoEzb1OeUTvwTVLK3jH4HK0a8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
@@ -21,7 +21,7 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.88.1" />
+<meta name="generator" content="Hugo 0.89.1" />
 <noscript>
     <style>
         #theme-toggle,
@@ -33,15 +33,15 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
     <style>
         @media (prefers-color-scheme: dark) {
             :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
             }
 
             .list {
@@ -58,7 +58,8 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
         }
 
     </style>
-</noscript><meta property="og:title" content="Enums" />
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Enums" />
 <meta property="og:description" content="C Style Enums In C#, C&#43;&#43;, and a lot of other popular programming languages, we have access to a type called an &ldquo;enumeration&rdquo; (or enum for short). This is simply a type safe collection of named constant values.
 For example in C&#43;&#43;, making an enum whose variants represent a set of allowed colors for a hypothetical UI framework could be written as (with the values of the variants explicitly typed out for transparency):" />
 <meta property="og:type" content="article" />
@@ -188,8 +189,6 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
         </ul>
     </nav>
 </header>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <main class="main">
 
 <article class="post-single">
@@ -198,7 +197,8 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
     <h1 class="post-title">
       Enums
     </h1>
-    <div class="post-meta">September 26, 2021
+    <div class="post-meta"><span title='2021-09-26 17:14:48 +0100 BST'>September 26, 2021</span>
+
 </div>
   </header> <div class="toc">
     <details >
@@ -242,7 +242,7 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
 <p>And casting such an enum value into an integer is totally fine, the following snippet will print &ldquo;Selected color is: 3&rdquo;:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// enum variant to integral value is safely supported because it&#39;s a total function - all enum variants in this style of enumeration
 </span><span style="color:#75715e">// can be cast to the respective integer value.
-</span><span style="color:#75715e"></span>println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Selected color is: {}&#34;</span>, Color::Blue <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u8</span>);</code></pre></div>
+</span><span style="color:#75715e"></span>println!(<span style="color:#e6db74">&#34;Selected color is: {}&#34;</span>, Color::Blue <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u8</span>);</code></pre></div>
 <p>This is totally fine and allowed by Rust because all variants of this C-style enumeration can be casted safely to an integer. We say it&rsquo;s <em>infallible</em></p>
 <p>However, casting an integer to an enumeration type is not infallible because not all possible integral values have a variant in the enumeration, we can&rsquo;t do the following - it simply does not compile:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// does not compile as integral to enum conversion is not implemented since it can fail for certain values of integer.
@@ -278,10 +278,10 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Color {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">supports_transparency</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">bool</span> {
         <span style="color:#66d9ef">match</span> self {
-            Self::RGBF32(..) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
-            Self::RGBAF32(..) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>,
-            Self::RGBU8(..) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
-            Self::RGBAU8(..) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>
+            Self::RGBF32(<span style="color:#f92672">..</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
+            Self::RGBAF32(<span style="color:#f92672">..</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>,
+            Self::RGBU8(<span style="color:#f92672">..</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
+            Self::RGBAU8(<span style="color:#f92672">..</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>
             
         }
     }
@@ -300,9 +300,9 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Error {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_get_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> {
         <span style="color:#66d9ef">match</span> self {
-            Self::Message(..) <span style="color:#f92672">=&gt;</span> None,
+            Self::Message(<span style="color:#f92672">..</span>) <span style="color:#f92672">=&gt;</span> None,
             Self::Code(c) <span style="color:#f92672">=&gt;</span> Some(<span style="color:#f92672">*</span>c),
-            Self::Both{code: <span style="color:#a6e22e">c</span>, ..} <span style="color:#f92672">=&gt;</span> Some(<span style="color:#f92672">*</span>c)
+            Self::Both{code: <span style="color:#a6e22e">c</span>, <span style="color:#f92672">..</span>} <span style="color:#f92672">=&gt;</span> Some(<span style="color:#f92672">*</span>c)
         }
     }
 }</code></pre></div>
@@ -326,7 +326,7 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
     <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SuccessType</span> <span style="color:#f92672">=</span> (); <span style="color:#75715e">// Unit type is like &#34;void&#34; in other languages, it&#39;s a type we can use when we don&#39;t need to return any information.
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorType</span> <span style="color:#f92672">=</span> <span style="color:#f92672">???</span>; <span style="color:#75715e">// What do we put here if this operation never fails?
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_operation</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; Result<span style="color:#f92672">&lt;</span>Self::SuccessType, Self::ErrorType<span style="color:#f92672">&gt;</span> {
-        println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello, World!&#34;</span>);
+        println!(<span style="color:#e6db74">&#34;Hello, World!&#34;</span>);
     }
 }</code></pre></div>
 <p>The implementation of this function simply prints to the console and never fails, we&rsquo;re &ldquo;trying&rdquo; to perform the operation but it will always succeed. It turns out in these cases we can communicate this at the type level to the caller by using the empty enum as the ErrorType (e.g. Void). If the caller sees that the signature for this is:</p>
@@ -357,9 +357,11 @@ For example in C&#43;&#43;, making an enum whose variants represent a set of all
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

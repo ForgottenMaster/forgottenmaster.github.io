@@ -6,7 +6,18 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 23 Oct 2021 09:55:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 18:36:42 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basic Usage</title>
+      <link>https://forgottenmaster.github.io/posts/git/basic_usage/</link>
+      <pubDate>Sat, 06 Nov 2021 18:36:42 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/git/basic_usage/</guid>
+      <description>Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
+In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
+Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.</description>
+    </item>
+    
     <item>
       <title>Introduction</title>
       <link>https://forgottenmaster.github.io/posts/rust/whyrust/introduction/</link>

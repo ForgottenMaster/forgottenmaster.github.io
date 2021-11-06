@@ -13,7 +13,7 @@ April 2020 - Present
 As a senior gameplay programmer I have been responsible for architecting and implementing large systems in Assassin&rsquo;s Creed VR. Where the product statement isn&rsquo;t clear or is incomplete, I have worked with other disciplines to ensure the final design does what is required. During this time I have gained experience in Unity3D including DOTS and best practices for efficient programs. Additionally, I attempt to always share my knowledge as I develop it myself so as to allow others to also build their skills.">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/resume/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9f1d947375927e9847272b1f4e9be81336f539e513bf04d52cade31f81cad1af.css" integrity="sha256-nx2Uc3WSfphHJysfTpvoEzb1OeUTvwTVLK3jH4HK0a8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
@@ -23,7 +23,7 @@ As a senior gameplay programmer I have been responsible for architecting and imp
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.88.1" />
+<meta name="generator" content="Hugo 0.89.1" />
 <noscript>
     <style>
         #theme-toggle,
@@ -35,15 +35,15 @@ As a senior gameplay programmer I have been responsible for architecting and imp
     <style>
         @media (prefers-color-scheme: dark) {
             :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
             }
 
             .list {
@@ -60,7 +60,8 @@ As a senior gameplay programmer I have been responsible for architecting and imp
         }
 
     </style>
-</noscript><meta property="og:title" content="Résumé" />
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Résumé" />
 <meta property="og:description" content="Ubisoft Reflections
 Senior Gameplay Programmer
 April 2020 - Present
@@ -176,8 +177,6 @@ As a senior gameplay programmer I have been responsible for architecting and imp
         </ul>
     </nav>
 </header>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <main class="main">
 
 <article class="post-single">
@@ -187,6 +186,7 @@ As a senior gameplay programmer I have been responsible for architecting and imp
       Résumé
     </h1>
     <div class="post-meta">
+
 </div>
   </header> 
 
@@ -250,9 +250,11 @@ Graduated with first class degree</p>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Rabin-Karp Pattern Search | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.
+We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle).">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.89.4" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Rabin-Karp Pattern Search" />
+<meta property="og:description" content="Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.
+We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/" />
+<meta property="og:image" content="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover.jpg" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-19T12:55:58&#43;00:00" />
+<meta property="article:modified_time" content="2021-11-19T12:55:58&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover.jpg" />
+<meta name="twitter:title" content="Rabin-Karp Pattern Search"/>
+<meta name="twitter:description" content="Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.
+We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Algorithms",
+      "item": "https://forgottenmaster.github.io/posts/algorithms/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Searching",
+      "item": "https://forgottenmaster.github.io/posts/algorithms/searching/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Rabin-Karp Pattern Search",
+      "item": "https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Rabin-Karp Pattern Search",
+  "name": "Rabin-Karp Pattern Search",
+  "description": "Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.\nWe can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle).",
+  "keywords": [
+    
+  ],
+  "articleBody": "Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.\nWe can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle). This sliding motion can be viewed as the following animation\nHowever, with the Naiive approach, when we compare the needle against a specific window in the haystack, we always start by comparing the first elements, then the second elements, and so on until we either hit a mismatch, or have compared all elements as equal.\nThis is obviously a problem for larger sequences as, every time the window slides one position to the right in the haystack, we can end up checking every character in the needle.\nHow is Rabin-Karp different? The basic movement of the “window” that we’re checking in the haystack is still the same - it slides right by one position each step. However where Rabin-Karp differs is by avoiding checking each character to find a mismatch if it knows a mismatch occurs. The way it achieves this is by using a single numeric hash code that represents the sequence of elements we are looking for (known as the fingerprint).\nThe fingerprint of the initial window can be calculated as usual by hashing all the elements in the window. However, where the efficiency comes from with Rabin-Karp is that the method used to calculate the fingerprint allows us to “roll” that fingerprint each time we move the window to the right by one step.\nWhat this means is, when we move the window to the right by one step, we drop whatever contribution to the overall hash was made by the leftmost element, and then incorporate the new element that’s coming in on the right hand side of the window - without having to recalculate all the elements in between.\nHow can it do this? We can do this by multiplying the hash code of each element by a particular, unique number and adding all the values together for a unique fingerprint.\nWe need to first choose a number as a base which we will raise to consecutive powers to determine these multipliers. It doesn’t matter too much what this number is, except that it must be greater than 1 (because raising 1 to any power gives 1 which isn’t a unique multiplier).\nThe initial fingerprint Given that B is the arbitrary numerical base we will raise, W is the window we’re calculating the fingerprint for, and L is the length of that sequence, then the formula is given as follows:\n$$ Fingerprint(W) = \\sum_{n=0}^{L-1} Hash(W_n) \\times B^{L-1-n} $$\nOr, written another way:\n$$ Fingerprint(W) = (Hash(W_0) \\times B^{L-1}) + (Hash(W_1) \\times B^{L-1-1}) + (Hash(W_2) \\times B^{L-1-2}) $$ $$ + … + (Hash(W_n) \\times B^0 ) $$\n A concrete example It’s always difficult to interpret mathematical formulas sometimes, so here is a small and concrete example of calculating the hash code. Given the sequence of integers W=\\([17, 23, 49, 51]\\) we can see that L=4, and if we pick as our base B=2 then in order to calculate the fingerprint, we simply do the following:\n$$ Fingerprint(W) = (Hash(17) \\times 2^3) + (Hash(23) \\times 2^2) + (Hash(49) \\times 2) + Hash(51) $$\nIf we furthermore take Hash(X) to be X itself (as they’re already integers), then we can easily compute the final fingerprint as:\n$$ (17 \\times 8) + (23 \\times 4) + (49 \\times 2) + 51 $$ $$ = 136 + 92 + 98 + 51 $$ $$ = 377 $$\n Rolling In order to update the fingerprint after the initial calculation, we will need to do the following in sequence:\n Subtract the highest power term on the left Multiply the fingerprint by B - this has the effect of raising the remaining powers by 1 Add the new term to the fingerprint  Let’s look at these in turn…\nSubtract the highest power term When we slide the window to the right, the elements on the left of the window (and the left of the above formula) will “drop off”. As we have raised each element to successive powers, we know how to calculate the multiplier added to the hash of element 0. The multiplier is simply \\(B^{L-1}\\), and the value we will subtract from the fingerprint is \\(Hash(W_0) \\times B^{L-1})\\)\nIn the concrete example shown above, we subtract \\((Hash(17) \\times 2^3)\\) and are left with:\n$$ Fingerprint(W) = (Hash(23) \\times 2^2) + (Hash(49) \\times 2^1) + (Hash(51) \\times 2^0) $$\nRaise the powers We now multiply by B (in the concrete example this is 2). Since the following is true:\n$$ (X + Y) \\times Z \\equiv (X \\times Z) + (Y \\times Z) $$\nThis has the effect of multiplying each term in the formula by B, which furthermore, has the effect of raising the power by 1 of each term.\nAfter multiplying by 2, the concrete example will be given as:\n$$ Fingerprint(W) = (Hash(23) \\times 2^3) + (Hash(49) \\times 2^2) + (Hash(51) \\times 2^1) $$\nAdd the new term This is the easiest part. Since the powers of the other terms have been raised, we only need to add the new term into the “zeroeth” power position, which is simply adding the hashcode of the element.\nIn our concrete example, say that we are rotating in a new element, 101, on the right as the window slides. The new fingerprint is represented as:\n$$ Fingerprint(W) = (Hash(23) \\times 2^3) + (Hash(49) \\times 2^2) + (Hash(51) \\times 2) + Hash(101) $$\nWhich, again assuming Hash(X) is X, gives the new fingerprint of:\n$$ (23 \\times 8) + (49 \\times 4) + (51 \\times 2) + 101 $$ $$ = 184 + 196 + 102 + 101 $$ $$ = 583 $$\nBut what about overflow? As you can see however, from this formula that for large sequence lengths, even for the smallest viable base of 2, will result in an integer growing too large to fit in any sensible datatype.\nAfter all \\(2^{500000}\\) is…..huge\nWhat can we do to keep these numbers small?….Modular Arithmetic\nModular Arithmetic Using modular arithmetic involves using integer division of the number at each step by some known value (known as the modulus) and retaining the remainder. In this way all the numbers “wrap around” but the formula is still valid, it’s just being done on a number circle rather than a number line.\nAn illustration of this is with clocks. Clocks use a modulus of 12 before they wrap around, but you can still add, for example, 4 hours, or subtract 4 hours when that wraps around.\nAdapting the formulas is easy enough, we just apply the modulo operator when calculating the hash code of an element, and at every step of the calculation.\nThe tricky part of this however, is when we are calculating the powers - we can’t calculate the power and then apply the modulus as the power calculation overflows. Instead we need to recognise that:\n$$ pow(X, 3) \\equiv (X \\times X \\times X) $$\nAnd this lets us apply modulo at every step, as in (assuming modulus of M):\n$$ ((((X \\mod M) \\times X) \\mod M) \\times X) \\mod M $$\nOne thing we need to accumulate while doing this is the multiplier we have applied to the left most element (\\(B^L-1\\)) which we then can just use later when we’re subtracting the left hand term.\nCoding it up Following is a walkthrough of how to code this algorithm up in Rust, the complete source can be found at the playground link HERE\nI’ll run through the steps one by one below, explaining the code for those who may be unfamiliar with Rust syntax.\nStep 1 - HashCode trait In Rust we are able to get the hash of a type that implements the Hash trait for use in a HashMap. However this method requires passing the type through a Hasher and incurring a performance cost to generate a hash code for even basic types such as integers.\nSince an integer is its own hash code, and a character can be converted to an integer as a hash code we don’t need to do anything too tricky.\nFor the element hashing therefore, I’ve gone with creating a new trait:\ntrait HashCode { fn hash_code(\u0026self) - u64; } That is, a simple trait (interface in other languages) with a single function that operates on an const reference to the element (\u0026self) and returns an integer hash code for it (u64).\nStep 2 - Implementing HashCode for types we want to use The next step is to actually implement the trait for the types we want to be able to use in the sequences for the algorithm. Rust allows us to implement custom traits for existing types in order to extend their functionality - even primitive types. For this, we will implement it for the following primitive types:\n i32 - A signed 32-bit integer. For this, if it’s a positive value we can simply keep the value and cast it to a wider, 64 bit integer with no loss. If it’s negative, because we know that the range of a 64-bit integer covers the range of the 32-bit integer then we will map the negative portion of i32 by negating it - and then subtracting from u64::MAX. u32 - This involves a simple widening cast which is safe since we know all unsigned 32-bit integer values will fit into an unsigned 64-bit variable. u64 - For this, the hash code is the value itself so it simply returns it. char - Characters in rust are 4 bytes large representing a unicode codepoint. For the same reason as u32 will be safely castable into u64, so are characters.  The implementation of the HashCode trait then is as follows:\nimpl HashCode for i32 { fn hash_code(\u0026self) - u64 { if *self = 0 { *self as u64 // if we're positive, just keep our value and cast as a u64  } else { std::u64::MAX - self.abs() as u64 // if we're negative, just negate it and then subtract from u64 MAX to use the upper end  } } } impl HashCode for u32 { fn hash_code(\u0026self) - u64 { *self as u64 } } impl HashCode for u64 { fn hash_code(\u0026self) - u64 { *self } } impl HashCode for char { fn hash_code(\u0026self) - u64 { (*self).into() } } Step 3 - Generating a fingerprint In order to be able to roll a fingerprint as described previously, we first need to construct one from scratch for a given range. Given a sequence of elements (that implement our HashCode trait), along with a base to use, and a modulus to keep the numbers small as described in the section on modular arithmetic - we would like a function that will generate the fingerprint for the sequence. Additionally, we want to return the calculated multiplier for that left-most term so that we don’t need to calculate it later.\nTo allow us to keep the numbers small, we don’t use the pow function, but use an imperative loop to accumulate the fingerprint and base offset.\nThe code for this function looks like the following (note that this assumes the list isn’t empty and will panic if it is due to the [0] access):\nfn generate_fingerprintT: HashCode(list: \u0026[T], base: u64, modulus: u64) - (u64, u64) { let mut fingerprint = list[0].hash_code() % modulus; let mut base_offset = 1; for elem in \u0026list[1..] { let elem_hash = elem.hash_code() % modulus; fingerprint = (((fingerprint * base) % modulus) + elem_hash) % modulus; base_offset = (base_offset * base) % modulus; } (fingerprint, base_offset) } Step 4 - Rolling the fingerprint In order to “roll” the fingerprint and generate the next one from the previous one, we need the following pieces of information:\n The previous fingerprint - for obvious reasons The calculated multiplier (called the base offset) for the left-most element - we use this to calculate the final value to subtract from the fingerprint The old element we’re rotating out - we need this to get the hash code from, which is combined with the base offset to get the value to subtract The new element we’re rotating in - we need this again to get the hash code which will be added to the fingerprint The base - we need this to allow us to “raise the powers” of all the remaining terms in the fingerprint after removing the left most term The modulus - we need this for the same reason as we needed it in generate_fingerprint. It lets us perform modular arithmetic and keep the values small  One additional thing to note which could be missed is that before removing the term we want to be rid of, we must first add the modulus to the fingerprint. This is because we’re using modular arithmetic - it might wrap around so that the current fingerprint value is less than the value we want to subtract. Adding the modulus essentially adds one full rotation to the fingerprint - allowing us to subtract the term safely.\nThe function looks like the following:\nfn roll_fingerprintT: HashCode( mut fingerprint: u64, base_offset: u64, old_term: \u0026T, new_term: \u0026T, base: u64, modulus: u64, ) - u64 { let old_term_hash = old_term.hash_code() % modulus; let new_term_hash = new_term.hash_code() % modulus; let term_to_subtract = (old_term_hash * base_offset) % modulus; fingerprint = fingerprint + modulus - term_to_subtract; // remove the old term after adding the modulus on to protect against underflow.  fingerprint *= base; // power shift all other terms up by 1  (fingerprint + new_term_hash) % modulus // return new fingerprint after adding in new term and modding } Step 5 - Putting it together Now we can write the actual Rabin-Karp implementation. This function will take a sequence known as the needle, and an equal or larger sequence known as the Haystack, along with the standard base and modulus to use.\nIt will return a boolean value indicating whether the needle was found in the haystack or not. This could be extended if necessary in the future to return the index of the match.\nFor Rabin-Karp, the steps are as follows:\n Calculate the fingerprint of the needle - this will never change and is the fingerprint we’re trying to match Handle the trivial case where the needle is empty - an empty needle is always present in any list Generate the initial fingerprint for the slice of the haystack of the same length as the needle - This is the starting fingerprint to match, and also gives us the base offset to use If they match already, then we return a match Otherwise we slide the window along by 1 each time (until the right side of the window hits the end of the haystack), rolling the hash each time to remove the old left hand element and add the incoming element Each time, check if there’s a match If we’ve checked all windows and not found a match, it’s not there  One thing to note though is that it is sufficient to detect a mismatch by mismatching fingerprints however it’s not sufficient to detect a match with matching fingerprints. This is because we’re using modular arithmetic and a mathematical formula for calculating the final fingerprint - it’s possible different sequences end up with the same fingerprint.\nThe efficiency of this algorithm is in the fact we don’t have to check elementwise when we know there’s a mismatch, and only have to check elementwise in the cases that the fingerprints match.\nBecause of this requirement that elements need to be compared as equal, our Rabin-Karp function requires an additional bound on it’s generic type, that of PartialEq (which lets us use the == operator). The final function is as follows:\nfn rabin_karpT: HashCode + PartialEq( needle: \u0026[T], haystack: \u0026[T], base: u64, modulus: u64, ) - bool { if needle.len() == 0 { true // we can always find the empty list inside any list  } else { // get the initial fingerprints and window  let (needle_fingerprint, _) = generate_fingerprint(needle, base, modulus); let needle_len = needle.len(); let haystack_len = haystack.len(); let mut window = \u0026haystack[0..needle_len]; let (mut window_fingerprint, base_offset) = generate_fingerprint(window, base, modulus); // check the initial fingerprints/window for match  if needle_fingerprint == window_fingerprint \u0026\u0026 needle == window { return true; } // otherwise run a starting index for the window from 1 up to and including haystack_len-needle_len.  for window_index in 1..=(haystack_len - needle_len) { let new_window = \u0026haystack[window_index..window_index + needle_len]; let roll_out = \u0026window[0]; let roll_in = \u0026new_window[needle_len - 1]; window_fingerprint = roll_fingerprint( window_fingerprint, base_offset, roll_out, roll_in, base, modulus, ); window = new_window; if needle_fingerprint == window_fingerprint \u0026\u0026 needle == window { return true; } } // wasn't found or we'd have returned true on a match.  false } } Testing the implementation The following code snippet is used to test the implementation of Rabin-Karp finds a match or not in the correct cases:\nfn main() { const BASE: u64 = 253; const MODULUS: u64 = 101; println!( \"[2, 4, 1] in [7, 8, 2, 4, 1, 5] = {}\", rabin_karp(\u0026[2, 4, 1], \u0026[7, 8, 2, 4, 1, 5], BASE, MODULUS) ); println!( \"[2, 4, 1] in [7, 8, 2, 4, 3, 5] = {}\", rabin_karp(\u0026[2, 4, 1], \u0026[7, 8, 2, 4, 3, 5], BASE, MODULUS) ); } We’re using relatively small sequences, and small modulus but this algorithm is pretty efficient when scaled up at large sizes. In my experiments, a haystack of length 1,000,000 and a needle of length 500,000 resulted in a benchmark time on the naiive algorithm of over 1 minute, whereas with the Rabin-Karp implementation benchmarked the same problem at around 13 milliseconds\nThe output from this is:\n[2, 4, 1] in [7, 8, 2, 4, 1, 5] = true\r[2, 4, 1] in [7, 8, 2, 4, 3, 5] = false\r",
+  "wordCount" : "3025",
+  "inLanguage": "en",
+  "image":"https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover.jpg","datePublished": "2021-11-19T12:55:58Z",
+  "dateModified": "2021-11-19T12:55:58Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/algorithms/">Algorithms</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/algorithms/searching/">Searching</a></div>
+    <h1 class="post-title">
+      Rabin-Karp Pattern Search
+    </h1>
+    <div class="post-meta"><span title='2021-11-19 12:55:58 +0000 UTC'>November 19, 2021</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover_hu3d03a01dcc18bc5be0e67db3d8d209a6_1156192_360x0_resize_q75_box.jpg 360w ,https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover_hu3d03a01dcc18bc5be0e67db3d8d209a6_1156192_480x0_resize_q75_box.jpg 480w ,https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover_hu3d03a01dcc18bc5be0e67db3d8d209a6_1156192_720x0_resize_q75_box.jpg 720w ,https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover_hu3d03a01dcc18bc5be0e67db3d8d209a6_1156192_1080x0_resize_q75_box.jpg 1080w ,https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover_hu3d03a01dcc18bc5be0e67db3d8d209a6_1156192_1500x0_resize_q75_box.jpg 1500w ,https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover.jpg 4261w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/cover.jpg" alt="Rabin-Karp Cover Image" 
+            width="4261" height="2374">
+        
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#overview" aria-label="Overview">Overview</a></li>
+                <li>
+                    <a href="#how-is-rabin-karp-different" aria-label="How is Rabin-Karp different?">How is Rabin-Karp different?</a></li>
+                <li>
+                    <a href="#how-can-it-do-this" aria-label="How can it do this?">How can it do this?</a></li>
+                <li>
+                    <a href="#the-initial-fingerprint" aria-label="The initial fingerprint">The initial fingerprint</a><ul>
+                        
+                <li>
+                    <a href="#a-concrete-example" aria-label="A concrete example">A concrete example</a></li></ul>
+                </li>
+                <li>
+                    <a href="#rolling" aria-label="Rolling">Rolling</a><ul>
+                        
+                <li>
+                    <a href="#subtract-the-highest-power-term" aria-label="Subtract the highest power term">Subtract the highest power term</a></li>
+                <li>
+                    <a href="#raise-the-powers" aria-label="Raise the powers">Raise the powers</a></li>
+                <li>
+                    <a href="#add-the-new-term" aria-label="Add the new term">Add the new term</a></li></ul>
+                </li>
+                <li>
+                    <a href="#but-what-about-overflow" aria-label="But what about overflow?">But what about overflow?</a><ul>
+                        
+                <li>
+                    <a href="#modular-arithmetic" aria-label="Modular Arithmetic">Modular Arithmetic</a></li></ul>
+                </li>
+                <li>
+                    <a href="#coding-it-up" aria-label="Coding it up">Coding it up</a><ul>
+                        
+                <li>
+                    <a href="#step-1---hashcode-trait" aria-label="Step 1 - HashCode trait">Step 1 - HashCode trait</a></li>
+                <li>
+                    <a href="#step-2---implementing-hashcode-for-types-we-want-to-use" aria-label="Step 2 - Implementing HashCode for types we want to use">Step 2 - Implementing HashCode for types we want to use</a></li>
+                <li>
+                    <a href="#step-3---generating-a-fingerprint" aria-label="Step 3 - Generating a fingerprint">Step 3 - Generating a fingerprint</a></li>
+                <li>
+                    <a href="#step-4---rolling-the-fingerprint" aria-label="Step 4 - Rolling the fingerprint">Step 4 - Rolling the fingerprint</a></li>
+                <li>
+                    <a href="#step-5---putting-it-together" aria-label="Step 5 - Putting it together">Step 5 - Putting it together</a></li></ul>
+                </li>
+                <li>
+                    <a href="#testing-the-implementation" aria-label="Testing the implementation">Testing the implementation</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="overview">Overview<a hidden class="anchor" aria-hidden="true" href="#overview">#</a></h3>
+<p>We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list 
+of numbers is a sublist of another.</p>
+<p>We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle).
+This sliding motion can be viewed as the following animation</p>
+<p><img loading="lazy" src="bruteforce.gif" alt="Brute Force"  />
+</p>
+<p>However, with the Naiive approach, when we compare the needle against a specific window in the haystack, we always start by comparing the first elements, then the second elements, and
+so on until we either hit a mismatch, or have compared all elements as equal.</p>
+<p>This is obviously a problem for larger sequences as, every time the window slides one position to the right in the haystack, we can end up checking every character in the needle.</p>
+<h3 id="how-is-rabin-karp-different">How is Rabin-Karp different?<a hidden class="anchor" aria-hidden="true" href="#how-is-rabin-karp-different">#</a></h3>
+<p>The basic movement of the &ldquo;window&rdquo; that we&rsquo;re checking in the haystack is still the same - it slides right by one position each step. However where Rabin-Karp differs is by avoiding 
+checking each character to find a mismatch if it knows a mismatch occurs. The way it achieves this is by using a single numeric hash code that represents the sequence of elements we
+are looking for (known as the fingerprint).</p>
+<p>The fingerprint of the initial window can be calculated as usual by hashing all the elements in the window. However, where the efficiency comes from with Rabin-Karp is that the method
+used to calculate the fingerprint allows us to &ldquo;roll&rdquo; that fingerprint each time we move the window to the right by one step.</p>
+<p>What this means is, when we move the window to the right by one step, we drop whatever contribution to the overall hash was made by the leftmost element, and then incorporate the new element
+that&rsquo;s coming in on the right hand side of the window - without having to recalculate all the elements in between.</p>
+<h3 id="how-can-it-do-this">How can it do this?<a hidden class="anchor" aria-hidden="true" href="#how-can-it-do-this">#</a></h3>
+<p>We can do this by multiplying the hash code of each element by a particular, unique number and adding all the values together for a unique fingerprint.</p>
+<p>We need to first choose a number as a <strong>base</strong> which we will raise to consecutive powers to determine these multipliers. It doesn&rsquo;t matter too much what this number is, except that
+it must be greater than 1 (because raising 1 to any power gives 1 which isn&rsquo;t a unique multiplier).</p>
+<h3 id="the-initial-fingerprint">The initial fingerprint<a hidden class="anchor" aria-hidden="true" href="#the-initial-fingerprint">#</a></h3>
+<p>Given that <strong>B</strong> is the arbitrary numerical base we will raise, <strong>W</strong> is the window we&rsquo;re calculating the fingerprint for, and <strong>L</strong> is the length of that sequence, then the
+formula is given as follows:</p>
+<p>$$ Fingerprint(W) = \sum_{n=0}^{L-1} Hash(W_n) \times B^{L-1-n} $$</p>
+<p>Or, written another way:</p>
+<p>$$ Fingerprint(W) = (Hash(W_0) \times B^{L-1}) + (Hash(W_1) \times B^{L-1-1}) + (Hash(W_2) \times B^{L-1-2}) $$
+$$ + &hellip; + (Hash(W_n) \times B^0 ) $$</p>
+<hr>
+<h4 id="a-concrete-example">A concrete example<a hidden class="anchor" aria-hidden="true" href="#a-concrete-example">#</a></h4>
+<p>It&rsquo;s always difficult to interpret mathematical formulas sometimes, so here is a small and concrete example of calculating the hash code. Given the sequence of integers <strong>W=\([17, 23, 49, 51]\)</strong>
+we can see that <strong>L=4</strong>, and if we pick as our base <strong>B=2</strong> then in order to calculate the fingerprint, we simply do the following:</p>
+<p>$$ Fingerprint(W) = (Hash(17) \times 2^3) + (Hash(23) \times 2^2) + (Hash(49) \times 2) + Hash(51) $$</p>
+<p>If we furthermore take Hash(X) to be X itself (as they&rsquo;re already integers), then we can easily compute the final fingerprint as:</p>
+<p>$$ (17 \times 8) + (23 \times 4) + (49 \times 2) + 51 $$
+$$ = 136 + 92 + 98 + 51 $$ 
+$$ = 377 $$</p>
+<hr>
+<h3 id="rolling">Rolling<a hidden class="anchor" aria-hidden="true" href="#rolling">#</a></h3>
+<p>In order to update the fingerprint after the initial calculation, we will need to do the following in sequence:</p>
+<ol>
+<li>Subtract the highest power term on the left</li>
+<li>Multiply the fingerprint by B - this has the effect of raising the remaining powers by 1</li>
+<li>Add the new term to the fingerprint</li>
+</ol>
+<p>Let&rsquo;s look at these in turn&hellip;</p>
+<h4 id="subtract-the-highest-power-term">Subtract the highest power term<a hidden class="anchor" aria-hidden="true" href="#subtract-the-highest-power-term">#</a></h4>
+<p>When we slide the window to the right, the elements on the left of the window (and the left of the above formula) will &ldquo;drop off&rdquo;. As we have raised each element to successive powers,
+we know how to calculate the multiplier added to the hash of element 0. The multiplier is simply \(B^{L-1}\), and the value we will subtract from the fingerprint is \(Hash(W_0) \times B^{L-1})\)</p>
+<p>In the concrete example shown above, we subtract \((Hash(17) \times 2^3)\) and are left with:</p>
+<p>$$ Fingerprint(W) = (Hash(23) \times 2^2) + (Hash(49) \times 2^1) + (Hash(51) \times 2^0) $$</p>
+<h4 id="raise-the-powers">Raise the powers<a hidden class="anchor" aria-hidden="true" href="#raise-the-powers">#</a></h4>
+<p>We now multiply by B (in the concrete example this is 2). Since the following is true:</p>
+<p>$$ (X + Y) \times Z \equiv (X \times Z) + (Y \times Z) $$</p>
+<p>This has the effect of multiplying each term in the formula by B, which furthermore, has the effect of raising the power by 1 of each term.</p>
+<p>After multiplying by 2, the concrete example will be given as:</p>
+<p>$$ Fingerprint(W) = (Hash(23) \times 2^3) + (Hash(49) \times 2^2) + (Hash(51) \times 2^1) $$</p>
+<h4 id="add-the-new-term">Add the new term<a hidden class="anchor" aria-hidden="true" href="#add-the-new-term">#</a></h4>
+<p>This is the easiest part. Since the powers of the other terms have been raised, we only need to add the new term into the &ldquo;zeroeth&rdquo; power position, which is simply adding the hashcode
+of the element.</p>
+<p>In our concrete example, say that we are rotating in a new element, 101, on the right as the window slides. The new fingerprint is represented as:</p>
+<p>$$ Fingerprint(W) = (Hash(23) \times 2^3) + (Hash(49) \times 2^2) + (Hash(51) \times 2) + Hash(101) $$</p>
+<p>Which, again assuming Hash(X) is X, gives the new fingerprint of:</p>
+<p>$$ (23 \times 8) + (49 \times 4) + (51 \times 2) + 101 $$
+$$ = 184 +  196 + 102 + 101 $$
+$$ = 583 $$</p>
+<h3 id="but-what-about-overflow">But what about overflow?<a hidden class="anchor" aria-hidden="true" href="#but-what-about-overflow">#</a></h3>
+<p>As you can see however, from this formula that for large sequence lengths, even for the smallest viable base of 2, will result in an integer growing too large to fit in any 
+sensible datatype.</p>
+<p>After all \(2^{500000}\) is&hellip;..huge</p>
+<p>What can we do to keep these numbers small?&hellip;.<em><strong>Modular Arithmetic</strong></em></p>
+<h4 id="modular-arithmetic">Modular Arithmetic<a hidden class="anchor" aria-hidden="true" href="#modular-arithmetic">#</a></h4>
+<p>Using modular arithmetic involves using integer division of the number at each step by some known value (known as the modulus) and retaining the remainder. In this way all the numbers &ldquo;wrap around&rdquo;
+but the formula is still valid, it&rsquo;s just being done on a number circle rather than a number line.</p>
+<p>An illustration of this is with clocks. Clocks use a modulus of 12 before they wrap around, but you can still add, for example, 4 hours, or subtract 4 hours when that wraps around.</p>
+<p><img loading="lazy" src="modular_arithmetic.png" alt="Clocks Modular Arithmetic"  />
+</p>
+<p>Adapting the formulas is easy enough, we just apply the modulo operator when calculating the hash code of an element, and at every step of the calculation.</p>
+<p>The tricky part of this however, is when we are calculating the powers - we can&rsquo;t calculate the power <em>and then</em> apply the modulus as the power calculation overflows. Instead we need to
+recognise that:</p>
+<p>$$ pow(X, 3) \equiv (X \times X \times X) $$</p>
+<p>And this lets us apply modulo at every step, as in (assuming modulus of M):</p>
+<p>$$ ((((X \mod M) \times X) \mod M) \times X) \mod M $$</p>
+<p>One thing we need to accumulate while doing this is the multiplier we have applied to the left most element (\(B^L-1\)) which we then can just use later when we&rsquo;re subtracting
+the left hand term.</p>
+<h3 id="coding-it-up">Coding it up<a hidden class="anchor" aria-hidden="true" href="#coding-it-up">#</a></h3>
+<p>Following is a walkthrough of how to code this algorithm up in Rust, the complete source can be found at the playground link <a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=7fd305a4deb9c822013b7dc77f95975b">HERE</a></p>
+<p>I&rsquo;ll run through the steps one by one below, explaining the code for those who may be unfamiliar with Rust syntax.</p>
+<h4 id="step-1---hashcode-trait">Step 1 - HashCode trait<a hidden class="anchor" aria-hidden="true" href="#step-1---hashcode-trait">#</a></h4>
+<p>In Rust we are able to get the hash of a type that implements the <em>Hash</em> trait for use in a HashMap. However this method requires passing the type through a <em>Hasher</em> and incurring
+a performance cost to generate a hash code for even basic types such as integers.</p>
+<p>Since an integer is its own hash code, and a character can be converted to an integer as a hash code we don&rsquo;t need to do anything too tricky.</p>
+<p>For the element hashing therefore, I&rsquo;ve gone with creating a new trait:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">trait</span> HashCode {
+	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hash_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u64</span>;
+}</code></pre></div>
+<p>That is, a simple trait (interface in other languages) with a single function that operates on an const reference to the element (&amp;self) and returns an integer hash code for it (u64).</p>
+<h4 id="step-2---implementing-hashcode-for-types-we-want-to-use">Step 2 - Implementing HashCode for types we want to use<a hidden class="anchor" aria-hidden="true" href="#step-2---implementing-hashcode-for-types-we-want-to-use">#</a></h4>
+<p>The next step is to actually implement the trait for the types we want to be able to use in the sequences for the algorithm. Rust allows us to implement custom traits for existing
+types in order to extend their functionality - even primitive types. For this, we will implement it for the following primitive types:</p>
+<ol>
+<li>i32 - A signed 32-bit integer. For this, if it&rsquo;s a positive value we can simply keep the value and cast it to a wider, 64 bit integer with no loss. If it&rsquo;s negative, because we know that
+the range of a 64-bit integer covers the range of the 32-bit integer then we will map the negative portion of i32 by negating it - and then subtracting from u64::MAX.</li>
+<li>u32 - This involves a simple widening cast which is safe since we know all unsigned 32-bit integer values will fit into an unsigned 64-bit variable.</li>
+<li>u64 - For this, the hash code is the value itself so it simply returns it.</li>
+<li>char - Characters in rust are 4 bytes large representing a unicode codepoint. For the same reason as u32 will be safely castable into u64, so are characters.</li>
+</ol>
+<p>The implementation of the HashCode trait then is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> HashCode <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">i32</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hash_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u64</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">*</span>self <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+            <span style="color:#f92672">*</span>self <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span> <span style="color:#75715e">// if we&#39;re positive, just keep our value and cast as a u64
+</span><span style="color:#75715e"></span>        } <span style="color:#66d9ef">else</span> {
+            std::<span style="color:#66d9ef">u64</span>::MAX <span style="color:#f92672">-</span> self.abs() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span> <span style="color:#75715e">// if we&#39;re negative, just negate it and then subtract from u64 MAX to use the upper end
+</span><span style="color:#75715e"></span>        }
+    }
+}
+
+<span style="color:#66d9ef">impl</span> HashCode <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">u32</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hash_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u64</span> {
+        <span style="color:#f92672">*</span>self <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>
+    }
+}
+
+<span style="color:#66d9ef">impl</span> HashCode <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">u64</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hash_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u64</span> {
+        <span style="color:#f92672">*</span>self
+    }
+}
+
+<span style="color:#66d9ef">impl</span> HashCode <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">char</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hash_code</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u64</span> {
+        (<span style="color:#f92672">*</span>self).into()
+    }
+}</code></pre></div>
+<h4 id="step-3---generating-a-fingerprint">Step 3 - Generating a fingerprint<a hidden class="anchor" aria-hidden="true" href="#step-3---generating-a-fingerprint">#</a></h4>
+<p>In order to be able to roll a fingerprint as described previously, we first need to construct one from scratch for a given range. Given a sequence of elements (that implement our
+HashCode trait), along with a base to use, and a modulus to keep the numbers small as described in the section on modular arithmetic - we would like a function that will generate the
+fingerprint for the sequence. Additionally, we want to return the calculated multiplier for that left-most term so that we don&rsquo;t need to calculate it later.</p>
+<p>To allow us to keep the numbers small, we don&rsquo;t use the pow function, but use an imperative loop to accumulate the fingerprint and base offset.</p>
+<p>The code for this function looks like the following (note that this assumes the list isn&rsquo;t empty and will panic if it is due to the [0] access):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generate_fingerprint</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">HashCode</span><span style="color:#f92672">&gt;</span>(list: <span style="color:#66d9ef">&amp;</span>[T], base: <span style="color:#66d9ef">u64</span>, modulus: <span style="color:#66d9ef">u64</span>) -&gt; (<span style="color:#66d9ef">u64</span>, <span style="color:#66d9ef">u64</span>) {
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> fingerprint <span style="color:#f92672">=</span> list[<span style="color:#ae81ff">0</span>].hash_code() <span style="color:#f92672">%</span> modulus;
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> base_offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> elem <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>list[<span style="color:#ae81ff">1</span><span style="color:#f92672">..</span>] {
+        <span style="color:#66d9ef">let</span> elem_hash <span style="color:#f92672">=</span> elem.hash_code() <span style="color:#f92672">%</span> modulus;
+        fingerprint <span style="color:#f92672">=</span> (((fingerprint <span style="color:#f92672">*</span> base) <span style="color:#f92672">%</span> modulus) <span style="color:#f92672">+</span> elem_hash) <span style="color:#f92672">%</span> modulus;
+        base_offset <span style="color:#f92672">=</span> (base_offset <span style="color:#f92672">*</span> base) <span style="color:#f92672">%</span> modulus;
+    }
+    (fingerprint, base_offset)
+}</code></pre></div>
+<h4 id="step-4---rolling-the-fingerprint">Step 4 - Rolling the fingerprint<a hidden class="anchor" aria-hidden="true" href="#step-4---rolling-the-fingerprint">#</a></h4>
+<p>In order to &ldquo;roll&rdquo; the fingerprint and generate the next one from the previous one, we need the following pieces of information:</p>
+<ol>
+<li>The previous fingerprint - for obvious reasons</li>
+<li>The calculated multiplier (called the base offset) for the left-most element - we use this to calculate the final value to subtract from the fingerprint</li>
+<li>The old element we&rsquo;re rotating out - we need this to get the hash code from, which is combined with the base offset to get the value to subtract</li>
+<li>The new element we&rsquo;re rotating in - we need this again to get the hash code which will be added to the fingerprint</li>
+<li>The base - we need this to allow us to &ldquo;raise the powers&rdquo; of all the remaining terms in the fingerprint after removing the left most term</li>
+<li>The modulus - we need this for the same reason as we needed it in generate_fingerprint. It lets us perform modular arithmetic and keep the values small</li>
+</ol>
+<p>One additional thing to note which could be missed is that before removing the term we want to be rid of, we must first <em>add</em> the modulus to the fingerprint. This is because we&rsquo;re
+using modular arithmetic - it might wrap around so that the current fingerprint value is less than the value we want to subtract. Adding the modulus essentially adds one full
+rotation to the fingerprint - allowing us to subtract the term safely.</p>
+<p>The function looks like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">roll_fingerprint</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">HashCode</span><span style="color:#f92672">&gt;</span>(
+    <span style="color:#66d9ef">mut</span> fingerprint: <span style="color:#66d9ef">u64</span>,
+    base_offset: <span style="color:#66d9ef">u64</span>,
+    old_term: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>,
+    new_term: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>,
+    base: <span style="color:#66d9ef">u64</span>,
+    modulus: <span style="color:#66d9ef">u64</span>,
+) -&gt; <span style="color:#66d9ef">u64</span> {
+    <span style="color:#66d9ef">let</span> old_term_hash <span style="color:#f92672">=</span> old_term.hash_code() <span style="color:#f92672">%</span> modulus;
+    <span style="color:#66d9ef">let</span> new_term_hash <span style="color:#f92672">=</span> new_term.hash_code() <span style="color:#f92672">%</span> modulus;
+    <span style="color:#66d9ef">let</span> term_to_subtract <span style="color:#f92672">=</span> (old_term_hash <span style="color:#f92672">*</span> base_offset) <span style="color:#f92672">%</span> modulus;
+    fingerprint <span style="color:#f92672">=</span> fingerprint <span style="color:#f92672">+</span> modulus <span style="color:#f92672">-</span> term_to_subtract; <span style="color:#75715e">// remove the old term after adding the modulus on to protect against underflow.
+</span><span style="color:#75715e"></span>    fingerprint <span style="color:#f92672">*=</span> base; <span style="color:#75715e">// power shift all other terms up by 1
+</span><span style="color:#75715e"></span>    (fingerprint <span style="color:#f92672">+</span> new_term_hash) <span style="color:#f92672">%</span> modulus <span style="color:#75715e">// return new fingerprint after adding in new term and modding
+</span><span style="color:#75715e"></span>}</code></pre></div>
+<h4 id="step-5---putting-it-together">Step 5 - Putting it together<a hidden class="anchor" aria-hidden="true" href="#step-5---putting-it-together">#</a></h4>
+<p>Now we can write the actual Rabin-Karp implementation. This function will take a sequence known as the needle, and an equal or larger sequence known as the Haystack, along with the
+standard base and modulus to use.</p>
+<p>It will return a boolean value indicating whether the needle was found in the haystack or not. This could be extended if necessary in the future to return the index of the match.</p>
+<p>For Rabin-Karp, the steps are as follows:</p>
+<ol>
+<li>Calculate the fingerprint of the needle - this will never change and is the fingerprint we&rsquo;re trying to match</li>
+<li>Handle the trivial case where the needle is empty - an empty needle is always present in any list</li>
+<li>Generate the initial fingerprint for the slice of the haystack of the same length as the needle - This is the starting fingerprint to match, and also gives us the base offset to use</li>
+<li>If they match already, then we return a match</li>
+<li>Otherwise we slide the window along by 1 each time (until the right side of the window hits the end of the haystack), rolling the hash each time to remove the old left hand element and add the incoming element</li>
+<li>Each time, check if there&rsquo;s a match</li>
+<li>If we&rsquo;ve checked all windows and not found a match, it&rsquo;s not there</li>
+</ol>
+<p>One thing to note though is that it <em>is</em> sufficient to detect a mismatch by mismatching fingerprints however it&rsquo;s <em>not</em> sufficient to detect a match with matching fingerprints. This is 
+because we&rsquo;re using modular arithmetic and a mathematical formula for calculating the final fingerprint - it&rsquo;s possible different sequences end up with the same fingerprint.</p>
+<p>The efficiency of this algorithm is in the fact we don&rsquo;t have to check elementwise when we know there&rsquo;s a mismatch, and only have to check elementwise in the cases that the fingerprints
+match.</p>
+<p>Because of this requirement that elements need to be compared as equal, our Rabin-Karp function requires an additional bound on it&rsquo;s generic type, that of PartialEq (which lets us use
+the == operator). The final function is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">rabin_karp</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">HashCode</span> <span style="color:#f92672">+</span> PartialEq<span style="color:#f92672">&gt;</span>(
+    needle: <span style="color:#66d9ef">&amp;</span>[T],
+    haystack: <span style="color:#66d9ef">&amp;</span>[T],
+    base: <span style="color:#66d9ef">u64</span>,
+    modulus: <span style="color:#66d9ef">u64</span>,
+) -&gt; <span style="color:#66d9ef">bool</span> {
+    <span style="color:#66d9ef">if</span> needle.len() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#66d9ef">true</span> <span style="color:#75715e">// we can always find the empty list inside any list
+</span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#75715e">// get the initial fingerprints and window
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> (needle_fingerprint, _) <span style="color:#f92672">=</span> generate_fingerprint(needle, base, modulus);
+        <span style="color:#66d9ef">let</span> needle_len <span style="color:#f92672">=</span> needle.len();
+        <span style="color:#66d9ef">let</span> haystack_len <span style="color:#f92672">=</span> haystack.len();
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> window <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>haystack[<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>needle_len];
+        <span style="color:#66d9ef">let</span> (<span style="color:#66d9ef">mut</span> window_fingerprint, base_offset) <span style="color:#f92672">=</span> generate_fingerprint(window, base, modulus);
+
+        <span style="color:#75715e">// check the initial fingerprints/window for match
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> needle_fingerprint <span style="color:#f92672">==</span> window_fingerprint <span style="color:#f92672">&amp;&amp;</span> needle <span style="color:#f92672">==</span> window {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+        }
+
+        <span style="color:#75715e">// otherwise run a starting index for the window from 1 up to and including haystack_len-needle_len.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> window_index <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">..=</span>(haystack_len <span style="color:#f92672">-</span> needle_len) {
+            <span style="color:#66d9ef">let</span> new_window <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>haystack[window_index<span style="color:#f92672">..</span>window_index <span style="color:#f92672">+</span> needle_len];
+            <span style="color:#66d9ef">let</span> roll_out <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>window[<span style="color:#ae81ff">0</span>];
+            <span style="color:#66d9ef">let</span> roll_in <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>new_window[needle_len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+            window_fingerprint <span style="color:#f92672">=</span> roll_fingerprint(
+                window_fingerprint,
+                base_offset,
+                roll_out,
+                roll_in,
+                base,
+                modulus,
+            );
+            window <span style="color:#f92672">=</span> new_window;
+            <span style="color:#66d9ef">if</span> needle_fingerprint <span style="color:#f92672">==</span> window_fingerprint <span style="color:#f92672">&amp;&amp;</span> needle <span style="color:#f92672">==</span> window {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+            }
+        }
+
+        <span style="color:#75715e">// wasn&#39;t found or we&#39;d have returned true on a match.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">false</span>
+    }
+}</code></pre></div>
+<h3 id="testing-the-implementation">Testing the implementation<a hidden class="anchor" aria-hidden="true" href="#testing-the-implementation">#</a></h3>
+<p>The following code snippet is used to test the implementation of Rabin-Karp finds a match or not in the correct cases:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">const</span> BASE: <span style="color:#66d9ef">u64</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">253</span>;
+    <span style="color:#66d9ef">const</span> MODULUS: <span style="color:#66d9ef">u64</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">101</span>;
+    println!(
+        <span style="color:#e6db74">&#34;[2, 4, 1] in [7, 8, 2, 4, 1, 5] =&gt; {}&#34;</span>,
+        rabin_karp(<span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>], BASE, MODULUS)
+    );
+    println!(
+        <span style="color:#e6db74">&#34;[2, 4, 1] in [7, 8, 2, 4, 3, 5] =&gt; {}&#34;</span>,
+        rabin_karp(<span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>], BASE, MODULUS)
+    );
+}</code></pre></div>
+<p>We&rsquo;re using relatively small sequences, and small modulus but this algorithm is pretty efficient when scaled up at large sizes. In my experiments, a haystack of
+length 1,000,000 and a needle of length 500,000 resulted in a benchmark time on the naiive algorithm of <strong>over 1 minute</strong>, whereas with the Rabin-Karp implementation
+benchmarked the same problem at around <strong>13 milliseconds</strong></p>
+<p>The output from this is:</p>
+<pre tabindex="0"><code>[2, 4, 1] in [7, 8, 2, 4, 1, 5] =&gt; true
+[2, 4, 1] in [7, 8, 2, 4, 3, 5] =&gt; false
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2021 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

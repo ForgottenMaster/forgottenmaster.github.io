@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 06 Nov 2021 20:51:06 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 12:55:58 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rabin-Karp Pattern Search</title>
+      <link>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</link>
+      <pubDate>Fri, 19 Nov 2021 12:55:58 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</guid>
+      <description>Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.
+We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle).</description>
+    </item>
+    
     <item>
       <title>Basic Concepts</title>
       <link>https://forgottenmaster.github.io/posts/git/basic_concepts/</link>

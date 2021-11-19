@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.89.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/index.xml">
 <noscript>
     <style>
@@ -61,8 +61,10 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/" />
+<meta property="og:image" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/cover.jpg" />
 
-<meta name="twitter:card" content="summary"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/cover.jpg" />
 <meta name="twitter:title" content="Chapter 1 - Foundations"/>
 <meta name="twitter:description" content=""/>
 
@@ -151,6 +153,11 @@
                     <span>Posts</span>
                 </a>
             </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -160,31 +167,66 @@
 </header>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/cover_hu0e5cc2ec6e5a91e5cdb1ee3f09ec9cd2_70873_360x0_resize_box_3.png 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/cover_hu0e5cc2ec6e5a91e5cdb1ee3f09ec9cd2_70873_480x0_resize_box_3.png 480w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/cover_hu0e5cc2ec6e5a91e5cdb1ee3f09ec9cd2_70873_720x0_resize_box_3.png 720w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/cover.png 870w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/cover.png" alt="Matrix Inputs Cover Image" 
+            width="870" height="534">
+</figure>
   <header class="entry-header">
-    <h2>Functions
+    <h2>Matrix Inputs
     </h2>
   </header>
   <section class="entry-content">
-    <p>There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.
-For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on....</p>
+    <p>The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
+In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
+Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together....</p>
   </section>
-  <footer class="entry-footer"><span title='2021-09-24 01:45:11 +0100 BST'>September 24, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to Functions" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/"></a>
+  <footer class="entry-footer"><span title='2021-10-13 23:47:35 +0100 BST'>October 13, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to Matrix Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/"></a>
 </article>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover_hue1b9982e5bf3d0e5c7526c597d5c4853_43512_360x0_resize_box_3.png 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover_hue1b9982e5bf3d0e5c7526c597d5c4853_43512_480x0_resize_box_3.png 480w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover_hue1b9982e5bf3d0e5c7526c597d5c4853_43512_720x0_resize_box_3.png 720w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover_hue1b9982e5bf3d0e5c7526c597d5c4853_43512_1080x0_resize_box_3.png 1080w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover.png 1200w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/cover.png" alt="Vector Inputs Cover Image" 
+            width="1200" height="943">
+</figure>
   <header class="entry-header">
-    <h2>Derivatives
+    <h2>Vector Inputs
     </h2>
   </header>
   <section class="entry-content">
-    <p>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line....</p>
+    <p>After learning what a derivative of a function is, and how to apply the chain rule to a composite function, we then learned how to calculate the derivative of a function with multiple inputs by tracing back through the chain of functions following the route of one of the parameters while holding the others constant.
+The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector....</p>
   </section>
-  <footer class="entry-footer"><span title='2021-09-26 00:42:04 +0100 BST'>September 26, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to Derivatives" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/"></a>
+  <footer class="entry-footer"><span title='2021-10-12 00:41:56 +0100 BST'>October 12, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to Vector Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/"></a>
 </article>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/cover_hu8666b0214ef6ef8b40207752073739fc_12334_360x0_resize_q75_box.jpg 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/cover.jpg 360w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/cover.jpg" alt="Multiple Inputs Cover Image" 
+            width="360" height="360">
+</figure>
+  <header class="entry-header">
+    <h2>Multiple Inputs
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>So far, we’ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We’ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
+As it turns out, we can calculate the derivative in the same way!...</p>
+  </section>
+  <footer class="entry-footer"><span title='2021-10-09 15:40:05 +0100 BST'>October 9, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to Multiple Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover_hu3a1f9a27c437de49ecd4f51a9fe45e4a_15956_360x0_resize_q75_box.jpeg 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover_hu3a1f9a27c437de49ecd4f51a9fe45e4a_15956_480x0_resize_q75_box.jpeg 480w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg 500w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg" alt="Chain Rule Cover Image" 
+            width="500" height="281">
+</figure>
   <header class="entry-header">
     <h2>Chain Rule
     </h2>
@@ -199,43 +241,38 @@ Then say you have a second function “g” which has a derivative of 5 at the v
 </article>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/cover_hu3b38dfe97d7254cda4e8e85e32607cb4_9352_360x0_resize_box_3.png 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/cover_hu3b38dfe97d7254cda4e8e85e32607cb4_9352_480x0_resize_box_3.png 480w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/cover.png 512w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/cover.png" alt="Derivatives Cover Image" 
+            width="512" height="288">
+</figure>
   <header class="entry-header">
-    <h2>Multiple Inputs
+    <h2>Derivatives
     </h2>
   </header>
   <section class="entry-content">
-    <p>So far, we’ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We’ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
-As it turns out, we can calculate the derivative in the same way!...</p>
+    <p>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line....</p>
   </section>
-  <footer class="entry-footer"><span title='2021-10-09 15:40:05 +0100 BST'>October 9, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to Multiple Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/"></a>
+  <footer class="entry-footer"><span title='2021-09-26 00:42:04 +0100 BST'>September 26, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to Derivatives" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/"></a>
 </article>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/cover_hucf967c33f389130ab619766a81118218_29330_360x0_resize_q75_box.jpg 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/cover.jpg 450w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/cover.jpg" alt="Functions Cover Image" 
+            width="450" height="300">
+</figure>
   <header class="entry-header">
-    <h2>Vector Inputs
+    <h2>Functions
     </h2>
   </header>
   <section class="entry-content">
-    <p>After learning what a derivative of a function is, and how to apply the chain rule to a composite function, we then learned how to calculate the derivative of a function with multiple inputs by tracing back through the chain of functions following the route of one of the parameters while holding the others constant.
-The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector....</p>
+    <p>There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.
+For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on....</p>
   </section>
-  <footer class="entry-footer"><span title='2021-10-12 00:41:56 +0100 BST'>October 12, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to Vector Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Matrix Inputs
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
-In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
-Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together....</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-10-13 23:47:35 +0100 BST'>October 13, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to Matrix Inputs" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/"></a>
+  <footer class="entry-footer"><span title='2021-09-24 01:45:11 +0100 BST'>September 24, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to Functions" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/"></a>
 </article>
     </main>
     

@@ -6,24 +6,36 @@
     <description>Recent content in Chapter 1 - Foundations on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 24 Sep 2021 01:45:06 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Oct 2021 23:47:35 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Functions</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</link>
-      <pubDate>Fri, 24 Sep 2021 01:45:11 +0100</pubDate>
+      <title>Matrix Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</link>
+      <pubDate>Wed, 13 Oct 2021 23:47:35 +0100</pubDate>
       
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</guid>
-      <description>There isn&amp;rsquo;t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I&amp;rsquo;ll include a post here.
-For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</description>
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</guid>
+      <description>The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
+In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
+Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together.</description>
     </item>
     
     <item>
-      <title>Derivatives</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</link>
-      <pubDate>Sun, 26 Sep 2021 00:42:04 +0100</pubDate>
+      <title>Vector Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</link>
+      <pubDate>Tue, 12 Oct 2021 00:41:56 +0100</pubDate>
       
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</guid>
-      <description>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.</description>
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</guid>
+      <description>After learning what a derivative of a function is, and how to apply the chain rule to a composite function, we then learned how to calculate the derivative of a function with multiple inputs by tracing back through the chain of functions following the route of one of the parameters while holding the others constant.
+The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector.</description>
+    </item>
+    
+    <item>
+      <title>Multiple Inputs</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</link>
+      <pubDate>Sat, 09 Oct 2021 15:40:05 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</guid>
+      <description>So far, we&amp;rsquo;ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We&amp;rsquo;ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
+As it turns out, we can calculate the derivative in the same way!</description>
     </item>
     
     <item>
@@ -38,34 +50,22 @@ Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivati
     </item>
     
     <item>
-      <title>Multiple Inputs</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</link>
-      <pubDate>Sat, 09 Oct 2021 15:40:05 +0100</pubDate>
+      <title>Derivatives</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</link>
+      <pubDate>Sun, 26 Sep 2021 00:42:04 +0100</pubDate>
       
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</guid>
-      <description>So far, we&amp;rsquo;ve learned how to chain functions together, and how to calculate the derivative of a function at a specific input value. We&amp;rsquo;ve also learned how to apply the chain rule when we are chaining multiple functions together. However, how do we calculate the derivative of a function, or chain of functions when a function has multiple inputs?.
-As it turns out, we can calculate the derivative in the same way!</description>
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</guid>
+      <description>Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.</description>
     </item>
     
     <item>
-      <title>Vector Inputs</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</link>
-      <pubDate>Tue, 12 Oct 2021 00:41:56 +0100</pubDate>
+      <title>Functions</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</link>
+      <pubDate>Fri, 24 Sep 2021 01:45:11 +0100</pubDate>
       
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</guid>
-      <description>After learning what a derivative of a function is, and how to apply the chain rule to a composite function, we then learned how to calculate the derivative of a function with multiple inputs by tracing back through the chain of functions following the route of one of the parameters while holding the others constant.
-The next step in the prerequisite mathematics we need to build the foundations of a neural network is to determine what the derivative of a function means when one or more of the inputs is a vector.</description>
-    </item>
-    
-    <item>
-      <title>Matrix Inputs</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</link>
-      <pubDate>Wed, 13 Oct 2021 23:47:35 +0100</pubDate>
-      
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</guid>
-      <description>The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
-In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
-Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together.</description>
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</guid>
+      <description>There isn&amp;rsquo;t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I&amp;rsquo;ll include a post here.
+For our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.</description>
     </item>
     
   </channel>

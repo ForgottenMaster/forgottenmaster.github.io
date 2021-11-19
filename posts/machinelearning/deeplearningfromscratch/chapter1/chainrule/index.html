@@ -22,7 +22,7 @@ Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.89.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <noscript>
     <style>
         #theme-toggle,
@@ -65,11 +65,13 @@ Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 
 The reason this is a product is because, say you had a function &ldquo;f&rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.
 Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 at the value output by &ldquo;f&rdquo; for x." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/" />
+<meta property="og:image" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-09-26T16:09:52&#43;01:00" />
 <meta property="article:modified_time" content="2021-09-26T16:09:52&#43;01:00" />
 
-<meta name="twitter:card" content="summary"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg" />
 <meta name="twitter:title" content="Chain Rule"/>
 <meta name="twitter:description" content="The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.
 The reason this is a product is because, say you had a function &ldquo;f&rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.
@@ -127,7 +129,7 @@ Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 
   "articleBody": "The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.\nThe reason this is a product is because, say you had a function “f” which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.\nThen say you have a second function “g” which has a derivative of 5 at the value output by “f” for x. This again means that when you increase the input by 1, then the output increases proportionally, this time by 5.\nHowever, the compound function \\( g \\circ f \\) will chain these two together in such a way that increasing the input to f increases the output of f by 3, and because they were chained, this is the same as increasing the input to g by 3.\nSince the gradient of g is 5 meaning that the output change is 5 times the change of the input, then raising the input to that function by 3 must result in a raise of the output by 15.\nSince derivatives are calculated as the gradient at a particular value, we need to know the inputs and outputs of both functions in order to calculate the partial derivatives.\nOnce we have these, we can just multiply them together.\nThe formula for the chain rule in this situation will be:\n$$ (g \\circ f)'(x) = g'(f(x)) \\times f'(x) $$\nThat is, calculating the rate of change (gradient) of the initial function f at the given value of x. After this, calculating the gradient of the second function, g, at the value output by f.\nTherefore in order to calculate these compound derivatives, we need to run two passes.\nThe first pass, called the forward pass, is where we simply are obtaining the input and output values for all functions involved. The second pass, called the backward pass, is where we use the inputs and outputs of the functions in order to calculate their gradients at that point. The final step is then just to multiply together to get the gradient of the composite function.\nThis two-pass sequence can be visualised with the following diagram. In it, we have three functions and an x value that’s passed in. we run the x value through the functions in order to get \\( f(x) \\), then \\( g(f(x)) \\), and finally \\( h(g(f(x))) \\).\nThe dashed lines represents the backward pass where we take the calculated values to determine the derivatives of f, g, and h at the appropriate input values.\n We can code up the calculation of the derivative of such a chain of functions as displayed in the diagram. For this section of code, we’ll assume the existence of a helper function called “derivative” which, given a function and a value at which the calculate the derivative, will approximate the derivative using the logic described in the previous post.\n// forward pass, calculating all inputs/outputs let x = 42.0; // initial input let f_of_x = f(x); // output from f (also input to g) let g_of_f_of_x = g(f_of_x); // output from g (also input to h) let h_of_g_of_f_of_x = h(g_of_f_of_x); output from h which is the final output // backward pass, calculating the derivatives of the functions at the calculated inputs let deriv_h = derivative(h, g_of_f_of_x); // calculate the derivative of h at the value that was output from g let deriv_g = derivative(g, f_of_x); // calculate derivative of g at the value that was output from f let deriv_f = derivative(f, x); // calculate derivative of f at the value of x  // multiply together to get the final rate of change of the output with change to x deriv_h * deriv_g * deriv_f ",
   "wordCount" : "638",
   "inLanguage": "en",
-  "datePublished": "2021-09-26T16:09:52+01:00",
+  "image":"https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg","datePublished": "2021-09-26T16:09:52+01:00",
   "dateModified": "2021-09-26T16:09:52+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -195,6 +197,11 @@ Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 
                     <span>Posts</span>
                 </a>
             </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -210,6 +217,12 @@ Then say you have a second function &ldquo;g&rdquo; which has a derivative of 5 
 
 </div>
   </header> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover_hu3a1f9a27c437de49ecd4f51a9fe45e4a_15956_360x0_resize_q75_box.jpeg 360w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover_hu3a1f9a27c437de49ecd4f51a9fe45e4a_15956_480x0_resize_q75_box.jpeg 480w ,https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg 500w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/cover.jpeg" alt="Chain Rule Cover Image" 
+            width="500" height="281">
+        
+</figure>
 
   <div class="post-content"><p>The chain rule allows us to determine the derivative of a composite function as a product of the derivatives of each of the individual functions.</p>
 <p>The reason this is a product is because, say you had a function &ldquo;f&rdquo; which has a derivative of 3 at a particular value of x. That means, when you increase the input by 1, the output increases by 3.</p>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Constant Evaluation on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/rust/consteval/</link>
+    <description>Recent content in Constant Evaluation on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Thu, 09 Dec 2021 21:02:36 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/rust/consteval/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/rust/consteval/intro/</link>
+      <pubDate>Thu, 09 Dec 2021 21:07:37 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/consteval/intro/</guid>
+      <description>What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C++, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.
+One thing to note is that it&amp;rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time.</description>
+    </item>
+    
+  </channel>
+</rss>

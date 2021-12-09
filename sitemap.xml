@@ -2,16 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://forgottenmaster.github.io/posts/rust/consteval/intro/</loc>
+    <lastmod>2021-12-09T21:07:37+00:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/</loc>
+    <lastmod>2021-12-09T21:07:37+00:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/rust/consteval/</loc>
+    <lastmod>2021-12-09T21:02:36+00:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/</loc>
+    <lastmod>2021-12-09T21:02:36+00:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/rust/</loc>
+    <lastmod>2021-12-09T21:02:36+00:00</lastmod>
+  </url><url>
     <loc>https://forgottenmaster.github.io/posts/algorithms/</loc>
     <lastmod>2021-11-19T12:55:58+00:00</lastmod>
   </url><url>
-    <loc>https://forgottenmaster.github.io/posts/</loc>
-    <lastmod>2021-11-19T12:55:58+00:00</lastmod>
-  </url><url>
     <loc>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</loc>
-    <lastmod>2021-11-19T12:55:58+00:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/</loc>
     <lastmod>2021-11-19T12:55:58+00:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/algorithms/searching/</loc>
@@ -25,9 +34,6 @@
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/git/basic_usage/</loc>
     <lastmod>2021-11-06T18:36:42+00:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/rust/</loc>
-    <lastmod>2021-10-23T09:55:16+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</loc>
     <lastmod>2021-10-23T09:55:16+01:00</lastmod>

@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 19 Nov 2021 12:55:58 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Dec 2021 21:07:37 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/rust/consteval/intro/</link>
+      <pubDate>Thu, 09 Dec 2021 21:07:37 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/rust/consteval/intro/</guid>
+      <description>What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C++, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.
+One thing to note is that it&amp;rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time.</description>
+    </item>
+    
     <item>
       <title>Rabin-Karp Pattern Search</title>
       <link>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</link>

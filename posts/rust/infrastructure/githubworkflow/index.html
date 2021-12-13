@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Github Workflows | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.
+Template Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.90.1" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Github Workflows" />
+<meta property="og:description" content="I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.
+Template Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/" />
+<meta property="og:image" content="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover.jpg" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-13T20:08:57&#43;00:00" />
+<meta property="article:modified_time" content="2021-12-13T20:08:57&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover.jpg" />
+<meta name="twitter:title" content="Github Workflows"/>
+<meta name="twitter:description" content="I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.
+Template Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Rust",
+      "item": "https://forgottenmaster.github.io/posts/rust/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Infrastructure",
+      "item": "https://forgottenmaster.github.io/posts/rust/infrastructure/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Github Workflows",
+      "item": "https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Github Workflows",
+  "name": "Github Workflows",
+  "description": "I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.\nTemplate Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github.",
+  "keywords": [
+    
+  ],
+  "articleBody": "I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.\nTemplate Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github.com/BamPeers/rust-ci-github-actions-workflow\nClick “Use this template” to create a new repository from it:\nAfter this you’ll be redirected to a page to setup the new repository as usual:\nCreating a CodeCov account CodeCov is a fantastic site that hosts code coverage reports generated by tools (or in this case, by the GitHub workflows supplied by the template repository we used). It’s free to use if either there are less than 5 users, or it’s considered an open source repository.\nCreating an account linked to your GitHub account is easy, just log in using your GitHub credentials, and authorize the app:\nSeeing your reports Once your CodeCov account is linked with GitHub, and the GitHub workflows run to produce your code coverage report, you can see those reports on the main dashboard:\nClicking on one of the repositories here will take you to a report overview page for that repository, showing the current/last run of code coverage in various formats:\nThe Sunburst diagram on the left hand side is interactable and lets you see which files have good or bad coverage at a glance.\nAt the bottom there is a directory navigation panel which also displays the code coverage percentage, and lets you drill down into each individual file. Clicking on an individual file will take you to a source code display and show exactly which lines are covered and which are not:\nAnd you can see from this view, that only 1 line is red (uncovered by tests).\nBadges! Adding badges to the README.md file of your repository that reflect the current state of the workflows and/or CodeCov is easy. For the workflows, navigate to the workflows panel again, and click on an individual workflow, then the hamburger menu, and finally the “Create Status Badge” option:\nYou’ll then be presented with a popup with the markup that you can copy/paste into the README.md file\nFor CodeCov, the badge is just as easy to find. First click on one of the repositories, then Settings, and finally Badge. See the below screenshot as an example:\nPop in the README.md Finally pop these markup codes into the README.md file of your repository and now everybody can see the status of your workflows and code coverage!\n",
+  "wordCount" : "446",
+  "inLanguage": "en",
+  "image":"https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover.jpg","datePublished": "2021-12-13T20:08:57Z",
+  "dateModified": "2021-12-13T20:08:57Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/">Rust</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/infrastructure/">Infrastructure</a></div>
+    <h1 class="post-title">
+      Github Workflows
+    </h1>
+    <div class="post-meta"><span title='2021-12-13 20:08:57 +0000 UTC'>December 13, 2021</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover_huad8278254e312cd7bc2bbc362b572c7c_19537_360x0_resize_q75_box.jpg 360w ,https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover_huad8278254e312cd7bc2bbc362b572c7c_19537_480x0_resize_q75_box.jpg 480w ,https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover.jpg 640w" 
+            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/cover.jpg" alt="Cover Image" 
+            width="640" height="427">
+        
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#template-repository" aria-label="Template Repository">Template Repository</a></li>
+                <li>
+                    <a href="#creating-a-codecov-account" aria-label="Creating a CodeCov account">Creating a CodeCov account</a></li>
+                <li>
+                    <a href="#seeing-your-reports" aria-label="Seeing your reports">Seeing your reports</a></li>
+                <li>
+                    <a href="#badges" aria-label="Badges!">Badges!</a></li>
+                <li>
+                    <a href="#pop-in-the-readmemd" aria-label="Pop in the README.md">Pop in the README.md</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do
+with GitHub actions, and even lets you put a badge in the README.md file.</p>
+<h3 id="template-repository">Template Repository<a hidden class="anchor" aria-hidden="true" href="#template-repository">#</a></h3>
+<p>Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to 
+a Cargo project, clone this repository. The repository is located at: <strong><a href="https://github.com/BamPeers/rust-ci-github-actions-workflow">https://github.com/BamPeers/rust-ci-github-actions-workflow</a></strong></p>
+<p>Click &ldquo;Use this template&rdquo; to create a new repository from it:</p>
+<p><img loading="lazy" src="template.png" alt="Template Repo Image"  />
+</p>
+<p>After this you&rsquo;ll be redirected to a page to setup the new repository as usual:</p>
+<p><img loading="lazy" src="create.png" alt="Create Repo Image"  />
+</p>
+<h3 id="creating-a-codecov-account">Creating a CodeCov account<a hidden class="anchor" aria-hidden="true" href="#creating-a-codecov-account">#</a></h3>
+<p><strong><a href="https://app.codecov.io/">CodeCov</a></strong> is a fantastic site that hosts code coverage reports generated by tools (or in this case, by the GitHub workflows supplied by the template repository we used).
+It&rsquo;s free to use if either there are less than 5 users, or it&rsquo;s considered an open source repository.</p>
+<p>Creating an account linked to your GitHub account is easy, just log in using your GitHub credentials, and authorize the app:</p>
+<p><img loading="lazy" src="codecov.png" alt="CodeCov GitHub Login"  />
+</p>
+<h3 id="seeing-your-reports">Seeing your reports<a hidden class="anchor" aria-hidden="true" href="#seeing-your-reports">#</a></h3>
+<p>Once your CodeCov account is linked with GitHub, and the GitHub workflows run to produce your code coverage report, you can see those reports on the main dashboard:</p>
+<p><img loading="lazy" src="codecovdashboard.png" alt="CodeCov Dashboard"  />
+</p>
+<p>Clicking on one of the repositories here will take you to a report overview page for that repository, showing the current/last run of code coverage in various formats:</p>
+<p><img loading="lazy" src="report.png" alt="CodeCov Report"  />
+</p>
+<p>The Sunburst diagram on the left hand side is interactable and lets you see which <strong>files</strong> have good or bad coverage at a glance.</p>
+<p>At the bottom there is a directory navigation panel which also displays the code coverage percentage, and lets you drill down into each individual file. Clicking on an individual
+file will take you to a source code display and show exactly which lines are covered and which are not:</p>
+<p><img loading="lazy" src="sourceview.png" alt="Source Coverage View"  />
+</p>
+<p>And you can see from this view, that only 1 line is red (uncovered by tests).</p>
+<h3 id="badges">Badges!<a hidden class="anchor" aria-hidden="true" href="#badges">#</a></h3>
+<p>Adding badges to the README.md file of your repository that reflect the current state of the workflows and/or CodeCov is easy. For the workflows, navigate to the workflows
+panel again, and click on an individual workflow, then the hamburger menu, and finally the &ldquo;Create Status Badge&rdquo; option:</p>
+<p><img loading="lazy" src="workflowbadge.png" alt="Workflow Badge"  />
+</p>
+<p>You&rsquo;ll then be presented with a popup with the markup that you can copy/paste into the README.md file</p>
+<p><img loading="lazy" src="copymarkdown.png" alt="Copy Workflow Badge Markdown"  />
+</p>
+<p>For CodeCov, the badge is just as easy to find. First click on one of the repositories, then Settings, and finally Badge. See the below screenshot as an example:</p>
+<p><img loading="lazy" src="copycodecovbadge.png" alt="Copy CodeCov Badge Markdown"  />
+</p>
+<h3 id="pop-in-the-readmemd">Pop in the README.md<a hidden class="anchor" aria-hidden="true" href="#pop-in-the-readmemd">#</a></h3>
+<p>Finally pop these markup codes into the README.md file of your repository and now everybody can see the status of your workflows and code coverage!</p>
+<p><img loading="lazy" src="badgedisplay.png" alt="Badge Display"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2021 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

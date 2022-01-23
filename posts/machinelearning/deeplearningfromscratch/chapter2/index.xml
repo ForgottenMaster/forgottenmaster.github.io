@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chapter 2 - Fundamentals on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/</link>
+    <description>Recent content in Chapter 2 - Fundamentals on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sat, 22 Jan 2022 11:47:50 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Supervised Learning</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>
+      <pubDate>Sat, 22 Jan 2022 11:47:50 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</guid>
+      <description>Overview Supervised learning is a branch of machine learning that can be described as finding patterns or relationships in data that has already been measured. The &amp;ldquo;supervised&amp;rdquo; part of the phrase comes from the fact that we need to monitor the output that the system gives for a given input and to tell the system how close or far away it is from the measured result.
+As a short example, suppose we looked at 100 houses and measured both their square footage and market value.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,18 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 22 Jan 2022 11:47:50 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Feb 2022 10:46:23 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linear Regression</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>
+      <pubDate>Fri, 11 Feb 2022 10:46:23 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</guid>
+      <description>Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.
+Additionally we can have a weighting assigned to each feature so some features are &amp;ldquo;worth&amp;rdquo; more than others.
+However we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this).</description>
+    </item>
+    
     <item>
       <title>Supervised Learning</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>

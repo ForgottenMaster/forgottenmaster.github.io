@@ -6,7 +6,17 @@
     <description>Recent content in Chapter 2 - Fundamentals on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 11 Feb 2022 10:46:23 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Feb 2022 09:43:54 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Neural Networks</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</link>
+      <pubDate>Sat, 19 Feb 2022 09:43:54 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</guid>
+      <description>The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.
+What was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we&amp;rsquo;re trying to fit a straight line to a set of points.</description>
+    </item>
+    
     <item>
       <title>Linear Regression</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>

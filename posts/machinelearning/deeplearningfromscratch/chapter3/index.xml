@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chapter 3 - Deep Learning on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/</link>
+    <description>Recent content in Chapter 3 - Deep Learning on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sun, 20 Feb 2022 17:56:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Operations</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</link>
+      <pubDate>Sun, 20 Feb 2022 17:56:32 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</guid>
+      <description>This chapter is about creating the abstractions in code that enable us to think of neural networks in a modular fashion, and build up complex deep networks with simple structures.
+I will be implementing the abstractions in an accompanying library called Eidetic which is free for use and distribution, since I&amp;rsquo;m only implementing this as a learning opportunity.
+Overview The Operation construct will represent and encapsulate a single operation in a neural network, such as the sigmoid function, matrix multiplication, etc.</description>
+    </item>
+    
+  </channel>
+</rss>

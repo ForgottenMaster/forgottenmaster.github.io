@@ -6,7 +6,17 @@
     <description>Recent content in Chapter 3 - Deep Learning on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 20 Feb 2022 17:56:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Feb 2022 17:47:20 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Layers</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/</link>
+      <pubDate>Sun, 27 Feb 2022 17:47:20 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/</guid>
+      <description>Overview The lowest level of abstraction as mentioned in the previous post is the operation. These were the lowest level building block that is able to perform a single unit of calculation on the forward pass, and single unit of partial derivative calculation on the backward pass.
+During that chapter, we could see how multiple of these operations are able to be chained together, though we don&amp;rsquo;t want to do this by hand.</description>
+    </item>
+    
     <item>
       <title>Operations</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</link>

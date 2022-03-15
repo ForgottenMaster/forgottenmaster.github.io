@@ -63,13 +63,11 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
 <meta property="og:description" content="Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a &ldquo;Not covered&rdquo; status to be reported.
 Tarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it&rsquo;s only available on x86_64 processors and only on the Linux OS." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/" />
-<meta property="og:image" content="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover.jpg" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-12-22T23:57:14&#43;00:00" />
 <meta property="article:modified_time" content="2021-12-22T23:57:14&#43;00:00" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover.jpg" />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tarpaulin"/>
 <meta name="twitter:description" content="Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a &ldquo;Not covered&rdquo; status to be reported.
 Tarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it&rsquo;s only available on x86_64 processors and only on the Linux OS."/>
@@ -120,7 +118,7 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
   "articleBody": "Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a “Not covered” status to be reported.\nTarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it’s only available on x86_64 processors and only on the Linux OS.\nLuckily however, Github workflows allow running on exactly that architecture. This is a very simple change to make, and uploading the codecov report to CodeCov is still the same, the only difference is how the report has been generated.\nThe new workflow is as follows:\nname: Test Coverage on: [push] jobs: test: name: coverage runs-on: ubuntu-latest container: image: xd009642/tarpaulin:develop-nightly options: --security-opt seccomp=unconfined steps: - name: Checkout repository uses: actions/checkout@v2 - name: Generate code coverage run: | cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml - name: Upload to codecov.io uses: codecov/codecov-action@v2 with: # token: ${{secrets.CODECOV_TOKEN}} # not required for public repos fail_ci_if_error: true The main difference to previous is that we use a container image for running Tarpaulin on nightly, on a specific snapshot, and that to generate the code coverage, we use the one liner:\ncargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml\rOnce the report is output to the XML file, the upload to Codecov remains the same!\nThe result is that the code coverage report seems to be a lot more reliable, and also the setup and running of Tarpaulin is so much easier too.\nFor more information, Tarpaulin can be found HERE\n",
   "wordCount" : "282",
   "inLanguage": "en",
-  "image":"https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover.jpg","datePublished": "2021-12-22T23:57:14Z",
+  "datePublished": "2021-12-22T23:57:14Z",
   "dateModified": "2021-12-22T23:57:14Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -208,12 +206,6 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
 
 </div>
   </header> 
-<figure class="entry-cover">
-        <img loading="lazy" srcset="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover_huef1b7d6a92ee83ee0b2c77b49f6c5d95_44182_360x0_resize_q75_box.jpg 360w ,https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover_huef1b7d6a92ee83ee0b2c77b49f6c5d95_44182_480x0_resize_q75_box.jpg 480w ,https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover.jpg 640w" 
-            sizes="(min-width: 768px) 720px, 100vw" src="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/cover.jpg" alt="Cover Image" 
-            width="640" height="427">
-        
-</figure>
 
   <div class="post-content"><p>Since setting up my Github workflows as detailed <strong><a href="../githubworkflow">HERE</a></strong>, I have noticed that the code coverage report generation tool
 that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a &ldquo;Not covered&rdquo; status to be

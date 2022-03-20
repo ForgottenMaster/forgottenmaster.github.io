@@ -6,7 +6,16 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 04 Mar 2022 20:49:46 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Mar 2022 17:45:27 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lifetime Refactor</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</link>
+      <pubDate>Sat, 19 Mar 2022 17:45:27 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</guid>
+      <description>After trying to make a start on the next level of abstraction with the NeuralNetwork class, it&amp;rsquo;s becoming apparent that dealing with lifetimes at the lower levels of abstraction (Operation and Layer trait objects) is causing it more difficult to make a nice abstraction at the upper level. We will take a brief interlude to look at what the problem is, and why we need to do a refactor at this point.</description>
+    </item>
+    
     <item>
       <title>Loss Function</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/</link>

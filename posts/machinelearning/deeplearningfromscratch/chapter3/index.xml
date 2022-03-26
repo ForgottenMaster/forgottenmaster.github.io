@@ -6,7 +6,17 @@
     <description>Recent content in Chapter 3 - Deep Learning on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 19 Mar 2022 17:45:27 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 Mar 2022 00:57:01 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Network Type</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</link>
+      <pubDate>Sat, 26 Mar 2022 00:57:01 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</guid>
+      <description>In this post we&amp;rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
+Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn&amp;rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions.</description>
+    </item>
+    
     <item>
       <title>Lifetime Refactor</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</link>

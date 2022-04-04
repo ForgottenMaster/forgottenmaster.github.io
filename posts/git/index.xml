@@ -13,9 +13,9 @@
       <pubDate>Sat, 06 Nov 2021 20:51:06 +0000</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/git/basic_concepts/</guid>
-      <description>Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository. This is efficiently copied across when cloning an existing repository to provide an exact duplicate of not only the data but the whole history.
-  The index This is a temporary store which records changes that have yet to be made to the repository but have been staged.</description>
+      <description>This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
+Repository A Git repository has 2 main storages:
+  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
     </item>
     
     <item>
@@ -24,9 +24,8 @@
       <pubDate>Sat, 06 Nov 2021 18:36:42 +0000</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/git/basic_usage/</guid>
-      <description>Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
-In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
-Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.</description>
+      <description>This post will delve into the usage of the Git CLI from a user&amp;rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.
+Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.</description>
     </item>
     
   </channel>

@@ -8,7 +8,7 @@
     <language>en-gb</language>
     <lastBuildDate>Sat, 19 Feb 2022 09:43:54 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Neural Networks</title>
+      <title>2.3 - Neural Networks</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</link>
       <pubDate>Sat, 19 Feb 2022 09:43:54 +0000</pubDate>
       
@@ -18,7 +18,7 @@ What was the problem with linear regression? The main problem with linear regres
     </item>
     
     <item>
-      <title>Linear Regression</title>
+      <title>2.2 - Linear Regression</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>
       <pubDate>Fri, 11 Feb 2022 10:46:23 +0000</pubDate>
       
@@ -29,7 +29,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
     </item>
     
     <item>
-      <title>Supervised Learning</title>
+      <title>2.1 - Supervised Learning</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>
       <pubDate>Sat, 22 Jan 2022 11:47:50 +0000</pubDate>
       

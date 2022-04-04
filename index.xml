@@ -8,7 +8,7 @@
     <language>en-gb</language>
     <lastBuildDate>Sat, 26 Mar 2022 00:57:01 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>The Network Type</title>
+      <title>3.5 - The Network Type</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</link>
       <pubDate>Sat, 26 Mar 2022 00:57:01 +0000</pubDate>
       
@@ -18,7 +18,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
     </item>
     
     <item>
-      <title>Lifetime Refactor</title>
+      <title>3.4 - Lifetime Refactor</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</link>
       <pubDate>Sat, 19 Mar 2022 17:45:27 +0000</pubDate>
       
@@ -27,7 +27,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
     </item>
     
     <item>
-      <title>Loss Function</title>
+      <title>3.3 - Loss Function</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/</link>
       <pubDate>Fri, 04 Mar 2022 20:49:46 +0000</pubDate>
       
@@ -36,7 +36,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
     </item>
     
     <item>
-      <title>Layers</title>
+      <title>3.2 - Layers</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/</link>
       <pubDate>Sun, 27 Feb 2022 17:47:20 +0000</pubDate>
       
@@ -46,7 +46,7 @@ During that chapter, we could see how multiple of these operations are able to b
     </item>
     
     <item>
-      <title>Operations</title>
+      <title>3.1 - Operations</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</link>
       <pubDate>Sun, 20 Feb 2022 17:56:32 +0000</pubDate>
       
@@ -57,7 +57,7 @@ Overview The Operation construct will represent and encapsulate a single operati
     </item>
     
     <item>
-      <title>Neural Networks</title>
+      <title>2.3 - Neural Networks</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</link>
       <pubDate>Sat, 19 Feb 2022 09:43:54 +0000</pubDate>
       
@@ -67,7 +67,7 @@ What was the problem with linear regression? The main problem with linear regres
     </item>
     
     <item>
-      <title>Linear Regression</title>
+      <title>2.2 - Linear Regression</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>
       <pubDate>Fri, 11 Feb 2022 10:46:23 +0000</pubDate>
       
@@ -78,7 +78,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
     </item>
     
     <item>
-      <title>Supervised Learning</title>
+      <title>2.1 - Supervised Learning</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>
       <pubDate>Sat, 22 Jan 2022 11:47:50 +0000</pubDate>
       
@@ -133,9 +133,9 @@ We can achieve this by looking at a sequence of characters at the beginning of t
       <pubDate>Sat, 06 Nov 2021 20:51:06 +0000</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/git/basic_concepts/</guid>
-      <description>Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository. This is efficiently copied across when cloning an existing repository to provide an exact duplicate of not only the data but the whole history.
-  The index This is a temporary store which records changes that have yet to be made to the repository but have been staged.</description>
+      <description>This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
+Repository A Git repository has 2 main storages:
+  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
     </item>
     
     <item>
@@ -144,9 +144,8 @@ We can achieve this by looking at a sequence of characters at the beginning of t
       <pubDate>Sat, 06 Nov 2021 18:36:42 +0000</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/git/basic_usage/</guid>
-      <description>Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
-In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
-Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.</description>
+      <description>This post will delve into the usage of the Git CLI from a user&amp;rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.
+Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.</description>
     </item>
     
     <item>
@@ -170,7 +169,7 @@ Additionally expensive copies of structures may be done without us realising, or
     </item>
     
     <item>
-      <title>Matrix Inputs</title>
+      <title>1.6 - Matrix Inputs</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/</link>
       <pubDate>Wed, 13 Oct 2021 23:47:35 +0100</pubDate>
       
@@ -181,7 +180,7 @@ Matrix Multiplication Refresher The first step is to recall how we can multiply 
     </item>
     
     <item>
-      <title>Vector Inputs</title>
+      <title>1.5 - Vector Inputs</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/vectorinputs/</link>
       <pubDate>Tue, 12 Oct 2021 00:41:56 +0100</pubDate>
       
@@ -191,7 +190,7 @@ The next step in the prerequisite mathematics we need to build the foundations o
     </item>
     
     <item>
-      <title>Multiple Inputs</title>
+      <title>1.4 - Multiple Inputs</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/multipleinputs/</link>
       <pubDate>Sat, 09 Oct 2021 15:40:05 +0100</pubDate>
       
@@ -211,7 +210,7 @@ For example in C++, making an enum whose variants represent a set of allowed col
     </item>
     
     <item>
-      <title>Chain Rule</title>
+      <title>1.3 - Chain Rule</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/chainrule/</link>
       <pubDate>Sun, 26 Sep 2021 16:09:52 +0100</pubDate>
       
@@ -222,7 +221,7 @@ Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivati
     </item>
     
     <item>
-      <title>Derivatives</title>
+      <title>1.2 - Derivatives</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/</link>
       <pubDate>Sun, 26 Sep 2021 00:42:04 +0100</pubDate>
       
@@ -231,7 +230,7 @@ Then say you have a second function &amp;ldquo;g&amp;rdquo; which has a derivati
     </item>
     
     <item>
-      <title>Functions</title>
+      <title>1.1 - Functions</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/</link>
       <pubDate>Fri, 24 Sep 2021 01:45:11 +0100</pubDate>
       

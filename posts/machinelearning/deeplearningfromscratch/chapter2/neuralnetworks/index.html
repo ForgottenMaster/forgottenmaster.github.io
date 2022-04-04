@@ -5,14 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Neural Networks | Robin Firth</title>
+<title>2.3 - Neural Networks | Robin Firth</title>
 <meta name="keywords" content="" />
 <meta name="description" content="The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.
 What was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we&rsquo;re trying to fit a straight line to a set of points.">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ What was the problem with linear regression? The main problem with linear regres
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -59,7 +59,7 @@ What was the problem with linear regression? The main problem with linear regres
 
     </style>
 </noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Neural Networks" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="2.3 - Neural Networks" />
 <meta property="og:description" content="The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.
 What was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we&rsquo;re trying to fit a straight line to a set of points." />
 <meta property="og:type" content="article" />
@@ -68,7 +68,7 @@ What was the problem with linear regression? The main problem with linear regres
 <meta property="article:modified_time" content="2022-02-19T09:43:54&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Neural Networks"/>
+<meta name="twitter:title" content="2.3 - Neural Networks"/>
 <meta name="twitter:description" content="The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.
 What was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we&rsquo;re trying to fit a straight line to a set of points."/>
 
@@ -105,7 +105,7 @@ What was the problem with linear regression? The main problem with linear regres
     {
       "@type": "ListItem",
       "position":  5 ,
-      "name": "Neural Networks",
+      "name": "2.3 - Neural Networks",
       "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/"
     }
   ]
@@ -115,13 +115,13 @@ What was the problem with linear regression? The main problem with linear regres
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Neural Networks",
-  "name": "Neural Networks",
+  "headline": "2.3 - Neural Networks",
+  "name": "2.3 - Neural Networks",
   "description": "The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.\nWhat was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we\u0026rsquo;re trying to fit a straight line to a set of points.",
   "keywords": [
     
   ],
-  "articleBody": "The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.\nWhat was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we’re trying to fit a straight line to a set of points.\nThe problem here is then that there is only so much we can do to fit a straight line to a set of points, and the error shows this. Linear regression works perfectly if the data set points are located already along some straight line, but in reality they rarely are.\nHow can we fix this? First of all, we need to introduce more tweakable values for the training algorithm to operate on. The more tweakable values that the algorithm has access to, then the more it is able to warp the resulting “line”.\nIn a neural network, what we end up finding and fitting to the data is not an N-dimensional line but an N-dimensional curve. More tweakables means more warp points.\nHowever, no matter how many sets of weights we end up using for training, the functions we use in linear regression will always produce a straight line. So additionally, as part of the modification, we will need to introduce a nonlinear function - that is, one which doesn’t map input values to output values along a straight line but along somme curve instead.\nStep 1: More weights The first part of this is to introduce the ability to have more weights that can be tweaked, and should be fairly straightforward to achieve.\nIn a standard linear regression, the formula we had for the initial “apply weights to observations” step was:\n$$ M = X \\cdot W $$\nThis formula remains the same, however if we look at the dimensionality of X, W, and M in the original linear regression we can see that we have:\n$$ [num\\_observations, num\\_features] \\cdot [num\\_features, 1] = [num\\_observations, 1] $$\nThe idea is that we change the weights from a column vector (matrix with column count of 1) to a matrix with N columns. N here is an arbitrary number of “learned features”, which can be considered nodes in the hidden layer of a neural network.\nThese “learned features” are an abstract notion, they don’t directly map to the actual features of the data set, but rather are features of the patterns in the data.\nIn short these learned features can represent whatever the network requires it to, we just won’t really know what they mean.\nLooking at the dimensionality of the new calculation we see:\n$$ [num\\_observations, num\\_features] \\cdot [num\\_features, N] = [num\\_observations, N] $$\nStep 2: A nonlinear function Once we have the weighted sum matrix, we will go ahead and feed it through a nonlinear function, which will ensure first nonlinearity in the output data, but also ensures that the output data is in the range 0 to 1.\nFor such a function, we will use the sigmoid function which has a graph that looks like this:\nThe sigmoid function is a good nonlinear function to choose for a few reasons:\n This function preserves information about the input (specifically the sign of it). If we were to use a nonlinear function such as squaring the input, then both -3 and 3 for example would give the same answer. With the sigmoid function -3 and 3 will give different outputs. It is nonlinear. This seems like an obvious point, but it is really important that we choose a nonlinear function for this step. Outputs are always in the range of 0 to 1 which is a nice property to have to keep numbers small. The most important property is that it has a derivative which is calculated easily in terms of itself. This derivative is shown below  $$ \\frac {\\partial \\sigma} {\\partial x}(x) = \\sigma(x) \\times (1 - \\sigma(x)) $$\nStep 3: Final linear regression The final step to get the actual answer is to perform one final linear regression on the outputs of the sigmoid function.\nA diagram showing the entire process can be seen below:\nConceptual diagram With the above function graph, we are able to see the actual operations that occur, but doesn’t conceptually show what a neural network looks like. From the implementation point of view the learned features are just columns in the initial matrix multiplication.\nA more common diagram showing what a neural network looks like conceptually can be seen below:\nThis shows the matrix multiplication (the lines between combinations of the input features - the initial nodes), and the output of the matrix multiplication (the middle layer of nodes which represent the learned features). Finally it shows the combination of the intermediate learned features to give a single output loss value as before.\nLoss gradients The overall loss gradient is calculated the same as before, as the mean squared sum of error between the predicted output and the target output for each observation.\nThe difference now is that we have two sets of weights and biases. One of these is for the initial matrix multiplication with the input data set and has N columns for the N learned features.\nThe second set of weights is just a single column vector with the same length as N, that gets multiplied with the learned features to give the final output.\nThe main difference between calculating the gradients in a linear regression and in this neural network is that we must calculate the partial derivatives for both sets of weights and biases.\nAs before, the caveat with calculating the gradient of the biases requires us to sum along the row axis to represent the same bias number being added to each observation.\nThe diagram below shows the overall gradient calculation process - as before we calculate the partial derivatives of each function at the outputs, and using the chain rule, multiply them together to get the final gradient.\nThe following table shows what each partial derivative is. The logic here is already covered previously in chapter 1, with the sigmoid function being explained earlier in this post.\nIn the following table, we use the function ones(X) which is terminology from the Python API and simply takes a matrix X and produces a matrix where each element has the value 1, with the same shape as X (same number of rows and columns).\nNote that in the table the function ^ is actually written as A because I couldn’t manage to get the carat symbol to escape properly in LaTeX.\n   Derivative Calculation     $$\\frac {\\partial A} {\\partial P}(P, y)$$ $$-(y - P)$$   $$\\frac {\\partial \\alpha} {\\partial M_2}(M_2, B_2)$$ $$ones(M_2)$$   $$\\frac {\\partial \\alpha} {\\partial B_2}(M_2, B_2)$$ $$ones(B_2)$$   $$\\frac {\\partial v} {\\partial W_2}(O_1, W_2)$$ $${O_1}^T$$   $$\\frac {\\partial v} {\\partial O_1}(O_1, W_2)$$ $${W_2}^T$$   $$\\frac {\\partial \\sigma} {\\partial N_1}(N_1)$$ $$\\sigma(N_1) \\times (1 - \\sigma(N_1))$$   $$\\frac {\\partial \\alpha} {\\partial M_1}(M_1, B_1)$$ $$ones(M_1)$$   $$\\frac {\\partial \\alpha} {\\partial B_1}(M_1, B_1)$$ $$ones(B_1)$$   $$\\frac {\\partial v} {\\partial W_1}(X, W_1)$$ $$X^T$$    Code The code is located HERE and is a modification of the previous post’s code to extend in the ways described here.\nThe data set is the same so the errors that we get after training can be compared to the errors we got with a simple linear regression.\nIf the neural network is able to fit the data better then the final total error should be lower.\nConclusion Surprisingly after implementation, it looks like for this data set the neural network is actually worse. As I get the following output:\nFinal error (training): 0.20948163078668652\rFinal error (testing): 0.2119911310559618\rThis shows that in fact the training error turns out worse than the linear regression method (though very slightly).\nWhen tested on the testing data, it looks like there’s a noticable gap in the error between training and testing.\nI’m not sure what’s causing it however I can speculate on two things:\n We get around 0.2 error in all cases both for the neural network and the linear regression methods. The neural network has possibly overfit the training data and so doesn’t perform so well on the testing data.  This kind of variance is to be expected on certain data sets and neural networks will really shine with more data.\nI have no reason to believe the implementation is incorrect at this point so won’t dwell on this too much and instead will continue on with the abstractions portion of the book.\n",
+  "articleBody": "The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.\nWhat was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we’re trying to fit a straight line to a set of points.\nThe problem here is then that there is only so much we can do to fit a straight line to a set of points, and the error shows this. Linear regression works perfectly if the data set points are located already along some straight line, but in reality they rarely are.\nHow can we fix this? First of all, we need to introduce more tweakable values for the training algorithm to operate on. The more tweakable values that the algorithm has access to, then the more it is able to warp the resulting “line”.\nIn a neural network, what we end up finding and fitting to the data is not an N-dimensional line but an N-dimensional curve. More tweakables means more warp points.\nHowever, no matter how many sets of weights we end up using for training, the functions we use in linear regression will always produce a straight line. So additionally, as part of the modification, we will need to introduce a nonlinear function - that is, one which doesn’t map input values to output values along a straight line but along somme curve instead.\nStep 1: More weights The first part of this is to introduce the ability to have more weights that can be tweaked, and should be fairly straightforward to achieve.\nIn a standard linear regression, the formula we had for the initial “apply weights to observations” step was:\n$$ M = X \\cdot W $$\nThis formula remains the same, however if we look at the dimensionality of X, W, and M in the original linear regression we can see that we have:\n$$ [num\\_observations, num\\_features] \\cdot [num\\_features, 1] = [num\\_observations, 1] $$\nThe idea is that we change the weights from a column vector (matrix with column count of 1) to a matrix with N columns. N here is an arbitrary number of “learned features”, which can be considered nodes in the hidden layer of a neural network.\nThese “learned features” are an abstract notion, they don’t directly map to the actual features of the data set, but rather are features of the patterns in the data.\nIn short these learned features can represent whatever the network requires it to, we just won’t really know what they mean.\nLooking at the dimensionality of the new calculation we see:\n$$ [num\\_observations, num\\_features] \\cdot [num\\_features, N] = [num\\_observations, N] $$\nStep 2: A nonlinear function Once we have the weighted sum matrix, we will go ahead and feed it through a nonlinear function, which will ensure first nonlinearity in the output data, but also ensures that the output data is in the range 0 to 1.\nFor such a function, we will use the sigmoid function which has a graph that looks like this:\nThe sigmoid function is a good nonlinear function to choose for a few reasons:\n This function preserves information about the input (specifically the sign of it). If we were to use a nonlinear function such as squaring the input, then both -3 and 3 for example would give the same answer. With the sigmoid function -3 and 3 will give different outputs. It is nonlinear. This seems like an obvious point, but it is really important that we choose a nonlinear function for this step. Outputs are always in the range of 0 to 1 which is a nice property to have to keep numbers small. The most important property is that it has a derivative which is calculated easily in terms of itself. This derivative is shown below  $$ \\frac {\\partial \\sigma} {\\partial x}(x) = \\sigma(x) \\times (1 - \\sigma(x)) $$\nStep 3: Final linear regression The final step to get the actual answer is to perform one final linear regression on the outputs of the sigmoid function.\nA diagram showing the entire process can be seen below:\nConceptual diagram With the above function graph, we are able to see the actual operations that occur, but doesn’t conceptually show what a neural network looks like. From the implementation point of view the learned features are just columns in the initial matrix multiplication.\nA more common diagram showing what a neural network looks like conceptually can be seen below:\nThis shows the matrix multiplication (the lines between combinations of the input features - the initial nodes), and the output of the matrix multiplication (the middle layer of nodes which represent the learned features). Finally it shows the combination of the intermediate learned features to give a single output loss value as before.\nLoss gradients The overall loss gradient is calculated the same as before, as the mean squared sum of error between the predicted output and the target output for each observation.\nThe difference now is that we have two sets of weights and biases. One of these is for the initial matrix multiplication with the input data set and has N columns for the N learned features.\nThe second set of weights is just a single column vector with the same length as N, that gets multiplied with the learned features to give the final output.\nThe main difference between calculating the gradients in a linear regression and in this neural network is that we must calculate the partial derivatives for both sets of weights and biases.\nAs before, the caveat with calculating the gradient of the biases requires us to sum along the row axis to represent the same bias number being added to each observation.\nThe diagram below shows the overall gradient calculation process - as before we calculate the partial derivatives of each function at the outputs, and using the chain rule, multiply them together to get the final gradient.\nThe following table shows what each partial derivative is. The logic here is already covered previously in chapter 1, with the sigmoid function being explained earlier in this post.\nIn the following table, we use the function ones(X) which is terminology from the Python API and simply takes a matrix X and produces a matrix where each element has the value 1, with the same shape as X (same number of rows and columns).\nNote that in the table the function ^ is actually written as A because I couldn’t manage to get the carat symbol to escape properly in LaTeX.\n   Derivative Calculation     $$\\frac {\\partial A} {\\partial P}(P, y)$$ $$-(y - P)$$   $$\\frac {\\partial \\alpha} {\\partial M_2}(M_2, B_2)$$ $$ones(M_2)$$   $$\\frac {\\partial \\alpha} {\\partial B_2}(M_2, B_2)$$ $$ones(B_2)$$   $$\\frac {\\partial v} {\\partial W_2}(O_1, W_2)$$ $${O_1}^T$$   $$\\frac {\\partial v} {\\partial O_1}(O_1, W_2)$$ $${W_2}^T$$   $$\\frac {\\partial \\sigma} {\\partial N_1}(N_1)$$ $$\\sigma(N_1) \\times (1 - \\sigma(N_1))$$   $$\\frac {\\partial \\alpha} {\\partial M_1}(M_1, B_1)$$ $$ones(M_1)$$   $$\\frac {\\partial \\alpha} {\\partial B_1}(M_1, B_1)$$ $$ones(B_1)$$   $$\\frac {\\partial v} {\\partial W_1}(X, W_1)$$ $$X^T$$    Code The code is located HERE and is a modification of the previous post’s code to extend in the ways described here.\nThe data set is the same so the errors that we get after training can be compared to the errors we got with a simple linear regression.\nIf the neural network is able to fit the data better then the final total error should be lower.\nConclusion Surprisingly after implementation, it looks like for this data set the neural network is actually worse. As I get the following output:\nFinal error (training): 0.20948163078668652 Final error (testing): 0.2119911310559618 This shows that in fact the training error turns out worse than the linear regression method (though very slightly).\nWhen tested on the testing data, it looks like there’s a noticable gap in the error between training and testing.\nI’m not sure what’s causing it however I can speculate on two things:\n We get around 0.2 error in all cases both for the neural network and the linear regression methods. The neural network has possibly overfit the training data and so doesn’t perform so well on the testing data.  This kind of variance is to be expected on certain data sets and neural networks will really shine with more data.\nI have no reason to believe the implementation is incorrect at this point so won’t dwell on this too much and instead will continue on with the abstractions portion of the book.\n",
   "wordCount" : "1435",
   "inLanguage": "en",
   "datePublished": "2022-02-19T09:43:54Z",
@@ -206,9 +206,9 @@ What was the problem with linear regression? The main problem with linear regres
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/">Chapter 2 - Fundamentals</a></div>
     <h1 class="post-title">
-      Neural Networks
+      2.3 - Neural Networks
     </h1>
-    <div class="post-meta"><span title='2022-02-19 09:43:54 +0000 UTC'>February 19, 2022</span>
+    <div class="post-meta"><span title='2022-02-19 09:43:54 +0000 UTC'>February 19, 2022</span>&nbsp;·&nbsp;7 min
 
 </div>
   </header> <div class="toc">
@@ -436,6 +436,53 @@ Final error (testing): 0.2119911310559618
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

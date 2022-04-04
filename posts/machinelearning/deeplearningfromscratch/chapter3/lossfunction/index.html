@@ -5,13 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Loss Function | Robin Firth</title>
+<title>3.3 - Loss Function | Robin Firth</title>
 <meta name="keywords" content="" />
 <meta name="description" content="Overview Once we&rsquo;ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers.">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -20,7 +20,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -58,7 +58,7 @@
 
     </style>
 </noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Loss Function" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="3.3 - Loss Function" />
 <meta property="og:description" content="Overview Once we&rsquo;ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/" /><meta property="article:section" content="posts" />
@@ -66,7 +66,7 @@
 <meta property="article:modified_time" content="2022-03-04T20:49:46&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Loss Function"/>
+<meta name="twitter:title" content="3.3 - Loss Function"/>
 <meta name="twitter:description" content="Overview Once we&rsquo;ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers."/>
 
 
@@ -102,7 +102,7 @@
     {
       "@type": "ListItem",
       "position":  5 ,
-      "name": "Loss Function",
+      "name": "3.3 - Loss Function",
       "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/"
     }
   ]
@@ -112,13 +112,13 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Loss Function",
-  "name": "Loss Function",
+  "headline": "3.3 - Loss Function",
+  "name": "3.3 - Loss Function",
   "description": "Overview Once we\u0026rsquo;ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers.",
   "keywords": [
     
   ],
-  "articleBody": "Overview Once we’ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers. We know that we will need to calculated derivatives on the backpropagation pass, but how do we know what to use as an initial value?\nThis is where the “loss function” (or error function) comes in, which will take the vector of predictions, and a vector of targets, and will produce a single number which identifies just how far away our predictions are from the target values.\nThis loss function will be implemented in a similar fashion to how we have done Operations and Layers so far, in that it will provide the framework and public API to call for use in the forward and backward passes, as well as asserting the shapes of arrays along the way.\nIt will delegate the actual calculations to another vtable like trait object though for customisation.\nLossImpl First of all we define a trait for us to use to wrap a trait object. This allows the customisation point for choosing exactly what kind of calculation we would like. This trait is parameterised over the type T (type of the Array elements in use) as the others have been, but otherwise looks fairly uneventful:\npub trait LossImplT { ... } This trait will define two functions. The first is a function that will calculate a single value (of type T of course) when given the Array of predictions and targets. The signature looks as expected from such a function:\nfn calculate_output(\u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2) - T; That function will be used on the forward pass in order to calculate the single value, total “error”. The other function we will need is a way of calculating what the gradients should be of the predictions (since these are what are varying and calculated) to kick off the backpropagation step. This function also takes the predictions and targets arrays, except that it will produce an Array of gradients, of the same shape as predictions:\nfn calculate_input_gradient( \u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2, ) - ArrayT, Ix2; MeanSquaredError This is an implementation of a loss function, and is one of the most commonly used ones, the average squared error. This is popular also because it’s easy to calculate the gradient for as we’ll see soon. Like the customisation points for Operation and Layer, this type doesn’t need to store any state, so is defined as a simple unit struct:\npub struct MeanSquaredError; Next we will need to implement the LossImpl trait for it so we can use it as a trait object. We need to place some generic bounds on this though for T, so I’ll show the impl block first, and then explain why we need the bounds:\nimplT: LinalgScalar + Fromu32 + ScalarOperand LossImplT for MeanSquaredError { }  LinalgScalar - This trait is required for the same reason as we needed it in our Operation implementations. It allows for us to use arithmetic operations on Array’s of this type, which will be required to calculate the mean squared error. From - We need to be able to convert from numbers into our type T at a couple of points. One is when calculating the gradient, we need to be able to multiply the error by 2. However most types implement multiplication with both operands as the same type, therefore we need to be able to convert the integer 2 into an instance of type T. Additionally, we want to divide by the number of entries, which again should be an instance of type T. The downside here is that array.nrows() will give a usize, but we use Frominstead because floating point types implement it not conversion from usize. The program will crash if there are more than u32 observations in the data. ScalarOperand - This is required because we multiply an array by a scalar in calculating the input gradient.  With that out of the way, we can implement the two functions!\nFirst up is the calculate_output function. In the case of the mean squared error, this is just finding the difference between prediction and target arrays, then squaring that difference (we can use the elementwise multiplication operator * on the error array). Then we take the squared error Array and find its sum. Finally we divide by the number of rows. The code is fine to follow so I’ll just post it here:\nfn calculate_output(\u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2) - T { let error = prediction - target; let squared_error = \u0026error * \u0026error; let squared_error_sum = squared_error.sum(); squared_error_sum / (prediction.nrows() as u32).into() } As mentioned above, in the last line you can see that in order to divide by the number of rows (count), we need to turn that number into an instance of type T. We can do this because we put the trait bound Fromwhich allows us to use the “into” function on a u32 to get an instance of T to divide by.\nThe second function is also kind of simple. The formula for calculating the gradient is 2 * (prediction - target) / count. There’s another instance of converting the count into an instance of type T, however because we’re also multiplying by 2, we need to get an instance of type T that represents the number “2”:\nfn calculate_input_gradient( \u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2, ) - ArrayT, Ix2 { let two_of: T = 2.into(); let error = prediction - target; let count: T = (prediction.nrows() as u32).into(); let average_error = error / count; average_error * two_of } Loss For the actual Loss type, we would like to allow customization via specifying a LossImpl trait object as a “vtable” as previously described. Additionally, on the forward pass we will need to cache the predictions and targets in order to calculate the gradient with the last used pair on the backward pass. As with Operation and Layer, these are initially None and then on the first forward pass will be set to Some. Therefore they are of type Option. As our LossImpl trait object is a reference that can be on the stack, we will require a lifetime annotation (‘a in the code). The full definition then looks as follows:\npub struct Lossa, T { implementation: \u0026'a dyn LossImplT, prediction: OptionArrayT, Ix2, target: OptionArrayT, Ix2, } The first function we will need is a way to construct a new instance. We will do this with the idiomatic “new” function. The only thing we are required to provide when constructing one is the LossImpl trait object as the other two fields will be initialized to None like so:\npub fn new(implementation: \u0026'a dyn LossImplT) - Self { Self { implementation, prediction: None, target: None, } } The second function we need is a function to call on the forward pass to calculate the total loss value. For this we will pass it the predictions and targets arrays, which are required to be the same size. We delegate the actual output calculation to the LossImpl provided. We will also stash the provided predictions and targets for use in the backward pass. The full function is fairly simple so I’ll list it here:\npub fn forward(\u0026mut self, prediction: ArrayT, Ix2, target: ArrayT, Ix2) - T { assert_eq!(prediction.raw_dim(), target.raw_dim()); let loss_value = self.implementation.calculate_output(\u0026prediction, \u0026target); self.prediction = Some(prediction); self.target = Some(target); loss_value } The final method we need is to perform the backwards pass. This is also simple and just passes the previously stashed predictions and targets from the forward pass into the input gradient calculation function of LossImpl. We can use the standard “as_ref().unwrap()” pattern on Optionto get a \u0026T from it. After we get the input gradient back from the implementation, we need to check that the shape matches that of the predictions since we’ll be starting the backpropagation with it. The function implementation is then as follows:\npub fn backward(\u0026mut self) - ArrayT, Ix2 { let input_gradient = self.implementation.calculate_input_gradient( self.prediction.as_ref().unwrap(), self.target.as_ref().unwrap(), ); assert_eq!( self.prediction.as_ref().unwrap().raw_dim(), input_gradient.raw_dim() ); input_gradient } ",
+  "articleBody": "Overview Once we’ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers. We know that we will need to calculated derivatives on the backpropagation pass, but how do we know what to use as an initial value?\nThis is where the “loss function” (or error function) comes in, which will take the vector of predictions, and a vector of targets, and will produce a single number which identifies just how far away our predictions are from the target values.\nThis loss function will be implemented in a similar fashion to how we have done Operations and Layers so far, in that it will provide the framework and public API to call for use in the forward and backward passes, as well as asserting the shapes of arrays along the way.\nIt will delegate the actual calculations to another vtable like trait object though for customisation.\nLossImpl First of all we define a trait for us to use to wrap a trait object. This allows the customisation point for choosing exactly what kind of calculation we would like. This trait is parameterised over the type T (type of the Array elements in use) as the others have been, but otherwise looks fairly uneventful:\npub trait LossImplT {  ... } This trait will define two functions. The first is a function that will calculate a single value (of type T of course) when given the Array of predictions and targets. The signature looks as expected from such a function:\nfn calculate_output(\u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2) - T; That function will be used on the forward pass in order to calculate the single value, total “error”. The other function we will need is a way of calculating what the gradients should be of the predictions (since these are what are varying and calculated) to kick off the backpropagation step. This function also takes the predictions and targets arrays, except that it will produce an Array of gradients, of the same shape as predictions:\nfn calculate_input_gradient(  \u0026self,  prediction: \u0026ArrayT, Ix2,  target: \u0026ArrayT, Ix2, ) - ArrayT, Ix2; MeanSquaredError This is an implementation of a loss function, and is one of the most commonly used ones, the average squared error. This is popular also because it’s easy to calculate the gradient for as we’ll see soon. Like the customisation points for Operation and Layer, this type doesn’t need to store any state, so is defined as a simple unit struct:\npub struct MeanSquaredError; Next we will need to implement the LossImpl trait for it so we can use it as a trait object. We need to place some generic bounds on this though for T, so I’ll show the impl block first, and then explain why we need the bounds:\nimplT: LinalgScalar + Fromu32 + ScalarOperand LossImplT for MeanSquaredError { }  LinalgScalar - This trait is required for the same reason as we needed it in our Operation implementations. It allows for us to use arithmetic operations on Array’s of this type, which will be required to calculate the mean squared error. From - We need to be able to convert from numbers into our type T at a couple of points. One is when calculating the gradient, we need to be able to multiply the error by 2. However most types implement multiplication with both operands as the same type, therefore we need to be able to convert the integer 2 into an instance of type T. Additionally, we want to divide by the number of entries, which again should be an instance of type T. The downside here is that array.nrows() will give a usize, but we use Frominstead because floating point types implement it not conversion from usize. The program will crash if there are more than u32 observations in the data. ScalarOperand - This is required because we multiply an array by a scalar in calculating the input gradient.  With that out of the way, we can implement the two functions!\nFirst up is the calculate_output function. In the case of the mean squared error, this is just finding the difference between prediction and target arrays, then squaring that difference (we can use the elementwise multiplication operator * on the error array). Then we take the squared error Array and find its sum. Finally we divide by the number of rows. The code is fine to follow so I’ll just post it here:\nfn calculate_output(\u0026self, prediction: \u0026ArrayT, Ix2, target: \u0026ArrayT, Ix2) - T {  let error = prediction - target;  let squared_error = \u0026error * \u0026error;  let squared_error_sum = squared_error.sum();  squared_error_sum / (prediction.nrows() as u32).into() } As mentioned above, in the last line you can see that in order to divide by the number of rows (count), we need to turn that number into an instance of type T. We can do this because we put the trait bound Fromwhich allows us to use the “into” function on a u32 to get an instance of T to divide by.\nThe second function is also kind of simple. The formula for calculating the gradient is 2 * (prediction - target) / count. There’s another instance of converting the count into an instance of type T, however because we’re also multiplying by 2, we need to get an instance of type T that represents the number “2”:\nfn calculate_input_gradient(  \u0026self,  prediction: \u0026ArrayT, Ix2,  target: \u0026ArrayT, Ix2, ) - ArrayT, Ix2 {  let two_of: T = 2.into();  let error = prediction - target;  let count: T = (prediction.nrows() as u32).into();  let average_error = error / count;  average_error * two_of } Loss For the actual Loss type, we would like to allow customization via specifying a LossImpl trait object as a “vtable” as previously described. Additionally, on the forward pass we will need to cache the predictions and targets in order to calculate the gradient with the last used pair on the backward pass. As with Operation and Layer, these are initially None and then on the first forward pass will be set to Some. Therefore they are of type Option. As our LossImpl trait object is a reference that can be on the stack, we will require a lifetime annotation (‘a in the code). The full definition then looks as follows:\npub struct Lossa, T {  implementation: \u0026'a dyn LossImplT,  prediction: OptionArrayT, Ix2,  target: OptionArrayT, Ix2, } The first function we will need is a way to construct a new instance. We will do this with the idiomatic “new” function. The only thing we are required to provide when constructing one is the LossImpl trait object as the other two fields will be initialized to None like so:\npub fn new(implementation: \u0026'a dyn LossImplT) - Self {  Self {  implementation,  prediction: None,  target: None,  } } The second function we need is a function to call on the forward pass to calculate the total loss value. For this we will pass it the predictions and targets arrays, which are required to be the same size. We delegate the actual output calculation to the LossImpl provided. We will also stash the provided predictions and targets for use in the backward pass. The full function is fairly simple so I’ll list it here:\npub fn forward(\u0026mut self, prediction: ArrayT, Ix2, target: ArrayT, Ix2) - T {  assert_eq!(prediction.raw_dim(), target.raw_dim());  let loss_value = self.implementation.calculate_output(\u0026prediction, \u0026target);  self.prediction = Some(prediction);  self.target = Some(target);  loss_value } The final method we need is to perform the backwards pass. This is also simple and just passes the previously stashed predictions and targets from the forward pass into the input gradient calculation function of LossImpl. We can use the standard “as_ref().unwrap()” pattern on Optionto get a \u0026T from it. After we get the input gradient back from the implementation, we need to check that the shape matches that of the predictions since we’ll be starting the backpropagation with it. The function implementation is then as follows:\npub fn backward(\u0026mut self) - ArrayT, Ix2 {  let input_gradient = self.implementation.calculate_input_gradient(  self.prediction.as_ref().unwrap(),  self.target.as_ref().unwrap(),  );  assert_eq!(  self.prediction.as_ref().unwrap().raw_dim(),  input_gradient.raw_dim()  );  input_gradient } ",
   "wordCount" : "1394",
   "inLanguage": "en",
   "datePublished": "2022-03-04T20:49:46Z",
@@ -203,9 +203,9 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
     <h1 class="post-title">
-      Loss Function
+      3.3 - Loss Function
     </h1>
-    <div class="post-meta"><span title='2022-03-04 20:49:46 +0000 UTC'>March 4, 2022</span>
+    <div class="post-meta"><span title='2022-03-04 20:49:46 +0000 UTC'>March 4, 2022</span>&nbsp;·&nbsp;7 min
 
 </div>
   </header> <div class="toc">
@@ -236,23 +236,23 @@
 <p>It will delegate the actual calculations to another vtable like trait object though for customisation.</p>
 <h3 id="lossimpl">LossImpl<a hidden class="anchor" aria-hidden="true" href="#lossimpl">#</a></h3>
 <p>First of all we define a trait for us to use to wrap a trait object. This allows the customisation point for choosing exactly what kind of calculation we would like. This trait is parameterised over the type T (type of the Array elements in use) as the others have been, but otherwise looks fairly uneventful:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
-    <span style="color:#f92672">..</span>.
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">..</span>.
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>This trait will define two functions. The first is a function that will calculate a single value (of type T of course) when given the Array of predictions and targets. The signature looks as expected from such a function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_output</span>(<span style="color:#f92672">&amp;</span>self, prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_output</span>(<span style="color:#f92672">&amp;</span>self, prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span>;</span></span></code></pre></div>
 <p>That function will be used on the forward pass in order to calculate the single value, total &ldquo;error&rdquo;. The other function we will need is a way of calculating what the gradients should be of the predictions (since these are what are varying and calculated) to kick off the backpropagation step. This function also takes the predictions and targets arrays, except that it will produce an Array of gradients, of the same shape as predictions:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_input_gradient</span>(
-    <span style="color:#f92672">&amp;</span>self,
-    prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
-    target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
-) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_input_gradient</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>self,
+</span></span><span style="display:flex;"><span>    prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>;</span></span></code></pre></div>
 <h3 id="meansquarederror">MeanSquaredError<a hidden class="anchor" aria-hidden="true" href="#meansquarederror">#</a></h3>
 <p>This is an implementation of a loss function, and is one of the most commonly used ones, the average squared error. This is popular also because it&rsquo;s easy to calculate the gradient for as we&rsquo;ll see soon. Like the customisation points for Operation and Layer, this type doesn&rsquo;t need to store any state, so is defined as a simple unit struct:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MeanSquaredError</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MeanSquaredError</span>;</span></span></code></pre></div>
 <p>Next we will need to implement the LossImpl trait for it so we can use it as a trait object. We need to place some generic bounds on this though for T, so I&rsquo;ll show the impl block first, and then explain why we need the bounds:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">LinalgScalar</span> <span style="color:#f92672">+</span> From<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> ScalarOperand<span style="color:#f92672">&gt;</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> MeanSquaredError {
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">LinalgScalar</span> <span style="color:#f92672">+</span> From<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> ScalarOperand<span style="color:#f92672">&gt;</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> MeanSquaredError {
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <ol>
 <li><strong>LinalgScalar</strong> - This trait is required for the same reason as we needed it in our Operation implementations. It allows for us to use arithmetic operations on Array&rsquo;s of this type, which will be required to calculate the mean squared error.</li>
 <li><strong>From<!-- raw HTML omitted --></strong> - We need to be able to convert from numbers into our type T at a couple of points. One is when calculating the gradient, we need to be able to multiply the error by <strong>2</strong>. However most types implement multiplication with both operands as the same type, therefore we need to be able to convert the integer 2 into an instance of type T. Additionally, we want to divide by the number of entries, which again should be an instance of type T. The downside here is that array.nrows() will give a usize, but we use From<!-- raw HTML omitted --> instead because floating point types implement it not conversion from usize. The program will crash if there are more than u32 observations in the data.</li>
@@ -260,60 +260,60 @@
 </ol>
 <p>With that out of the way, we can implement the two functions!</p>
 <p>First up is the calculate_output function. In the case of the mean squared error, this is just finding the difference between prediction and target arrays, then squaring that difference (we can use the elementwise multiplication operator * on the error array). Then we take the squared error Array and find its sum. Finally we divide by the number of rows. The code is fine to follow so I&rsquo;ll just post it here:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_output</span>(<span style="color:#f92672">&amp;</span>self, prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span> {
-    <span style="color:#66d9ef">let</span> error <span style="color:#f92672">=</span> prediction <span style="color:#f92672">-</span> target;
-    <span style="color:#66d9ef">let</span> squared_error <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>error <span style="color:#f92672">*</span> <span style="color:#f92672">&amp;</span>error;
-    <span style="color:#66d9ef">let</span> squared_error_sum <span style="color:#f92672">=</span> squared_error.sum();
-    squared_error_sum <span style="color:#f92672">/</span> (prediction.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>).into()
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_output</span>(<span style="color:#f92672">&amp;</span>self, prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> error <span style="color:#f92672">=</span> prediction <span style="color:#f92672">-</span> target;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> squared_error <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>error <span style="color:#f92672">*</span> <span style="color:#f92672">&amp;</span>error;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> squared_error_sum <span style="color:#f92672">=</span> squared_error.sum();
+</span></span><span style="display:flex;"><span>    squared_error_sum <span style="color:#f92672">/</span> (prediction.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>).into()
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>As mentioned above, in the last line you can see that in order to divide by the number of rows (count), we need to turn that number into an instance of type T. We can do this because we put the trait bound From<!-- raw HTML omitted --> which allows us to use the &ldquo;into&rdquo; function on a u32 to get an instance of T to divide by.</p>
 <p>The second function is also kind of simple. The formula for calculating the gradient is <strong>2 * (prediction - target) / count</strong>. There&rsquo;s another instance of converting the count into an instance of type T, however because we&rsquo;re also multiplying by 2, we need to get an instance of type T that represents the number &ldquo;2&rdquo;:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_input_gradient</span>(
-    <span style="color:#f92672">&amp;</span>self,
-    prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
-    target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
-) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">let</span> two_of: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.</span>into();
-    <span style="color:#66d9ef">let</span> error <span style="color:#f92672">=</span> prediction <span style="color:#f92672">-</span> target;
-    <span style="color:#66d9ef">let</span> count: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> (prediction.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>).into();
-    <span style="color:#66d9ef">let</span> average_error <span style="color:#f92672">=</span> error <span style="color:#f92672">/</span> count;
-    average_error <span style="color:#f92672">*</span> two_of
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_input_gradient</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>self,
+</span></span><span style="display:flex;"><span>    prediction: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    target: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> two_of: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.</span>into();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> error <span style="color:#f92672">=</span> prediction <span style="color:#f92672">-</span> target;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> count: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> (prediction.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>).into();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> average_error <span style="color:#f92672">=</span> error <span style="color:#f92672">/</span> count;
+</span></span><span style="display:flex;"><span>    average_error <span style="color:#f92672">*</span> two_of
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h3 id="loss">Loss<a hidden class="anchor" aria-hidden="true" href="#loss">#</a></h3>
 <p>For the actual Loss type, we would like to allow customization via specifying a LossImpl trait object as a &ldquo;vtable&rdquo; as previously described. Additionally, on the forward pass we will need to cache the predictions and targets in order to calculate the gradient with the last used pair on the backward pass. As with Operation and Layer, these are initially None and then on the first forward pass will be set to Some. Therefore they are of type Option. As our LossImpl trait object is a reference that can be on the stack, we will require a lifetime annotation (&lsquo;a in the code). The full definition then looks as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Loss</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span>, T<span style="color:#f92672">&gt;</span> {
-    implementation: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>,
-    prediction: Option<span style="color:#f92672">&lt;</span>Array<span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;&gt;</span>,
-    target: Option<span style="color:#f92672">&lt;</span>Array<span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;&gt;</span>,
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Loss</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span>, T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    implementation: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    prediction: Option<span style="color:#f92672">&lt;</span>Array<span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    target: Option<span style="color:#f92672">&lt;</span>Array<span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>The first function we will need is a way to construct a new instance. We will do this with the idiomatic &ldquo;new&rdquo; function. The only thing we are required to provide when constructing one is the LossImpl trait object as the other two fields will be initialized to None like so:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(implementation: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Self</span> {
-    Self {
-        implementation,
-        prediction: None,
-        target: None,
-    }
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(implementation: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+</span></span><span style="display:flex;"><span>    Self {
+</span></span><span style="display:flex;"><span>        implementation,
+</span></span><span style="display:flex;"><span>        prediction: None,
+</span></span><span style="display:flex;"><span>        target: None,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>The second function we need is a function to call on the forward pass to calculate the total loss value. For this we will pass it the predictions and targets arrays, which are required to be the same size. We delegate the actual output calculation to the LossImpl provided. We will also stash the provided predictions and targets for use in the backward pass. The full function is fairly simple so I&rsquo;ll list it here:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">forward</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, prediction: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span> {
-    assert_eq!(prediction.raw_dim(), target.raw_dim());
-    <span style="color:#66d9ef">let</span> loss_value <span style="color:#f92672">=</span> self.implementation.calculate_output(<span style="color:#f92672">&amp;</span>prediction, <span style="color:#f92672">&amp;</span>target);
-    self.prediction <span style="color:#f92672">=</span> Some(prediction);
-    self.target <span style="color:#f92672">=</span> Some(target);
-    loss_value
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">forward</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, prediction: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>, target: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">T</span> {
+</span></span><span style="display:flex;"><span>    assert_eq!(prediction.raw_dim(), target.raw_dim());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> loss_value <span style="color:#f92672">=</span> self.implementation.calculate_output(<span style="color:#f92672">&amp;</span>prediction, <span style="color:#f92672">&amp;</span>target);
+</span></span><span style="display:flex;"><span>    self.prediction <span style="color:#f92672">=</span> Some(prediction);
+</span></span><span style="display:flex;"><span>    self.target <span style="color:#f92672">=</span> Some(target);
+</span></span><span style="display:flex;"><span>    loss_value
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>The final method we need is to perform the backwards pass. This is also simple and just passes the previously stashed predictions and targets from the forward pass into the input gradient calculation function of LossImpl. We can use the standard &ldquo;as_ref().unwrap()&rdquo; pattern on Option<!-- raw HTML omitted --> to get a &amp;T from it. After we get the input gradient back from the implementation, we need to check that the shape matches that of the predictions since we&rsquo;ll be starting the backpropagation with it. The function implementation is then as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">backward</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">let</span> input_gradient <span style="color:#f92672">=</span> self.implementation.calculate_input_gradient(
-        self.prediction.as_ref().unwrap(),
-        self.target.as_ref().unwrap(),
-    );
-    assert_eq!(
-        self.prediction.as_ref().unwrap().raw_dim(),
-        input_gradient.raw_dim()
-    );
-    input_gradient
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">backward</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> input_gradient <span style="color:#f92672">=</span> self.implementation.calculate_input_gradient(
+</span></span><span style="display:flex;"><span>        self.prediction.as_ref().unwrap(),
+</span></span><span style="display:flex;"><span>        self.target.as_ref().unwrap(),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    assert_eq!(
+</span></span><span style="display:flex;"><span>        self.prediction.as_ref().unwrap().raw_dim(),
+</span></span><span style="display:flex;"><span>        input_gradient.raw_dim()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    input_gradient
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 
 
   </div>
@@ -390,6 +390,53 @@
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

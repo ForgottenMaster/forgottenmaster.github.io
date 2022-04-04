@@ -7,13 +7,12 @@
 <meta name="robots" content="index, follow">
 <title>Basic Usage | Robin Firth</title>
 <meta name="keywords" content="" />
-<meta name="description" content="Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
-In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
-Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.">
+<meta name="description" content="This post will delve into the usage of the Git CLI from a user&rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.
+Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.">
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/git/basic_usage/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -22,7 +21,7 @@ Initialising a new repository This is how we can create a brand new Git reposito
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -61,9 +60,8 @@ Initialising a new repository This is how we can create a brand new Git reposito
     </style>
 </noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Basic Usage" />
-<meta property="og:description" content="Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
-In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
-Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already." />
+<meta property="og:description" content="This post will delve into the usage of the Git CLI from a user&rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.
+Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/git/basic_usage/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-11-06T18:36:42&#43;00:00" />
@@ -71,9 +69,8 @@ Initialising a new repository This is how we can create a brand new Git reposito
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Basic Usage"/>
-<meta name="twitter:description" content="Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.
-In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.
-Initialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already."/>
+<meta name="twitter:description" content="This post will delve into the usage of the Git CLI from a user&rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.
+Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository."/>
 
 
 <script type="application/ld+json">
@@ -108,12 +105,12 @@ Initialising a new repository This is how we can create a brand new Git reposito
   "@type": "BlogPosting",
   "headline": "Basic Usage",
   "name": "Basic Usage",
-  "description": "Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.\nIn Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.\nInitialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.",
+  "description": "This post will delve into the usage of the Git CLI from a user\u0026rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.\nCreating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.",
   "keywords": [
     
   ],
-  "articleBody": "Creating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.\nIn Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.\nInitialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.\nIn order to initialise a new repository we simply use the init subcommand while inside the root folder we want to turn into a repository. For example if we want to make a brand new one.\nmkdir repo\rcd repo\rgit init\rOf course, the repo folder need not be empty, and the steps would be the same to initialise an existing folder as a repository.\nCloning an existing repository Git is also able to easily make a clone of an existing repository which will copy all of the objects and history across with it, but allows branching and commits to this new repository independant of the source one.\nIn open source development, this is the most common way, as a developer will make a clone of the central repository in order to make their own fixes that they can then request to be merged back into the central/online repository.\nIn order to clone a repository we can do\ngit clone  repo\rWhere path-to-repository can either be a relative or absolute path to another local repository on the machine or something more exotic such as a URL.\nThe most popular way to clone is using the GitHub URL to the repository.\nAdding and removing files In order to add and remove files to the repository, one can use the add and rm subcommands, along with a set of files to add or remove.\nWhen a file is added or removed however, it is not immediately added to the repository, or removed from the repository but only staged as a change to make to the repository.\nIn order to add a file that is either currently untracked by the repository, or has been edited and needs updating in the repository, we can do the following\ngit add file_to_add.txt\rAnd we can remove a file that is currently tracked by the repository also\ngit rm file_to_remove.txt\rThis will add or remove the file from the staged change as mentioned previously\nViewing staged changes We can use the subcommand status to display the list of files that have been staged to be added or modified, the list of files staged for removal, and the list of files that Git has found in the folder that aren’t tracked yet.\nThis last type is the state that a file will be in when you first create it and add it to the folder (or a subfolder), but before it’s been staged for addition with the add subcommand.\nFor example, after the following sequence of commands where we add a file, and then remove a file:\ngit add file_to_add.txt\rgit rm file_to_remove.txt\rWe will see the following when we ask for the status:\ngit status\rOn branch master\rChanges to be committed:\r(use \"git restore --staged ...\" to unstage)\rnew file: file_to_add.txt\rdeleted: file_to_remove.txt\rUntracked files:\r(use \"git add ...\" to include in what will be committed)\runtracked_file.txt\rCommitting staged changes Once we’ve added and removed files to the stage, and we are ready for the repository to be updated to reflect the changes, we will need to perform a commit operation.\nWhen we commit to the repository, we are required to give a message identifying the changes that were made.\nWe can either do this by specifying it on the command line to the commit subcommand as follows:\ngit commit -m \"Committing some changes\"\rOr, for more detailed messages, they can be composed in a text editor. To do this, just use the commit command without specifying the message:\ngit commit\rWhich will then open the default text editor where you can type a more detailed message, save, and exit - the commit will then be applied.\nOnce staged changes are committed, using the status subcommand again will show that the stage is upto date with the repository, this state is referred to as clean.\nConfiguration The subcommand config can be used to specify various parameters affecting the operation of Git. Before you can make a commit, Git needs to know your name and email address as a minimum.\nThese can be set as such:\ngit config user.name \"Name Here\"\rgit config user.email \"myemailaddress@example.com\"\rViewing commits The log subcommand will allow us to see the history of commits done to the repository. They will be displayed from most recent to the oldest, since Git always keeps the head of the commit chain and accesses the others from there.\nEach entry will show the commit hash, along with the author name/email, the date of the commit, and the message.\nFor example after doing two commits to a repository, we may see something like the following on the command line:\ngit log\rcommit 2f988a4223baa3d8bd1db16f8cc777181eb390cd (HEAD - master)\rAuthor: Robin Firth \rDate: Sat Nov 6 19:34:57 2021 +0000\rChanged the text from \"Some text\" to \"Changed text\"\rcommit 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a\rAuthor: Robin Firth \rDate: Sat Nov 6 19:33:55 2021 +0000\rInitial commit\rAn individual commit can be viewed with the show subcommand. This is useful if you are given a commit hash in conversation with someone and you want to see what was changed in that commit.\nFor example, to see the initial commit above we can use show and see the following:\ngit show 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a\rcommit 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a\rAuthor: Robin Firth \rDate: Sat Nov 6 19:33:55 2021 +0000\rInitial commit\rdiff --git a/file_to_add.txt b/file_to_add.txt\rnew file mode 100644\rindex 0000000..9dbfeee\r--- /dev/null\r+++ b/file_to_add.txt\r@@ -0,0 +1 @@\r+Some text\r\\ No newline at end of file\rThis shows the same information as in the log, however also shows the file differences that were part of that commit.\nDiffing commits If you have any 2 commit hashes, you can easily determine the diff that is applied to the first commit, in order to reach the second commit.\nFor example, in order to see the diff that was applied between the initial commit, and the second commit above, we will use the command and see something like:\ngit diff 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a 2f988a4223baa3d8bd1db16f8cc777181eb390cd\rdiff --git a/file_to_add.txt b/file_to_add.txt\rindex 9dbfeee..41c4a21 100644\r--- a/file_to_add.txt\r+++ b/file_to_add.txt\r@@ -1 +1 @@\r-Some text\r\\ No newline at end of file\r+Changed text\r\\ No newline at end of file\rAnd we can see fromm the diff that “Some text” was removed, and “Changed text” was added in its place.\nRenaming files We could achieve the same result as a rename by removing the file, renaming it, and adding it back again, however there is a Git command for renaming or moving a file. For example if we want to rename file_to_add.txt to renamed_file.txt, we can do so as follows:\ngit mv file_to_add.txt renamed_file.txt\rA move can be achieved by keeping the destination filename the same, but specifying the folder that it should be placed under.\nAfter the above rename, running git status shows:\nOn branch master\rChanges to be committed:\r(use \"git restore --staged ...\" to unstage)\rrenamed: file_to_add.txt - renamed_file.txt\rAdvanced configuration There are actually 3 levels of configuration for the Git config subcommand\n Repository-specific. These are the default level if you use the config subcommand without specifying one of the others. These will take precedence if set and override any system or user level configuration settings. User-specific. These are next lowest in the hierarchy and if not overridden will be applied for all repositories for that user only. These are set by using the –global option. System-wide. These are the lowest priority and if not overridden will apply to all repositories, of all users on that system. This is specified with the –system option.  Example: setting name For an example, we’ll show setting the user.name configuration setting we showed before, at the 3 levels of configuration.\n Repository-specific  git config user.name \"User Name For This Repo Only\"\rUser-specific  git config --global user.name \"User Name For All Repositories For This User\"\rSystem-wide  git config --system user.name \"User Name For Everybody\"\rViewing configuration settings We can view all the set configuration settings by passing the “-l” flag to the config subcommand. Which will display something like the following:\ngit config -l\rdiff.astextplain.textconv=astextplain\rfilter.lfs.clean=git-lfs clean -- %f\rfilter.lfs.smudge=git-lfs smudge -- %f\rfilter.lfs.process=git-lfs filter-process\rfilter.lfs.required=true\rhttp.sslbackend=openssl\rhttp.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt\rcore.autocrlf=true\rcore.fscache=true\rcore.symlinks=false\rcore.editor=\"C:\\\\Program Files\\\\Microsoft VS Code\\\\bin\\\\code.cmd\" --wait\rpull.rebase=false\rcredential.helper=manager-core\rcredential.https://dev.azure.com.usehttppath=true\rinit.defaultbranch=master\ruser.email=theforgottenmaster@googlemail.com\ruser.name=Robin Firth\rcore.repositoryformatversion=0\rcore.filemode=false\rcore.bare=false\rcore.logallrefupdates=true\rcore.symlinks=false\rcore.ignorecase=true\rUnsetting a configuration setting The –unset flag can be passed to unset a specific configuration setting at any of the three levels (by omitting, or including either –global or –system flags). For unsetting the user.name setting for example at all levels, we could do:\ngit config --unset user.name\rgit config --unset --global user.name\rgit config --unset --system user.name\rAliases You can set your own aliases for more complex commands in Git. This allows you to run complex commands with a shorter subcommand.\nFor example we can make an alias which will commit with a default message, and run it:\ngit config alias.default-commit -- \"commit -m 'Default commit message'\"\rgit default-commit\r",
-  "wordCount" : "1562",
+  "articleBody": "This post will delve into the usage of the Git CLI from a user’s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.\nCreating a repository There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.\nIn Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.\nInitialising a new repository This is how we can create a brand new Git repository which may either be empty, or contain data/files already.\nIn order to initialise a new repository we simply use the init subcommand while inside the root folder we want to turn into a repository. For example if we want to make a brand new one.\nmkdir repo cd repo git init Of course, the repo folder need not be empty, and the steps would be the same to initialise an existing folder as a repository.\nCloning an existing repository Git is also able to easily make a clone of an existing repository which will copy all of the objects and history across with it, but allows branching and commits to this new repository independant of the source one.\nIn open source development, this is the most common way, as a developer will make a clone of the central repository in order to make their own fixes that they can then request to be merged back into the central/online repository.\nIn order to clone a repository we can do\ngit clone  repo Where path-to-repository can either be a relative or absolute path to another local repository on the machine or something more exotic such as a URL.\nThe most popular way to clone is using the GitHub URL to the repository.\nAdding and removing files In order to add and remove files to the repository, one can use the add and rm subcommands, along with a set of files to add or remove.\nWhen a file is added or removed however, it is not immediately added to the repository, or removed from the repository but only staged as a change to make to the repository.\nIn order to add a file that is either currently untracked by the repository, or has been edited and needs updating in the repository, we can do the following\ngit add file_to_add.txt And we can remove a file that is currently tracked by the repository also\ngit rm file_to_remove.txt This will add or remove the file from the staged change as mentioned previously\nViewing staged changes We can use the subcommand status to display the list of files that have been staged to be added or modified, the list of files staged for removal, and the list of files that Git has found in the folder that aren’t tracked yet.\nThis last type is the state that a file will be in when you first create it and add it to the folder (or a subfolder), but before it’s been staged for addition with the add subcommand.\nFor example, after the following sequence of commands where we add a file, and then remove a file:\ngit add file_to_add.txt git rm file_to_remove.txt We will see the following when we ask for the status:\ngit status On branch master Changes to be committed: (use \"git restore --staged ...\" to unstage) new file: file_to_add.txt deleted: file_to_remove.txt Untracked files: (use \"git add ...\" to include in what will be committed) untracked_file.txt Committing staged changes Once we’ve added and removed files to the stage, and we are ready for the repository to be updated to reflect the changes, we will need to perform a commit operation.\nWhen we commit to the repository, we are required to give a message identifying the changes that were made.\nWe can either do this by specifying it on the command line to the commit subcommand as follows:\ngit commit -m \"Committing some changes\" Or, for more detailed messages, they can be composed in a text editor. To do this, just use the commit command without specifying the message:\ngit commit Which will then open the default text editor where you can type a more detailed message, save, and exit - the commit will then be applied.\nOnce staged changes are committed, using the status subcommand again will show that the stage is upto date with the repository, this state is referred to as clean.\nConfiguration The subcommand config can be used to specify various parameters affecting the operation of Git. Before you can make a commit, Git needs to know your name and email address as a minimum.\nThese can be set as such:\ngit config user.name \"Name Here\" git config user.email \"myemailaddress@example.com\" Viewing commits The log subcommand will allow us to see the history of commits done to the repository. They will be displayed from most recent to the oldest, since Git always keeps the head of the commit chain and accesses the others from there.\nEach entry will show the commit hash, along with the author name/email, the date of the commit, and the message.\nFor example after doing two commits to a repository, we may see something like the following on the command line:\ngit log commit 2f988a4223baa3d8bd1db16f8cc777181eb390cd (HEAD - master) Author: Robin Firth  Date: Sat Nov 6 19:34:57 2021 +0000 Changed the text from \"Some text\" to \"Changed text\" commit 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a Author: Robin Firth  Date: Sat Nov 6 19:33:55 2021 +0000 Initial commit An individual commit can be viewed with the show subcommand. This is useful if you are given a commit hash in conversation with someone and you want to see what was changed in that commit.\nFor example, to see the initial commit above we can use show and see the following:\ngit show 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a commit 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a Author: Robin Firth  Date: Sat Nov 6 19:33:55 2021 +0000 Initial commit diff --git a/file_to_add.txt b/file_to_add.txt new file mode 100644 index 0000000..9dbfeee --- /dev/null +++ b/file_to_add.txt @@ -0,0 +1 @@ +Some text \\ No newline at end of file This shows the same information as in the log, however also shows the file differences that were part of that commit.\nDiffing commits If you have any 2 commit hashes, you can easily determine the diff that is applied to the first commit, in order to reach the second commit.\nFor example, in order to see the diff that was applied between the initial commit, and the second commit above, we will use the command and see something like:\ngit diff 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a 2f988a4223baa3d8bd1db16f8cc777181eb390cd diff --git a/file_to_add.txt b/file_to_add.txt index 9dbfeee..41c4a21 100644 --- a/file_to_add.txt +++ b/file_to_add.txt @@ -1 +1 @@ -Some text \\ No newline at end of file +Changed text \\ No newline at end of file And we can see fromm the diff that “Some text” was removed, and “Changed text” was added in its place.\nRenaming files We could achieve the same result as a rename by removing the file, renaming it, and adding it back again, however there is a Git command for renaming or moving a file. For example if we want to rename file_to_add.txt to renamed_file.txt, we can do so as follows:\ngit mv file_to_add.txt renamed_file.txt A move can be achieved by keeping the destination filename the same, but specifying the folder that it should be placed under.\nAfter the above rename, running git status shows:\nOn branch master Changes to be committed: (use \"git restore --staged ...\" to unstage) renamed: file_to_add.txt - renamed_file.txt Advanced configuration There are actually 3 levels of configuration for the Git config subcommand\n Repository-specific. These are the default level if you use the config subcommand without specifying one of the others. These will take precedence if set and override any system or user level configuration settings. User-specific. These are next lowest in the hierarchy and if not overridden will be applied for all repositories for that user only. These are set by using the –global option. System-wide. These are the lowest priority and if not overridden will apply to all repositories, of all users on that system. This is specified with the –system option.  Example: setting name For an example, we’ll show setting the user.name configuration setting we showed before, at the 3 levels of configuration.\n Repository-specific  git config user.name \"User Name For This Repo Only\" User-specific  git config --global user.name \"User Name For All Repositories For This User\" System-wide  git config --system user.name \"User Name For Everybody\" Viewing configuration settings We can view all the set configuration settings by passing the “-l” flag to the config subcommand. Which will display something like the following:\ngit config -l diff.astextplain.textconv=astextplain filter.lfs.clean=git-lfs clean -- %f filter.lfs.smudge=git-lfs smudge -- %f filter.lfs.process=git-lfs filter-process filter.lfs.required=true http.sslbackend=openssl http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt core.autocrlf=true core.fscache=true core.symlinks=false core.editor=\"C:\\\\Program Files\\\\Microsoft VS Code\\\\bin\\\\code.cmd\" --wait pull.rebase=false credential.helper=manager-core credential.https://dev.azure.com.usehttppath=true init.defaultbranch=master user.email=theforgottenmaster@googlemail.com user.name=Robin Firth core.repositoryformatversion=0 core.filemode=false core.bare=false core.logallrefupdates=true core.symlinks=false core.ignorecase=true Unsetting a configuration setting The –unset flag can be passed to unset a specific configuration setting at any of the three levels (by omitting, or including either –global or –system flags). For unsetting the user.name setting for example at all levels, we could do:\ngit config --unset user.name git config --unset --global user.name git config --unset --system user.name Aliases You can set your own aliases for more complex commands in Git. This allows you to run complex commands with a shorter subcommand.\nFor example we can make an alias which will commit with a default message, and run it:\ngit config alias.default-commit -- \"commit -m 'Default commit message'\" git default-commit ",
+  "wordCount" : "1604",
   "inLanguage": "en",
   "datePublished": "2021-11-06T18:36:42Z",
   "dateModified": "2021-11-06T18:36:42Z",
@@ -199,7 +196,7 @@ Initialising a new repository This is how we can create a brand new Git reposito
     <h1 class="post-title">
       Basic Usage
     </h1>
-    <div class="post-meta"><span title='2021-11-06 18:36:42 +0000 UTC'>November 6, 2021</span>
+    <div class="post-meta"><span title='2021-11-06 18:36:42 +0000 UTC'>November 6, 2021</span>&nbsp;·&nbsp;8 min
 
 </div>
   </header> <div class="toc">
@@ -249,7 +246,8 @@ Initialising a new repository This is how we can create a brand new Git reposito
     </details>
 </div>
 
-  <div class="post-content"><h3 id="creating-a-repository">Creating a repository<a hidden class="anchor" aria-hidden="true" href="#creating-a-repository">#</a></h3>
+  <div class="post-content"><p>This post will delve into the usage of the Git CLI from a user&rsquo;s perspective. It will cover basic usage such as cloning, pulling, pushing, and will touch on how the commands interact with the index and object store of the repository.</p>
+<h3 id="creating-a-repository">Creating a repository<a hidden class="anchor" aria-hidden="true" href="#creating-a-repository">#</a></h3>
 <p>There are two different ways to establish a repository in Git in contrast to other version control systems where there is only creating the initial repository.</p>
 <p>In Git we are also able to clone a repository to create copy containing all of the objects and history from an existing repository.</p>
 <h4 id="initialising-a-new-repository">Initialising a new repository<a hidden class="anchor" aria-hidden="true" href="#initialising-a-new-repository">#</a></h4>
@@ -284,18 +282,18 @@ git rm file_to_remove.txt
 <pre tabindex="0"><code>git status
 On branch master
 Changes to be committed:
-  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+  (use &#34;git restore --staged &lt;file&gt;...&#34; to unstage)
         new file:   file_to_add.txt
         deleted:    file_to_remove.txt
 
 Untracked files:
-  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+  (use &#34;git add &lt;file&gt;...&#34; to include in what will be committed)
         untracked_file.txt
 </code></pre><h3 id="committing-staged-changes">Committing staged changes<a hidden class="anchor" aria-hidden="true" href="#committing-staged-changes">#</a></h3>
 <p>Once we&rsquo;ve added and removed files to the stage, and we are ready for the repository to be updated to reflect the changes, we will need to perform a <em>commit</em> operation.</p>
 <p>When we commit to the repository, we are required to give a message identifying the changes that were made.</p>
 <p>We can either do this by specifying it on the command line to the commit subcommand as follows:</p>
-<pre tabindex="0"><code>git commit -m &quot;Committing some changes&quot;
+<pre tabindex="0"><code>git commit -m &#34;Committing some changes&#34;
 </code></pre><p>Or, for more detailed messages, they can be composed in a text editor. To do this, just use the commit command without specifying the message:</p>
 <pre tabindex="0"><code>git commit
 </code></pre><p>Which will then open the default text editor where you can type a more detailed message, save, and exit - the commit will then be applied.</p>
@@ -303,8 +301,8 @@ Untracked files:
 <h3 id="configuration">Configuration<a hidden class="anchor" aria-hidden="true" href="#configuration">#</a></h3>
 <p>The subcommand <em>config</em> can be used to specify various parameters affecting the operation of Git. Before you can make a commit, Git needs to know your name and email address as a minimum.</p>
 <p>These can be set as such:</p>
-<pre tabindex="0"><code>git config user.name &quot;Name Here&quot;
-git config user.email &quot;myemailaddress@example.com&quot;
+<pre tabindex="0"><code>git config user.name &#34;Name Here&#34;
+git config user.email &#34;myemailaddress@example.com&#34;
 </code></pre><h3 id="viewing-commits">Viewing commits<a hidden class="anchor" aria-hidden="true" href="#viewing-commits">#</a></h3>
 <p>The <em>log</em> subcommand will allow us to see the history of commits done to the repository. They will be displayed from most recent to the oldest, since Git always keeps the head of the commit chain and accesses the others from there.</p>
 <p>Each entry will show the commit hash, along with the author name/email, the date of the commit, and the message.</p>
@@ -314,7 +312,7 @@ commit 2f988a4223baa3d8bd1db16f8cc777181eb390cd (HEAD -&gt; master)
 Author: Robin Firth &lt;theforgottenmaster@googlemail.com&gt;
 Date:   Sat Nov 6 19:34:57 2021 +0000
 
-    Changed the text from &quot;Some text&quot; to &quot;Changed text&quot;
+    Changed the text from &#34;Some text&#34; to &#34;Changed text&#34;
 
 commit 18dd164cf53fdb05bb757d3e0b452c4bfcf0b38a
 Author: Robin Firth &lt;theforgottenmaster@googlemail.com&gt;
@@ -360,7 +358,7 @@ index 9dbfeee..41c4a21 100644
 <p>After the above rename, running git status shows:</p>
 <pre tabindex="0"><code>On branch master
 Changes to be committed:
-  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+  (use &#34;git restore --staged &lt;file&gt;...&#34; to unstage)
         renamed:    file_to_add.txt -&gt; renamed_file.txt
 </code></pre><h3 id="advanced-configuration">Advanced configuration<a hidden class="anchor" aria-hidden="true" href="#advanced-configuration">#</a></h3>
 <p>There are actually 3 levels of configuration for the Git config subcommand</p>
@@ -374,15 +372,15 @@ Changes to be committed:
 <ol>
 <li>Repository-specific</li>
 </ol>
-<pre tabindex="0"><code>git config user.name &quot;User Name For This Repo Only&quot;
+<pre tabindex="0"><code>git config user.name &#34;User Name For This Repo Only&#34;
 </code></pre><ol start="2">
 <li>User-specific</li>
 </ol>
-<pre tabindex="0"><code>git config --global user.name &quot;User Name For All Repositories For This User&quot;
+<pre tabindex="0"><code>git config --global user.name &#34;User Name For All Repositories For This User&#34;
 </code></pre><ol start="3">
 <li>System-wide</li>
 </ol>
-<pre tabindex="0"><code>git config --system user.name &quot;User Name For Everybody&quot;
+<pre tabindex="0"><code>git config --system user.name &#34;User Name For Everybody&#34;
 </code></pre><h4 id="viewing-configuration-settings">Viewing configuration settings<a hidden class="anchor" aria-hidden="true" href="#viewing-configuration-settings">#</a></h4>
 <p>We can view all the set configuration settings by passing the &ldquo;-l&rdquo; flag to the config subcommand. Which will display something like the following:</p>
 <pre tabindex="0"><code>git config -l
@@ -396,7 +394,7 @@ http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
 core.autocrlf=true
 core.fscache=true
 core.symlinks=false
-core.editor=&quot;C:\\Program Files\\Microsoft VS Code\\bin\\code.cmd&quot; --wait
+core.editor=&#34;C:\\Program Files\\Microsoft VS Code\\bin\\code.cmd&#34; --wait
 pull.rebase=false
 credential.helper=manager-core
 credential.https://dev.azure.com.usehttppath=true
@@ -417,7 +415,7 @@ git config --unset --system user.name
 </code></pre><h3 id="aliases">Aliases<a hidden class="anchor" aria-hidden="true" href="#aliases">#</a></h3>
 <p>You can set your own aliases for more complex commands in Git. This allows you to run complex commands with a shorter subcommand.</p>
 <p>For example we can make an alias which will commit with a default message, and run it:</p>
-<pre tabindex="0"><code>git config alias.default-commit -- &quot;commit -m 'Default commit message'&quot;
+<pre tabindex="0"><code>git config alias.default-commit -- &#34;commit -m &#39;Default commit message&#39;&#34;
 git default-commit
 </code></pre>
 
@@ -495,6 +493,53 @@ git default-commit
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

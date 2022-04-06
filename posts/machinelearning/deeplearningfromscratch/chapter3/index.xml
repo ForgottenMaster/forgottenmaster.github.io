@@ -6,7 +6,26 @@
     <description>Recent content in Chapter 3 - Deep Learning on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 26 Mar 2022 00:57:01 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Apr 2022 22:45:21 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.7 - Network Cloning</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</link>
+      <pubDate>Tue, 05 Apr 2022 22:45:22 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</guid>
+      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
+    </item>
+    
+    <item>
+      <title>3.6 - Optimiser</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/</link>
+      <pubDate>Tue, 05 Apr 2022 22:45:21 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/</guid>
+      <description>Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
+The Trait An Optimiser has a single job in the network training process.</description>
+    </item>
+    
     <item>
       <title>3.5 - The Network Type</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</link>

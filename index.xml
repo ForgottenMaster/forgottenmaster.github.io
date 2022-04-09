@@ -6,7 +6,16 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 05 Apr 2022 22:45:22 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Apr 2022 16:46:42 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.8 - Training</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/</link>
+      <pubDate>Sat, 09 Apr 2022 16:46:42 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/</guid>
+      <description>The last part to the puzzle, the last thing we need to do is to be able to encapsulate the algorithm for training a given network. In the book, this is represented as the &amp;ldquo;Trainer&amp;rdquo; type which binds together a network with an Optimiser instance. However there is only one implementation for this training process, and customisation is instead via the various trait objects in the Network setup, along with the selected Optimiser.</description>
+    </item>
+    
     <item>
       <title>3.7 - Network Cloning</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</link>

@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 09 Apr 2022 16:46:42 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Apr 2022 18:47:56 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.9 - Examples</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/</link>
+      <pubDate>Mon, 18 Apr 2022 18:47:56 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/</guid>
+      <description>Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
+Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective.</description>
+    </item>
+    
     <item>
       <title>3.8 - Training</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/</link>

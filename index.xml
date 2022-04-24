@@ -6,7 +6,19 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 18 Apr 2022 18:47:56 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Apr 2022 00:37:11 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World</title>
+      <link>https://forgottenmaster.github.io/posts/arduino/helloworld/</link>
+      <pubDate>Sun, 24 Apr 2022 00:37:11 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/arduino/helloworld/</guid>
+      <description>This is the first in hopefully a long series of posts in Arduino development as I learn about embedded development, microcontrollers, and electrical engineering.
+The hardware The target hardware for the experimentation will be this very Arduino Uno
+And, a quick look at the back will tell us that this is the R3 model
+However I believe any Arduino Uno model, as well as a few other Arduinos will work with the methods and APIs we&amp;rsquo;re using</description>
+    </item>
+    
     <item>
       <title>3.9 - Examples</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/</link>

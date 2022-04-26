@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 24 Apr 2022 00:37:11 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Apr 2022 23:54:29 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.1 - Overview</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</link>
+      <pubDate>Tue, 26 Apr 2022 23:54:29 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</guid>
+      <description>Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
+High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records.</description>
+    </item>
+    
     <item>
       <title>Hello World</title>
       <link>https://forgottenmaster.github.io/posts/arduino/helloworld/</link>

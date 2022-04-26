@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Deep Learning From Scratch | Robin Firth</title>
+<title>Chapter 4 - Extensions | Robin Firth</title>
 <meta name="keywords" content="" />
-<meta name="description" content="I will be going through the book &ldquo;Deep learning from scratch in Python&rdquo; in order to learn about neural networks and deep learning. However as I go through it, I will be converting the code samples into Rust and building up a Rust framework for deep learning.">
+<meta name="description" content="Now that we have a working library for creating feed forward neural networks, we can look at ways to better train them. This chapter will focus on several &ldquo;extensions&rdquo; that can be used to reduce the loss when training a neural network to produce more accurate results.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/" />
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.92.2" />
-<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,13 +57,13 @@
 
     </style>
 </noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Deep Learning From Scratch" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Chapter 4 - Extensions" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Deep Learning From Scratch"/>
+<meta name="twitter:title" content="Chapter 4 - Extensions"/>
 <meta name="twitter:description" content=""/>
 
 
@@ -89,6 +89,12 @@
       "position":  3 ,
       "name": "Deep Learning From Scratch",
       "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Chapter 4 - Extensions",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
     }
   ]
 }
@@ -154,60 +160,25 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a></div>
-  <h1>Deep Learning From Scratch</h1>
+<header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
+  <h1>Chapter 4 - Extensions</h1>
 </header>
-<div class="post-content"><p>I will be going through the book &ldquo;Deep learning from scratch in Python&rdquo; in order to learn about neural networks and deep learning. However as I go through it, I will be converting the code samples into Rust and building up a Rust framework for deep learning.</p>
+<div class="post-content"><p>Now that we have a working library for creating feed forward neural networks, we can look at ways to better train them. This chapter will focus on several &ldquo;extensions&rdquo; that can be used to reduce the loss when training a neural network to produce more accurate results.</p>
 
 
 </div>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Chapter 4 - Extensions
+    <h2>4.1 - Overview
     </h2>
   </header>
   <section class="entry-content">
-    <p>Now that we have a working library for creating feed forward neural networks, we can look at ways to better train them. This chapter will focus on several “extensions” that can be used to reduce the loss when training a neural network to produce more accurate results.</p>
+    <p>Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
+High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records....</p>
   </section>
-  <footer class="entry-footer"><span title='2022-04-26 23:54:29 +0100 BST'>April 26, 2022</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Chapter 4 - Extensions" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Chapter 3 - Deep Learning
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Chapter 3 progresses on from the theory of neural networks to implementation (in Rust).</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-04-09 16:46:42 +0100 BST'>April 9, 2022</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Chapter 3 - Deep Learning" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Chapter 2 - Fundamentals
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>The second chapter will focus on how the mathematical foundations can be applied to the domain of neural networks.</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-02-19 09:43:54 +0000 UTC'>February 19, 2022</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Chapter 2 - Fundamentals" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Chapter 1 - Foundations
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>The notes on chapter 1 will be focussed on the mathematical concepts and foundations required in deep learning and neural networks.</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-10-13 23:47:35 +0100 BST'>October 13, 2021</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Chapter 1 - Foundations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/"></a>
+  <footer class="entry-footer"><span title='2022-04-26 23:54:29 +0100 BST'>April 26, 2022</span>&nbsp;·&nbsp;3 min</footer>
+  <a class="entry-link" aria-label="post link to 4.1 - Overview" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/"></a>
 </article>
     </main>
     

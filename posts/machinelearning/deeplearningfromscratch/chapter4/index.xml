@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chapter 4 - Extensions on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/</link>
+    <description>Recent content in Chapter 4 - Extensions on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Tue, 26 Apr 2022 23:54:29 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.1 - Overview</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</link>
+      <pubDate>Tue, 26 Apr 2022 23:54:29 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</guid>
+      <description>Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
+High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records.</description>
+    </item>
+    
+  </channel>
+</rss>

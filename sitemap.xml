@@ -2,22 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</loc>
-    <lastmod>2022-04-26T23:54:29+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/</loc>
-    <lastmod>2022-04-26T23:54:29+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/</loc>
-    <lastmod>2022-04-26T23:54:29+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/machinelearning/</loc>
-    <lastmod>2022-04-26T23:54:29+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/</loc>
-    <lastmod>2022-04-26T23:54:29+01:00</lastmod>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</loc>
+    <lastmod>2022-05-02T19:33:53+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/</loc>
+    <lastmod>2022-05-02T19:33:53+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/</loc>
+    <lastmod>2022-05-02T19:33:52+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/</loc>
+    <lastmod>2022-05-02T19:33:52+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/</loc>
+    <lastmod>2022-05-02T19:33:52+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/</loc>
+    <lastmod>2022-05-02T19:33:52+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/</loc>
+    <lastmod>2022-05-02T19:33:52+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</loc>
     <lastmod>2022-04-26T23:54:29+01:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/arduino/</loc>

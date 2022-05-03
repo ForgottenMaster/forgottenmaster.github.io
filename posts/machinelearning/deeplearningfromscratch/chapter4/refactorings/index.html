@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>4.2 - Refactorings | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.
+Changing the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the &ldquo;mean squared error&rdquo; loss function.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.92.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="4.2 - Refactorings" />
+<meta property="og:description" content="There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.
+Changing the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the &ldquo;mean squared error&rdquo; loss function." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-02T19:33:52&#43;01:00" />
+<meta property="article:modified_time" content="2022-05-02T19:33:52&#43;01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="4.2 - Refactorings"/>
+<meta name="twitter:description" content="There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.
+Changing the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the &ldquo;mean squared error&rdquo; loss function."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Machine Learning",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Deep Learning From Scratch",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Chapter 4 - Extensions",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "4.2 - Refactorings",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "4.2 - Refactorings",
+  "name": "4.2 - Refactorings",
+  "description": "There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.\nChanging the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the \u0026ldquo;mean squared error\u0026rdquo; loss function.",
+  "keywords": [
+    
+  ],
+  "articleBody": "There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.\nChanging the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the “mean squared error” loss function.\nWe are planning to add more examples to demonstrate the various techniques as we learn how we can potentially optimise the training of a network.\nThere are a couple of things we want to change at this point.\nChanging the data set The previous data set we were using for training was a “real world” data set of credit scores mapped to a category of whether those scores are “good” or “bad”.\nThis works well, except that as we’re learning we’d ideally like to avoid such a large data set (that data set had around 20 features) that will also bring in questions of data preparation and scaling that we’re not prepared to answer yet.\nThe main issue being complexity, but also the fact that the individual features aren’t necessarily related scale-wise.\nWe’d ideally like a simpler data set, still complex enough to allow us to demonstrate the training accuracy, but not so complex as to risk not being able to find a good fit when training.\nIdeally we’d like a simple mathematical function. For this change, we will change all examples over to using a data set that is generated that has only 3 features and a target value.\nThe function we will be training to fit will be\n$$ f(x, y, z) = (x z) $$\nThat is, for a given observation, 3 floating point numbers will be generated within some decent range of values and the target output value is either a 0 or a 1.\nThe target will be a 1 only if the first number generated is strictly less than the second AND is strictly greater than the third.\nThe code for this can be found HERE, but will be posted here in case of link breakage\nuse { ndarray::{Array, Axis, Ix2}, rand::{ Rng, SeedableRng, rngs::StdRng } }; const TOTAL_OBSERVATIONS: usize = 100_000; const MIN_VALUE: f64 = -100_000.0; const MAX_VALUE: f64 = 100_000.0; /// Gets data for testing with the neural network examples. /// Data represents the following artiy-3 function we're trying to train /// f(v1, v2, v3) = (v1 v3) fn get_data( training_proportion: f64, seed: u64 ) - Data { // Generate the entire array of samples (including the column for the targets too). \tlet mut random = StdRng::seed_from_u64(seed); let all_data = Array::from_shape_vec((TOTAL_OBSERVATIONS, 4), (0..TOTAL_OBSERVATIONS).flat_map(|_| { let v1 = random.gen_range(MIN_VALUE..=MAX_VALUE); let v2 = random.gen_range(MIN_VALUE..=MAX_VALUE); let v3 = random.gen_range(MIN_VALUE..=MAX_VALUE); let result = ((v1  v2) \u0026\u0026 (v1  v3)) as u8 as f64; std::iter::once(v1).chain(std::iter::once(v2)).chain(std::iter::once(v3)).chain(std::iter::once(result)) }).collect::Vec_()).unwrap(); // Split off the targets from the input data. \tlet (input, targets) = all_data.view().split_at(Axis(1), 3); // determine the split point for the training/testing split. \tlet split_index = (input.nrows() as f64 * training_proportion) as usize; let (training_input, testing_input) = input.split_at(Axis(0), split_index); let (training_targets, testing_targets) = targets.split_at(Axis(0), split_index); // we have the data to return now. \tData { training_input: training_input.to_owned(), training_targets: training_targets.to_owned(), testing_input: testing_input.to_owned(), testing_targets: testing_targets.to_owned() } } struct Data { training_input: Arrayf64, Ix2, training_targets: Arrayf64, Ix2, testing_input: Arrayf64, Ix2, testing_targets: Arrayf64, Ix2 } Essentially it iterates for TOTAL_OBSERVATIONS iterations, generating 3 random floats for each iteration, between MIN_VALUE and MAX_VALUE.\nIt then calculates the result, which as mentioned will either be a 0 or a 1.\nThis occurs inside of a flat_map call so it’s expecting an iterator as a return value, so we use a series of “chain” calls to chain the 4 numbers together into an iterator.\nThe whole thing is collected into a Vec, which can then be turned into an Array for us to use.\nThe rest of the code is just slicing the array into training and testing, and separating the input data from the targets.\nChanging the example output The examples were previously printing out a message to show the final error/loss value after training for both of the data sets.\nThe problem here is that this loss value kind of doesn’t tell us what scale we’re using, and it’s certainly possible to have a high error/loss value but still have an accurate trained network (as is the case when we look at the softmax cross entropy loss function).\nWhat we actually care about is the percentage of predictions that the network makes that match the targets correctly.\nTherefore we’ll change the examples to output as follows\n// Accuracy let training_predictions = network .forward_loss(data.training_input, data.training_targets.clone()) .0; let training_correct_count = training_predictions .iter() .zip(data.training_targets.iter()) .filter(|(prediction, target)| { let prediction = if **prediction  0.5 { 0.0 } else { 1.0 }; prediction == **target }) .count(); let training_accuracy = (training_correct_count as f64 / data.training_targets.nrows() as f64) * 100.0; println!(\"Accuracy (training): {training_accuracy}%\"); let testing_predictions = network .forward_loss(data.testing_input, data.testing_targets.clone()) .0; let testing_correct_count = testing_predictions .iter() .zip(data.testing_targets.iter()) .filter(|(prediction, target)| { let prediction = if **prediction  0.5 { 0.0 } else { 1.0 }; prediction == **target }) .count(); let testing_accuracy = (testing_correct_count as f64 / data.testing_targets.nrows() as f64) * 100.0; println!(\"Accuracy (testing): {testing_accuracy}%\"); For both training and testing data sets, we run them through the trained network and take the predictions array.\nThen we zip the predictions array with the target array (we know they both only have a single column/feature) and if the prediction is less than 0.5 consider it 0, else it’s a 1 if above 0.5.\nThen we just compare with the target value and filter those that match.\nThe count() function will give us the count of matching predictions and to work out the percentage we can divide it by the total number of targets and multiply by 100 to get the percentage to print out.\nConclusion With those two changes to the data set used by the examples, we have a nice simple but predictable function that we know should be trainable, and we can therefore see how well the various training strategies work.\nTanh activation function When we’re training a neural network, the biggest factor in how successful we would be is how much we can use the gradient to update the weights on the neurons in the layers during the backpropagation pass.\nHowever, we firstly are only updating the weights based on a proportion of the gradient (the learning rate), and secondly are limited by the possible gradients of the activation function we chose.\nWith the sigmoid activation function, the maximum gradient we can have is 0.25, however with the tanh function we’ll implement, we are able to get gradients of 1.\nThese steeper gradients allow us to train the network much faster, as is evident by the following graph comparing the derivatives/gradients of the sigmoid function we were using with the tanh function we want to use:\nThe tanh function is a non-linear function like sigmoid except it maps to a range of -1 to 1, rather than to a range of 0 to 1.\nThe additional advantage is that we can map to negative numbers and not just positive values. This is important as discovered since negative weights on neurons allow some neurons to “inhibit” the output and can subtract from the result.\nWith positive weights only, we can only create additive weights which results in a more narrow range of output values.\nThe graph of tanh is as follows, for visualisation\nThe formulas The formula for tanh is actually pretty simple, it’s related to the sigmoid function from before (also known as the logistic function) by being a moved and scaled version.\nThe formula for tanh is just as follows\n$$ tanh(x) = \\frac {e^x - e^{-x}} {e^x + e^{-x}} $$\nAs with the sigmoid function, the tanh function also has a very nice and easy derivative calculation, defined in terms of itself\n$$ tanh'(x) = 1 - tanh(x)^2 $$\nThe code Now we need to code this up to be able to use it in a network as an activation function. As with all of our other operations in the library, it is just an empty struct which will behave as a vtable for our function calls.\n#[derive(Clone)] pub struct Tanh; Nextly we need to be able to construct a boxed version for use in a layer. We will follow the convention set out by the API and call this function “new_boxed” and it will look as follows\nimpl Tanh { pub fn new_boxed() - BoxSelf { Box::new(Self) } } Finally we will need to implement the BasicOperation trait. For this Operation, we need access to functions provided by the num_traits::Float trait, so we constrain it as such:\nimplT: Float BasicOperationT for Tanh { // code } For the two required functions, these are easy enough to implement. For applying the Tanh function, we actually have this as a pre-made function on the Float trait.\nTherefore when we implement calculate_output, we are just mapping the input array into a new one, where tanh is called on each element\nfn calculate_output(\u0026self, input: \u0026ArrayT, Ix2) - ArrayT, Ix2 { input.mapv(|elem| elem.tanh()) } Calculating the gradient as mentioned before, is defined in terms of the square of the tan (subtracted from 1). We must remember that that only gives us our partial derivative, and we still need to multiply our partial gradient with the output gradient passed back from the next layer.\nTherefore the full code of this function looks thusly\nfn calculate_input_gradient( \u0026self, output_gradient: \u0026ArrayT, Ix2, input: \u0026ArrayT, Ix2, ) - ArrayT, Ix2 { output_gradient * input.mapv(|elem| T::one() - elem.tanh() * elem.tanh()) } Weight initialization Our current weight initialization is initializing to random weights between 0 and 1, that is they are always positive weights and as mentioned before don’t have the ability to “inhibit” the result.\nIn order to get a decent range for generating our random weights at initialisation time, we can use a formula called Xavier weight initialisation.\nThe formula is as follows\n$$ \\pm \\frac {\\sqrt 6} {\\sqrt {n_i + n_{i+1}}} $$\nIn this formula, \\(n_i\\) is the number of input neurons (number of features/columns in the input data), also called fan-in, and \\(n_{i+1}\\) is the number of neurons output by this layer, also called fan-out\nFor coding this up, we simply need to go into the DenseLayerSetup layer which is responsible for initializing weights, and ensure that this formula is used to determine the minimum and maximum values for weight generation.\nThe relevant code can be found in dense_layer_setup.rs and looks as follows\nlet xavier_delta = T::from(6_u8).unwrap().sqrt() / (T::from(input.ncols()).unwrap() + T::from(num_neurons).unwrap()).sqrt(); // see Xavier initialization let weights = repeat_with(|| r.gen_range::T, _(-xavier_delta..=xavier_delta)) .take(weight_count) .collect(); Note that because we’re inside of a generic context, in order to get the square root of 6, we first need to turn 6 into a “T”. We can do this with the “from” function provided by the num_traits::Float trait.\nTo get the number of input neurons, we can just get the number of columns in the input data. The number of output neurons is provided to us in the function parameters.\nTo generate the weights, we can just use the gen_range method on the random number generator and specify +/- this calculated Xavier value.\n",
+  "wordCount" : "1896",
+  "inLanguage": "en",
+  "datePublished": "2022-05-02T19:33:52+01:00",
+  "dateModified": "2022-05-02T19:33:52+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <h1 class="post-title">
+      4.2 - Refactorings
+    </h1>
+    <div class="post-meta"><span title='2022-05-02 19:33:52 +0100 BST'>May 2, 2022</span>&nbsp;·&nbsp;9 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#changing-the-examples" aria-label="Changing the examples">Changing the examples</a><ul>
+                        
+                <li>
+                    <a href="#changing-the-data-set" aria-label="Changing the data set">Changing the data set</a></li>
+                <li>
+                    <a href="#changing-the-example-output" aria-label="Changing the example output">Changing the example output</a></li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a></li></ul>
+                </li>
+                <li>
+                    <a href="#tanh-activation-function" aria-label="Tanh activation function">Tanh activation function</a><ul>
+                        
+                <li>
+                    <a href="#the-formulas" aria-label="The formulas">The formulas</a></li>
+                <li>
+                    <a href="#the-code" aria-label="The code">The code</a></li></ul>
+                </li>
+                <li>
+                    <a href="#weight-initialization" aria-label="Weight initialization">Weight initialization</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.</p>
+<h3 id="changing-the-examples">Changing the examples<a hidden class="anchor" aria-hidden="true" href="#changing-the-examples">#</a></h3>
+<p>Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the &ldquo;mean squared error&rdquo; loss function.</p>
+<p>We are planning to add more examples to demonstrate the various techniques as we learn how we can potentially optimise the training of a network.</p>
+<p>There are a couple of things we want to change at this point.</p>
+<h4 id="changing-the-data-set">Changing the data set<a hidden class="anchor" aria-hidden="true" href="#changing-the-data-set">#</a></h4>
+<p>The previous data set we were using for training was a &ldquo;real world&rdquo; data set of credit scores mapped to a category of whether those scores are &ldquo;good&rdquo; or &ldquo;bad&rdquo;.</p>
+<p>This works well, except that as we&rsquo;re learning we&rsquo;d ideally like to avoid such a large data set (that data set had around 20 features) that will also bring in questions of data preparation and scaling that we&rsquo;re not prepared to answer yet.</p>
+<p>The main issue being complexity, but also the fact that the individual features aren&rsquo;t necessarily related scale-wise.</p>
+<p>We&rsquo;d ideally like a simpler data set, still complex enough to allow us to demonstrate the training accuracy, but not so complex as to risk not being able to find a good fit when training.</p>
+<p>Ideally we&rsquo;d like a simple mathematical function. For this change, we will change all examples over to using a data set that is generated that has only 3 features and a target value.</p>
+<p>The function we will be training to fit will be</p>
+<p>$$ f(x, y, z) = (x &lt; y) \&amp;\&amp; (x &gt; z) $$</p>
+<p>That is, for a given observation, 3 floating point numbers will be generated within some decent range of values and the target output value is either a 0 or a 1.</p>
+<p>The target will be a 1 only if the first number generated is strictly <strong>less than</strong> the second AND is strictly <strong>greater than</strong> the third.</p>
+<p>The code for this can be found <a href="https://github.com/ForgottenMaster/eidetic/blob/main/examples/includes/data_wrangler.rs">HERE</a>, but will be posted here in case of link breakage</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> {
+	ndarray::{Array, Axis, Ix2},
+	rand::{
+		Rng,
+		SeedableRng,
+		rngs::StdRng
+	}
+};
+
+<span style="color:#66d9ef">const</span> TOTAL_OBSERVATIONS: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100_000</span>;
+<span style="color:#66d9ef">const</span> MIN_VALUE: <span style="color:#66d9ef">f64</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">100_000.0</span>;
+<span style="color:#66d9ef">const</span> MAX_VALUE: <span style="color:#66d9ef">f64</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100_000.0</span>;
+
+<span style="color:#e6db74">/// Gets data for testing with the neural network examples.
+</span><span style="color:#e6db74">/// Data represents the following artiy-3 function we&#39;re trying to train
+</span><span style="color:#e6db74">/// f(v1, v2, v3) = (v1 &lt; v2) &amp;&amp; (v1 &gt; v3)
+</span><span style="color:#e6db74"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get_data</span>(
+    training_proportion: <span style="color:#66d9ef">f64</span>,
+    seed: <span style="color:#66d9ef">u64</span>
+) -&gt; <span style="color:#a6e22e">Data</span> {
+	<span style="color:#75715e">// Generate the entire array of samples (including the column for the targets too).
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> random <span style="color:#f92672">=</span> StdRng::seed_from_u64(seed);
+	<span style="color:#66d9ef">let</span> all_data <span style="color:#f92672">=</span> Array::from_shape_vec((TOTAL_OBSERVATIONS, <span style="color:#ae81ff">4</span>), (<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>TOTAL_OBSERVATIONS).flat_map(<span style="color:#f92672">|</span>_<span style="color:#f92672">|</span> {
+		<span style="color:#66d9ef">let</span> v1 <span style="color:#f92672">=</span> random.gen_range(MIN_VALUE<span style="color:#f92672">..=</span>MAX_VALUE);
+		<span style="color:#66d9ef">let</span> v2 <span style="color:#f92672">=</span> random.gen_range(MIN_VALUE<span style="color:#f92672">..=</span>MAX_VALUE);
+		<span style="color:#66d9ef">let</span> v3 <span style="color:#f92672">=</span> random.gen_range(MIN_VALUE<span style="color:#f92672">..=</span>MAX_VALUE);
+		<span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> ((v1 <span style="color:#f92672">&lt;</span> v2) <span style="color:#f92672">&amp;&amp;</span> (v1 <span style="color:#f92672">&gt;</span> v3)) <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u8</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span>;
+		std::iter::once(v1).chain(std::iter::once(v2)).chain(std::iter::once(v3)).chain(std::iter::once(result))
+	}).collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>()).unwrap();
+	
+	<span style="color:#75715e">// Split off the targets from the input data.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> (input, targets) <span style="color:#f92672">=</span> all_data.view().split_at(Axis(<span style="color:#ae81ff">1</span>), <span style="color:#ae81ff">3</span>);
+	
+	<span style="color:#75715e">// determine the split point for the training/testing split.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> split_index <span style="color:#f92672">=</span> (input.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span> <span style="color:#f92672">*</span> training_proportion) <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>;
+	<span style="color:#66d9ef">let</span> (training_input, testing_input) <span style="color:#f92672">=</span> input.split_at(Axis(<span style="color:#ae81ff">0</span>), split_index);
+	<span style="color:#66d9ef">let</span> (training_targets, testing_targets) <span style="color:#f92672">=</span> targets.split_at(Axis(<span style="color:#ae81ff">0</span>), split_index);
+	
+	<span style="color:#75715e">// we have the data to return now.
+</span><span style="color:#75715e"></span>	Data {
+		training_input: <span style="color:#a6e22e">training_input</span>.to_owned(),
+		training_targets: <span style="color:#a6e22e">training_targets</span>.to_owned(),
+		testing_input: <span style="color:#a6e22e">testing_input</span>.to_owned(),
+		testing_targets: <span style="color:#a6e22e">testing_targets</span>.to_owned()
+	}
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Data</span> {
+	training_input: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span>, Ix2<span style="color:#f92672">&gt;</span>,
+	training_targets: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span>, Ix2<span style="color:#f92672">&gt;</span>,
+	testing_input: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span>, Ix2<span style="color:#f92672">&gt;</span>,
+	testing_targets: <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span>, Ix2<span style="color:#f92672">&gt;</span>
+}</code></pre></div>
+<p>Essentially it iterates for TOTAL_OBSERVATIONS iterations, generating 3 random floats for each iteration, between MIN_VALUE and MAX_VALUE.</p>
+<p>It then calculates the result, which as mentioned will either be a 0 or a 1.</p>
+<p>This occurs inside of a flat_map call so it&rsquo;s expecting an iterator as a return value, so we use a series of &ldquo;chain&rdquo; calls to chain the 4 numbers together into an iterator.</p>
+<p>The whole thing is collected into a Vec, which can then be turned into an Array for us to use.</p>
+<p>The rest of the code is just slicing the array into training and testing, and separating the input data from the targets.</p>
+<h4 id="changing-the-example-output">Changing the example output<a hidden class="anchor" aria-hidden="true" href="#changing-the-example-output">#</a></h4>
+<p>The examples were previously printing out a message to show the final error/loss value after training for both of the data sets.</p>
+<p>The problem here is that this loss value kind of doesn&rsquo;t tell us what scale we&rsquo;re using, and it&rsquo;s certainly possible to have a high error/loss value but still have an accurate trained network (as is the case when we look at the softmax cross entropy loss function).</p>
+<p>What we actually care about is the percentage of predictions that the network makes that match the targets correctly.</p>
+<p>Therefore we&rsquo;ll change the examples to output as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// Accuracy
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> training_predictions <span style="color:#f92672">=</span> network
+    .forward_loss(data.training_input, data.training_targets.clone())
+    .<span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">let</span> training_correct_count <span style="color:#f92672">=</span> training_predictions
+    .iter()
+    .zip(data.training_targets.iter())
+    .filter(<span style="color:#f92672">|</span>(prediction, target)<span style="color:#f92672">|</span> {
+        <span style="color:#66d9ef">let</span> prediction <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">**</span>prediction <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.5</span> { <span style="color:#ae81ff">0.0</span> } <span style="color:#66d9ef">else</span> { <span style="color:#ae81ff">1.0</span> };
+        prediction <span style="color:#f92672">==</span> <span style="color:#f92672">**</span>target
+    })
+    .count();
+<span style="color:#66d9ef">let</span> training_accuracy <span style="color:#f92672">=</span>
+    (training_correct_count <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span> <span style="color:#f92672">/</span> data.training_targets.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.0</span>;
+println!(<span style="color:#e6db74">&#34;Accuracy (training): {training_accuracy}%&#34;</span>);
+
+<span style="color:#66d9ef">let</span> testing_predictions <span style="color:#f92672">=</span> network
+    .forward_loss(data.testing_input, data.testing_targets.clone())
+    .<span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">let</span> testing_correct_count <span style="color:#f92672">=</span> testing_predictions
+    .iter()
+    .zip(data.testing_targets.iter())
+    .filter(<span style="color:#f92672">|</span>(prediction, target)<span style="color:#f92672">|</span> {
+        <span style="color:#66d9ef">let</span> prediction <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">**</span>prediction <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.5</span> { <span style="color:#ae81ff">0.0</span> } <span style="color:#66d9ef">else</span> { <span style="color:#ae81ff">1.0</span> };
+        prediction <span style="color:#f92672">==</span> <span style="color:#f92672">**</span>target
+    })
+    .count();
+<span style="color:#66d9ef">let</span> testing_accuracy <span style="color:#f92672">=</span>
+    (testing_correct_count <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span> <span style="color:#f92672">/</span> data.testing_targets.nrows() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">f64</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.0</span>;
+println!(<span style="color:#e6db74">&#34;Accuracy (testing): {testing_accuracy}%&#34;</span>);</code></pre></div>
+<p>For both training and testing data sets, we run them through the trained network and take the predictions array.</p>
+<p>Then we zip the predictions array with the target array (we know they both only have a single column/feature) and if the prediction is less than 0.5 consider it 0, else it&rsquo;s a 1 if above 0.5.</p>
+<p>Then we just compare with the target value and filter those that match.</p>
+<p>The count() function will give us the count of matching predictions and to work out the percentage we can divide it by the total number of targets and multiply by 100 to get the percentage to print out.</p>
+<h4 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h4>
+<p>With those two changes to the data set used by the examples, we have a nice simple but predictable function that we know should be trainable, and we can therefore see how well the various training strategies work.</p>
+<h3 id="tanh-activation-function">Tanh activation function<a hidden class="anchor" aria-hidden="true" href="#tanh-activation-function">#</a></h3>
+<p>When we&rsquo;re training a neural network, the biggest factor in how successful we would be is how much we can use the gradient to update the weights on the neurons in the layers during the backpropagation pass.</p>
+<p>However, we firstly are only updating the weights based on a <strong>proportion</strong> of the gradient (the learning rate), and secondly are limited by the possible gradients of the activation function we chose.</p>
+<p>With the sigmoid activation function, the maximum gradient we can have is 0.25, however with the tanh function we&rsquo;ll implement, we are able to get gradients of 1.</p>
+<p>These steeper gradients allow us to train the network much faster, as is evident by the following graph comparing the derivatives/gradients of the sigmoid function we were using with the tanh function we want to use:</p>
+<p><img loading="lazy" src="derivative_comparison.PNG" alt="Derivative Comparison"  />
+</p>
+<p>The tanh function is a non-linear function like sigmoid except it maps to a range of -1 to 1, rather than to a range of 0 to 1.</p>
+<p>The additional advantage is that we can map to negative numbers and not just positive values. This is important as discovered since negative weights on neurons allow some neurons to &ldquo;inhibit&rdquo; the output and can subtract from the result.</p>
+<p>With positive weights only, we can only create additive weights which results in a more narrow range of output values.</p>
+<p>The graph of tanh is as follows, for visualisation</p>
+<p><img loading="lazy" src="tanh_graph.PNG" alt="Tanh Graph"  />
+</p>
+<h4 id="the-formulas">The formulas<a hidden class="anchor" aria-hidden="true" href="#the-formulas">#</a></h4>
+<p>The formula for tanh is actually pretty simple, it&rsquo;s related to the sigmoid function from before (also known as the logistic function) by being a moved and scaled version.</p>
+<p>The formula for tanh is just as follows</p>
+<p>$$ tanh(x) = \frac {e^x - e^{-x}} {e^x + e^{-x}} $$</p>
+<p>As with the sigmoid function, the tanh function also has a very nice and easy derivative calculation, defined in terms of itself</p>
+<p>$$ tanh'(x) = 1 - tanh(x)^2 $$</p>
+<h4 id="the-code">The code<a hidden class="anchor" aria-hidden="true" href="#the-code">#</a></h4>
+<p>Now we need to code this up to be able to use it in a network as an activation function. As with all of our other operations in the library, it is just an empty struct which will behave as a vtable for our function calls.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Clone)]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tanh</span>;</code></pre></div>
+<p>Nextly we need to be able to construct a boxed version for use in a layer. We will follow the convention set out by the API and call this function &ldquo;new_boxed&rdquo; and it will look as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Tanh {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new_boxed</span>() -&gt; Box<span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;</span> {
+        Box::new(Self)
+    }
+}</code></pre></div>
+<p>Finally we will need to implement the <strong>BasicOperation<!-- raw HTML omitted --></strong> trait. For this Operation, we need access to functions provided by the num_traits::Float trait, so we constrain it as such:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Float</span><span style="color:#f92672">&gt;</span> BasicOperation<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> Tanh {
+    <span style="color:#75715e">// code
+</span><span style="color:#75715e"></span>}</code></pre></div>
+<p>For the two required functions, these are easy enough to implement. For applying the Tanh function, we actually have this as a pre-made function on the Float trait.</p>
+<p>Therefore when we implement calculate_output, we are just mapping the input array into a new one, where tanh is called on each element</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_output</span>(<span style="color:#f92672">&amp;</span>self, input: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
+    input.mapv(<span style="color:#f92672">|</span>elem<span style="color:#f92672">|</span> elem.tanh())
+}</code></pre></div>
+<p>Calculating the gradient as mentioned before, is defined in terms of the square of the tan (subtracted from 1). We must remember that that only gives us our partial derivative, and we still need to multiply our partial gradient with the output gradient passed back from the next layer.</p>
+<p>Therefore the full code of this function looks thusly</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">calculate_input_gradient</span>(
+    <span style="color:#f92672">&amp;</span>self,
+    output_gradient: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+    input: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span>,
+) -&gt; <span style="color:#a6e22e">Array</span><span style="color:#f92672">&lt;</span>T, Ix2<span style="color:#f92672">&gt;</span> {
+    output_gradient <span style="color:#f92672">*</span> input.mapv(<span style="color:#f92672">|</span>elem<span style="color:#f92672">|</span> T::one() <span style="color:#f92672">-</span> elem.tanh() <span style="color:#f92672">*</span> elem.tanh())
+}</code></pre></div>
+<h3 id="weight-initialization">Weight initialization<a hidden class="anchor" aria-hidden="true" href="#weight-initialization">#</a></h3>
+<p>Our current weight initialization is initializing to random weights between 0 and 1, that is they are always positive weights and as mentioned before don&rsquo;t have the ability to &ldquo;inhibit&rdquo; the result.</p>
+<p>In order to get a decent range for generating our random weights at initialisation time, we can use a formula called <strong>Xavier weight initialisation</strong>.</p>
+<p>The formula is as follows</p>
+<p>$$ \pm \frac {\sqrt 6} {\sqrt {n_i + n_{i+1}}} $$</p>
+<p>In this formula, \(n_i\) is the number of input neurons (number of features/columns in the input data), also called <strong>fan-in</strong>, and \(n_{i+1}\) is the number of neurons output by this layer, also called <strong>fan-out</strong></p>
+<p>For coding this up, we simply need to go into the <strong>DenseLayerSetup</strong> layer which is responsible for initializing weights, and ensure that this formula is used to determine the minimum and maximum values for weight generation.</p>
+<p>The relevant code can be found in dense_layer_setup.rs and looks as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> xavier_delta <span style="color:#f92672">=</span> T::from(<span style="color:#ae81ff">6_</span><span style="color:#66d9ef">u8</span>).unwrap().sqrt()
+    <span style="color:#f92672">/</span> (T::from(input.ncols()).unwrap() <span style="color:#f92672">+</span> T::from(num_neurons).unwrap()).sqrt(); <span style="color:#75715e">// see Xavier initialization
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> weights <span style="color:#f92672">=</span> repeat_with(<span style="color:#f92672">||</span> r.gen_range::<span style="color:#f92672">&lt;</span>T, _<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">-</span>xavier_delta<span style="color:#f92672">..=</span>xavier_delta))
+    .take(weight_count)
+    .collect();</code></pre></div>
+<p>Note that because we&rsquo;re inside of a generic context, in order to get the square root of 6, we first need to turn 6 into a &ldquo;T&rdquo;. We can do this with the &ldquo;from&rdquo; function provided by the num_traits::Float trait.</p>
+<p>To get the number of input neurons, we can just get the number of columns in the input data. The number of output neurons is provided to us in the function parameters.</p>
+<p>To generate the weights, we can just use the <strong>gen_range</strong> method on the random number generator and specify +/- this calculated Xavier value.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

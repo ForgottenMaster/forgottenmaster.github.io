@@ -6,7 +6,18 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 02 May 2022 19:33:53 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 May 2022 19:13:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.4 - Momentum</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</link>
+      <pubDate>Thu, 05 May 2022 19:13:16 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</guid>
+      <description>So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.
+This means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.
+In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that).</description>
+    </item>
+    
     <item>
       <title>4.3 - Softmax</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</link>

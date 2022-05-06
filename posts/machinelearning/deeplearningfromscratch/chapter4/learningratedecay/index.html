@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>4.5 - Learning Rate Decay | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
+A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.92.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="4.5 - Learning Rate Decay" />
+<meta property="og:description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
+A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-06T01:12:54&#43;01:00" />
+<meta property="article:modified_time" content="2022-05-06T01:12:54&#43;01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="4.5 - Learning Rate Decay"/>
+<meta name="twitter:description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
+A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Machine Learning",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Deep Learning From Scratch",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Chapter 4 - Extensions",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "4.5 - Learning Rate Decay",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "4.5 - Learning Rate Decay",
+  "name": "4.5 - Learning Rate Decay",
+  "description": "As we\u0026rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it\u0026rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.\nA hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.",
+  "keywords": [
+    
+  ],
+  "articleBody": "As we’ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it’s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.\nA hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.\nIf we refer back to the diagram seen previously, which can be seen below\nWe can see that with small values for the learning rate (the blue arrows), the steps we take are small but we run the risk of falling into a local minimum. Conversely, if the learning rate is too large (the red arrows), we can see that we “bounce around” and might skip over the true minimum.\nWhat we would like is a happy balance of the two approaches, in fact we’d like to start the training with a larger learning rate to broadly find the region of the minimum, but as we progress through training, we’d like to take smaller and smaller steps so as to hone in on the true minimum and be less likely to skip over it.\nWe can achieve this by decaying the learning rate hyperparameter as we progress through the epochs.\nRefactoring In order to allow for decaying the learning rate over the process of training the network, we will need to (slightly) refactor the existing code such that we can later drop in a decaying learning rate if needed.\nOptimiser trait The first step will be to add a couple of additional methods to the Optimiser trait, these will be:\n init(epochs) - Called at the very beginning of the training process with the number of epochs we plan to run through. This allows a chance to set up data at the beginning of the process that might rely on that total epoch count (such as a percentage progress, or something else). end_epoch() - Called at the end of each epoch EXCEPT for the very last one, and gives the Optimiser a chance to update state at the end of the epoch before it ends up getting stepped again (allowing for example learning rate to decay).  After we add these, the Optimisertrait looks as follows:\npub trait OptimiserT { fn init(\u0026mut self, epochs: u32); fn step(\u0026mut self, net: \u0026mut NetworkT); fn end_epoch(\u0026mut self); } train function I’ll show how we implement this into our Optimiser implementations in a moment, but let’s take a look at the changes required to the train function to invoke these new functions. Firstly at the beginning of the train function before entering the epoch loop, we call init:\nlet mut best_loss: OptionT = None; optimiser.init(epochs); for e in 0..epochs { // rest of code follows  And at the end of the loop, we call the end_epoch function. However, we only do this if the epoch number is not the very last one. If it’s the very last one then there’s no point updating the optimiser as it’s not going to be invoked again. The code therefore looks as follows:\nif let Some(last_model) = last_model { let (_, test_loss) = network.forward_loss(batch_test.clone(), targets_test.clone()); if best_loss.is_none() || test_loss.abs()  *best_loss.as_ref().unwrap() { best_loss = Some(test_loss.abs()); } else { *network = last_model; break; } } if e  (epochs - 1) { optimiser.end_epoch(); } SGD For the SGD optimiser, we will need to implement the new functionality required by the trait, however we know that we will be implementing the new functionality in the SGDMomentum type also in the exact same way. In order to prevent duplicated code, and in order to support easily picking which strategy we’re using for handling the learning rate, we will delegate the handling of the learning rate to a new type.\nWe’ll talk about that soon, but for now just be aware that instead of directly storing a T inside our SGD type, we will be storing a different type that will implement a particular interface.\nFor the struct definition, we don’t actually need to change anything!. We only had one field (learning_rate), so we can simply rename this to indicate it should be a handler for our learning rate instead:\npub struct SGDT { learning_rate_handler: T, } We rename it also in the new and new_boxed functions:\nimplT SGDT { pub fn new(learning_rate_handler: T) - Self { Self { learning_rate_handler, } } pub fn new_boxed(learning_rate_handler: T) - BoxSelf { Box::new(Self::new(learning_rate_handler)) } } For the trait implementation, this is where we will need to tell the compiler about this new trait type that we have that will represent our handler, or wrapper that is responsible for storing and updating the learning rate hyperparameter.\nTo do this, we need to introduce a second generic parameter. We place a trait bound on that generic parameter to indicate that it must implement LearningRateHandler, and the type that it’s handling/wrapping around must be the same type as the elements in the Network.\nAfter adding this, it looks like follows:\nimplT: LearningRateHandlerU, U: LinalgScalar + ScalarOperand OptimiserU for SGDT { // implementation here } In this, we’re saying:\n T is the type that’s stored inside the SGD and is handling the learning rate hyperparameter. Our trait bound indicates that this type is implementing LearningRateHandler and the type that it’s handling is our element type, U U is the type of the elements inside the neural network we’re optimising, and contains all the same bounds as it previously did  As for the implementations of the new function, we will delegate to the handler type. This will allow us to have a central handler type with the correct degregation logic, and have that shared between our SGD and SGDMomentum (and any other Optimiser implementations we might write).\nThe new function implementations then just look as follows:\nfn init(\u0026mut self, epochs: u32) { self.learning_rate_handler.init(epochs); } fn end_epoch(\u0026mut self) { self.learning_rate_handler.end_epoch(); } The only other change is that since we aren’t storing the learning rate directly now, we must access it instead through the handler object when we’re optimising the network parameters:\n*param = \u0026*param - (gradient * *self.learning_rate_handler.learning_rate()); SGDMomentum The same changes are required here basically as we made to the SGD. That is:\n We need to change learning_rate inside the type to be learning_rate_handler This type needs to be independant of the element type (which we use for momentum, and as the element type for storing velocities) We need to implement the new functions from the Optimiser trait, and delegate their behaviour to our LearningRateHandler implementation We need to make sure we get the current learning rate by calling the learning_rate() method on our LearningRateHandler implementor  LearningRateHandler This is our new trait that we are using to define the behaviour and capabilities of whichever type is wrapping the actual learning rate. This trait needs to have the following functionalities:\n It needs to be able to provide the current learning rate to a caller It needs to be able to be initialised at the beginning of training, with the number of epochs that will be run It needs to be able to be updated at the end of an epoch  When coded up, this is pretty easy:\npub trait LearningRateHandlerT { fn learning_rate(\u0026self) - \u0026T; fn init(\u0026mut self, epochs: u32); fn end_epoch(\u0026mut self); } LearningRateFixed The final part of refactoring the existing stuff to support the potential for decaying learning rates, while making sure the existing tests and examples continue to work, is a handler for our learning rate that behaves the same as we had our learning rate behaving before.\nThat is, a LearningRateHandler that is initialised with a learning rate, and never changes it.\nFor this struct, it will just contain the actual fixed learning rate inside of itself, and the “new” function is similarly uneventful:\npub struct LearningRateFixedT { learning_rate: T, } implT LearningRateFixedT { pub fn new(learning_rate: T) - Self { Self { learning_rate } } } We’ll implement the LearningRateHandler trait for this type, but the only thing it does is to return a reference to the inner learning_rate when asked for it:\nimplT LearningRateHandlerT for LearningRateFixedT { fn learning_rate(\u0026self) - \u0026T { \u0026self.learning_rate } fn init(\u0026mut self, _epochs: u32) {} fn end_epoch(\u0026mut self) {} } Finally, we just need to make sure wherever we construct an SGD or an SGDMomentum instance, that instead of passing the learning rate, we’re now passing an instance of a fixed handler. We just go through and change all the tests/examples to look something like:\nlet mut optim = SGDMomentum::new(LearningRateFixed::new(0.1), 0.9); And with that, our refactor is done!\nThe next couple of sections of this post will be dedicated to the actually decaying handler types.\nLinear Decay The first of the two types of decay that we’ll cover is a decay that has a fixed size step between epochs, that is, it always decays the current learning rate by a fixed amount each epoch.\nThe formula for this is\n$$ \\alpha_t = \\alpha_{start} - (\\alpha_{start} - \\alpha_{end}) \\times \\frac t {epochs - 1} $$\nBut rather than computing quantities each frame, we will calculate the amount to be subtracted per epoch at the point where the handler is initialised. We then simply subtract that each time end_epoch is called.\nStruct For the structure itself, we will need to store several quantities which will be:\n The defined starting learning rate. This is the starting rate that the current rate will be set to whenever the init function is called. The defined ending learning rate. After the maximum number of epochs is called, the learning rate will end up being this value (or close to it due to rounding errors). The current learning rate The amount of learning rate to subtract each epoch  These are generic as with everything else, but the type is just defined as “T”:\npub struct LearningRateLinearDecayT { starting_rate: T, ending_rate: T, current_rate: T, decay_per_epoch: T, } Constructor In order to construct a new instance of this structure, the required fields are the starting and ending learning rates that must be passed in. The other two fields are used internally and calculated from these two.\nWe will however require the Clone trait bound on T, because we firstly need to initialise the current learning rate to the starting rate anyway, but also because we need to initialise our decay_per_epoch field to something. We don’t mind what we set it to because it’ll be recalculated when we initialise during training, but it must be set to something, so we’ll just use the starting rate as a valid value.\nThe whole constructor function then looks as follows:\nimplT: Clone LearningRateLinearDecayT { pub fn new(starting_rate: T, ending_rate: T) - Self { Self { starting_rate: starting_rate.clone(), ending_rate, current_rate: starting_rate.clone(), decay_per_epoch: starting_rate, // this will get recalculated during training  } } } Trait Now we just need to implement the LearningRateHandler trait so that we can use this type as a decaying learning rate with one of our optimisers.\nThe init function will simply calculate the amount of decay per epoch. In order to do this, it will use the following formula:\n$$ decay = (start - end) / (epochs - 1) $$\nThat is, it takes the difference between start and end (the distance to decay over), and the number of epochs it needs to decay over (the time it has to decay), and calculates the rate of decay (the speed).\nThe number of epochs is epochs - 1 rather than epochs because we don’t call the end_epoch function on the very last epoch so we need to make sure we reach the ending learning rate after we call end_epoch for the very last time (which is 1 iteration fewer than the total number of steps we’re doing).\nCoding that up, it will look as follows:\nfn init(\u0026mut self, epochs: u32) { let epochs: T = epochs.into(); self.decay_per_epoch = (self.starting_rate.clone() - self.ending_rate.clone()) / (epochs - T::one()); } Note that we need to clone starting and ending rate as the subtraction operator consumes its inputs. We also need to convert the number of epochs from a u32 into a T before dividing. We do this rather than requiring a bound on Div(as in, dividing a T by u32), because it’s more common to have a Div implementation that takes a T on the right hand side.\nReturning the current learning_rate is a trivial operation:\nfn learning_rate(\u0026self) - \u0026T { \u0026self.current_rate } Finally, when the end_epoch is called, we modify the current learning rate by simply subtracting the decay amount. Again though, we must clone it as the SubAssign trait consumes the right hand side input:\nfn end_epoch(\u0026mut self) { self.current_rate -= self.decay_per_epoch.clone(); } We put all these implementations inside an impl block for the trait, making sure to place the appropriate trait bounds on T based on the operations we required inside the implementations.\nThe block then looks as follows:\nimplT: Clone + DivOutput = T + Fromu32 + One + SubOutput = T + SubAssign LearningRateHandlerT for LearningRateLinearDecayT { // implementations here } Exponential Decay Whereas linear decay applies a fixed decay to the learning rate each step, the exponential decay instead applies a multiplier.\nThe definition of the struct, and the new function actually is identical to the linear version. This is because we need the exact same parameters, it’s just we’re calculating the decay multiplier differently, and applying it to the learning rate differently too.\nThe struct definition and new function then look as follows\npub struct LearningRateExponentialDecayT { starting_rate: T, ending_rate: T, current_rate: T, decay_per_epoch: T, } implT: Clone LearningRateExponentialDecayT { pub fn new(starting_rate: T, ending_rate: T) - Self { Self { starting_rate: starting_rate.clone(), ending_rate, current_rate: starting_rate.clone(), decay_per_epoch: starting_rate, } } } The changes come in the implementation of the trait itself. The formula we use to calculate the decay multiplier is as follows:\n$$ {\\frac {end} {start}}^{\\frac {1} {epochs - 1}} $$\nWhich is coded up as below in the init function\nfn init(\u0026mut self, epochs: u32) { let epochs: T = epochs.into(); self.decay_per_epoch = (self.ending_rate / self.starting_rate).powf(T::one() / (epochs - T::one())); } Accessing the learning rate in the learning_rate method remains the same as the linear version. The only other change except from calculating the decay rate is actually applying it.\nIn the linear version we had used subtraction to subtract the decay amount from the learning rate at the end of an epoch, however in the exponential version we need to multiply it instead, so the end_epoch method looks as follows\nfn end_epoch(\u0026mut self) { self.current_rate *= self.decay_per_epoch; } Testing In order to test these decay methods, we will create two new examples, based off the softmax_cross_entropy_loss_with_momentum example. These will be:\n softmax_cross_entropy_loss_with_linear_decay - A version that applies a linear decay to the learning rate. softmax_cross_entropy_loss_with_exponential_decay - A version that applies an exponential decay to the learning rate.  As a refresher, we’ll re-run the base version (with no decay) and we can see that we get a decent accuracy:\nAccuracy (training): 93.47999999999999%\rAccuracy (testing): 93.522%\rFor the linear decay, we’ll still start with a learning rate of 0.1, but we’ll decay down to 0.05 over our epochs, and the results we can see are slightly better:\nAccuracy (training): 94.582%\rAccuracy (testing): 94.624%\rFinally, we’ll test the exponential decay with the same start and end learning rates, however we see a sudden drop in accuracy!. Using exponential decay results in a drop to 90% accuracy.\nThis is because the decay rate with exponential is much steeper, and so we are taking too small a step too quickly.\nOne thing this steep decay lets us do though is take larger steps at the beginning. Let’s go ahead and change the starting learning rate to something slightly higher (0.2) and we see that the results are better again:\nAccuracy (training): 95.506%\rAccuracy (testing): 95.562%\r95% aint bad!\n",
+  "wordCount" : "2657",
+  "inLanguage": "en",
+  "datePublished": "2022-05-06T01:12:54+01:00",
+  "dateModified": "2022-05-06T01:12:54+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <h1 class="post-title">
+      4.5 - Learning Rate Decay
+    </h1>
+    <div class="post-meta"><span title='2022-05-06 01:12:54 +0100 BST'>May 6, 2022</span>&nbsp;·&nbsp;13 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#refactoring" aria-label="Refactoring">Refactoring</a><ul>
+                        
+                <li>
+                    <a href="#optimiser-trait" aria-label="Optimiser trait">Optimiser trait</a></li>
+                <li>
+                    <a href="#train-function" aria-label="train function">train function</a></li>
+                <li>
+                    <a href="#sgd" aria-label="SGD">SGD</a></li>
+                <li>
+                    <a href="#sgdmomentum" aria-label="SGDMomentum">SGDMomentum</a></li>
+                <li>
+                    <a href="#learningratehandler" aria-label="LearningRateHandler">LearningRateHandler</a></li>
+                <li>
+                    <a href="#learningratefixed" aria-label="LearningRateFixed">LearningRateFixed</a></li></ul>
+                </li>
+                <li>
+                    <a href="#linear-decay" aria-label="Linear Decay">Linear Decay</a><ul>
+                        
+                <li>
+                    <a href="#struct" aria-label="Struct">Struct</a></li>
+                <li>
+                    <a href="#constructor" aria-label="Constructor">Constructor</a></li>
+                <li>
+                    <a href="#trait" aria-label="Trait">Trait</a></li></ul>
+                </li>
+                <li>
+                    <a href="#exponential-decay" aria-label="Exponential Decay">Exponential Decay</a></li>
+                <li>
+                    <a href="#testing" aria-label="Testing">Testing</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate <strong>hyperparameter</strong> is one of, if not <em>the</em> most important hyperparameters in deep learning.</p>
+<p>A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.</p>
+<p>If we refer back to the diagram seen previously, which can be seen below</p>
+<p><img loading="lazy" src="../overview/training.PNG" alt="Training Graph"  />
+</p>
+<p>We can see that with small values for the learning rate (the blue arrows), the steps we take are small but we run the risk of falling into a local minimum. Conversely, if the learning rate is too large (the red arrows), we can see that we &ldquo;bounce around&rdquo; and might skip over the true minimum.</p>
+<p>What we would like is a happy balance of the two approaches, in fact we&rsquo;d like to start the training with a larger learning rate to broadly find the region of the minimum, but as we progress through training, we&rsquo;d like to take smaller and smaller steps so as to hone in on the true minimum and be less likely to skip over it.</p>
+<p>We can achieve this by <strong>decaying</strong> the learning rate hyperparameter as we progress through the epochs.</p>
+<h3 id="refactoring">Refactoring<a hidden class="anchor" aria-hidden="true" href="#refactoring">#</a></h3>
+<p>In order to allow for decaying the learning rate over the process of training the network, we will need to (slightly) refactor the existing code such that we can later drop in a decaying learning rate if needed.</p>
+<h4 id="optimiser-trait">Optimiser trait<a hidden class="anchor" aria-hidden="true" href="#optimiser-trait">#</a></h4>
+<p>The first step will be to add a couple of additional methods to the Optimiser trait, these will be:</p>
+<ol>
+<li><strong>init(epochs)</strong> - Called at the very beginning of the training process with the number of epochs we plan to run through. This allows a chance to set up data at the beginning of the process that might rely on that total epoch count (such as a percentage progress, or something else).</li>
+<li><strong>end_epoch()</strong> - Called at the end of each epoch EXCEPT for the very last one, and gives the Optimiser a chance to update state at the end of the epoch before it ends up getting stepped again (allowing for example learning rate to decay).</li>
+</ol>
+<p>After we add these, the Optimiser<!-- raw HTML omitted --> trait looks as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Optimiser<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, epochs: <span style="color:#66d9ef">u32</span>);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">step</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, net: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Network<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self);
+}</code></pre></div>
+<h4 id="train-function">train function<a hidden class="anchor" aria-hidden="true" href="#train-function">#</a></h4>
+<p>I&rsquo;ll show how we implement this into our Optimiser implementations in a moment, but let&rsquo;s take a look at the changes required to the train function to invoke these new functions. Firstly at the beginning of the train function before entering the epoch loop, we call init:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> best_loss: Option<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> None;
+optimiser.init(epochs);
+<span style="color:#66d9ef">for</span> e <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>epochs {
+    <span style="color:#75715e">// rest of code follows
+</span></code></pre></div>
+<p>And at the end of the loop, we call the end_epoch function. However, we only do this if the epoch number is not the very last one. If it&rsquo;s the very last one then there&rsquo;s no point updating the optimiser as it&rsquo;s not going to be invoked again. The code therefore looks as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(last_model) <span style="color:#f92672">=</span> last_model {
+        <span style="color:#66d9ef">let</span> (_, test_loss) <span style="color:#f92672">=</span> network.forward_loss(batch_test.clone(), targets_test.clone());
+        <span style="color:#66d9ef">if</span> best_loss.is_none() <span style="color:#f92672">||</span> test_loss.abs() <span style="color:#f92672">&lt;</span> <span style="color:#f92672">*</span>best_loss.as_ref().unwrap() {
+            best_loss <span style="color:#f92672">=</span> Some(test_loss.abs());
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#f92672">*</span>network <span style="color:#f92672">=</span> last_model;
+            <span style="color:#66d9ef">break</span>;
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> e <span style="color:#f92672">&lt;</span> (epochs <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+        optimiser.end_epoch();
+    }</code></pre></div>
+<h4 id="sgd">SGD<a hidden class="anchor" aria-hidden="true" href="#sgd">#</a></h4>
+<p>For the SGD optimiser, we will need to implement the new functionality required by the trait, however we know that we will be implementing the new functionality in the SGDMomentum type also in the exact same way. In order to prevent duplicated code, and in order to support easily picking which strategy we&rsquo;re using for handling the learning rate, we will delegate the handling of the learning rate to a new type.</p>
+<p>We&rsquo;ll talk about that soon, but for now just be aware that instead of directly storing a T inside our SGD type, we will be storing a different type that will implement a particular interface.</p>
+<p>For the struct definition, we don&rsquo;t actually need to change anything!. We only had one field (learning_rate), so we can simply rename this to indicate it should be a handler for our learning rate instead:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SGD</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    learning_rate_handler: <span style="color:#a6e22e">T</span>,
+}</code></pre></div>
+<p>We rename it also in the new and new_boxed functions:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> SGD<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(learning_rate_handler: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+        Self {
+            learning_rate_handler,
+        }
+    }
+
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new_boxed</span>(learning_rate_handler: <span style="color:#a6e22e">T</span>) -&gt; Box<span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;</span> {
+        Box::new(Self::new(learning_rate_handler))
+    }
+}</code></pre></div>
+<p>For the trait implementation, this is where we will need to tell the compiler about this new trait type that we have that will represent our handler, or wrapper that is responsible for storing and updating the learning rate hyperparameter.</p>
+<p>To do this, we need to introduce a second generic parameter. We place a trait bound on that generic parameter to indicate that it must implement LearningRateHandler, and the type that it&rsquo;s handling/wrapping around must be the same type as the elements in the Network.</p>
+<p>After adding this, it looks like follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">LearningRateHandler</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>, U: <span style="color:#a6e22e">LinalgScalar</span> <span style="color:#f92672">+</span> ScalarOperand<span style="color:#f92672">&gt;</span> Optimiser<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> SGD<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">// implementation here
+</span><span style="color:#75715e"></span>}</code></pre></div>
+<p>In this, we&rsquo;re saying:</p>
+<ol>
+<li><strong>T</strong> is the type that&rsquo;s stored inside the SGD and is handling the learning rate hyperparameter. Our trait bound indicates that this type is implementing LearningRateHandler and the type that it&rsquo;s handling is our element type, U</li>
+<li><strong>U</strong> is the type of the elements inside the neural network we&rsquo;re optimising, and contains all the same bounds as it previously did</li>
+</ol>
+<p>As for the implementations of the new function, we will delegate to the handler type. This will allow us to have a central handler type with the correct degregation logic, and have that shared between our SGD and SGDMomentum (and any other Optimiser implementations we might write).</p>
+<p>The new function implementations then just look as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, epochs: <span style="color:#66d9ef">u32</span>) {
+    self.learning_rate_handler.init(epochs);
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {
+    self.learning_rate_handler.end_epoch();
+}</code></pre></div>
+<p>The only other change is that since we aren&rsquo;t storing the learning rate directly now, we must access it instead through the handler object when we&rsquo;re optimising the network parameters:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#f92672">*</span>param <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;*</span>param <span style="color:#f92672">-</span> (gradient <span style="color:#f92672">*</span> <span style="color:#f92672">*</span>self.learning_rate_handler.learning_rate());</code></pre></div>
+<h4 id="sgdmomentum">SGDMomentum<a hidden class="anchor" aria-hidden="true" href="#sgdmomentum">#</a></h4>
+<p>The same changes are required here basically as we made to the SGD. That is:</p>
+<ol>
+<li>We need to change learning_rate inside the type to be learning_rate_handler</li>
+<li>This type needs to be independant of the element type (which we use for momentum, and as the element type for storing velocities)</li>
+<li>We need to implement the new functions from the Optimiser trait, and delegate their behaviour to our LearningRateHandler implementation</li>
+<li>We need to make sure we get the current learning rate by calling the learning_rate() method on our LearningRateHandler implementor</li>
+</ol>
+<h4 id="learningratehandler">LearningRateHandler<a hidden class="anchor" aria-hidden="true" href="#learningratehandler">#</a></h4>
+<p>This is our new trait that we are using to define the behaviour and capabilities of whichever type is wrapping the actual learning rate. This trait needs to have the following functionalities:</p>
+<ol>
+<li>It needs to be able to provide the current learning rate to a caller</li>
+<li>It needs to be able to be initialised at the beginning of training, with the number of epochs that will be run</li>
+<li>It needs to be able to be updated at the end of an epoch</li>
+</ol>
+<p>When coded up, this is pretty easy:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> LearningRateHandler<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learning_rate</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, epochs: <span style="color:#66d9ef">u32</span>);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self);
+}</code></pre></div>
+<h4 id="learningratefixed">LearningRateFixed<a hidden class="anchor" aria-hidden="true" href="#learningratefixed">#</a></h4>
+<p>The final part of refactoring the existing stuff to support the potential for decaying learning rates, while making sure the existing tests and examples continue to work, is a handler for our learning rate that behaves the same as we had our learning rate behaving before.</p>
+<p>That is, a LearningRateHandler that is initialised with a learning rate, and never changes it.</p>
+<p>For this struct, it will just contain the actual fixed learning rate inside of itself, and the &ldquo;new&rdquo; function is similarly uneventful:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">LearningRateFixed</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    learning_rate: <span style="color:#a6e22e">T</span>,
+}
+
+<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> LearningRateFixed<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(learning_rate: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+        Self { learning_rate }
+    }
+}</code></pre></div>
+<p>We&rsquo;ll implement the LearningRateHandler trait for this type, but the only thing it does is to return a reference to the inner learning_rate when asked for it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> LearningRateHandler<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> LearningRateFixed<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learning_rate</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span> {
+        <span style="color:#f92672">&amp;</span>self.learning_rate
+    }
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, _epochs: <span style="color:#66d9ef">u32</span>) {}
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {}
+}</code></pre></div>
+<p>Finally, we just need to make sure wherever we construct an SGD or an SGDMomentum instance, that instead of passing the learning rate, we&rsquo;re now passing an instance of a fixed handler. We just go through and change all the tests/examples to look something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> optim <span style="color:#f92672">=</span> SGDMomentum::new(LearningRateFixed::new(<span style="color:#ae81ff">0.1</span>), <span style="color:#ae81ff">0.9</span>);</code></pre></div>
+<p>And with that, our refactor is done!</p>
+<p>The next couple of sections of this post will be dedicated to the actually decaying handler types.</p>
+<h3 id="linear-decay">Linear Decay<a hidden class="anchor" aria-hidden="true" href="#linear-decay">#</a></h3>
+<p>The first of the two types of decay that we&rsquo;ll cover is a decay that has a fixed size step between epochs, that is, it always decays the current learning rate by a fixed amount each epoch.</p>
+<p>The formula for this is</p>
+<p>$$ \alpha_t = \alpha_{start} - (\alpha_{start} - \alpha_{end}) \times \frac t {epochs - 1} $$</p>
+<p>But rather than computing quantities each frame, we will calculate the amount to be subtracted per epoch at the point where the handler is initialised. We then simply subtract that each time end_epoch is called.</p>
+<h4 id="struct">Struct<a hidden class="anchor" aria-hidden="true" href="#struct">#</a></h4>
+<p>For the structure itself, we will need to store several quantities which will be:</p>
+<ol>
+<li>The defined starting learning rate. This is the starting rate that the current rate will be set to whenever the init function is called.</li>
+<li>The defined ending learning rate. After the maximum number of epochs is called, the learning rate will end up being this value (or close to it due to rounding errors).</li>
+<li>The current learning rate</li>
+<li>The amount of learning rate to subtract each epoch</li>
+</ol>
+<p>These are generic as with everything else, but the type is just defined as &ldquo;T&rdquo;:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">LearningRateLinearDecay</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    starting_rate: <span style="color:#a6e22e">T</span>,
+    ending_rate: <span style="color:#a6e22e">T</span>,
+    current_rate: <span style="color:#a6e22e">T</span>,
+    decay_per_epoch: <span style="color:#a6e22e">T</span>,
+}</code></pre></div>
+<h4 id="constructor">Constructor<a hidden class="anchor" aria-hidden="true" href="#constructor">#</a></h4>
+<p>In order to construct a new instance of this structure, the <strong>required</strong> fields are the starting and ending learning rates that must be passed in. The other two fields are used internally and calculated from these two.</p>
+<p>We will however require the <strong>Clone</strong> trait bound on T, because we firstly need to initialise the current learning rate to the starting rate anyway, but also because we need to initialise our <strong>decay_per_epoch</strong> field to <em>something</em>. We don&rsquo;t mind what we set it to because it&rsquo;ll be recalculated when we initialise during training, but it must be set to something, so we&rsquo;ll just use the starting rate as a valid value.</p>
+<p>The whole constructor function then looks as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: Clone<span style="color:#f92672">&gt;</span> LearningRateLinearDecay<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(starting_rate: <span style="color:#a6e22e">T</span>, ending_rate: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+        Self {
+            starting_rate: <span style="color:#a6e22e">starting_rate</span>.clone(),
+            ending_rate,
+            current_rate: <span style="color:#a6e22e">starting_rate</span>.clone(),
+            decay_per_epoch: <span style="color:#a6e22e">starting_rate</span>, <span style="color:#75715e">// this will get recalculated during training
+</span><span style="color:#75715e"></span>        }
+    }
+}</code></pre></div>
+<h4 id="trait">Trait<a hidden class="anchor" aria-hidden="true" href="#trait">#</a></h4>
+<p>Now we just need to implement the LearningRateHandler trait so that we can use this type as a decaying learning rate with one of our optimisers.</p>
+<p>The init function will simply calculate the amount of decay per epoch. In order to do this, it will use the following formula:</p>
+<p>$$ decay = (start - end) / (epochs - 1) $$</p>
+<p>That is, it takes the difference between start and end (the <strong>distance</strong> to decay over), and the number of epochs it needs to decay over (the <strong>time</strong> it has to decay), and calculates the rate of decay (the <strong>speed</strong>).</p>
+<p>The number of epochs is epochs <strong>- 1</strong> rather than epochs because we don&rsquo;t call the end_epoch function on the very last epoch so we need to make sure we reach the ending learning rate after we call end_epoch for the very last time (which is 1 iteration fewer than the total number of steps we&rsquo;re doing).</p>
+<p>Coding that up, it will look as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, epochs: <span style="color:#66d9ef">u32</span>) {
+    <span style="color:#66d9ef">let</span> epochs: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> epochs.into();
+    self.decay_per_epoch <span style="color:#f92672">=</span>
+        (self.starting_rate.clone() <span style="color:#f92672">-</span> self.ending_rate.clone()) <span style="color:#f92672">/</span> (epochs <span style="color:#f92672">-</span> T::one());
+}</code></pre></div>
+<p>Note that we need to clone starting and ending rate as the subtraction operator consumes its inputs. We also need to convert the number of epochs from a u32 into a T before dividing. We do this rather than requiring a bound on Div<!-- raw HTML omitted --> (as in, dividing a T by u32), because it&rsquo;s more common to have a Div implementation that takes a T on the right hand side.</p>
+<p>Returning the current learning_rate is a trivial operation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learning_rate</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span> {
+    <span style="color:#f92672">&amp;</span>self.current_rate
+}</code></pre></div>
+<p>Finally, when the end_epoch is called, we modify the current learning rate by simply subtracting the decay amount. Again though, we must clone it as the SubAssign trait consumes the right hand side input:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {
+    self.current_rate <span style="color:#f92672">-=</span> self.decay_per_epoch.clone();
+}</code></pre></div>
+<p>We put all these implementations inside an impl block for the trait, making sure to place the appropriate trait bounds on T based on the operations we required inside the implementations.</p>
+<p>The block then looks as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: Clone <span style="color:#f92672">+</span> Div<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> From<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> One <span style="color:#f92672">+</span> Sub<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> SubAssign<span style="color:#f92672">&gt;</span> LearningRateHandler<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">for</span> LearningRateLinearDecay<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+{
+    <span style="color:#75715e">// implementations here
+</span><span style="color:#75715e"></span>}</code></pre></div>
+<h3 id="exponential-decay">Exponential Decay<a hidden class="anchor" aria-hidden="true" href="#exponential-decay">#</a></h3>
+<p>Whereas linear decay applies a fixed decay to the learning rate each step, the exponential decay instead applies a <strong>multiplier</strong>.</p>
+<p>The definition of the struct, and the new function actually is identical to the linear version. This is because we need the exact same parameters, it&rsquo;s just we&rsquo;re calculating the decay multiplier differently, and applying it to the learning rate differently too.</p>
+<p>The struct definition and new function then look as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">LearningRateExponentialDecay</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    starting_rate: <span style="color:#a6e22e">T</span>,
+    ending_rate: <span style="color:#a6e22e">T</span>,
+    current_rate: <span style="color:#a6e22e">T</span>,
+    decay_per_epoch: <span style="color:#a6e22e">T</span>,
+}
+
+<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: Clone<span style="color:#f92672">&gt;</span> LearningRateExponentialDecay<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(starting_rate: <span style="color:#a6e22e">T</span>, ending_rate: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+        Self {
+            starting_rate: <span style="color:#a6e22e">starting_rate</span>.clone(),
+            ending_rate,
+            current_rate: <span style="color:#a6e22e">starting_rate</span>.clone(),
+            decay_per_epoch: <span style="color:#a6e22e">starting_rate</span>,
+        }
+    }
+}</code></pre></div>
+<p>The changes come in the implementation of the trait itself. The formula we use to calculate the decay multiplier is as follows:</p>
+<p>$$ {\frac {end} {start}}^{\frac {1} {epochs - 1}} $$</p>
+<p>Which is coded up as below in the init function</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, epochs: <span style="color:#66d9ef">u32</span>) {
+    <span style="color:#66d9ef">let</span> epochs: <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> epochs.into();
+    self.decay_per_epoch <span style="color:#f92672">=</span> (self.ending_rate <span style="color:#f92672">/</span> self.starting_rate).powf(T::one() <span style="color:#f92672">/</span> (epochs <span style="color:#f92672">-</span> T::one()));
+}</code></pre></div>
+<p>Accessing the learning rate in the learning_rate method remains the same as the linear version. The only other change except from calculating the decay rate is actually applying it.</p>
+<p>In the linear version we had used subtraction to subtract the decay amount from the learning rate at the end of an epoch, however in the exponential version we need to multiply it instead, so the end_epoch method looks as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">end_epoch</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {
+    self.current_rate <span style="color:#f92672">*=</span> self.decay_per_epoch;
+}</code></pre></div>
+<h3 id="testing">Testing<a hidden class="anchor" aria-hidden="true" href="#testing">#</a></h3>
+<p>In order to test these decay methods, we will create two new examples, based off the <strong>softmax_cross_entropy_loss_with_momentum</strong> example. These will be:</p>
+<ol>
+<li><strong>softmax_cross_entropy_loss_with_linear_decay</strong> - A version that applies a linear decay to the learning rate.</li>
+<li><strong>softmax_cross_entropy_loss_with_exponential_decay</strong> - A version that applies an exponential decay to the learning rate.</li>
+</ol>
+<p>As a refresher, we&rsquo;ll re-run the base version (with no decay) and we can see that we get a decent accuracy:</p>
+<pre tabindex="0"><code>Accuracy (training): 93.47999999999999%
+Accuracy (testing): 93.522%
+</code></pre><p>For the linear decay, we&rsquo;ll still start with a learning rate of 0.1, but we&rsquo;ll decay down to 0.05 over our epochs, and the results we can see are slightly better:</p>
+<pre tabindex="0"><code>Accuracy (training): 94.582%
+Accuracy (testing): 94.624%
+</code></pre><p>Finally, we&rsquo;ll test the exponential decay with the same start and end learning rates, however we see a sudden drop in accuracy!. Using exponential decay results in a drop to 90% accuracy.</p>
+<p>This is because the decay rate with exponential is <strong>much</strong> steeper, and so we are taking too small a step too quickly.</p>
+<p>One thing this steep decay lets us do though is take larger steps at the beginning. Let&rsquo;s go ahead and change the starting learning rate to something slightly higher (0.2) and we see that the results are better again:</p>
+<pre tabindex="0"><code>Accuracy (training): 95.506%
+Accuracy (testing): 95.562%
+</code></pre><p>95% aint bad!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

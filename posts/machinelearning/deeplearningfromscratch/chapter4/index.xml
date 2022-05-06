@@ -6,7 +6,17 @@
     <description>Recent content in Chapter 4 - Extensions on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Thu, 05 May 2022 19:13:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 May 2022 01:12:54 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.5 - Learning Rate Decay</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</link>
+      <pubDate>Fri, 06 May 2022 01:12:54 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</guid>
+      <description>As we&amp;rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&amp;rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
+A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.</description>
+    </item>
+    
     <item>
       <title>4.4 - Momentum</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</link>

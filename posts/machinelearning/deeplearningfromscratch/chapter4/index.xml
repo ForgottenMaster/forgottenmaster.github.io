@@ -6,7 +6,18 @@
     <description>Recent content in Chapter 4 - Extensions on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 06 May 2022 01:12:54 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 May 2022 02:11:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.6 - Dropout</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</link>
+      <pubDate>Sat, 07 May 2022 02:11:16 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</guid>
+      <description>Out of all the modifications for neural networks we&amp;rsquo;ve covered in order to try to get the network to train the problem &amp;ldquo;better&amp;rdquo;, we haven&amp;rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
+Introduction Adding more neurons to the network can take one of two forms:
+ Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long)  More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &amp;ldquo;learned feature&amp;rdquo; that the network deems important.</description>
+    </item>
+    
     <item>
       <title>4.5 - Learning Rate Decay</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</link>

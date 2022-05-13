@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sat, 07 May 2022 02:11:16 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 May 2022 23:38:37 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Extra - Training on the MNIST</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</link>
+      <pubDate>Tue, 10 May 2022 23:38:37 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</guid>
+      <description>At this point we&amp;rsquo;ve successfully coded a neural network library that should be extensible enough to create various architectures of densely connected layers. We&amp;rsquo;ve also implemented various techniques that can be used to potentially get better results from the network.
+The next chapters will be about entirely new network architectures, namely Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs), but now that we have enough pieces for training a standard feed forward network, I want to try out training on something more substantial and meaningful than just a simple mathematical formula or comparison operation such as we&amp;rsquo;ve seen so far.</description>
+    </item>
+    
     <item>
       <title>4.6 - Dropout</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</link>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chapter 4.5 - Refactoring Eidetic on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/</link>
+    <description>Recent content in Chapter 4.5 - Refactoring Eidetic on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sun, 24 Jul 2022 17:28:00 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.5.2 - Uninitialised Operations</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/uninitialisedoperations/</link>
+      <pubDate>Sun, 24 Jul 2022 17:28:00 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/uninitialisedoperations/</guid>
+      <description>Now that we&amp;rsquo;ve covered tensors which are the representation of data that is flowing through the API, we can start taking a look at the operations and how we are using typestates to ensure valid usage of the API without unnecessary bloat in code by keeping members around that aren&amp;rsquo;t necessary.
+What are typestates anyway? If you aren&amp;rsquo;t used to programming with generics at the type level, you may not have encountered type states before, so a quick explanation of what they are might be necessary.</description>
+    </item>
+    
+    <item>
+      <title>4.5.2 - Tensors</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/tensors/</link>
+      <pubDate>Sun, 24 Jul 2022 12:48:11 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/tensors/</guid>
+      <description>A &amp;ldquo;tensor&amp;rdquo; is just a fancy name for &amp;ldquo;n-dimensional array&amp;rdquo; (AKA ndarray) and provides a way of thinking about scalars, vectors, matrices, etc. in a uniform way. We refactor Eidetic to use this concept because we want operations to be able to specify how many dimensions are in the input and output data. This post will provide a brief overview of what a tensor is, and how we implement it in Eidetic.</description>
+    </item>
+    
+    <item>
+      <title>4.5.1 - Rationale</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/rationale/</link>
+      <pubDate>Sun, 24 Jul 2022 12:06:05 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/rationale/</guid>
+      <description>The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.
+This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long.</description>
+    </item>
+    
+  </channel>
+</rss>

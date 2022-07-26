@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Chapter 4.5 - Refactoring Eidetic | Robin Firth</title>
+<title>Refactoring Eidetic | Robin Firth</title>
 <meta name="keywords" content="" />
 <meta name="description" content="After finishing enough chapters of the book to have a full feed-forward neural network architecture/API I realised there were some holes in the API and it isn&rsquo;t as flexible as I&rsquo;d like. This intermediate chapter is about refactoring Eidetic to bring the missing functionality in.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/" />
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.92.2" />
-<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,13 +57,13 @@
 
     </style>
 </noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Chapter 4.5 - Refactoring Eidetic" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Refactoring Eidetic" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Chapter 4.5 - Refactoring Eidetic"/>
+<meta name="twitter:title" content="Refactoring Eidetic"/>
 <meta name="twitter:description" content=""/>
 
 
@@ -93,8 +93,8 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "Chapter 4.5 - Refactoring Eidetic",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/"
+      "name": "Refactoring Eidetic",
+      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/"
     }
   ]
 }
@@ -161,7 +161,7 @@
 </header>
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
-  <h1>Chapter 4.5 - Refactoring Eidetic</h1>
+  <h1>Refactoring Eidetic</h1>
 </header>
 <div class="post-content"><p>After finishing enough chapters of the book to have a full feed-forward neural network architecture/API I realised there were some holes in the API and it isn&rsquo;t as flexible as I&rsquo;d like. This intermediate chapter is about refactoring Eidetic to bring the missing functionality in.</p>
 
@@ -170,7 +170,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>4.5.3 - Initialised Operations
+    <h2>Part 5 - Trainable State
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Now we’ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren’t needed in the previous initialised state.
+In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-07-26 20:26:21 +0100 BST'>July 26, 2022</span>&nbsp;·&nbsp;6 min</footer>
+  <a class="entry-link" aria-label="post link to Part 5 - Trainable State" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Part 4 - Initialised Operations
     </h2>
   </header>
   <section class="entry-content">
@@ -178,12 +191,12 @@
 We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can’t directly construct new instances of this type because it’s not publicly visible/nameable....</p>
   </section>
   <footer class="entry-footer"><span title='2022-07-24 21:06:33 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to 4.5.3 - Initialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/initialised/"></a>
+  <a class="entry-link" aria-label="post link to Part 4 - Initialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>4.5.2 - Uninitialised Operations
+    <h2>Part 3 - Uninitialised Operations
     </h2>
   </header>
   <section class="entry-content">
@@ -191,24 +204,24 @@ We are only able to get an operation into the initialised state by first startin
 What are typestates anyway? If you aren’t used to programming with generics at the type level, you may not have encountered type states before, so a quick explanation of what they are might be necessary....</p>
   </section>
   <footer class="entry-footer"><span title='2022-07-24 17:28:00 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;6 min</footer>
-  <a class="entry-link" aria-label="post link to 4.5.2 - Uninitialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/uninitialisedoperations/"></a>
+  <a class="entry-link" aria-label="post link to Part 3 - Uninitialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/uninitialisedoperations/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>4.5.2 - Tensors
+    <h2>Part 2 - Tensors
     </h2>
   </header>
   <section class="entry-content">
     <p>A “tensor” is just a fancy name for “n-dimensional array” (AKA ndarray) and provides a way of thinking about scalars, vectors, matrices, etc. in a uniform way. We refactor Eidetic to use this concept because we want operations to be able to specify how many dimensions are in the input and output data. This post will provide a brief overview of what a tensor is, and how we implement it in Eidetic....</p>
   </section>
   <footer class="entry-footer"><span title='2022-07-24 12:48:11 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;7 min</footer>
-  <a class="entry-link" aria-label="post link to 4.5.2 - Tensors" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/tensors/"></a>
+  <a class="entry-link" aria-label="post link to Part 2 - Tensors" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/tensors/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>4.5.1 - Rationale
+    <h2>Part 1 - Rationale
     </h2>
   </header>
   <section class="entry-content">
@@ -216,7 +229,7 @@ What are typestates anyway? If you aren’t used to programming with generics at
 This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long....</p>
   </section>
   <footer class="entry-footer"><span title='2022-07-24 12:06:05 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to 4.5.1 - Rationale" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4.5/rationale/"></a>
+  <a class="entry-link" aria-label="post link to Part 1 - Rationale" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/"></a>
 </article>
     </main>
     

@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 26 Jul 2022 20:26:21 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Oct 2022 00:23:32 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Part 6 - Forward &amp; Backward</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/</link>
+      <pubDate>Fri, 07 Oct 2022 00:23:32 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/</guid>
+      <description>We now almost have all the pieces in place in the refactored API to be able to train a neural network using the described typestates in the previous sections. The final thing we need to be able to do is to run the forward and backward passes, and apply optimisation to the network weights.
+In the last post I covered the Forward trait and described why it needs to be generic over a lifetime, so we have our way of performing the forward pass.</description>
+    </item>
+    
     <item>
       <title>Part 5 - Trainable State</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/</link>

@@ -23,8 +23,8 @@ Describes capabilities In C# interfaces, we can describe a set of function signa
       <pubDate>Fri, 15 Oct 2021 01:31:14 +0100</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</guid>
-      <description>Move By Default In most programming languages, there is no one true &amp;ldquo;owner&amp;rdquo; of any given piece of data. Data can be allocated on the stack or the heap but references to it can be passed around as needed. There isn&amp;rsquo;t a way of the compiler to track ownership of a piece of data in most languages such as C++.
-Additionally expensive copies of structures may be done without us realising, or being able to opt out of it.</description>
+      <description>Here we&amp;rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C++ as they are both low level programming languages that are suitable for systems programming.
+Memory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:</description>
     </item>
     
     <item>

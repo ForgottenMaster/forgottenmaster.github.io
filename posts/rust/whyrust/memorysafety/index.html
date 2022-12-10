@@ -350,7 +350,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
     v.push(<span style="color:#ae81ff">1</span>);
     v.push(<span style="color:#ae81ff">2</span>);
     v.push(<span style="color:#ae81ff">3</span>);
-    <span style="color:#66d9ef">for</span> <span style="color:#f92672">&amp;</span>i <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>v {
+    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>v {
         v.reserve(<span style="color:#ae81ff">10</span>);
         println!(<span style="color:#e6db74">&#34;{i}&#34;</span>);
     }
@@ -359,7 +359,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
 <pre tabindex="0"><code>error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable
  --&gt; src/main.rs:7:9
   |
-6 |     for &amp;i in &amp;v {
+6 |     for i in &amp;v {
   |               --
   |               |
   |               immutable borrow occurs here

@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 16 Nov 2022 21:39:20 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Dec 2022 22:17:58 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5.1 - Introduction</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/</link>
+      <pubDate>Fri, 30 Dec 2022 22:17:58 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/</guid>
+      <description>With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.
+However, such a &amp;ldquo;flat&amp;rdquo; model has no knowledge or concept of &amp;ldquo;closeness&amp;rdquo; of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input.</description>
+    </item>
+    
     <item>
       <title>Part 6 - Forward &amp; Backward</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/</link>

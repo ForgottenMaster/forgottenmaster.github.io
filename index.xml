@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 30 Dec 2022 23:05:00 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Dec 2022 17:18:57 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wrap Up</title>
+      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/wrapup/</link>
+      <pubDate>Sat, 31 Dec 2022 17:18:57 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/wrapup/</guid>
+      <description>After running through the book and getting a fully working feed-forward deep learning API and learning the inner workings of neural networks as a result, I&amp;rsquo;ve decided not to pursue this particular book any further.
+The purpose of reading this particular book was to enable me to get a better understanding into what makes neural networks tick, and as a result it was necessary to write this series of posts with diagrams, maths, and code.</description>
+    </item>
+    
     <item>
       <title>5.2 - Convolutional Layers</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/</link>

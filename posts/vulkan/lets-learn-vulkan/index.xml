@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Let&#39;s Learn Vulkan on Robin Firth</title>
+    <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/</link>
+    <description>Recent content in Let&#39;s Learn Vulkan on Robin Firth</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. Setup</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</link>
+      <pubDate>Mon, 09 Jan 2023 22:43:32 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</guid>
+      <description>In order to follow along with the course, we&amp;rsquo;ll want to get the project up and running, and nail down the tech stack we&amp;rsquo;ll be using.
+The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2. Workspace
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Before working gradually through Vulkan, we will assume we want to implement a reusable wrapper library for Vulkan, since Ash itself is very unsafe, and we don’t really want to write unsafe code everywhere. We can have a proper separation of library and executable packages and allow for their own dependencies by using Cargo workspaces.
+Root At the root of the package will be a Cargo.toml file describing the workspace. The way Cargo handles workspaces is that at this workspace level we simply need to name the members of the workspace....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-02-13 23:31:03 +0000 UTC'>February 13, 2023</span>&nbsp;·&nbsp;3 min</footer>
+  <a class="entry-link" aria-label="post link to 2. Workspace" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/workspace/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>1. Setup
     </h2>
   </header>

@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>2. Workspace</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/workspace/</link>
+      <pubDate>Mon, 13 Feb 2023 23:31:03 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/workspace/</guid>
+      <description>Before working gradually through Vulkan, we will assume we want to implement a reusable wrapper library for Vulkan, since Ash itself is very unsafe, and we don&amp;rsquo;t really want to write unsafe code everywhere. We can have a proper separation of library and executable packages and allow for their own dependencies by using Cargo workspaces.
+Root At the root of the package will be a Cargo.toml file describing the workspace. The way Cargo handles workspaces is that at this workspace level we simply need to name the members of the workspace.</description>
+    </item>
+    
+    <item>
       <title>1. Setup</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</link>
       <pubDate>Mon, 09 Jan 2023 22:43:32 +0000</pubDate>

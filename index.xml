@@ -6,7 +6,18 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Feb 2023 22:32:00 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2. The Window, the Instance, and the Device</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/</link>
+      <pubDate>Wed, 15 Feb 2023 22:32:00 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/</guid>
+      <description>The first things we&amp;rsquo;ll need to do to start using Vulkan will be to open a window to render into, create a Vulkan instance, and create a logical Vulkan device from that instance.
+The end result will just show a blank white window as shown below.
+Event loop and window The first step which we can get out of the way before even touching Vulkan will be to create a window for us to eventually render into, and an event loop that winit uses to allow us to handle the events from the user such as resizing etc.</description>
+    </item>
+    
     <item>
       <title>1. Setup</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</link>

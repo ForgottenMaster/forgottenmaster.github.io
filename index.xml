@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 15 Feb 2023 22:32:00 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Feb 2023 01:04:25 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3. Validation</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/</link>
+      <pubDate>Sat, 18 Feb 2023 01:04:25 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/</guid>
+      <description>By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won&amp;rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
+This is because Vulkan will do the bare minimum by default for efficiency - what we don&amp;rsquo;t use we don&amp;rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours.</description>
+    </item>
+    
     <item>
       <title>2. The Window, the Instance, and the Device</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/</link>

@@ -164,6 +164,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>4. Surface
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
+Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
+Surface extensions We could manually detect the platform we’re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:...</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-02-18 12:08:01 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;8 min</footer>
+  <a class="entry-link" aria-label="post link to 4. Surface" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>3. Validation
     </h2>
   </header>

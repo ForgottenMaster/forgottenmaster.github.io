@@ -8,6 +8,17 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>4. Surface</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/</link>
+      <pubDate>Sat, 18 Feb 2023 12:08:01 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/</guid>
+      <description>The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
+Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
+Surface extensions We could manually detect the platform we&amp;rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:</description>
+    </item>
+    
+    <item>
       <title>3. Validation</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/</link>
       <pubDate>Sat, 18 Feb 2023 01:04:25 +0000</pubDate>

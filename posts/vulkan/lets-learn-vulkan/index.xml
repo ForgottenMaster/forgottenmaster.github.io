@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>5. Swapchain</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/</link>
+      <pubDate>Sun, 19 Feb 2023 12:21:42 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/</guid>
+      <description>Now that we&amp;rsquo;ve been able to create the device surface, and get appropriate information about what formats, color spaces, and presentation modes are available, we are ready to tackle the next step in setting up a rendering environment. This next step will be what&amp;rsquo;s called a swapchain
+What is screen tearing? On the front-end side of things, the device surface represents the rendering context and can be considered &amp;ldquo;the window&amp;rdquo; for our purposes.</description>
+    </item>
+    
+    <item>
       <title>4. Surface</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/</link>
       <pubDate>Sat, 18 Feb 2023 12:08:01 +0000</pubDate>

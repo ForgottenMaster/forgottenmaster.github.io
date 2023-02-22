@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>6. Shaders</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/</link>
+      <pubDate>Tue, 21 Feb 2023 23:26:25 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/</guid>
+      <description>Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
+Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V.</description>
+    </item>
+    
+    <item>
       <title>5. Swapchain</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/</link>
       <pubDate>Sun, 19 Feb 2023 12:21:42 +0000</pubDate>

@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>8. Framebuffers and Command Buffers</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</link>
+      <pubDate>Sun, 26 Feb 2023 00:10:55 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</guid>
+      <description>Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.
+A framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment.</description>
+    </item>
+    
+    <item>
       <title>7. Graphics Pipeline</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</link>
       <pubDate>Sat, 25 Feb 2023 16:21:48 +0000</pubDate>

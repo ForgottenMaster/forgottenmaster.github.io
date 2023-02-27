@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 26 Feb 2023 00:10:55 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Feb 2023 16:30:01 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>9. Drawing</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/</link>
+      <pubDate>Sun, 26 Feb 2023 16:30:01 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/</guid>
+      <description>We can finally start drawing on the screen now that we&amp;rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
+Semaphores &amp;amp; Fences There are two kinds of synchronization primitives in Vulkan which are</description>
+    </item>
+    
     <item>
       <title>8. Framebuffers and Command Buffers</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</link>
@@ -25,8 +35,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
       <description>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
+Overview of graphics pipelineVulkan Tutorial
+The sections highlighted in yellow indicate those sections which we can program through shader modules. The green stages are fixed functionality, but we can tweak the settings for them.</description>
     </item>
     
     <item>
@@ -88,7 +98,7 @@ Event loop and window The first step which we can get out of the way before even
       
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</guid>
       <description>In order to follow along with the course, we&amp;rsquo;ll want to get the project up and running, and nail down the tech stack we&amp;rsquo;ll be using.
-The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
+The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
     </item>
     
     <item>
@@ -199,7 +209,7 @@ The next chapters will be about entirely new network architectures, namely Convo
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</guid>
       <description>Out of all the modifications for neural networks we&amp;rsquo;ve covered in order to try to get the network to train the problem &amp;ldquo;better&amp;rdquo;, we haven&amp;rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
 Introduction Adding more neurons to the network can take one of two forms:
- Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long)  More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &amp;ldquo;learned feature&amp;rdquo; that the network deems important.</description>
+Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &amp;ldquo;learned feature&amp;rdquo; that the network deems important.</description>
     </item>
     
     <item>
@@ -290,7 +300,7 @@ Doing this will ensure that users of our API have some reference examples of how
       <pubDate>Tue, 05 Apr 2022 22:45:22 +0100</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</guid>
-      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
+      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
     </item>
     
     <item>
@@ -431,7 +441,7 @@ We can achieve this by looking at a sequence of characters at the beginning of t
       <guid>https://forgottenmaster.github.io/posts/git/basic_concepts/</guid>
       <description>This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
 Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
+The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
     </item>
     
     <item>

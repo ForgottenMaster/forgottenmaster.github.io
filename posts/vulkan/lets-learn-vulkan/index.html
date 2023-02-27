@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.110.0">
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml">
 <noscript>
     <style>
@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>9. Drawing
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>We can finally start drawing on the screen now that we’ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
+Semaphores &amp; Fences There are two kinds of synchronization primitives in Vulkan which are...</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-02-26 16:30:01 +0000 UTC'>February 26, 2023</span>&nbsp;·&nbsp;10 min</footer>
+  <a class="entry-link" aria-label="post link to 9. Drawing" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>8. Framebuffers and Command Buffers
     </h2>
   </header>
@@ -183,8 +196,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
   <section class="entry-content">
     <p>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules....</p>
+Overview of graphics pipelineVulkan Tutorial
+The sections highlighted in yellow indicate those sections which we can program through shader modules. The green stages are fixed functionality, but we can tweak the settings for them....</p>
   </section>
   <footer class="entry-footer"><span title='2023-02-25 16:21:48 +0000 UTC'>February 25, 2023</span>&nbsp;·&nbsp;12 min</footer>
   <a class="entry-link" aria-label="post link to 7. Graphics Pipeline" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/"></a>
@@ -264,7 +277,7 @@ Event loop and window The first step which we can get out of the way before even
   </header>
   <section class="entry-content">
     <p>In order to follow along with the course, we’ll want to get the project up and running, and nail down the tech stack we’ll be using.
-The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install....</p>
+The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install....</p>
   </section>
   <footer class="entry-footer"><span title='2023-01-09 22:43:32 +0000 UTC'>January 9, 2023</span>&nbsp;·&nbsp;3 min</footer>
   <a class="entry-link" aria-label="post link to 1. Setup" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/"></a>

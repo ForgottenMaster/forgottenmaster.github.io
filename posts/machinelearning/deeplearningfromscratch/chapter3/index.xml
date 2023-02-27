@@ -32,7 +32,7 @@ Doing this will ensure that users of our API have some reference examples of how
       <pubDate>Tue, 05 Apr 2022 22:45:22 +0100</pubDate>
       
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</guid>
-      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
+      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
     </item>
     
     <item>

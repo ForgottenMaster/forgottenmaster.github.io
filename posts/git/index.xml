@@ -15,7 +15,7 @@
       <guid>https://forgottenmaster.github.io/posts/git/basic_concepts/</guid>
       <description>This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
 Repository A Git repository has 2 main storages:
-The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
+  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.</description>
     </item>
     
     <item>

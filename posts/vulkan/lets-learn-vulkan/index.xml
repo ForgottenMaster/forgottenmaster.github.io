@@ -8,6 +8,17 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>10. Vertex Buffers</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/vertex-buffers/</link>
+      <pubDate>Wed, 01 Mar 2023 17:26:02 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/vertex-buffers/</guid>
+      <description>We now have a triangle rendering to the screen which proves that our setup is all correct and valid. However currently our vertex positions and colors are baked into our vertex shader.
+The next step is to allow our application to define the vertex data to be passed into our graphics pipeline, which we can do with vertex buffers.
+Vertex Data The first thing we want to do is to define how we will store our vertex data.</description>
+    </item>
+    
+    <item>
       <title>9. Drawing</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/</link>
       <pubDate>Sun, 26 Feb 2023 16:30:01 +0000</pubDate>
@@ -35,8 +46,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
       <description>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules. The green stages are fixed functionality, but we can tweak the settings for them.</description>
+Overview of graphics pipelineVulkan Tutorial
+The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
     </item>
     
     <item>
@@ -98,7 +109,7 @@ Event loop and window The first step which we can get out of the way before even
       
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</guid>
       <description>In order to follow along with the course, we&amp;rsquo;ll want to get the project up and running, and nail down the tech stack we&amp;rsquo;ll be using.
-The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
+The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
     </item>
     
   </channel>

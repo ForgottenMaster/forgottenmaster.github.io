@@ -12,7 +12,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.110.0">
+<meta name="generator" content="Hugo 0.92.2" />
 <noscript>
     <style>
         #theme-toggle,
@@ -115,7 +115,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
   "keywords": [
     
   ],
-  "articleBody": "By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won’t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.\nThis is because Vulkan will do the bare minimum by default for efficiency - what we don’t use we don’t pay for, and this includes extra validations that can cause incorrect but safe behaviours.\nIn order to enable validation in our Vulkan application we need to do the following things:\nEnable the debug utils extension Enable the validation layer when we create the Vulkan instance Register a message reporting callback that can print out the message (or log to file, database, whatever) Enable the debug utils extension This one is pretty easy to achieve since we already are passing some extensions through to instance creation, and validating them. We just need to manually add one more extension, VK_EXT_debug_utils.\nPreviously we were just passing the extensions slice we got from the ash_window glue function call as-is, however we can’t resize or add to a slice. Therefore to be able to add our own required extensions in, we need to take the extensions given to us and collect them into a Vec, which we can do with the to_vec function on slices:\nlet mut required_extensions = enumerate_required_extensions(raw_display_handle)?.to_vec(); Then, we can extend the Vec with our own hard coded extensions. We can define these in an array, using the CStr::from_bytes_with_nul_unchecked and a bytestring approach, much like defining our application name:\nrequired_extensions .extend([ unsafe { CStr::from_bytes_with_nul_unchecked(b\"VK_EXT_debug_utils\\0\") }.as_ptr(), ]); Enable the validation layer Next we need to enable the actual validation layer which is called VK_LAYER_KHRONOS_validation which will require some new code as we’ve only validated and enabled extensions thus far.\nHowever, it turns out we can just copy/paste the validation we did for extensions but check the available layers instead.\nWe then just call enabled_layer_names and pass in the checked layer names for enabling when we create the Vulkan instance.\nFor reference, this is the new validate_required_layers function:\n/// # Safety /// This function doesn't validate that the *const i8 pointers /// inside the required_layers slice are all valid null-terminated /// UTF-8 strings. Caller must ensure that these are correctly formatted /// or retrieved from a verified source such as the Vulkan API itself. unsafe fn validate_required_layers(required_layers: \u0026[*const i8], entry: \u0026Entry) -\u003e Result\u003c()\u003e { { let instance_layer_properties = entry.enumerate_instance_layer_properties()?; let required_layers = required_layers .iter() .copied() .map(|ptr| CStr::from_ptr(ptr)) .collect::\u003cVec\u003c_\u003e\u003e(); let available_layers = instance_layer_properties .iter() .map(|prop| CStr::from_ptr(prop.layer_name.as_ptr())) .collect::\u003cHashSet\u003c_\u003e\u003e(); for required_layer in required_layers { if !available_layers.contains(required_layer) { return Err(anyhow::anyhow!(format!( \"Required layer {} is not available\", required_layer.to_str()? ))); } } Ok::\u003c_, Error\u003e(()) } .context(\"Error in validate_required_layers.\") } Register a message reporting callback Now we’ve enabled the extension, and the layer for validation, we still won’t see anything printed out because we will be responsible for handling any debug logging that occurs in whichever way we see fit (for our purposes we’ll just log to console).\nWe can do this in ash through the DebugUtils type, which we can create a new one of fairly easily:\nlet debug_utils = DebugUtils::new(\u0026entry, \u0026instance); We then invoke a new function create_debug_utils_messenger to create a messenger for us which will handle loggin validation errors to the console.\nThe signature of this new function looks as follows:\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) -\u003e Result\u003cDebugUtilsMessengerEXT\u003e So it takes a reference to the DebugUtils “context” we created above and if successful will return us a handle to the messenger so we can destroy it during cleanup.\nIn order to create a messenger we need three things:\nA callback function A bitfield of the message severity we want to receive A bitfield of the message type we want to receive In our case, to keep the logs clean, we’ll only receive error messages, and only relating to validation.\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) -\u003e Result\u003cDebugUtilsMessengerEXT\u003e { unsafe { debug_utils.create_debug_utils_messenger( \u0026DebugUtilsMessengerCreateInfoEXT::builder() .pfn_user_callback(Some(debug_callback)) .message_severity(DebugUtilsMessageSeverityFlagsEXT::ERROR) .message_type(DebugUtilsMessageTypeFlagsEXT::VALIDATION), None, ) } .context(\"Error while creating a debug utils messenger\") } The callback function (debug_callback) is a Rust function that we pass a pointer to over to the C API so it can be called back. This is an example of FFI at work and it’s fairly straightforward to define our Rust function so that it’s compatible.\nIt needs to be unsafe, because everything touching the FFI is unsafe.\nWe need to make it use the “system” calling convention, and the parameter types must be correct. It also needs to return a u32, which according to the docs should always be VK_FALSE. VK_FALSE is the value of 0.\nWithin the function we simply print out the message we receive, for which we need to convert the C-string pointer we receive into a CStr wrapper so it can print properly. The function in its entirety is as follows:\nunsafe extern \"system\" fn debug_callback( _severity_flags: DebugUtilsMessageSeverityFlagsEXT, _type_flags: DebugUtilsMessageTypeFlagsEXT, callback_data: *const DebugUtilsMessengerCallbackDataEXT, _user_data: *mut c_void, ) -\u003e u32 { let message = CStr::from_ptr((*callback_data).p_message); println!(\"{message:?}\"); 0 } Cleanup Finally we will need to correctly destroy the debug utils messenger during the cleanup of the application. The cleanup function is modified to destroy the messenger before the Vulkan instance:\nfn cleanup( instance: Instance, device: Device, debug_utils: DebugUtils, messenger: DebugUtilsMessengerEXT, ) { unsafe { device.destroy_device(None); debug_utils.destroy_debug_utils_messenger(messenger, None); instance.destroy_instance(None); } } And that’s it!. Now when we get a validation error, we’ll have it logged to the console, for example if we forget to destroy the Vulkan device before the instance is destroyed:\nUNASSIGNED-ObjectTracker-ObjectLeak(ERROR / SPEC): msgNum: 699204130 - Validation Error: [ UNASSIGNED-ObjectTracker-ObjectLeak ] Object 0: handle = 0x1c9c9339be0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x29ad0222 | OBJ ERROR : VK_DEBUG_REPORT_OBJECT_TYPE_DEVICE_EXT object VkDevice 0x1c9c9339be0[] has not been destroyed. Objects: 1 [0] 0x1c9c9339be0, type: 3, name: NULL ",
+  "articleBody": "By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won’t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.\nThis is because Vulkan will do the bare minimum by default for efficiency - what we don’t use we don’t pay for, and this includes extra validations that can cause incorrect but safe behaviours.\nIn order to enable validation in our Vulkan application we need to do the following things:\n Enable the debug utils extension Enable the validation layer when we create the Vulkan instance Register a message reporting callback that can print out the message (or log to file, database, whatever)  Enable the debug utils extension This one is pretty easy to achieve since we already are passing some extensions through to instance creation, and validating them. We just need to manually add one more extension, VK_EXT_debug_utils.\nPreviously we were just passing the extensions slice we got from the ash_window glue function call as-is, however we can’t resize or add to a slice. Therefore to be able to add our own required extensions in, we need to take the extensions given to us and collect them into a Vec, which we can do with the to_vec function on slices:\nlet mut required_extensions = enumerate_required_extensions(raw_display_handle)?.to_vec(); Then, we can extend the Vec with our own hard coded extensions. We can define these in an array, using the CStr::from_bytes_with_nul_unchecked and a bytestring approach, much like defining our application name:\nrequired_extensions .extend([ unsafe { CStr::from_bytes_with_nul_unchecked(b\"VK_EXT_debug_utils\\0\") }.as_ptr(), ]); Enable the validation layer Next we need to enable the actual validation layer which is called VK_LAYER_KHRONOS_validation which will require some new code as we’ve only validated and enabled extensions thus far.\nHowever, it turns out we can just copy/paste the validation we did for extensions but check the available layers instead.\nWe then just call enabled_layer_names and pass in the checked layer names for enabling when we create the Vulkan instance.\nFor reference, this is the new validate_required_layers function:\n/// # Safety /// This function doesn't validate that the *const i8 pointers /// inside the required_layers slice are all valid null-terminated /// UTF-8 strings. Caller must ensure that these are correctly formatted /// or retrieved from a verified source such as the Vulkan API itself. unsafe fn validate_required_layers(required_layers: \u0026[*const i8], entry: \u0026Entry) - Result() { { let instance_layer_properties = entry.enumerate_instance_layer_properties()?; let required_layers = required_layers .iter() .copied() .map(|ptr| CStr::from_ptr(ptr)) .collect::Vec_(); let available_layers = instance_layer_properties .iter() .map(|prop| CStr::from_ptr(prop.layer_name.as_ptr())) .collect::HashSet_(); for required_layer in required_layers { if !available_layers.contains(required_layer) { return Err(anyhow::anyhow!(format!( \"Required layer {} is not available\", required_layer.to_str()? ))); } } Ok::_, Error(()) } .context(\"Error in validate_required_layers.\") } Register a message reporting callback Now we’ve enabled the extension, and the layer for validation, we still won’t see anything printed out because we will be responsible for handling any debug logging that occurs in whichever way we see fit (for our purposes we’ll just log to console).\nWe can do this in ash through the DebugUtils type, which we can create a new one of fairly easily:\nlet debug_utils = DebugUtils::new(\u0026entry, \u0026instance); We then invoke a new function create_debug_utils_messenger to create a messenger for us which will handle loggin validation errors to the console.\nThe signature of this new function looks as follows:\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) - ResultDebugUtilsMessengerEXT So it takes a reference to the DebugUtils “context” we created above and if successful will return us a handle to the messenger so we can destroy it during cleanup.\nIn order to create a messenger we need three things:\n A callback function A bitfield of the message severity we want to receive A bitfield of the message type we want to receive  In our case, to keep the logs clean, we’ll only receive error messages, and only relating to validation.\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) - ResultDebugUtilsMessengerEXT { unsafe { debug_utils.create_debug_utils_messenger( \u0026DebugUtilsMessengerCreateInfoEXT::builder() .pfn_user_callback(Some(debug_callback)) .message_severity(DebugUtilsMessageSeverityFlagsEXT::ERROR) .message_type(DebugUtilsMessageTypeFlagsEXT::VALIDATION), None, ) } .context(\"Error while creating a debug utils messenger\") } The callback function (debug_callback) is a Rust function that we pass a pointer to over to the C API so it can be called back. This is an example of FFI at work and it’s fairly straightforward to define our Rust function so that it’s compatible.\nIt needs to be unsafe, because everything touching the FFI is unsafe.\nWe need to make it use the “system” calling convention, and the parameter types must be correct. It also needs to return a u32, which according to the docs should always be VK_FALSE. VK_FALSE is the value of 0.\nWithin the function we simply print out the message we receive, for which we need to convert the C-string pointer we receive into a CStr wrapper so it can print properly. The function in its entirety is as follows:\nunsafe extern \"system\" fn debug_callback( _severity_flags: DebugUtilsMessageSeverityFlagsEXT, _type_flags: DebugUtilsMessageTypeFlagsEXT, callback_data: *const DebugUtilsMessengerCallbackDataEXT, _user_data: *mut c_void, ) - u32 { let message = CStr::from_ptr((*callback_data).p_message); println!(\"{message:?}\"); 0 } Cleanup Finally we will need to correctly destroy the debug utils messenger during the cleanup of the application. The cleanup function is modified to destroy the messenger before the Vulkan instance:\nfn cleanup( instance: Instance, device: Device, debug_utils: DebugUtils, messenger: DebugUtilsMessengerEXT, ) { unsafe { device.destroy_device(None); debug_utils.destroy_debug_utils_messenger(messenger, None); instance.destroy_instance(None); } } And that’s it!. Now when we get a validation error, we’ll have it logged to the console, for example if we forget to destroy the Vulkan device before the instance is destroyed:\nUNASSIGNED-ObjectTracker-ObjectLeak(ERROR / SPEC): msgNum: 699204130 - Validation Error: [ UNASSIGNED-ObjectTracker-ObjectLeak ] Object 0: handle = 0x1c9c9339be0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x29ad0222 | OBJ ERROR : VK_DEBUG_REPORT_OBJECT_TYPE_DEVICE_EXT object VkDevice 0x1c9c9339be0[] has not been destroyed. Objects: 1 [0] 0x1c9c9339be0, type: 3, name: NULL ",
   "wordCount" : "947",
   "inLanguage": "en",
   "datePublished": "2023-02-18T01:04:25Z",
@@ -237,53 +237,53 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 <h1 id="enable-the-debug-utils-extension">Enable the debug utils extension<a hidden class="anchor" aria-hidden="true" href="#enable-the-debug-utils-extension">#</a></h1>
 <p>This one is pretty easy to achieve since we already are passing some extensions through to instance creation, and validating them. We just need to manually add one more extension, <strong>VK_EXT_debug_utils</strong>.</p>
 <p>Previously we were just passing the extensions slice we got from the ash_window glue function call as-is, however we can&rsquo;t resize or add to a slice. Therefore to be able to add our own required extensions in, we need to take the extensions given to us and collect them into a Vec, which we can do with the <strong>to_vec</strong> function on slices:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> required_extensions <span style="color:#f92672">=</span> enumerate_required_extensions(raw_display_handle)<span style="color:#f92672">?</span>.to_vec();</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> required_extensions <span style="color:#f92672">=</span> enumerate_required_extensions(raw_display_handle)<span style="color:#f92672">?</span>.to_vec();</code></pre></div>
 <p>Then, we can extend the Vec with our own hard coded extensions. We can define these in an array, using the CStr::from_bytes_with_nul_unchecked and a bytestring approach, much like defining our application name:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>required_extensions
-</span></span><span style="display:flex;"><span>    .extend([
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsafe</span> { CStr::from_bytes_with_nul_unchecked(<span style="color:#e6db74">b&#34;VK_EXT_debug_utils</span><span style="color:#ae81ff">\0</span><span style="color:#e6db74">&#34;</span>) }.as_ptr(),
-</span></span><span style="display:flex;"><span>    ]);</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">required_extensions
+    .extend([
+        <span style="color:#66d9ef">unsafe</span> { CStr::from_bytes_with_nul_unchecked(<span style="color:#e6db74">b&#34;VK_EXT_debug_utils</span><span style="color:#ae81ff">\0</span><span style="color:#e6db74">&#34;</span>) }.as_ptr(),
+    ]);</code></pre></div>
 <h1 id="enable-the-validation-layer">Enable the validation layer<a hidden class="anchor" aria-hidden="true" href="#enable-the-validation-layer">#</a></h1>
 <p>Next we need to enable the actual validation layer which is called <strong>VK_LAYER_KHRONOS_validation</strong> which will require some new code as we&rsquo;ve only validated and enabled extensions thus far.</p>
 <p>However, it turns out we can just copy/paste the validation we did for extensions but check the available layers instead.</p>
 <p>We then just call <strong>enabled_layer_names</strong> and pass in the checked layer names for enabling when we create the Vulkan instance.</p>
 <p>For reference, this is the new validate_required_layers function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#e6db74">/// # Safety
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// This function doesn&#39;t validate that the *const i8 pointers
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// inside the required_layers slice are all valid null-terminated
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// UTF-8 strings. Caller must ensure that these are correctly formatted
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// or retrieved from a verified source such as the Vulkan API itself.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">validate_required_layers</span>(required_layers: <span style="color:#66d9ef">&amp;</span>[<span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">i8</span>], entry: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Entry</span>) -&gt; Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> instance_layer_properties <span style="color:#f92672">=</span> entry.enumerate_instance_layer_properties()<span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> required_layers <span style="color:#f92672">=</span> required_layers
-</span></span><span style="display:flex;"><span>            .iter()
-</span></span><span style="display:flex;"><span>            .copied()
-</span></span><span style="display:flex;"><span>            .map(<span style="color:#f92672">|</span>ptr<span style="color:#f92672">|</span> CStr::from_ptr(ptr))
-</span></span><span style="display:flex;"><span>            .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> available_layers <span style="color:#f92672">=</span> instance_layer_properties
-</span></span><span style="display:flex;"><span>            .iter()
-</span></span><span style="display:flex;"><span>            .map(<span style="color:#f92672">|</span>prop<span style="color:#f92672">|</span> CStr::from_ptr(prop.layer_name.as_ptr()))
-</span></span><span style="display:flex;"><span>            .collect::<span style="color:#f92672">&lt;</span>HashSet<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> required_layer <span style="color:#66d9ef">in</span> required_layers {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>available_layers.contains(required_layer) {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Err(anyhow::anyhow<span style="color:#f92672">!</span>(format!(
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;Required layer {} is not available&#34;</span>,
-</span></span><span style="display:flex;"><span>                    required_layer.to_str()<span style="color:#f92672">?</span>
-</span></span><span style="display:flex;"><span>                )));
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        Ok::<span style="color:#f92672">&lt;</span>_, Error<span style="color:#f92672">&gt;</span>(())
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Error in validate_required_layers.&#34;</span>)
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#e6db74">/// # Safety
+</span><span style="color:#e6db74">/// This function doesn&#39;t validate that the *const i8 pointers
+</span><span style="color:#e6db74">/// inside the required_layers slice are all valid null-terminated
+</span><span style="color:#e6db74">/// UTF-8 strings. Caller must ensure that these are correctly formatted
+</span><span style="color:#e6db74">/// or retrieved from a verified source such as the Vulkan API itself.
+</span><span style="color:#e6db74"></span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">validate_required_layers</span>(required_layers: <span style="color:#66d9ef">&amp;</span>[<span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">i8</span>], entry: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Entry</span>) -&gt; Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+    {
+        <span style="color:#66d9ef">let</span> instance_layer_properties <span style="color:#f92672">=</span> entry.enumerate_instance_layer_properties()<span style="color:#f92672">?</span>;
+        <span style="color:#66d9ef">let</span> required_layers <span style="color:#f92672">=</span> required_layers
+            .iter()
+            .copied()
+            .map(<span style="color:#f92672">|</span>ptr<span style="color:#f92672">|</span> CStr::from_ptr(ptr))
+            .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+        <span style="color:#66d9ef">let</span> available_layers <span style="color:#f92672">=</span> instance_layer_properties
+            .iter()
+            .map(<span style="color:#f92672">|</span>prop<span style="color:#f92672">|</span> CStr::from_ptr(prop.layer_name.as_ptr()))
+            .collect::<span style="color:#f92672">&lt;</span>HashSet<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+        <span style="color:#66d9ef">for</span> required_layer <span style="color:#66d9ef">in</span> required_layers {
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>available_layers.contains(required_layer) {
+                <span style="color:#66d9ef">return</span> Err(anyhow::anyhow<span style="color:#f92672">!</span>(format!(
+                    <span style="color:#e6db74">&#34;Required layer {} is not available&#34;</span>,
+                    required_layer.to_str()<span style="color:#f92672">?</span>
+                )));
+            }
+        }
+        Ok::<span style="color:#f92672">&lt;</span>_, Error<span style="color:#f92672">&gt;</span>(())
+    }
+    .context(<span style="color:#e6db74">&#34;Error in validate_required_layers.&#34;</span>)
+}</code></pre></div>
 <h1 id="register-a-message-reporting-callback">Register a message reporting callback<a hidden class="anchor" aria-hidden="true" href="#register-a-message-reporting-callback">#</a></h1>
 <p>Now we&rsquo;ve enabled the extension, and the layer for validation, we still won&rsquo;t see anything printed out because we will be responsible for handling any debug logging that occurs in whichever way we see fit (for our purposes we&rsquo;ll just log to console).</p>
 <p>We can do this in ash through the DebugUtils type, which we can create a new one of fairly easily:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> debug_utils <span style="color:#f92672">=</span> DebugUtils::new(<span style="color:#f92672">&amp;</span>entry, <span style="color:#f92672">&amp;</span>instance);</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> debug_utils <span style="color:#f92672">=</span> DebugUtils::new(<span style="color:#f92672">&amp;</span>entry, <span style="color:#f92672">&amp;</span>instance);</code></pre></div>
 <p>We then invoke a new function <strong>create_debug_utils_messenger</strong> to create a messenger for us which will handle loggin validation errors to the console.</p>
 <p>The signature of this new function looks as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_debug_utils_messenger</span>(debug_utils: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">DebugUtils</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DebugUtilsMessengerEXT<span style="color:#f92672">&gt;</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_debug_utils_messenger</span>(debug_utils: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">DebugUtils</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DebugUtilsMessengerEXT<span style="color:#f92672">&gt;</span></code></pre></div>
 <p>So it takes a reference to the DebugUtils &ldquo;context&rdquo; we created above and if successful will return us a handle to the messenger so we can destroy it during cleanup.</p>
 <p>In order to create a messenger we need three things:</p>
 <ol>
@@ -292,50 +292,50 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 <li>A bitfield of the message <em>type</em> we want to receive</li>
 </ol>
 <p>In our case, to keep the logs clean, we&rsquo;ll only receive error messages, and only relating to validation.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_debug_utils_messenger</span>(debug_utils: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">DebugUtils</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DebugUtilsMessengerEXT<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
-</span></span><span style="display:flex;"><span>        debug_utils.create_debug_utils_messenger(
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;</span>DebugUtilsMessengerCreateInfoEXT::builder()
-</span></span><span style="display:flex;"><span>                .pfn_user_callback(Some(debug_callback))
-</span></span><span style="display:flex;"><span>                .message_severity(DebugUtilsMessageSeverityFlagsEXT::ERROR)
-</span></span><span style="display:flex;"><span>                .message_type(DebugUtilsMessageTypeFlagsEXT::VALIDATION),
-</span></span><span style="display:flex;"><span>            None,
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Error while creating a debug utils messenger&#34;</span>)
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_debug_utils_messenger</span>(debug_utils: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">DebugUtils</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DebugUtilsMessengerEXT<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">unsafe</span> {
+        debug_utils.create_debug_utils_messenger(
+            <span style="color:#f92672">&amp;</span>DebugUtilsMessengerCreateInfoEXT::builder()
+                .pfn_user_callback(Some(debug_callback))
+                .message_severity(DebugUtilsMessageSeverityFlagsEXT::ERROR)
+                .message_type(DebugUtilsMessageTypeFlagsEXT::VALIDATION),
+            None,
+        )
+    }
+    .context(<span style="color:#e6db74">&#34;Error while creating a debug utils messenger&#34;</span>)
+}</code></pre></div>
 <p>The callback function (debug_callback) is a Rust function that we pass a pointer to over to the C API so it can be called back. This is an example of FFI at work and it&rsquo;s fairly straightforward to define our Rust function so that it&rsquo;s compatible.</p>
 <p>It needs to be unsafe, because everything touching the FFI is unsafe.</p>
 <p>We need to make it use the &ldquo;system&rdquo; calling convention, and the parameter types must be correct. It also needs to return a u32, which according to the docs should <strong>always</strong> be VK_FALSE. VK_FALSE is the value of 0.</p>
 <p>Within the function we simply print out the message we receive, for which we need to convert the C-string pointer we receive into a CStr wrapper so it can print properly. The function in its entirety is as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;system&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">debug_callback</span>(
-</span></span><span style="display:flex;"><span>    _severity_flags: <span style="color:#a6e22e">DebugUtilsMessageSeverityFlagsEXT</span>,
-</span></span><span style="display:flex;"><span>    _type_flags: <span style="color:#a6e22e">DebugUtilsMessageTypeFlagsEXT</span>,
-</span></span><span style="display:flex;"><span>    callback_data: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> DebugUtilsMessengerCallbackDataEXT,
-</span></span><span style="display:flex;"><span>    _user_data: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void,
-</span></span><span style="display:flex;"><span>) -&gt; <span style="color:#66d9ef">u32</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> message <span style="color:#f92672">=</span> CStr::from_ptr((<span style="color:#f92672">*</span>callback_data).p_message);
-</span></span><span style="display:flex;"><span>    println!(<span style="color:#e6db74">&#34;{message:?}&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;system&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">debug_callback</span>(
+    _severity_flags: <span style="color:#a6e22e">DebugUtilsMessageSeverityFlagsEXT</span>,
+    _type_flags: <span style="color:#a6e22e">DebugUtilsMessageTypeFlagsEXT</span>,
+    callback_data: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> DebugUtilsMessengerCallbackDataEXT,
+    _user_data: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void,
+) -&gt; <span style="color:#66d9ef">u32</span> {
+    <span style="color:#66d9ef">let</span> message <span style="color:#f92672">=</span> CStr::from_ptr((<span style="color:#f92672">*</span>callback_data).p_message);
+    println!(<span style="color:#e6db74">&#34;{message:?}&#34;</span>);
+    <span style="color:#ae81ff">0</span>
+}</code></pre></div>
 <h1 id="cleanup">Cleanup<a hidden class="anchor" aria-hidden="true" href="#cleanup">#</a></h1>
 <p>Finally we will need to correctly destroy the debug utils messenger during the cleanup of the application. The cleanup function is modified to destroy the messenger before the Vulkan instance:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">cleanup</span>(
-</span></span><span style="display:flex;"><span>    instance: <span style="color:#a6e22e">Instance</span>,
-</span></span><span style="display:flex;"><span>    device: <span style="color:#a6e22e">Device</span>,
-</span></span><span style="display:flex;"><span>    debug_utils: <span style="color:#a6e22e">DebugUtils</span>,
-</span></span><span style="display:flex;"><span>    messenger: <span style="color:#a6e22e">DebugUtilsMessengerEXT</span>,
-</span></span><span style="display:flex;"><span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
-</span></span><span style="display:flex;"><span>        device.destroy_device(None);
-</span></span><span style="display:flex;"><span>        debug_utils.destroy_debug_utils_messenger(messenger, None);
-</span></span><span style="display:flex;"><span>        instance.destroy_instance(None);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">cleanup</span>(
+    instance: <span style="color:#a6e22e">Instance</span>,
+    device: <span style="color:#a6e22e">Device</span>,
+    debug_utils: <span style="color:#a6e22e">DebugUtils</span>,
+    messenger: <span style="color:#a6e22e">DebugUtilsMessengerEXT</span>,
+) {
+    <span style="color:#66d9ef">unsafe</span> {
+        device.destroy_device(None);
+        debug_utils.destroy_debug_utils_messenger(messenger, None);
+        instance.destroy_instance(None);
+    }
+}</code></pre></div>
 <p>And that&rsquo;s it!. Now when we get a validation error, we&rsquo;ll have it logged to the console, for example if we forget to destroy the Vulkan device before the instance is destroyed:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>UNASSIGNED-ObjectTracker-ObjectLeak(ERROR / SPEC): msgNum: 699204130 - Validation Error: [ UNASSIGNED-ObjectTracker-ObjectLeak ] Object 0: handle = 0x1c9c9339be0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x29ad0222 | OBJ ERROR : VK_DEBUG_REPORT_OBJECT_TYPE_DEVICE_EXT object VkDevice 0x1c9c9339be0[] has not been destroyed.
-</span></span><span style="display:flex;"><span>    Objects: 1
-</span></span><span style="display:flex;"><span>        [0] 0x1c9c9339be0, type: 3, name: NULL</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">UNASSIGNED-ObjectTracker-ObjectLeak(ERROR / SPEC): msgNum: 699204130 - Validation Error: [ UNASSIGNED-ObjectTracker-ObjectLeak ] Object 0: handle = 0x1c9c9339be0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x29ad0222 | OBJ ERROR : VK_DEBUG_REPORT_OBJECT_TYPE_DEVICE_EXT object VkDevice 0x1c9c9339be0[] has not been destroyed.
+    Objects: 1
+        [0] 0x1c9c9339be0, type: 3, name: NULL</code></pre></div>
 
 
   </div>

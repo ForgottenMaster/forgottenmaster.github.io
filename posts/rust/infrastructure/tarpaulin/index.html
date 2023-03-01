@@ -12,7 +12,7 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.110.0">
+<meta name="generator" content="Hugo 0.92.2" />
 <noscript>
     <style>
         #theme-toggle,
@@ -115,7 +115,7 @@ Tarpaulin is an alternative tool that has better integration with Rust, however 
   "keywords": [
     
   ],
-  "articleBody": "Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a “Not covered” status to be reported.\nTarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it’s only available on x86_64 processors and only on the Linux OS.\nLuckily however, Github workflows allow running on exactly that architecture. This is a very simple change to make, and uploading the codecov report to CodeCov is still the same, the only difference is how the report has been generated.\nThe new workflow is as follows:\nname: Test Coverage on: [push] jobs: test: name: coverage runs-on: ubuntu-latest container: image: xd009642/tarpaulin:develop-nightly options: --security-opt seccomp=unconfined steps: - name: Checkout repository uses: actions/checkout@v2 - name: Generate code coverage run: | cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml - name: Upload to codecov.io uses: codecov/codecov-action@v2 with: # token: ${{secrets.CODECOV_TOKEN}} # not required for public repos fail_ci_if_error: true The main difference to previous is that we use a container image for running Tarpaulin on nightly, on a specific snapshot, and that to generate the code coverage, we use the one liner:\ncargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml Once the report is output to the XML file, the upload to Codecov remains the same!\nThe result is that the code coverage report seems to be a lot more reliable, and also the setup and running of Tarpaulin is so much easier too.\nFor more information, Tarpaulin can be found HERE\n",
+  "articleBody": "Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a “Not covered” status to be reported.\nTarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it’s only available on x86_64 processors and only on the Linux OS.\nLuckily however, Github workflows allow running on exactly that architecture. This is a very simple change to make, and uploading the codecov report to CodeCov is still the same, the only difference is how the report has been generated.\nThe new workflow is as follows:\nname: Test Coverage on: [push] jobs: test: name: coverage runs-on: ubuntu-latest container: image: xd009642/tarpaulin:develop-nightly options: --security-opt seccomp=unconfined steps: - name: Checkout repository uses: actions/checkout@v2 - name: Generate code coverage run: | cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml - name: Upload to codecov.io uses: codecov/codecov-action@v2 with: # token: ${{secrets.CODECOV_TOKEN}} # not required for public repos fail_ci_if_error: true The main difference to previous is that we use a container image for running Tarpaulin on nightly, on a specific snapshot, and that to generate the code coverage, we use the one liner:\ncargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml\rOnce the report is output to the XML file, the upload to Codecov remains the same!\nThe result is that the code coverage report seems to be a lot more reliable, and also the setup and running of Tarpaulin is so much easier too.\nFor more information, Tarpaulin can be found HERE\n",
   "wordCount" : "282",
   "inLanguage": "en",
   "datePublished": "2021-12-22T23:57:14Z",
@@ -215,28 +215,28 @@ it&rsquo;s only available on x86_64 processors and only on the Linux OS.</p>
 <p>Luckily however, Github workflows allow running on exactly that architecture. This is a very simple change to make, and uploading the codecov
 report to CodeCov is still the same, the only difference is how the report has been generated.</p>
 <p>The new workflow is as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>:                           <span style="color:#ae81ff">Test Coverage</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:                             [<span style="color:#ae81ff">push]</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">test</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>:                       <span style="color:#ae81ff">coverage</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>:                    <span style="color:#ae81ff">ubuntu-latest</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>:                    <span style="color:#ae81ff">xd009642/tarpaulin:develop-nightly</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">options</span>:                  --<span style="color:#ae81ff">security-opt seccomp=unconfined</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Checkout repository</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>:                   <span style="color:#ae81ff">actions/checkout@v2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Generate code coverage</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          </span>          <span style="color:#ae81ff">cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Upload to codecov.io</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>:                   <span style="color:#ae81ff">codecov/codecov-action@v2</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># token:                ${{secrets.CODECOV_TOKEN}} # not required for public repos</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">fail_ci_if_error</span>:     <span style="color:#66d9ef">true</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">name</span>:                           <span style="color:#ae81ff">Test Coverage</span>
+
+<span style="color:#f92672">on</span>:                             [<span style="color:#ae81ff">push]</span>
+<span style="color:#f92672">jobs</span>:
+  <span style="color:#f92672">test</span>:
+    <span style="color:#f92672">name</span>:                       <span style="color:#ae81ff">coverage</span>
+    <span style="color:#f92672">runs-on</span>:                    <span style="color:#ae81ff">ubuntu-latest</span>
+    <span style="color:#f92672">container</span>:
+      <span style="color:#f92672">image</span>:                    <span style="color:#ae81ff">xd009642/tarpaulin:develop-nightly</span>
+      <span style="color:#f92672">options</span>:                  --<span style="color:#ae81ff">security-opt seccomp=unconfined</span>
+    <span style="color:#f92672">steps</span>:
+      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Checkout repository</span>
+        <span style="color:#f92672">uses</span>:                   <span style="color:#ae81ff">actions/checkout@v2</span>
+
+      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Generate code coverage</span>
+        <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">          </span>          <span style="color:#ae81ff">cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml</span>
+      - <span style="color:#f92672">name</span>:                   <span style="color:#ae81ff">Upload to codecov.io</span>
+        <span style="color:#f92672">uses</span>:                   <span style="color:#ae81ff">codecov/codecov-action@v2</span>
+        <span style="color:#f92672">with</span>:
+          <span style="color:#75715e"># token:                ${{secrets.CODECOV_TOKEN}} # not required for public repos</span>
+          <span style="color:#f92672">fail_ci_if_error</span>:     <span style="color:#66d9ef">true</span></code></pre></div>
 <p>The main difference to previous is that we use a container image for running Tarpaulin on nightly, on a specific snapshot, and
 that to generate the code coverage, we use the one liner:</p>
 <pre tabindex="0"><code>cargo +nightly tarpaulin --verbose --all-features --workspace --lib --timeout 120 --out Xml

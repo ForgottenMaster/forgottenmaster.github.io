@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>11. Staging Buffers
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it’s not able to process that memory as fast as it could if it knew the CPU could not see it.
+Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-03-04 19:56:24 +0000 UTC'>March 4, 2023</span>&nbsp;·&nbsp;8 min</footer>
+  <a class="entry-link" aria-label="post link to 11. Staging Buffers" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>10. Vertex Buffers
     </h2>
   </header>
@@ -283,19 +296,11 @@ Event loop and window The first step which we can get out of the way before even
   <footer class="entry-footer"><span title='2023-02-15 22:32:00 +0000 UTC'>February 15, 2023</span>&nbsp;·&nbsp;14 min</footer>
   <a class="entry-link" aria-label="post link to 2. The Window, the Instance, and the Device" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>1. Setup
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>In order to follow along with the course, we’ll want to get the project up and running, and nail down the tech stack we’ll be using.
-The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install....</p>
-  </section>
-  <footer class="entry-footer"><span title='2023-01-09 22:43:32 +0000 UTC'>January 9, 2023</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to 1. Setup" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/page/2/">Next Page »</a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

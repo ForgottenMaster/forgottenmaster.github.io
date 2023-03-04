@@ -6,7 +6,17 @@
     <description>Recent content on Robin Firth</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 01 Mar 2023 17:26:02 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Mar 2023 19:56:24 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>11. Staging Buffers</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/</link>
+      <pubDate>Sat, 04 Mar 2023 19:56:24 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/</guid>
+      <description>Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it&amp;rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.
+Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory.</description>
+    </item>
+    
     <item>
       <title>10. Vertex Buffers</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/vertex-buffers/</link>

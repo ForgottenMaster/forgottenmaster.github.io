@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>12. Index Buffers</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/</link>
+      <pubDate>Sat, 04 Mar 2023 23:06:01 +0000</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/</guid>
+      <description>Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
+Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.</description>
+    </item>
+    
+    <item>
       <title>11. Staging Buffers</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/</link>
       <pubDate>Sat, 04 Mar 2023 19:56:24 +0000</pubDate>

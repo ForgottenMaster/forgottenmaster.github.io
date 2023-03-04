@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>12. Index Buffers | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
+Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.92.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="12. Index Buffers" />
+<meta property="og:description" content="Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
+Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-04T23:06:01&#43;00:00" />
+<meta property="article:modified_time" content="2023-03-04T23:06:01&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="12. Index Buffers"/>
+<meta name="twitter:description" content="Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
+Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Let's Learn Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "12. Index Buffers",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "12. Index Buffers",
+  "name": "12. Index Buffers",
+  "description": "Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.\nUsing an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.\nUsing an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.\nThe diagram below shows the difference between direct drawing from vertex data only, and indexed drawing using an index buffer.\n\rVertex Vs Index\rVulkan Tutorial\n\r\rThe implementation is actually super simple and we’ll only have to do three things:\n Create the index buffer Bind the index buffer before the draw call Use indexed draw rather than direct draw  Creating the Index Buffer Thanks to the generic create_staged_buffer function we implemented for staged vertex buffers, creating an index buffer is equally as easy. The only difference is that our indices are u16’s and that the resulting buffer must be identified as being an INDEX_BUFFER\nfn create_index_buffer( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, indices: \u0026[u16], transfer_command_pool: CommandPool, transfer_queue: Queue, ) - Result(Buffer, DeviceMemory) { create_staged_buffer( instance, device, physical_device, indices, BufferUsageFlags::INDEX_BUFFER, transfer_command_pool, transfer_queue, ) .context(\"Failed to create an index buffer.\") } Bind the Index Buffer Unlike vertex buffers, Vulkan only supports binding a single index buffer. As part of binding the buffer we have to tell Vulkan just how it should interpret the indices, and in our case we use u16’s. Note that if we had more than 65.5k unique vertices in the draw call, we would need to use a larger type for our indices.\nTo bind the index buffer we use the appropriate command while recording our drawing commands, just before the draw itself.\ndevice.cmd_bind_index_buffer(*command_buffer, index_buffer, 0, IndexType::UINT16); Use Indexed Draw Finally we can go ahead and change the draw to an indexed draw. This takes the instance count and offsets as before but we’ll keep the instance count at 1 and offsets at 0.\ndevice.cmd_draw_indexed(*command_buffer, index_count.try_into().unwrap(), 1, 0, 0, 0); Once again, running the program gives us that same familiar multi-color square without any Vulkan errors, letting us know that we have successfully implemented our index buffer.\n",
+  "wordCount" : "376",
+  "inLanguage": "en",
+  "datePublished": "2023-03-04T23:06:01Z",
+  "dateModified": "2023-03-04T23:06:01Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <h1 class="post-title">
+      12. Index Buffers
+    </h1>
+    <div class="post-meta"><span title='2023-03-04 23:06:01 +0000 UTC'>March 4, 2023</span>&nbsp;·&nbsp;2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#creating-the-index-buffer" aria-label="Creating the Index Buffer">Creating the Index Buffer</a></li>
+                <li>
+                    <a href="#bind-the-index-buffer" aria-label="Bind the Index Buffer">Bind the Index Buffer</a></li>
+                <li>
+                    <a href="#use-indexed-draw" aria-label="Use Indexed Draw">Use Indexed Draw</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate <strong>all</strong> the vertex data for those shared vertices.</p>
+<p>Using an index buffer allows us to only duplicate <em>indices</em> which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.</p>
+<p>The diagram below shows the difference between direct drawing from vertex data only, and indexed drawing using an index buffer.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="vertex-vs-index.png#center"/> <figcaption>
+            Vertex Vs Index<p>
+                    <a href="https://vulkan-tutorial.com/Vertex_buffers/Index_buffer">Vulkan Tutorial</a></p>
+        </figcaption>
+</figure>
+
+<p>The implementation is actually super simple and we&rsquo;ll only have to do three things:</p>
+<ol>
+<li>Create the index buffer</li>
+<li>Bind the index buffer before the draw call</li>
+<li>Use indexed draw rather than direct draw</li>
+</ol>
+<h1 id="creating-the-index-buffer">Creating the Index Buffer<a hidden class="anchor" aria-hidden="true" href="#creating-the-index-buffer">#</a></h1>
+<p>Thanks to the generic <strong>create_staged_buffer</strong> function we implemented for staged vertex buffers, creating an index buffer is equally as easy. The only difference is that our indices are u16&rsquo;s and that the resulting buffer must be identified as being an <strong>INDEX_BUFFER</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_index_buffer</span>(
+    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
+    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
+    indices: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u16</span>],
+    transfer_command_pool: <span style="color:#a6e22e">CommandPool</span>,
+    transfer_queue: <span style="color:#a6e22e">Queue</span>,
+) -&gt; Result<span style="color:#f92672">&lt;</span>(Buffer, DeviceMemory)<span style="color:#f92672">&gt;</span> {
+    create_staged_buffer(
+        instance,
+        device,
+        physical_device,
+        indices,
+        BufferUsageFlags::INDEX_BUFFER,
+        transfer_command_pool,
+        transfer_queue,
+    )
+    .context(<span style="color:#e6db74">&#34;Failed to create an index buffer.&#34;</span>)
+}</code></pre></div>
+<h1 id="bind-the-index-buffer">Bind the Index Buffer<a hidden class="anchor" aria-hidden="true" href="#bind-the-index-buffer">#</a></h1>
+<p>Unlike vertex buffers, Vulkan only supports binding a single index buffer. As part of binding the buffer we have to tell Vulkan just how it should interpret the indices, and in our case we use u16&rsquo;s. Note that if we had more than 65.5k <em>unique</em> vertices in the draw call, we would need to use a larger type for our indices.</p>
+<p>To bind the index buffer we use the appropriate command while recording our drawing commands, just before the draw itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device.cmd_bind_index_buffer(<span style="color:#f92672">*</span>command_buffer, index_buffer, <span style="color:#ae81ff">0</span>, IndexType::UINT16);</code></pre></div>
+<h1 id="use-indexed-draw">Use Indexed Draw<a hidden class="anchor" aria-hidden="true" href="#use-indexed-draw">#</a></h1>
+<p>Finally we can go ahead and change the draw to an indexed draw. This takes the instance count and offsets as before but we&rsquo;ll keep the instance count at 1 and offsets at 0.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device.cmd_draw_indexed(<span style="color:#f92672">*</span>command_buffer, index_count.try_into().unwrap(), <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);</code></pre></div>
+<p>Once again, running the program gives us that same familiar multi-color square without any Vulkan errors, letting us know that we have successfully implemented our index buffer.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

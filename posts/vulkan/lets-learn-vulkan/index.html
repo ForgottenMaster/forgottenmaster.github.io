@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>12. Index Buffers
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
+Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-03-04 23:06:01 +0000 UTC'>March 4, 2023</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to 12. Index Buffers" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>11. Staging Buffers
     </h2>
   </header>
@@ -281,20 +294,6 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
   </section>
   <footer class="entry-footer"><span title='2023-02-18 01:04:25 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;5 min</footer>
   <a class="entry-link" aria-label="post link to 3. Validation" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2. The Window, the Instance, and the Device
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>The first things we’ll need to do to start using Vulkan will be to open a window to render into, create a Vulkan instance, and create a logical Vulkan device from that instance.
-The end result will just show a blank white window as shown below.
-Event loop and window The first step which we can get out of the way before even touching Vulkan will be to create a window for us to eventually render into, and an event loop that winit uses to allow us to handle the events from the user such as resizing etc....</p>
-  </section>
-  <footer class="entry-footer"><span title='2023-02-15 22:32:00 +0000 UTC'>February 15, 2023</span>&nbsp;·&nbsp;14 min</footer>
-  <a class="entry-link" aria-label="post link to 2. The Window, the Instance, and the Device" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>13. Uniform Buffer Objects
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let’s take a look at our current implementation in a window with a width of 1200 and a height of only 600
+Solution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-03-09 19:16:52 +0000 UTC'>March 9, 2023</span>&nbsp;·&nbsp;13 min</footer>
+  <a class="entry-link" aria-label="post link to 13. Uniform Buffer Objects" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>12. Index Buffers
     </h2>
   </header>
@@ -281,19 +294,6 @@ Surface extensions We could manually detect the platform we’re compiling on, a
   </section>
   <footer class="entry-footer"><span title='2023-02-18 12:08:01 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;8 min</footer>
   <a class="entry-link" aria-label="post link to 4. Surface" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>3. Validation
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won’t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
-This is because Vulkan will do the bare minimum by default for efficiency - what we don’t use we don’t pay for, and this includes extra validations that can cause incorrect but safe behaviours....</p>
-  </section>
-  <footer class="entry-footer"><span title='2023-02-18 01:04:25 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;5 min</footer>
-  <a class="entry-link" aria-label="post link to 3. Validation" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

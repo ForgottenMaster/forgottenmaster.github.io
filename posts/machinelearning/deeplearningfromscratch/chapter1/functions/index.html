@@ -12,7 +12,7 @@ For our purposes it will help to think of a function as a black box, that takes 
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/functions/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ For our purposes it will help to think of a function as a black box, that takes 
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -121,7 +121,7 @@ For our purposes it will help to think of a function as a black box, that takes 
   "keywords": [
     
   ],
-  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of the following two functions, each of which takes a single parameter:\n$$ f(x) = x^2 $$ $$ g(x) = x + 10 $$\nWe can code these functions as below, along with how they’re chained together to act as one big composite function that takes input into the first, and extracts output from the last:\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0; let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  A diagram showing function omposition would look something like this, where the chain of two functions results in the same as running through a single function that is the composite of the two\n",
+  "articleBody": "There isn’t too much to say for what a function actually is, since being a programmer, we use them every day. However for completeness I’ll include a post here.\nFor our purposes it will help to think of a function as a black box, that takes one or more inputs and returns an output. We can then chain these functions together by taking the output of function 1, and passing it to the next function and so on.\nThe advantage of thinking of them as a chain like this rather than a stack as programmers are used to thinking of them, is that this chain will easily map to the concept of the forward pass of a neural network later on.\nAssuming the existence of the following two functions, each of which takes a single parameter:\n$$ f(x) = x^2 $$ $$ g(x) = x + 10 $$\nWe can code these functions as below, along with how they’re chained together to act as one big composite function that takes input into the first, and extracts output from the last:\nlet f = |x: f64| x * x; let g = |x: f64| x + 10.0;  let input = 42.0; // input into the first function in the chain let intermediate = f(input); // after invoking function \"f\", the output is an intermediate result let output = g(intermediate); // to get the final input, we can pass this intermediate result through \"g\"  A diagram showing function omposition would look something like this, where the chain of two functions results in the same as running through a single function that is the composite of the two\n",
   "wordCount" : "275",
   "inLanguage": "en",
   "datePublished": "2021-09-24T01:45:11+01:00",
@@ -220,13 +220,13 @@ For our purposes it will help to think of a function as a black box, that takes 
 <p>$$ f(x) = x^2 $$
 $$ g(x) = x + 10 $$</p>
 <p>We can code these functions as below, along with how they&rsquo;re chained together to act as one big composite function that takes input into the first, and extracts output from the last:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x;
-<span style="color:#66d9ef">let</span> g <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10.0</span>;
-
-<span style="color:#66d9ef">let</span> input <span style="color:#f92672">=</span> <span style="color:#ae81ff">42.0</span>;                   <span style="color:#75715e">// input into the first function in the chain
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> intermediate <span style="color:#f92672">=</span> f(input);        <span style="color:#75715e">// after invoking function &#34;f&#34;, the output is an intermediate result
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> g(intermediate);       <span style="color:#75715e">// to get the final input, we can pass this intermediate result through &#34;g&#34;
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> g <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">f64</span><span style="color:#f92672">|</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10.0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> input <span style="color:#f92672">=</span> <span style="color:#ae81ff">42.0</span>;                   <span style="color:#75715e">// input into the first function in the chain
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> intermediate <span style="color:#f92672">=</span> f(input);        <span style="color:#75715e">// after invoking function &#34;f&#34;, the output is an intermediate result
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> g(intermediate);       <span style="color:#75715e">// to get the final input, we can pass this intermediate result through &#34;g&#34;
+</span></span></span></code></pre></div>
 <p>A diagram showing function omposition would look something like this, where the chain of two functions results in the same as running through a single function that is the composite of the two</p>
 <p><img loading="lazy" src="functioncomposition.png" alt="Function Composition Diagram"  />
 </p>

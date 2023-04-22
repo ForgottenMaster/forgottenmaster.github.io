@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml">
 <noscript>
     <style>
@@ -164,6 +164,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>14. Dynamic Ubos
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Now we have the ability to pass data through to the shaders using uniform buffers, we should extend our system to be able to render multiple meshes rather than a single one as we have currently. This will also demonstrate an issue we have currently with our implementation of using a single uniform buffer.
+Define Meshes The first thing we need to do is to be able to define what a Mesh actually is....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-04-22 19:27:31 +0100 BST'>April 22, 2023</span>&nbsp;·&nbsp;10 min</footer>
+  <a class="entry-link" aria-label="post link to 14. Dynamic Ubos" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>13. Uniform Buffer Objects
     </h2>
   </header>
@@ -249,8 +262,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
   <section class="entry-content">
     <p>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules....</p>
+ Overview of graphics pipeline Vulkan Tutorial
+  The sections highlighted in yellow indicate those sections which we can program through shader modules....</p>
   </section>
   <footer class="entry-footer"><span title='2023-02-25 16:21:48 +0000 UTC'>February 25, 2023</span>&nbsp;·&nbsp;12 min</footer>
   <a class="entry-link" aria-label="post link to 7. Graphics Pipeline" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/"></a>
@@ -280,20 +293,6 @@ What is screen tearing? On the front-end side of things, the device surface repr
   </section>
   <footer class="entry-footer"><span title='2023-02-19 12:21:42 +0000 UTC'>February 19, 2023</span>&nbsp;·&nbsp;14 min</footer>
   <a class="entry-link" aria-label="post link to 5. Swapchain" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>4. Surface
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
-Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
-Surface extensions We could manually detect the platform we’re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:...</p>
-  </section>
-  <footer class="entry-footer"><span title='2023-02-18 12:08:01 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;8 min</footer>
-  <a class="entry-link" aria-label="post link to 4. Surface" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

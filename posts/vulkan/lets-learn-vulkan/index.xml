@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>14. Dynamic Ubos</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</link>
+      <pubDate>Sat, 22 Apr 2023 19:27:31 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</guid>
+      <description>Now we have the ability to pass data through to the shaders using uniform buffers, we should extend our system to be able to render multiple meshes rather than a single one as we have currently. This will also demonstrate an issue we have currently with our implementation of using a single uniform buffer.
+Define Meshes The first thing we need to do is to be able to define what a Mesh actually is.</description>
+    </item>
+    
+    <item>
       <title>13. Uniform Buffer Objects</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/</link>
       <pubDate>Thu, 09 Mar 2023 19:16:52 +0000</pubDate>
@@ -76,8 +86,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
       <description>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
+ Overview of graphics pipeline Vulkan Tutorial
+  The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
     </item>
     
     <item>

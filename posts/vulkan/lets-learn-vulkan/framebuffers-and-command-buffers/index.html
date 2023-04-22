@@ -12,7 +12,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -115,7 +115,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
   "keywords": [
     
   ],
-  "articleBody": "Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.\nA framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment. A framebuffer is where we specify the concrete image views that these attachments resolve to. Thus the same render pass can be used with multiple framebuffers.\nA command buffer is where we will record our commands to, before submitting the command buffer as a whole to a queue. command buffers are produced from command pools, and each pool is linked to a specific queue family to which queues its command buffers can be submitted to exclusively.\nCreating Framebuffers Each of our framebuffers will use the same render pass (the one we set up for the pipeline to operate with) but with specifying a different concrete image.\nHere is a small diagram indicating the relationship between render passes and framebuffers.\n\rFramebuffers\rVulkan Cookbook\n\r\rIn our case, we have X swapchain images and for each one, we’ll want a framebuffer that is associated with it.\nWe can get an iterator over our swapchain images, and for each one try to create a framebuffer for it. This process of creating a framebuffer may return a Result so if any of the framebuffer results is Err, we should propagate this up.\nRust provides us a nice facility to do this!\nWe can collect an iterator over items of type Resultinto a Result like such\nlet framebuffers = swapchain_images .iter() .map(|image| { create_framebuffer( \u0026logical_device, render_pass, image.image_view, swapchain_extent, ) }) .collect::ResultVec_()?; The create_framebuffer function itself is fairly straightforward\nfn create_framebuffer( device: \u0026Device, render_pass: RenderPass, image_view: ImageView, swapchain_extent: Extent2D, ) - ResultFramebuffer { let attachments = [image_view]; unsafe { device .create_framebuffer( \u0026FramebufferCreateInfo::builder() .render_pass(render_pass) .attachments(\u0026attachments) .width(swapchain_extent.width) .height(swapchain_extent.height) .layers(1), None, ) .context(\"Failed to create a framebuffer.\") } } Here we do the following\n The image view that is passed in for the swapchain image view is put into an array before setting in the struct. If the render pass had more attachments, they would be put in here too. Set the render pass to the one provided Set the width and height to that of the swapchain extents Set the number of layers to 1 since we’re only working with 1 layer images  Creating the Command Pool Next we want to create the command pool for our graphics queue family that we’ll submit our command buffers containing draw calls to.\nFor this, the function is very small as creating a command pool only requires telling Vulkan what queue family it’s for.\nfn create_command_pool(device: \u0026Device, queue_family_index: u32) - ResultCommandPool { unsafe { device .create_command_pool( \u0026CommandPoolCreateInfo::builder().queue_family_index(queue_family_index), None, ) .context(\"Failed to create a command pool.\") } } Note that we do have to destroy the command pool as part of our cleanup logic, but we don’t have to destroy or cleanup any allocated command buffers.\nAllocating the Command Buffers Now we have a command pool that’s tied to a particular queue family, we can allocate command buffers from this pool.\nWe will record commands to render to a specific framebuffer/swapchain image into its own command buffer. The idea is that we can record these command buffers only once and, as long as the geometry, etc. stays the same we can just re-submit the same buffer to the queues.\nIn our case, we want as many command buffers as we have framebuffers/swapchain images. Vulkan luckily lets us allocate N buffers from a pool in a single call, so we’ll do that\nfn allocate_command_buffers( device: \u0026Device, command_pool: CommandPool, buffer_count: u32, ) - ResultVecCommandBuffer { unsafe { device .allocate_command_buffers( \u0026CommandBufferAllocateInfo::builder() .command_pool(command_pool) .level(CommandBufferLevel::PRIMARY) .command_buffer_count(buffer_count), ) .context(\"Failed to allocate command buffers.\") } } Recording the Command Buffers Finally, we can go ahead and record our drawing commands into the command buffers. Firstly we’ll define the function signature\nfn record_command_buffers( device: \u0026Device, command_buffers: \u0026[CommandBuffer], framebuffers: \u0026[Framebuffer], render_pass: RenderPass, swapchain_extent: Extent2D, graphics_pipeline: Pipeline, ) - Result() Particular attention should be taken to the command_buffers and framebuffers parameters which are both slices and it is assumed are equal length such that command_buffers[i] is the command buffer we’re tying to framebuffers[i].\nTherefore, in order to loop and record commands for each, we’ll zip the two together\nfor (command_buffer, framebuffer) in command_buffers.into_iter().zip(framebuffers) { // code to follow } That is, we can get the iterator for command_buffers (command_buffers.into_iter()), and use the function Rust provides us on all iterators that can zip the elements with another iterable, in our case framebuffers. The result is a tuple of paired up elements in both slices, which we iterate over.\nThen we can begin recording our commands!\nBegin Command Buffer First of all, we need to tell Vulkan that we are starting to record commands into a particular buffer. There’s not too much setup here, but we do define the flags to tell Vulkan that we can have simultaneous use of the buffer.\nSimultaneous use means that we can submit the buffer to a queue, while the same buffer is being processed already.\ndevice .begin_command_buffer( *command_buffer, \u0026CommandBufferBeginInfo::builder() .flags(CommandBufferUsageFlags::SIMULTANEOUS_USE), ) .context(\"Failed to begin command buffer.\")?; Begin Render Pass Next we begin a render pass. This is where we tell Vulkan which render pass (and therefore which subpasses) we are using.\nlet clear_values = [ClearValue { color: ClearColorValue { float32: [0.6, 0.65, 0.4, 1.0], }, }]; device.cmd_begin_render_pass( *command_buffer, \u0026RenderPassBeginInfo::builder() .render_pass(render_pass) .framebuffer(*framebuffer) .render_area(*Rect2D::builder().extent(swapchain_extent)) .clear_values(\u0026clear_values), SubpassContents::INLINE, ); First of all, we define the list of “clear colors”. These are the colors that are used for attachments within the render pass when using the load op “CLEAR” to determine the color to clear to.\nIn our case, we set it to a color of (0.6, 0.65, 0.4, 1.0).\nAdditional explanations\n render_pass: This is set to the render pass we’re using for all our framebuffers framebuffer: This is set to the framebuffer associated with the command buffer we’re currently processing render_area: We set this to a Rect2D that uses the default offset of (0, 0) and uses the same extents as the swapchain clear_values: Set this to the slice with the color for the 1 attachment SubpassContents::INLINE: This indicates that we’re recording drawing commands directly into this command buffer, not using secondary command buffers  Bind Pipeline We have to manually bind which pipeline we’re using. Remember a pipeline is only associated with a single subpass of a render pass, so if we render multiple subpasses, we would have to bind the appropriate pipeline before each draw call.\nHere we only have 1 subpass, and 1 pipeline, so we just go ahead and bind it to the one passed in. We have to also specify that we’re binding to the GRAPHICS bind point.\ndevice.cmd_bind_pipeline( *command_buffer, PipelineBindPoint::GRAPHICS, graphics_pipeline, ); Drawing The actual draw call is fairly simple. We don’t need to bind any vertex sources or anything since our vertices are currently hardcoded into the vertex shader, so we hardcode the number of vertices to 3 here.\nVulkan is also able to do instanced rendering here, but in our case we choose 1 instance.\nOffsets for first vertex index and first instance index are set to 0.\ndevice.cmd_draw(*command_buffer, 3, 1, 0, 0); Ending Finally we can close off the command buffer recording.\nWe need to first end the render pass we started\ndevice.cmd_end_render_pass(*command_buffer); And then finally, tell Vulkan that we’re done recording this particular command buffer\ndevice .end_command_buffer(*command_buffer) .context(\"Failed to end command buffer.\")?; And with that, we can finally move on to playing the command buffers and presenting to the screen!\n",
+  "articleBody": "Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.\nA framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment. A framebuffer is where we specify the concrete image views that these attachments resolve to. Thus the same render pass can be used with multiple framebuffers.\nA command buffer is where we will record our commands to, before submitting the command buffer as a whole to a queue. command buffers are produced from command pools, and each pool is linked to a specific queue family to which queues its command buffers can be submitted to exclusively.\nCreating Framebuffers Each of our framebuffers will use the same render pass (the one we set up for the pipeline to operate with) but with specifying a different concrete image.\nHere is a small diagram indicating the relationship between render passes and framebuffers.\n Framebuffers Vulkan Cookbook\n  In our case, we have X swapchain images and for each one, we’ll want a framebuffer that is associated with it.\nWe can get an iterator over our swapchain images, and for each one try to create a framebuffer for it. This process of creating a framebuffer may return a Result so if any of the framebuffer results is Err, we should propagate this up.\nRust provides us a nice facility to do this!\nWe can collect an iterator over items of type Resultinto a Result like such\nlet framebuffers = swapchain_images  .iter()  .map(|image| {  create_framebuffer(  \u0026logical_device,  render_pass,  image.image_view,  swapchain_extent,  )  })  .collect::ResultVec_()?; The create_framebuffer function itself is fairly straightforward\nfn create_framebuffer(  device: \u0026Device,  render_pass: RenderPass,  image_view: ImageView,  swapchain_extent: Extent2D, ) - ResultFramebuffer {  let attachments = [image_view];  unsafe {  device  .create_framebuffer(  \u0026FramebufferCreateInfo::builder()  .render_pass(render_pass)  .attachments(\u0026attachments)  .width(swapchain_extent.width)  .height(swapchain_extent.height)  .layers(1),  None,  )  .context(\"Failed to create a framebuffer.\")  } } Here we do the following\n The image view that is passed in for the swapchain image view is put into an array before setting in the struct. If the render pass had more attachments, they would be put in here too. Set the render pass to the one provided Set the width and height to that of the swapchain extents Set the number of layers to 1 since we’re only working with 1 layer images  Creating the Command Pool Next we want to create the command pool for our graphics queue family that we’ll submit our command buffers containing draw calls to.\nFor this, the function is very small as creating a command pool only requires telling Vulkan what queue family it’s for.\nfn create_command_pool(device: \u0026Device, queue_family_index: u32) - ResultCommandPool {  unsafe {  device  .create_command_pool(  \u0026CommandPoolCreateInfo::builder().queue_family_index(queue_family_index),  None,  )  .context(\"Failed to create a command pool.\")  } } Note that we do have to destroy the command pool as part of our cleanup logic, but we don’t have to destroy or cleanup any allocated command buffers.\nAllocating the Command Buffers Now we have a command pool that’s tied to a particular queue family, we can allocate command buffers from this pool.\nWe will record commands to render to a specific framebuffer/swapchain image into its own command buffer. The idea is that we can record these command buffers only once and, as long as the geometry, etc. stays the same we can just re-submit the same buffer to the queues.\nIn our case, we want as many command buffers as we have framebuffers/swapchain images. Vulkan luckily lets us allocate N buffers from a pool in a single call, so we’ll do that\nfn allocate_command_buffers(  device: \u0026Device,  command_pool: CommandPool,  buffer_count: u32, ) - ResultVecCommandBuffer {  unsafe {  device  .allocate_command_buffers(  \u0026CommandBufferAllocateInfo::builder()  .command_pool(command_pool)  .level(CommandBufferLevel::PRIMARY)  .command_buffer_count(buffer_count),  )  .context(\"Failed to allocate command buffers.\")  } } Recording the Command Buffers Finally, we can go ahead and record our drawing commands into the command buffers. Firstly we’ll define the function signature\nfn record_command_buffers(  device: \u0026Device,  command_buffers: \u0026[CommandBuffer],  framebuffers: \u0026[Framebuffer],  render_pass: RenderPass,  swapchain_extent: Extent2D,  graphics_pipeline: Pipeline, ) - Result() Particular attention should be taken to the command_buffers and framebuffers parameters which are both slices and it is assumed are equal length such that command_buffers[i] is the command buffer we’re tying to framebuffers[i].\nTherefore, in order to loop and record commands for each, we’ll zip the two together\nfor (command_buffer, framebuffer) in command_buffers.into_iter().zip(framebuffers) {  // code to follow } That is, we can get the iterator for command_buffers (command_buffers.into_iter()), and use the function Rust provides us on all iterators that can zip the elements with another iterable, in our case framebuffers. The result is a tuple of paired up elements in both slices, which we iterate over.\nThen we can begin recording our commands!\nBegin Command Buffer First of all, we need to tell Vulkan that we are starting to record commands into a particular buffer. There’s not too much setup here, but we do define the flags to tell Vulkan that we can have simultaneous use of the buffer.\nSimultaneous use means that we can submit the buffer to a queue, while the same buffer is being processed already.\ndevice  .begin_command_buffer(  *command_buffer,  \u0026CommandBufferBeginInfo::builder()  .flags(CommandBufferUsageFlags::SIMULTANEOUS_USE),  )  .context(\"Failed to begin command buffer.\")?; Begin Render Pass Next we begin a render pass. This is where we tell Vulkan which render pass (and therefore which subpasses) we are using.\nlet clear_values = [ClearValue {  color: ClearColorValue {  float32: [0.6, 0.65, 0.4, 1.0],  }, }]; device.cmd_begin_render_pass(  *command_buffer,  \u0026RenderPassBeginInfo::builder()  .render_pass(render_pass)  .framebuffer(*framebuffer)  .render_area(*Rect2D::builder().extent(swapchain_extent))  .clear_values(\u0026clear_values),  SubpassContents::INLINE, ); First of all, we define the list of “clear colors”. These are the colors that are used for attachments within the render pass when using the load op “CLEAR” to determine the color to clear to.\nIn our case, we set it to a color of (0.6, 0.65, 0.4, 1.0).\nAdditional explanations\n render_pass: This is set to the render pass we’re using for all our framebuffers framebuffer: This is set to the framebuffer associated with the command buffer we’re currently processing render_area: We set this to a Rect2D that uses the default offset of (0, 0) and uses the same extents as the swapchain clear_values: Set this to the slice with the color for the 1 attachment SubpassContents::INLINE: This indicates that we’re recording drawing commands directly into this command buffer, not using secondary command buffers  Bind Pipeline We have to manually bind which pipeline we’re using. Remember a pipeline is only associated with a single subpass of a render pass, so if we render multiple subpasses, we would have to bind the appropriate pipeline before each draw call.\nHere we only have 1 subpass, and 1 pipeline, so we just go ahead and bind it to the one passed in. We have to also specify that we’re binding to the GRAPHICS bind point.\ndevice.cmd_bind_pipeline(  *command_buffer,  PipelineBindPoint::GRAPHICS,  graphics_pipeline, ); Drawing The actual draw call is fairly simple. We don’t need to bind any vertex sources or anything since our vertices are currently hardcoded into the vertex shader, so we hardcode the number of vertices to 3 here.\nVulkan is also able to do instanced rendering here, but in our case we choose 1 instance.\nOffsets for first vertex index and first instance index are set to 0.\ndevice.cmd_draw(*command_buffer, 3, 1, 0, 0); Ending Finally we can close off the command buffer recording.\nWe need to first end the render pass we started\ndevice.cmd_end_render_pass(*command_buffer); And then finally, tell Vulkan that we’re done recording this particular command buffer\ndevice  .end_command_buffer(*command_buffer)  .context(\"Failed to end command buffer.\")?; And with that, we can finally move on to playing the command buffers and presenting to the screen!\n",
   "wordCount" : "1282",
   "inLanguage": "en",
   "datePublished": "2023-02-26T00:10:55Z",
@@ -256,39 +256,39 @@ A framebuffer is associated with a particular render pass, and defines the actua
 <p>We can get an iterator over our swapchain images, and for each one try to create a framebuffer for it. This process of creating a framebuffer may return a Result so if any of the framebuffer results is Err, we should propagate this up.</p>
 <p>Rust provides us a nice facility to do this!</p>
 <p>We can collect an iterator over items of type Result<!-- raw HTML omitted --> into a Result&lt;Vec<!-- raw HTML omitted -->&gt; like such</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> framebuffers <span style="color:#f92672">=</span> swapchain_images
-    .iter()
-    .map(<span style="color:#f92672">|</span>image<span style="color:#f92672">|</span> {
-        create_framebuffer(
-            <span style="color:#f92672">&amp;</span>logical_device,
-            render_pass,
-            image.image_view,
-            swapchain_extent,
-        )
-    })
-    .collect::<span style="color:#f92672">&lt;</span>Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;&gt;</span>()<span style="color:#f92672">?</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> framebuffers <span style="color:#f92672">=</span> swapchain_images
+</span></span><span style="display:flex;"><span>    .iter()
+</span></span><span style="display:flex;"><span>    .map(<span style="color:#f92672">|</span>image<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>        create_framebuffer(
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>            render_pass,
+</span></span><span style="display:flex;"><span>            image.image_view,
+</span></span><span style="display:flex;"><span>            swapchain_extent,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    .collect::<span style="color:#f92672">&lt;</span>Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;&gt;</span>()<span style="color:#f92672">?</span>;</span></span></code></pre></div>
 <p>The create_framebuffer function itself is fairly straightforward</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_framebuffer</span>(
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    render_pass: <span style="color:#a6e22e">RenderPass</span>,
-    image_view: <span style="color:#a6e22e">ImageView</span>,
-    swapchain_extent: <span style="color:#a6e22e">Extent2D</span>,
-) -&gt; Result<span style="color:#f92672">&lt;</span>Framebuffer<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">let</span> attachments <span style="color:#f92672">=</span> [image_view];
-    <span style="color:#66d9ef">unsafe</span> {
-        device
-            .create_framebuffer(
-                <span style="color:#f92672">&amp;</span>FramebufferCreateInfo::builder()
-                    .render_pass(render_pass)
-                    .attachments(<span style="color:#f92672">&amp;</span>attachments)
-                    .width(swapchain_extent.width)
-                    .height(swapchain_extent.height)
-                    .layers(<span style="color:#ae81ff">1</span>),
-                None,
-            )
-            .context(<span style="color:#e6db74">&#34;Failed to create a framebuffer.&#34;</span>)
-    }
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_framebuffer</span>(
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    render_pass: <span style="color:#a6e22e">RenderPass</span>,
+</span></span><span style="display:flex;"><span>    image_view: <span style="color:#a6e22e">ImageView</span>,
+</span></span><span style="display:flex;"><span>    swapchain_extent: <span style="color:#a6e22e">Extent2D</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>Framebuffer<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> attachments <span style="color:#f92672">=</span> [image_view];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
+</span></span><span style="display:flex;"><span>        device
+</span></span><span style="display:flex;"><span>            .create_framebuffer(
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&amp;</span>FramebufferCreateInfo::builder()
+</span></span><span style="display:flex;"><span>                    .render_pass(render_pass)
+</span></span><span style="display:flex;"><span>                    .attachments(<span style="color:#f92672">&amp;</span>attachments)
+</span></span><span style="display:flex;"><span>                    .width(swapchain_extent.width)
+</span></span><span style="display:flex;"><span>                    .height(swapchain_extent.height)
+</span></span><span style="display:flex;"><span>                    .layers(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                None,
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .context(<span style="color:#e6db74">&#34;Failed to create a framebuffer.&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>Here we do the following</p>
 <ol>
 <li>The image view that is passed in for the swapchain image view is put into an array before setting in the struct. If the render pass had more attachments, they would be put in here too.</li>
@@ -299,80 +299,80 @@ A framebuffer is associated with a particular render pass, and defines the actua
 <h1 id="creating-the-command-pool">Creating the Command Pool<a hidden class="anchor" aria-hidden="true" href="#creating-the-command-pool">#</a></h1>
 <p>Next we want to create the command pool for our graphics queue family that we&rsquo;ll submit our command buffers containing draw calls to.</p>
 <p>For this, the function is very small as creating a command pool only requires telling Vulkan what queue family it&rsquo;s for.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_command_pool</span>(device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>, queue_family_index: <span style="color:#66d9ef">u32</span>) -&gt; Result<span style="color:#f92672">&lt;</span>CommandPool<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">unsafe</span> {
-        device
-            .create_command_pool(
-                <span style="color:#f92672">&amp;</span>CommandPoolCreateInfo::builder().queue_family_index(queue_family_index),
-                None,
-            )
-            .context(<span style="color:#e6db74">&#34;Failed to create a command pool.&#34;</span>)
-    }
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_command_pool</span>(device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>, queue_family_index: <span style="color:#66d9ef">u32</span>) -&gt; Result<span style="color:#f92672">&lt;</span>CommandPool<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
+</span></span><span style="display:flex;"><span>        device
+</span></span><span style="display:flex;"><span>            .create_command_pool(
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&amp;</span>CommandPoolCreateInfo::builder().queue_family_index(queue_family_index),
+</span></span><span style="display:flex;"><span>                None,
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .context(<span style="color:#e6db74">&#34;Failed to create a command pool.&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>Note that we do have to destroy the command pool as part of our cleanup logic, but we don&rsquo;t have to destroy or cleanup any allocated command buffers.</p>
 <h1 id="allocating-the-command-buffers">Allocating the Command Buffers<a hidden class="anchor" aria-hidden="true" href="#allocating-the-command-buffers">#</a></h1>
 <p>Now we have a command pool that&rsquo;s tied to a particular queue family, we can allocate command buffers from this pool.</p>
 <p>We will record commands to render to a specific framebuffer/swapchain image into its own command buffer. The idea is that we can record these command buffers only once and, as long as the geometry, etc. stays the same we can just re-submit the same buffer to the queues.</p>
 <p>In our case, we want as many command buffers as we have framebuffers/swapchain images. Vulkan luckily lets us allocate N buffers from a pool in a single call, so we&rsquo;ll do that</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">allocate_command_buffers</span>(
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    command_pool: <span style="color:#a6e22e">CommandPool</span>,
-    buffer_count: <span style="color:#66d9ef">u32</span>,
-) -&gt; Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>CommandBuffer<span style="color:#f92672">&gt;&gt;</span> {
-    <span style="color:#66d9ef">unsafe</span> {
-        device
-            .allocate_command_buffers(
-                <span style="color:#f92672">&amp;</span>CommandBufferAllocateInfo::builder()
-                    .command_pool(command_pool)
-                    .level(CommandBufferLevel::PRIMARY)
-                    .command_buffer_count(buffer_count),
-            )
-            .context(<span style="color:#e6db74">&#34;Failed to allocate command buffers.&#34;</span>)
-    }
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">allocate_command_buffers</span>(
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    command_pool: <span style="color:#a6e22e">CommandPool</span>,
+</span></span><span style="display:flex;"><span>    buffer_count: <span style="color:#66d9ef">u32</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>CommandBuffer<span style="color:#f92672">&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
+</span></span><span style="display:flex;"><span>        device
+</span></span><span style="display:flex;"><span>            .allocate_command_buffers(
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&amp;</span>CommandBufferAllocateInfo::builder()
+</span></span><span style="display:flex;"><span>                    .command_pool(command_pool)
+</span></span><span style="display:flex;"><span>                    .level(CommandBufferLevel::PRIMARY)
+</span></span><span style="display:flex;"><span>                    .command_buffer_count(buffer_count),
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .context(<span style="color:#e6db74">&#34;Failed to allocate command buffers.&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h1 id="recording-the-command-buffers">Recording the Command Buffers<a hidden class="anchor" aria-hidden="true" href="#recording-the-command-buffers">#</a></h1>
 <p>Finally, we can go ahead and record our drawing commands into the command buffers. Firstly we&rsquo;ll define the function signature</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">record_command_buffers</span>(
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    command_buffers: <span style="color:#66d9ef">&amp;</span>[CommandBuffer],
-    framebuffers: <span style="color:#66d9ef">&amp;</span>[Framebuffer],
-    render_pass: <span style="color:#a6e22e">RenderPass</span>,
-    swapchain_extent: <span style="color:#a6e22e">Extent2D</span>,
-    graphics_pipeline: <span style="color:#a6e22e">Pipeline</span>,
-) -&gt; Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">record_command_buffers</span>(
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    command_buffers: <span style="color:#66d9ef">&amp;</span>[CommandBuffer],
+</span></span><span style="display:flex;"><span>    framebuffers: <span style="color:#66d9ef">&amp;</span>[Framebuffer],
+</span></span><span style="display:flex;"><span>    render_pass: <span style="color:#a6e22e">RenderPass</span>,
+</span></span><span style="display:flex;"><span>    swapchain_extent: <span style="color:#a6e22e">Extent2D</span>,
+</span></span><span style="display:flex;"><span>    graphics_pipeline: <span style="color:#a6e22e">Pipeline</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span></span></span></code></pre></div>
 <p>Particular attention should be taken to the <strong>command_buffers</strong> and <strong>framebuffers</strong> parameters which are both slices and it is assumed are equal length such that command_buffers[i] is the command buffer we&rsquo;re tying to framebuffers[i].</p>
 <p>Therefore, in order to loop and record commands for each, we&rsquo;ll zip the two together</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">for</span> (command_buffer, framebuffer) <span style="color:#66d9ef">in</span> command_buffers.into_iter().zip(framebuffers) {
-    <span style="color:#75715e">// code to follow
-</span><span style="color:#75715e"></span>}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (command_buffer, framebuffer) <span style="color:#66d9ef">in</span> command_buffers.into_iter().zip(framebuffers) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// code to follow
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}</span></span></code></pre></div>
 <p>That is, we can get the iterator for command_buffers (command_buffers.into_iter()), and use the function Rust provides us on all iterators that can zip the elements with another iterable, in our case framebuffers. The result is a tuple of paired up elements in both slices, which we iterate over.</p>
 <p>Then we can begin recording our commands!</p>
 <h2 id="begin-command-buffer">Begin Command Buffer<a hidden class="anchor" aria-hidden="true" href="#begin-command-buffer">#</a></h2>
 <p>First of all, we need to tell Vulkan that we are starting to record commands into a particular buffer. There&rsquo;s not too much setup here, but we do define the flags to tell Vulkan that we can have simultaneous use of the buffer.</p>
 <p>Simultaneous use means that we can submit the buffer to a queue, while the same buffer is being processed already.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device
-    .begin_command_buffer(
-        <span style="color:#f92672">*</span>command_buffer,
-        <span style="color:#f92672">&amp;</span>CommandBufferBeginInfo::builder()
-            .flags(CommandBufferUsageFlags::SIMULTANEOUS_USE),
-    )
-    .context(<span style="color:#e6db74">&#34;Failed to begin command buffer.&#34;</span>)<span style="color:#f92672">?</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>device
+</span></span><span style="display:flex;"><span>    .begin_command_buffer(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>CommandBufferBeginInfo::builder()
+</span></span><span style="display:flex;"><span>            .flags(CommandBufferUsageFlags::SIMULTANEOUS_USE),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to begin command buffer.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
 <h2 id="begin-render-pass">Begin Render Pass<a hidden class="anchor" aria-hidden="true" href="#begin-render-pass">#</a></h2>
 <p>Next we begin a render pass. This is where we tell Vulkan which render pass (and therefore which subpasses) we are using.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> clear_values <span style="color:#f92672">=</span> [ClearValue {
-    color: <span style="color:#a6e22e">ClearColorValue</span> {
-        float32: [<span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.65</span>, <span style="color:#ae81ff">0.4</span>, <span style="color:#ae81ff">1.0</span>],
-    },
-}];
-device.cmd_begin_render_pass(
-    <span style="color:#f92672">*</span>command_buffer,
-    <span style="color:#f92672">&amp;</span>RenderPassBeginInfo::builder()
-        .render_pass(render_pass)
-        .framebuffer(<span style="color:#f92672">*</span>framebuffer)
-        .render_area(<span style="color:#f92672">*</span>Rect2D::builder().extent(swapchain_extent))
-        .clear_values(<span style="color:#f92672">&amp;</span>clear_values),
-    SubpassContents::INLINE,
-);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> clear_values <span style="color:#f92672">=</span> [ClearValue {
+</span></span><span style="display:flex;"><span>    color: <span style="color:#a6e22e">ClearColorValue</span> {
+</span></span><span style="display:flex;"><span>        float32: [<span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.65</span>, <span style="color:#ae81ff">0.4</span>, <span style="color:#ae81ff">1.0</span>],
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}];
+</span></span><span style="display:flex;"><span>device.cmd_begin_render_pass(
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>RenderPassBeginInfo::builder()
+</span></span><span style="display:flex;"><span>        .render_pass(render_pass)
+</span></span><span style="display:flex;"><span>        .framebuffer(<span style="color:#f92672">*</span>framebuffer)
+</span></span><span style="display:flex;"><span>        .render_area(<span style="color:#f92672">*</span>Rect2D::builder().extent(swapchain_extent))
+</span></span><span style="display:flex;"><span>        .clear_values(<span style="color:#f92672">&amp;</span>clear_values),
+</span></span><span style="display:flex;"><span>    SubpassContents::INLINE,
+</span></span><span style="display:flex;"><span>);</span></span></code></pre></div>
 <p>First of all, we define the list of &ldquo;clear colors&rdquo;. These are the colors that are used for attachments within the render pass when using the load op &ldquo;CLEAR&rdquo; to determine the color to clear to.</p>
 <p>In our case, we set it to a color of (0.6, 0.65, 0.4, 1.0).</p>
 <p>Additional explanations</p>
@@ -386,24 +386,24 @@ device.cmd_begin_render_pass(
 <h2 id="bind-pipeline">Bind Pipeline<a hidden class="anchor" aria-hidden="true" href="#bind-pipeline">#</a></h2>
 <p>We have to manually bind which pipeline we&rsquo;re using. Remember a pipeline is only associated with a single subpass of a render pass, so if we render multiple subpasses, we would have to bind the appropriate pipeline before each draw call.</p>
 <p>Here we only have 1 subpass, and 1 pipeline, so we just go ahead and bind it to the one passed in. We have to also specify that we&rsquo;re binding to the GRAPHICS bind point.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device.cmd_bind_pipeline(
-    <span style="color:#f92672">*</span>command_buffer,
-    PipelineBindPoint::GRAPHICS,
-    graphics_pipeline,
-);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>device.cmd_bind_pipeline(
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>    PipelineBindPoint::GRAPHICS,
+</span></span><span style="display:flex;"><span>    graphics_pipeline,
+</span></span><span style="display:flex;"><span>);</span></span></code></pre></div>
 <h2 id="drawing">Drawing<a hidden class="anchor" aria-hidden="true" href="#drawing">#</a></h2>
 <p>The actual draw call is fairly simple. We don&rsquo;t need to bind any vertex sources or anything since our vertices are currently hardcoded into the vertex shader, so we hardcode the number of vertices to 3 here.</p>
 <p>Vulkan is also able to do instanced rendering here, but in our case we choose 1 instance.</p>
 <p>Offsets for first vertex index and first instance index are set to 0.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device.cmd_draw(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>device.cmd_draw(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);</span></span></code></pre></div>
 <h2 id="ending">Ending<a hidden class="anchor" aria-hidden="true" href="#ending">#</a></h2>
 <p>Finally we can close off the command buffer recording.</p>
 <p>We need to first end the render pass we started</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device.cmd_end_render_pass(<span style="color:#f92672">*</span>command_buffer);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>device.cmd_end_render_pass(<span style="color:#f92672">*</span>command_buffer);</span></span></code></pre></div>
 <p>And then finally, tell Vulkan that we&rsquo;re done recording this particular command buffer</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">device
-    .end_command_buffer(<span style="color:#f92672">*</span>command_buffer)
-    .context(<span style="color:#e6db74">&#34;Failed to end command buffer.&#34;</span>)<span style="color:#f92672">?</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>device
+</span></span><span style="display:flex;"><span>    .end_command_buffer(<span style="color:#f92672">*</span>command_buffer)
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to end command buffer.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
 <p>And with that, we can finally move on to playing the command buffers and presenting to the screen!</p>
 
 

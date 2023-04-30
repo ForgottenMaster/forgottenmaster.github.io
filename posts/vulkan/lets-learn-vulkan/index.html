@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<meta name="generator" content="Hugo 0.92.2" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml">
 <noscript>
     <style>
@@ -164,6 +164,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>15. Push Constants
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-04-30 14:56:27 +0100 BST'>April 30, 2023</span>&nbsp;·&nbsp;6 min</footer>
+  <a class="entry-link" aria-label="post link to 15. Push Constants" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>14. Dynamic Ubos
     </h2>
   </header>
@@ -262,8 +274,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
   <section class="entry-content">
     <p>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
- Overview of graphics pipeline Vulkan Tutorial
-  The sections highlighted in yellow indicate those sections which we can program through shader modules....</p>
+Overview of graphics pipelineVulkan Tutorial
+The sections highlighted in yellow indicate those sections which we can program through shader modules....</p>
   </section>
   <footer class="entry-footer"><span title='2023-02-25 16:21:48 +0000 UTC'>February 25, 2023</span>&nbsp;·&nbsp;12 min</footer>
   <a class="entry-link" aria-label="post link to 7. Graphics Pipeline" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/"></a>
@@ -280,19 +292,6 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
   </section>
   <footer class="entry-footer"><span title='2023-02-21 23:26:25 +0000 UTC'>February 21, 2023</span>&nbsp;·&nbsp;15 min</footer>
   <a class="entry-link" aria-label="post link to 6. Shaders" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>5. Swapchain
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Now that we’ve been able to create the device surface, and get appropriate information about what formats, color spaces, and presentation modes are available, we are ready to tackle the next step in setting up a rendering environment. This next step will be what’s called a swapchain
-What is screen tearing? On the front-end side of things, the device surface represents the rendering context and can be considered “the window” for our purposes....</p>
-  </section>
-  <footer class="entry-footer"><span title='2023-02-19 12:21:42 +0000 UTC'>February 19, 2023</span>&nbsp;·&nbsp;14 min</footer>
-  <a class="entry-link" aria-label="post link to 5. Swapchain" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

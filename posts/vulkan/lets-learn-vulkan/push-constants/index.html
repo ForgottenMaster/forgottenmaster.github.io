@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>15. Push Constants | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.92.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="15. Push Constants" />
+<meta property="og:description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-30T14:56:27&#43;01:00" />
+<meta property="article:modified_time" content="2023-04-30T14:56:27&#43;01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="15. Push Constants"/>
+<meta name="twitter:description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Let's Learn Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "15. Push Constants",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "15. Push Constants",
+  "name": "15. Push Constants",
+  "description": "Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into. These are called Push Constants.\nPush Constants A push constant is a very small object similar to a UBO however it has the following properties:\n 128 byte maximum in most cases Can only have 1 push constant per shader Requires re-recording the command buffer if the data changes  This last point is most important - since this is where it differs from a traditional UBO. With a regular UBO, the command buffer records the buffer in use, and offsets/strides to be used - however the data inside the buffer is able to be changed at any time by the application without re-recording the command buffer.\nHowever a push constant directly records the data to be passed to the GPU into the command buffer itself. This necessitates a re-recording of the command buffer whenever the data changes (in our case each frame).\nThis may sound like a lot of overhead, and an expensive task to re-record the command buffer, however in Vulkan such an operation is actually really fast, since it’s only recording the operations to be executed,and not actually executing them - until the command buffer is submitted to a queue.\nResettable/Re-recordable Command Buffers By default, any command buffers that come out of the command buffer pool are configured to be only recorded once - and then submitted multiple times. Attempting to record a command buffer that was previously recorded is an error, however Vulkan allows us to opt-in to this ability.\nAll we need to do is to simply pass a flag to the command buffer pool creation to let Vulkan know we are intending to reset and re-record the buffers obtained from it. This uses the RESET_COMMAND_BUFFER flag and the code for pool creation looks thus\nfn create_command_pool(device: \u0026Device, queue_family_index: u32) - ResultCommandPool { unsafe { device .create_command_pool( \u0026CommandPoolCreateInfo::builder() .flags(CommandPoolCreateFlags::RESET_COMMAND_BUFFER) .queue_family_index(queue_family_index), None, ) .context(\"Failed to create a command pool.\") } } Then, when we tell Vulkan we’re beginning to record the command buffer, it will perform a reset for us first.\nWe do need to change the function that records the command buffers though. Previously we were recording all the command buffers for the frames, and the function didn’t have a way to record only some of them. We modify the function to take in the current image index to operate on.\nWe don’t need to record the command buffers up front now - instead just recording a particular frame’s command buffer before drawing it which we can do with a call to the record_command_buffer function and passing in the current index\nrecord_command_buffers( \u0026device, command_buffers, framebuffers, render_pass, swapchain_extent, graphics_pipeline, \u0026meshes, \u0026descriptor_sets, pipeline_layout, image_index as usize, )?; UBO = Push Constant Next, we need to update both the vertex shader and the code to reflect that we’re now using a push constant instead of a UBO. For the shader, this change is necessary and results in the following declaration\nlayout(push_constant) uniform PushModel { mat4 model; } m; Notice that instead of a binding number, we have the keyword push_constant in the layout declaration. This is because, as mentioned previously we can have only a single push constant per shader, so it doesn’t need a binding number. This is the push constant for this vertex shader.\nUpdating the name of the data in code however isn’t required because the structure of the object is the same. However we will change the name UboModel to PushModel for clarity\n#[repr(C)] struct PushModel(Mat4); struct Mesh { vertex_buffer: Buffer, vertex_buffer_memory: DeviceMemory, index_buffer: Buffer, index_buffer_memory: DeviceMemory, index_count: usize, push_model: PushModel, } Updating Descriptors Since we’re no longer using a separate UBO for the model data and are using a push constant instead, we will need to remove the dynamic UBO definition from our descriptor set.\nThe first thing is to change the layout so that we are only binding a single UBO again (for the projection and view matrices)\nfn create_descriptor_set_layout(device: \u0026Device) - ResultDescriptorSetLayout { unsafe { device .create_descriptor_set_layout( \u0026DescriptorSetLayoutCreateInfo::builder().bindings(\u0026[ *DescriptorSetLayoutBinding::builder() .descriptor_type(DescriptorType::UNIFORM_BUFFER) .descriptor_count(1) .stage_flags(ShaderStageFlags::VERTEX), ]), None, ) .context(\"Failed to create a descriptor set layout.\") } } Likewise, we don’t actually need to tell the descriptor pool to allocate these dynamic UBO descriptors as they’re not used. The pool will therefore go back to using only a single descriptor type for our UBOs\nfn create_descriptor_pool(device: \u0026Device, count: u32) - ResultDescriptorPool { unsafe { device .create_descriptor_pool( \u0026DescriptorPoolCreateInfo::builder() .max_sets(count) .pool_sizes(\u0026[ *DescriptorPoolSize::builder() .ty(DescriptorType::UNIFORM_BUFFER) .descriptor_count(count), ]), None, ) .context(\"Failed to create a descriptor pool.\") } } Finally the pipeline layout needs to be updated to be compatible with our push constants. Specifically, we need to tell Vulkan what the push constant ranges are that we are using.\nA PushConstantRange will let Vulkan know, for each range:\n Which shader stage(s) that push constant data is used for The offset of the data for those stage(s) - this is the offset in bytes from the beginning of the block of data pushed to Vulkan The size of the data used for those stage(s)  In our case, we have:\n Push constant data is only accessible by the vertex shader stage We will start pulling the data from the beginning of the block (offset 0) We will use a number of bytes equal to the size of our PushModel structure  In code then, when setting up the pipeline layout and specifying this range, we have what looks as follows\nfn create_pipeline_layout( device: \u0026Device, set_layouts: \u0026[DescriptorSetLayout], ) - ResultPipelineLayout { unsafe { device.create_pipeline_layout( \u0026PipelineLayoutCreateInfo::builder() .set_layouts(set_layouts) .push_constant_ranges(\u0026[*PushConstantRange::builder() .stage_flags(ShaderStageFlags::VERTEX) .size(std::mem::size_of::PushModel() as u32)]), None, ) } .context(\"Error trying to create a pipeline layout.\") } Recording the Command Buffer Finally everything is set up! just to recap:\n The vertex shader is set up to use a push constant data block The pipeline layout knows the format of the push constant data to pass to the vertex shader Descriptor sets no longer allocate the dynamic UBOs for our model matrices  Now we just need to record the push constant data into the command buffer. We re-record the command buffer each frame, just before submitting it to the queue for presentation.\nWhen we record the command buffer we can use the cmd_push_constants command to provide the data to be used for push constants.\nIn our case we’ll get the push_model from the mesh, and interpret it as a \u0026[u8] slice which is what Ash is expecting to receive.\nThe amount of bytes will be the size of PushModel again and in Rust we can use the std::slice::from_raw_parts function to get a slice with a particular length. The whole code for that is as below\nlet push_constant_ptr = \u0026mesh.push_model as *const PushModel as *const u8; let push_constant_size = std::mem::size_of::PushModel(); let push_constant_bytes = std::slice::from_raw_parts(push_constant_ptr, push_constant_size); device.cmd_push_constants( command_buffer, pipeline_layout, ShaderStageFlags::VERTEX, 0, push_constant_bytes, ); And then re-running the application we can see it works the same! However it’s now using the much faster memory to push the model matrices to the shader instead.\n",
+  "wordCount" : "1225",
+  "inLanguage": "en",
+  "datePublished": "2023-04-30T14:56:27+01:00",
+  "dateModified": "2023-04-30T14:56:27+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <h1 class="post-title">
+      15. Push Constants
+    </h1>
+    <div class="post-meta"><span title='2023-04-30 14:56:27 +0100 BST'>April 30, 2023</span>&nbsp;·&nbsp;6 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#push-constants" aria-label="Push Constants">Push Constants</a></li>
+                <li>
+                    <a href="#resettablere-recordable-command-buffers" aria-label="Resettable/Re-recordable Command Buffers">Resettable/Re-recordable Command Buffers</a></li>
+                <li>
+                    <a href="#ubo--push-constant" aria-label="UBO =&amp;gt; Push Constant">UBO =&gt; Push Constant</a></li>
+                <li>
+                    <a href="#updating-descriptors" aria-label="Updating Descriptors">Updating Descriptors</a></li>
+                <li>
+                    <a href="#recording-the-command-buffer" aria-label="Recording the Command Buffer">Recording the Command Buffer</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into. These are called <strong>Push Constants</strong>.</p>
+<h1 id="push-constants">Push Constants<a hidden class="anchor" aria-hidden="true" href="#push-constants">#</a></h1>
+<p>A push constant is a very small object similar to a UBO however it has the following properties:</p>
+<ul>
+<li>128 byte maximum in most cases</li>
+<li>Can only have <strong>1</strong> push constant per shader</li>
+<li>Requires re-recording the command buffer if the data changes</li>
+</ul>
+<p>This last point is most important - since this is where it differs from a traditional UBO. With a regular UBO, the command buffer records the buffer in use, and offsets/strides to be used - however the data inside the buffer is able to be changed at any time by the application <strong>without re-recording the command buffer</strong>.</p>
+<p>However a push constant directly records the data to be passed to the GPU into the command buffer itself. This necessitates a re-recording of the command buffer whenever the data changes (in our case each frame).</p>
+<p>This may sound like a lot of overhead, and an expensive task to re-record the command buffer, however in Vulkan such an operation is actually really fast, since it&rsquo;s only recording the operations to be executed,and not actually executing them - until the command buffer is submitted to a queue.</p>
+<h1 id="resettablere-recordable-command-buffers">Resettable/Re-recordable Command Buffers<a hidden class="anchor" aria-hidden="true" href="#resettablere-recordable-command-buffers">#</a></h1>
+<p>By default, any command buffers that come out of the command buffer pool are configured to be only recorded once - and then submitted multiple times. Attempting to record a command buffer that was previously recorded is an error, however Vulkan allows us to <em>opt-in</em> to this ability.</p>
+<p>All we need to do is to simply pass a flag to the command buffer pool creation to let Vulkan know we are intending to reset and re-record the buffers obtained from it. This uses the <strong>RESET_COMMAND_BUFFER</strong> flag and the code for pool creation looks thus</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_command_pool</span>(device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>, queue_family_index: <span style="color:#66d9ef">u32</span>) -&gt; Result<span style="color:#f92672">&lt;</span>CommandPool<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">unsafe</span> {
+        device
+            .create_command_pool(
+                <span style="color:#f92672">&amp;</span>CommandPoolCreateInfo::builder()
+                    .flags(CommandPoolCreateFlags::RESET_COMMAND_BUFFER)
+                    .queue_family_index(queue_family_index),
+                None,
+            )
+            .context(<span style="color:#e6db74">&#34;Failed to create a command pool.&#34;</span>)
+    }
+}</code></pre></div>
+<p>Then, when we tell Vulkan we&rsquo;re beginning to record the command buffer, it will perform a reset for us first.</p>
+<p>We do need to change the function that records the command buffers though. Previously we were recording <strong>all</strong> the command buffers for the frames, and the function didn&rsquo;t have a way to record only some of them. We modify the function to take in the current image index to operate on.</p>
+<p>We don&rsquo;t need to record the command buffers up front now - instead just recording a particular frame&rsquo;s command buffer before drawing it which we can do with a call to the record_command_buffer function and passing in the current index</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">record_command_buffers(
+	<span style="color:#f92672">&amp;</span>device,
+	command_buffers,
+	framebuffers,
+	render_pass,
+	swapchain_extent,
+	graphics_pipeline,
+	<span style="color:#f92672">&amp;</span>meshes,
+	<span style="color:#f92672">&amp;</span>descriptor_sets,
+	pipeline_layout,
+	image_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>,
+)<span style="color:#f92672">?</span>;</code></pre></div>
+<h1 id="ubo--push-constant">UBO =&gt; Push Constant<a hidden class="anchor" aria-hidden="true" href="#ubo--push-constant">#</a></h1>
+<p>Next, we need to update both the vertex shader and the code to reflect that we&rsquo;re now using a push constant instead of a UBO. For the shader, this change is necessary and results in the following declaration</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout(push_constant) uniform PushModel {
+    mat4 model;
+} m;</code></pre></div>
+<p>Notice that instead of a binding number, we have the keyword <strong>push_constant</strong> in the layout declaration. This is because, as mentioned previously we can have only a single push constant per shader, so it doesn&rsquo;t need a binding number. This is <em>the</em> push constant for this vertex shader.</p>
+<p>Updating the name of the data in code however isn&rsquo;t required because the <em>structure</em> of the object is the same. However we will change the name UboModel to PushModel for clarity</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[repr(C)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">PushModel</span>(Mat4);
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mesh</span> {
+    vertex_buffer: <span style="color:#a6e22e">Buffer</span>,
+    vertex_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+    index_buffer: <span style="color:#a6e22e">Buffer</span>,
+    index_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+    index_count: <span style="color:#66d9ef">usize</span>,
+    push_model: <span style="color:#a6e22e">PushModel</span>,
+}</code></pre></div>
+<h1 id="updating-descriptors">Updating Descriptors<a hidden class="anchor" aria-hidden="true" href="#updating-descriptors">#</a></h1>
+<p>Since we&rsquo;re no longer using a separate UBO for the model data and are using a push constant instead, we will need to remove the dynamic UBO definition from our descriptor set.</p>
+<p>The first thing is to change the layout so that we are only binding a single UBO again (for the projection and view matrices)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_descriptor_set_layout</span>(device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DescriptorSetLayout<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">unsafe</span> {
+        device
+            .create_descriptor_set_layout(
+                <span style="color:#f92672">&amp;</span>DescriptorSetLayoutCreateInfo::builder().bindings(<span style="color:#f92672">&amp;</span>[
+                    <span style="color:#f92672">*</span>DescriptorSetLayoutBinding::builder()
+                        .descriptor_type(DescriptorType::UNIFORM_BUFFER)
+                        .descriptor_count(<span style="color:#ae81ff">1</span>)
+                        .stage_flags(ShaderStageFlags::VERTEX),
+                ]),
+                None,
+            )
+            .context(<span style="color:#e6db74">&#34;Failed to create a descriptor set layout.&#34;</span>)
+    }
+}</code></pre></div>
+<p>Likewise, we don&rsquo;t actually need to tell the descriptor pool to allocate these dynamic UBO descriptors as they&rsquo;re not used. The pool will therefore go back to using only a single descriptor type for our UBOs</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_descriptor_pool</span>(device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>, count: <span style="color:#66d9ef">u32</span>) -&gt; Result<span style="color:#f92672">&lt;</span>DescriptorPool<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">unsafe</span> {
+        device
+            .create_descriptor_pool(
+                <span style="color:#f92672">&amp;</span>DescriptorPoolCreateInfo::builder()
+                    .max_sets(count)
+                    .pool_sizes(<span style="color:#f92672">&amp;</span>[
+                        <span style="color:#f92672">*</span>DescriptorPoolSize::builder()
+                            .ty(DescriptorType::UNIFORM_BUFFER)
+                            .descriptor_count(count),
+                    ]),
+                None,
+            )
+            .context(<span style="color:#e6db74">&#34;Failed to create a descriptor pool.&#34;</span>)
+    }
+}</code></pre></div>
+<p>Finally the <em>pipeline</em> layout needs to be updated to be compatible with our push constants. Specifically, we need to tell Vulkan what the push constant <em>ranges</em> are that we are using.</p>
+<p>A PushConstantRange will let Vulkan know, for each range:</p>
+<ul>
+<li>Which shader stage(s) that push constant data is used for</li>
+<li>The <strong>offset</strong> of the data for those stage(s) - this is the offset in bytes from the beginning of the block of data pushed to Vulkan</li>
+<li>The <strong>size</strong> of the data used for those stage(s)</li>
+</ul>
+<p>In our case, we have:</p>
+<ul>
+<li>Push constant data is only accessible by the <strong>vertex</strong> shader stage</li>
+<li>We will start pulling the data from the <strong>beginning</strong> of the block (offset 0)</li>
+<li>We will use a number of bytes equal to the size of our PushModel structure</li>
+</ul>
+<p>In code then, when setting up the pipeline layout and specifying this range, we have what looks as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_pipeline_layout</span>(
+    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+    set_layouts: <span style="color:#66d9ef">&amp;</span>[DescriptorSetLayout],
+) -&gt; Result<span style="color:#f92672">&lt;</span>PipelineLayout<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">unsafe</span> {
+        device.create_pipeline_layout(
+            <span style="color:#f92672">&amp;</span>PipelineLayoutCreateInfo::builder()
+                .set_layouts(set_layouts)
+                .push_constant_ranges(<span style="color:#f92672">&amp;</span>[<span style="color:#f92672">*</span>PushConstantRange::builder()
+                    .stage_flags(ShaderStageFlags::VERTEX)
+                    .size(std::mem::size_of::<span style="color:#f92672">&lt;</span>PushModel<span style="color:#f92672">&gt;</span>() <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>)]),
+            None,
+        )
+    }
+    .context(<span style="color:#e6db74">&#34;Error trying to create a pipeline layout.&#34;</span>)
+}</code></pre></div>
+<h1 id="recording-the-command-buffer">Recording the Command Buffer<a hidden class="anchor" aria-hidden="true" href="#recording-the-command-buffer">#</a></h1>
+<p>Finally everything is set up! just to recap:</p>
+<ol>
+<li>The vertex shader is set up to use a push constant data block</li>
+<li>The pipeline layout knows the format of the push constant data to pass to the vertex shader</li>
+<li>Descriptor sets no longer allocate the dynamic UBOs for our model matrices</li>
+</ol>
+<p>Now we just need to record the push constant data into the command buffer. We re-record the command buffer each frame, just before submitting it to the queue for presentation.</p>
+<p>When we record the command buffer we can use the <code>cmd_push_constants</code> command to provide the data to be used for push constants.</p>
+<p>In our case we&rsquo;ll get the push_model from the mesh, and interpret it as a &amp;[u8] slice which is what Ash is expecting to receive.</p>
+<p>The amount of bytes will be the size of PushModel again and in Rust we can use the <code>std::slice::from_raw_parts</code> function to get a slice with a particular length. The whole code for that is as below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> push_constant_ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>mesh.push_model <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> PushModel <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">u8</span>;
+<span style="color:#66d9ef">let</span> push_constant_size <span style="color:#f92672">=</span> std::mem::size_of::<span style="color:#f92672">&lt;</span>PushModel<span style="color:#f92672">&gt;</span>();
+<span style="color:#66d9ef">let</span> push_constant_bytes <span style="color:#f92672">=</span>
+	std::slice::from_raw_parts(push_constant_ptr, push_constant_size);
+device.cmd_push_constants(
+	command_buffer,
+	pipeline_layout,
+	ShaderStageFlags::VERTEX,
+	<span style="color:#ae81ff">0</span>,
+	push_constant_bytes,
+);</code></pre></div>
+<p>And then re-running the application we can see it works the same! However it&rsquo;s now using the much faster memory to push the model matrices to the shader instead.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

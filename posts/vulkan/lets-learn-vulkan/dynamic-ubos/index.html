@@ -12,7 +12,7 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <meta name="author" content="">
 <link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.92.2" />
+<meta name="generator" content="Hugo 0.96.0" />
 <noscript>
     <style>
         #theme-toggle,
@@ -115,7 +115,7 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
   "keywords": [
     
   ],
-  "articleBody": "Now we have the ability to pass data through to the shaders using uniform buffers, we should extend our system to be able to render multiple meshes rather than a single one as we have currently. This will also demonstrate an issue we have currently with our implementation of using a single uniform buffer.\nDefine Meshes The first thing we need to do is to be able to define what a Mesh actually is. In our case it is a bunch of vertex data in a vertex buffer, and a bunch of indices into that buffer as an index buffer.\nFor both buffers we’ll go ahead and hold the Buffer handle itself, along with the DeviceMemory since we will later need to free it at the end of the program.\nCreating Meshes Our Mesh structure looks as follows\nstruct Mesh { vertex_buffer: Buffer, vertex_buffer_memory: DeviceMemory, index_buffer: Buffer, index_buffer_memory: DeviceMemory, index_count: usize } And we can create instances of it with a new create_mesh function we’ll define shortly. In our case to demonstrate the issue, we will have 2 quad meshes - one on the left hand side of center, and one on the right hand side:\nlet meshes = vec![ create_mesh( \u0026instance, \u0026logical_device, physical_device, graphics_command_pool, queues.graphics_queue, \u0026[ Vertex { position: [-0.6, -0.2, 0.0], color: [1.0, 0.0, 0.0], }, Vertex { position: [-0.2, 0.2, 0.0], color: [0.0, 1.0, 0.0], }, Vertex { position: [-0.6, 0.2, 0.0], color: [0.0, 0.0, 1.0], }, Vertex { position: [-0.2, -0.2, 0.0], color: [1.0, 1.0, 0.0], }, ], \u0026[0, 1, 2, 1, 0, 3], )?, create_mesh( \u0026instance, \u0026logical_device, physical_device, graphics_command_pool, queues.graphics_queue, \u0026[ Vertex { position: [0.2, -0.2, 0.0], color: [1.0, 0.0, 0.0], }, Vertex { position: [0.6, 0.2, 0.0], color: [0.0, 1.0, 0.0], }, Vertex { position: [0.2, 0.2, 0.0], color: [0.0, 0.0, 1.0], }, Vertex { position: [0.6, -0.2, 0.0], color: [1.0, 1.0, 0.0], }, ], \u0026[0, 1, 2, 1, 0, 3], )?, ]; Finally let’s take a look at the create_mesh function itself. This needs to do the following:\n Create a vertex buffer (returning an error if there is one) Create an index buffer (returning an error if there is one) Bundle these together into a Mesh structure to return if everything went okay  As code this looks as follows:\nfn create_mesh( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, transfer_command_pool: CommandPool, transfer_queue: Queue, vertex_buffer_data: \u0026[Vertex], index_buffer_data: \u0026[u16], ) - ResultMesh { let (vertex_buffer, vertex_buffer_memory) = create_vertex_buffer( instance, device, physical_device, vertex_buffer_data, transfer_command_pool, transfer_queue, ) .context(\"Error while trying to create vertex buffer for a mesh.\")?; let (index_buffer, index_buffer_memory) = create_index_buffer( instance, device, physical_device, index_buffer_data, transfer_command_pool, transfer_queue, ) .context(\"Error while trying to create index buffer for a mesh.\")?; Ok(Mesh { vertex_buffer, vertex_buffer_memory, index_buffer, index_buffer_memory, index_count: index_buffer_data.len() }) } Rendering Meshes When it comes to rendering the data, we will loop over the meshes and for each one:\n Bind the meshes vertex buffer Bind the meshes index buffer Issue an indexed draw call for the mesh  for mesh in meshes { device.cmd_bind_vertex_buffers(*command_buffer, 0, \u0026[mesh.vertex_buffer], \u0026[0]); device.cmd_bind_index_buffer( *command_buffer, mesh.index_buffer, 0, IndexType::UINT16, ); device.cmd_draw_indexed( *command_buffer, mesh.index_count.try_into().unwrap(), 1, 0, 0, 0, ); } Destroying Meshes Finally on program shutdown during the cleanup phase, we can destroy the buffers for each mesh too:\nfor mesh in meshes { device.free_memory(mesh.index_buffer_memory, None); device.destroy_buffer(mesh.index_buffer, None); device.free_memory(mesh.vertex_buffer_memory, None); device.destroy_buffer(mesh.vertex_buffer, None); } What’s the Problem? Now that we have multiple meshes being rendered, we can see the issue that we have with our current uniform data. Since we only have a single uniform buffer, we are binding it for the entire draw call and are using the same model matrix for all meshes.\nThis results in us rotating the entire scene rather than each model individually as shown below.\nThe view and projection matrices can indeed be shared between all meshes in the scene, however we’d like for the model matrix to be different per mesh.\nHowever, we can not just create a separate descriptor set per model as we are limited on the number of descriptor sets that we are allowed to allocate.\nWhat we would like to do instead is to have a single buffer containing all the mesh specific datas packed together and then bind the entire buffer to the descriptor set. When we then bind the descriptor set, we will tell it which offset to use to locate the data for the draw call within the mesh.\nOne thing we need to be aware of when putting the data into the buffers is that Vulkan requires a specific alignment for the data within a uniform buffer which means we’ll need to add padding to ensure that each object’s data starts at some multiple of the alignment.\nSplit out View/Projection Matrices In order to achieve what we want, we will need to split out the view and projection matrices (which will be consistent for the entire render pass) from the model matrix (which will be varying across the render pass).\nThe first thing we’ll do is to remove the model data from the UBO structure on the Rust side. We’ll rename it to identify that it’s containing only the view and projection matrices\n#[repr(C)] struct UboViewProjection { projection: Mat4, view: Mat4, } Secondly we’ll do the same on the shader side\nlayout(binding = 0) uniform UboViewProjection { mat4 projection; mat4 view; } vp; And finally we’ll update the shader body itself to temporarily remove the model matrix. We’ll replace it with the identity matrix here, and return it once we’ve reinstated the model data again.\ngl_Position = vp.projection * vp.view * mat4(1.0) * vec4(position, 1.0); Adding Model UBO Now we can add the model matrix back in as a separate UBO which will have a different binding to the view and projection matrices. This different binding will allow us to vary the data received for the model matrix, and keep the view and projection matrices constant.\nFirstly we’ll create a Rust structure to represent the data we will be binding. In this case, it’s only a single matrix\n#[repr(C)] struct UboModel(Mat4); We’ll add it into the shader again, ensuring we set the binding number to be 1\nlayout(binding = 1) uniform UboModel { mat4 model; } m; Finally we can add it back into the vertex shader code body\ngl_Position = vp.projection * vp.view * m.model * vec4(position, 1.0); Creating the Buffers Now we can go ahead and create the buffers we will use to store the model data in. We will create a new function, which will use our existing create_buffer function with the following properties:\n Buffer usage will be UNIFORM_BUFFER Memory type will need to be both HOST_VISIBLE and HOST_COHERENT since we are writing directly to the memory often Size will be set to allow for a maximum number of models, multiplied by the stride of the data  As our other buffers, we will create one per swapchain image such that we don’t end up writing to one while one is being processed.\nfn create_model_uniform_buffers( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, count: usize, max_models: u64, model_stride: u64, ) - ResultVec(Buffer, DeviceMemory) { let mut buffers = Vec::with_capacity(count); for _ in 0..count { buffers.push( create_buffer( instance, device, physical_device, BufferUsageFlags::UNIFORM_BUFFER, MemoryPropertyFlags::HOST_VISIBLE | MemoryPropertyFlags::HOST_COHERENT, max_models * model_stride, ) .context(\"Failed to create a uniform buffer.\")?, ); } Ok(buffers) } We’ll create a constant for defining the maximum number of models - we’ll set this to 2 for now\nconst MAX_MODELS: u64 = 2; Next, we need to find out what the minimum alignment is that Vulkan requires us to maintain for offsets within the uniform buffer. We can get this from the physical device properties\nlet physical_device_properties = unsafe { instance.get_physical_device_properties(physical_device) }; let minimum_uniform_buffer_offset_alignment = physical_device_properties .limits .min_uniform_buffer_offset_alignment; Next, we need to calculate the padded/aligned size for a single UboModel instance. Rust provides a handy Layout API that we can make use of for this. We will:\n Get the Layout for a single unpadded UboModel Align the layout to the minimal padding. Rust will actually align it to the maximum of the current and minimal padding Tell Rust to add padding to the size to match the alignment Get the padded size from the Layout  In code, this looks as follows\nlet ubo_model_aligned_size = Layout::new::UboModel() .align_to(minimum_uniform_buffer_offset_alignment as usize) .context(\"Could not pad UboModel to minimum offset alignment.\")? .pad_to_align() .size(); Finally we can go ahead and call the function we wrote to create our buffers\nlet model_uniform_buffers = create_model_uniform_buffers( \u0026instance, \u0026logical_device, physical_device, swapchain_images.len(), MAX_MODELS, ubo_model_aligned_size as u64, )?; Updating Descriptor Sets Now that we have allocated the buffers for storage, we need to update the descriptor sets such that the new buffer is bound.\nFirstly we need to add a second binding into the descriptor set layout and as we wrote in the shader, it’ll be at binding number 1.\n*DescriptorSetLayoutBinding::builder() .binding(1) .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC) .descriptor_count(1) .stage_flags(ShaderStageFlags::VERTEX) Secondly we need to tell the pool that we will allocate dynamic uniform buffers from it. Specifically, we are allocating count descriptors from it, where count is the number of swapchain images.\n*DescriptorPoolSize::builder() .ty(DescriptorType::UNIFORM_BUFFER_DYNAMIC) .descriptor_count(count) Finally we need to update the code binding the buffers to the descriptors in the set. We need to make sure that for each swapchain image we:\n Bind the appropriate uniform buffer (view projection) to binding 0 Bind the appropriate dynamic uniform buffer (model) to binding 1  fn update_descriptor_sets( device: \u0026Device, vp_buffers: \u0026[(Buffer, DeviceMemory)], model_buffers: \u0026[(Buffer, DeviceMemory)], model_buffer_stride: DeviceSize, sets: \u0026[DescriptorSet], ) { let vp_buffer_infos = vp_buffers .iter() .map(|(buffer, _)| { vec![*DescriptorBufferInfo::builder() .buffer(*buffer) .range(mem::size_of::UboViewProjection().try_into().unwrap())] }) .collect::Vec_(); let model_buffer_infos = model_buffers .iter() .map(|(buffer, _)| { vec![*DescriptorBufferInfo::builder() .buffer(*buffer) .range(model_buffer_stride)] }) .collect::Vec_(); let mut writes = vp_buffer_infos .iter() .zip(sets) .map(|(buffer_info, set)| { *WriteDescriptorSet::builder() .dst_set(*set) .descriptor_type(DescriptorType::UNIFORM_BUFFER) .buffer_info(buffer_info) }) .collect::Vec_(); writes.extend( model_buffer_infos .iter() .zip(sets) .map(|(buffer_info, set)| { *WriteDescriptorSet::builder() .dst_set(*set) .dst_binding(1) .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC) .buffer_info(buffer_info) }), ); unsafe { device.update_descriptor_sets(\u0026writes, \u0026[]); } } Recording Command Buffers We need to change where we record command buffers to tell the draw call what offset to read the model data from.\nFor each mesh we want to render, we will:\n Bind the meshes vertex buffer Bind the meshes index buffer Bind the descriptor set we are using Specify the offset into the model’s uniform buffer that we are using for the current mesh Issue the indexed draw call as before  For #4 specifically we can get the offset by multiplying the padded size of a UboModel instance by the index of the mesh.\nPutting it together, we’ll record this into our command buffer\nfor (mesh_index, mesh) in meshes.into_iter().enumerate() { device.cmd_bind_vertex_buffers(*command_buffer, 0, \u0026[mesh.vertex_buffer], \u0026[0]); device.cmd_bind_index_buffer( *command_buffer, mesh.index_buffer, 0, IndexType::UINT16, ); device.cmd_bind_descriptor_sets( *command_buffer, PipelineBindPoint::GRAPHICS, pipeline_layout, 0, \u0026[*descriptor_set], \u0026[model_ubo_stride * mesh_index as u32], ); device.cmd_draw_indexed( *command_buffer, mesh.index_count.try_into().unwrap(), 1, 0, 0, 0, ); } Updating the Mesh Data Now that we have everything bound up and it’s all working correctly, we need a way of getting the data into the model buffer.\nFirstly we’ll add a copy of the UboModel instance into each Mesh - the definition of which now looks as follows\nstruct Mesh { vertex_buffer: Buffer, vertex_buffer_memory: DeviceMemory, index_buffer: Buffer, index_buffer_memory: DeviceMemory, index_count: usize, ubo_model: UboModel, } When we construct an instance of the Mesh, we’ll initialise the model matrix to identity\nOk(Mesh { vertex_buffer, vertex_buffer_memory, index_buffer, index_buffer_memory, index_count: index_buffer_data.len(), ubo_model: UboModel(Mat4::IDENTITY), }) Finally in the place where we are pushing data into our buffers (where we previously were updating our model/view/projection matrices in the buffer), we need to push each mesh’s UboModel instance to the correct location in the dynamic buffer\nlet model_uniform_memory = model_uniform_buffers[image_index as usize].1; let dst = device .map_memory( model_uniform_memory, 0, ubo_model_stride * meshes.len() as DeviceSize, MemoryMapFlags::empty(), ) .context(\"Failed to map model uniform buffer memory.\")? as *mut u8; for (mesh_index, mesh) in meshes.into_iter().enumerate() { let src = \u0026mesh.ubo_model as *const UboModel; let dst = dst.add(ubo_model_stride as usize * mesh_index) as *mut UboModel; ptr::copy_nonoverlapping(src, dst, 1); } device.unmap_memory(model_uniform_memory); Updating the Model Data Finally we can demonstrate that the data is correctly being received and used by the shader by adding a similar rotation per frame to the meshes, as we had previously.\nHowever, this time we will rotate one mesh clockwise, and the other mesh counter-clockwise.\nlet timestamp = Instant::now(); let elapsed = timestamp.duration_since(last_frame_timestamp).as_secs_f32(); meshes[0].ubo_model.0 *= Mat4::from_rotation_z(90.0_f32.to_radians() * elapsed); meshes[1].ubo_model.0 *= Mat4::from_rotation_z(-90.0_f32.to_radians() * elapsed); last_frame_timestamp = timestamp; window.request_redraw(); With everything in place, the rotation of our meshes can now be seen to be correct and each mesh is rotated independently (and we only needed a single additional buffer!)\n",
+  "articleBody": "Now we have the ability to pass data through to the shaders using uniform buffers, we should extend our system to be able to render multiple meshes rather than a single one as we have currently. This will also demonstrate an issue we have currently with our implementation of using a single uniform buffer.\nDefine Meshes The first thing we need to do is to be able to define what a Mesh actually is. In our case it is a bunch of vertex data in a vertex buffer, and a bunch of indices into that buffer as an index buffer.\nFor both buffers we’ll go ahead and hold the Buffer handle itself, along with the DeviceMemory since we will later need to free it at the end of the program.\nCreating Meshes Our Mesh structure looks as follows\nstruct Mesh {  vertex_buffer: Buffer,  vertex_buffer_memory: DeviceMemory,  index_buffer: Buffer,  index_buffer_memory: DeviceMemory,  index_count: usize } And we can create instances of it with a new create_mesh function we’ll define shortly. In our case to demonstrate the issue, we will have 2 quad meshes - one on the left hand side of center, and one on the right hand side:\nlet meshes = vec![  create_mesh(  \u0026instance,  \u0026logical_device,  physical_device,  graphics_command_pool,  queues.graphics_queue,  \u0026[  Vertex {  position: [-0.6, -0.2, 0.0],  color: [1.0, 0.0, 0.0],  },  Vertex {  position: [-0.2, 0.2, 0.0],  color: [0.0, 1.0, 0.0],  },  Vertex {  position: [-0.6, 0.2, 0.0],  color: [0.0, 0.0, 1.0],  },  Vertex {  position: [-0.2, -0.2, 0.0],  color: [1.0, 1.0, 0.0],  },  ],  \u0026[0, 1, 2, 1, 0, 3],  )?,  create_mesh(  \u0026instance,  \u0026logical_device,  physical_device,  graphics_command_pool,  queues.graphics_queue,  \u0026[  Vertex {  position: [0.2, -0.2, 0.0],  color: [1.0, 0.0, 0.0],  },  Vertex {  position: [0.6, 0.2, 0.0],  color: [0.0, 1.0, 0.0],  },  Vertex {  position: [0.2, 0.2, 0.0],  color: [0.0, 0.0, 1.0],  },  Vertex {  position: [0.6, -0.2, 0.0],  color: [1.0, 1.0, 0.0],  },  ],  \u0026[0, 1, 2, 1, 0, 3],  )?, ]; Finally let’s take a look at the create_mesh function itself. This needs to do the following:\n Create a vertex buffer (returning an error if there is one) Create an index buffer (returning an error if there is one) Bundle these together into a Mesh structure to return if everything went okay  As code this looks as follows:\nfn create_mesh(  instance: \u0026Instance,  device: \u0026Device,  physical_device: PhysicalDevice,  transfer_command_pool: CommandPool,  transfer_queue: Queue,  vertex_buffer_data: \u0026[Vertex],  index_buffer_data: \u0026[u16], ) - ResultMesh {  let (vertex_buffer, vertex_buffer_memory) = create_vertex_buffer(  instance,  device,  physical_device,  vertex_buffer_data,  transfer_command_pool,  transfer_queue,  )  .context(\"Error while trying to create vertex buffer for a mesh.\")?;  let (index_buffer, index_buffer_memory) = create_index_buffer(  instance,  device,  physical_device,  index_buffer_data,  transfer_command_pool,  transfer_queue,  )  .context(\"Error while trying to create index buffer for a mesh.\")?;  Ok(Mesh {  vertex_buffer,  vertex_buffer_memory,  index_buffer,  index_buffer_memory,  index_count: index_buffer_data.len()  }) } Rendering Meshes When it comes to rendering the data, we will loop over the meshes and for each one:\n Bind the meshes vertex buffer Bind the meshes index buffer Issue an indexed draw call for the mesh  for mesh in meshes {  device.cmd_bind_vertex_buffers(*command_buffer, 0, \u0026[mesh.vertex_buffer], \u0026[0]);  device.cmd_bind_index_buffer(  *command_buffer,  mesh.index_buffer,  0,  IndexType::UINT16,  );  device.cmd_draw_indexed(  *command_buffer,  mesh.index_count.try_into().unwrap(),  1,  0,  0,  0,  ); } Destroying Meshes Finally on program shutdown during the cleanup phase, we can destroy the buffers for each mesh too:\nfor mesh in meshes {  device.free_memory(mesh.index_buffer_memory, None);  device.destroy_buffer(mesh.index_buffer, None);  device.free_memory(mesh.vertex_buffer_memory, None);  device.destroy_buffer(mesh.vertex_buffer, None); } What’s the Problem? Now that we have multiple meshes being rendered, we can see the issue that we have with our current uniform data. Since we only have a single uniform buffer, we are binding it for the entire draw call and are using the same model matrix for all meshes.\nThis results in us rotating the entire scene rather than each model individually as shown below.\nThe view and projection matrices can indeed be shared between all meshes in the scene, however we’d like for the model matrix to be different per mesh.\nHowever, we can not just create a separate descriptor set per model as we are limited on the number of descriptor sets that we are allowed to allocate.\nWhat we would like to do instead is to have a single buffer containing all the mesh specific datas packed together and then bind the entire buffer to the descriptor set. When we then bind the descriptor set, we will tell it which offset to use to locate the data for the draw call within the mesh.\nOne thing we need to be aware of when putting the data into the buffers is that Vulkan requires a specific alignment for the data within a uniform buffer which means we’ll need to add padding to ensure that each object’s data starts at some multiple of the alignment.\nSplit out View/Projection Matrices In order to achieve what we want, we will need to split out the view and projection matrices (which will be consistent for the entire render pass) from the model matrix (which will be varying across the render pass).\nThe first thing we’ll do is to remove the model data from the UBO structure on the Rust side. We’ll rename it to identify that it’s containing only the view and projection matrices\n#[repr(C)] struct UboViewProjection {  projection: Mat4,  view: Mat4, } Secondly we’ll do the same on the shader side\nlayout(binding = 0) uniform UboViewProjection {  mat4 projection;  mat4 view; } vp; And finally we’ll update the shader body itself to temporarily remove the model matrix. We’ll replace it with the identity matrix here, and return it once we’ve reinstated the model data again.\ngl_Position = vp.projection * vp.view * mat4(1.0) * vec4(position, 1.0); Adding Model UBO Now we can add the model matrix back in as a separate UBO which will have a different binding to the view and projection matrices. This different binding will allow us to vary the data received for the model matrix, and keep the view and projection matrices constant.\nFirstly we’ll create a Rust structure to represent the data we will be binding. In this case, it’s only a single matrix\n#[repr(C)] struct UboModel(Mat4); We’ll add it into the shader again, ensuring we set the binding number to be 1\nlayout(binding = 1) uniform UboModel {  mat4 model; } m; Finally we can add it back into the vertex shader code body\ngl_Position = vp.projection * vp.view * m.model * vec4(position, 1.0); Creating the Buffers Now we can go ahead and create the buffers we will use to store the model data in. We will create a new function, which will use our existing create_buffer function with the following properties:\n Buffer usage will be UNIFORM_BUFFER Memory type will need to be both HOST_VISIBLE and HOST_COHERENT since we are writing directly to the memory often Size will be set to allow for a maximum number of models, multiplied by the stride of the data  As our other buffers, we will create one per swapchain image such that we don’t end up writing to one while one is being processed.\nfn create_model_uniform_buffers(  instance: \u0026Instance,  device: \u0026Device,  physical_device: PhysicalDevice,  count: usize,  max_models: u64,  model_stride: u64, ) - ResultVec(Buffer, DeviceMemory) {  let mut buffers = Vec::with_capacity(count);  for _ in 0..count {  buffers.push(  create_buffer(  instance,  device,  physical_device,  BufferUsageFlags::UNIFORM_BUFFER,  MemoryPropertyFlags::HOST_VISIBLE | MemoryPropertyFlags::HOST_COHERENT,  max_models * model_stride,  )  .context(\"Failed to create a uniform buffer.\")?,  );  }  Ok(buffers) } We’ll create a constant for defining the maximum number of models - we’ll set this to 2 for now\nconst MAX_MODELS: u64 = 2; Next, we need to find out what the minimum alignment is that Vulkan requires us to maintain for offsets within the uniform buffer. We can get this from the physical device properties\nlet physical_device_properties =  unsafe { instance.get_physical_device_properties(physical_device) }; let minimum_uniform_buffer_offset_alignment = physical_device_properties  .limits  .min_uniform_buffer_offset_alignment; Next, we need to calculate the padded/aligned size for a single UboModel instance. Rust provides a handy Layout API that we can make use of for this. We will:\n Get the Layout for a single unpadded UboModel Align the layout to the minimal padding. Rust will actually align it to the maximum of the current and minimal padding Tell Rust to add padding to the size to match the alignment Get the padded size from the Layout  In code, this looks as follows\nlet ubo_model_aligned_size = Layout::new::UboModel()  .align_to(minimum_uniform_buffer_offset_alignment as usize)  .context(\"Could not pad UboModel to minimum offset alignment.\")?  .pad_to_align()  .size(); Finally we can go ahead and call the function we wrote to create our buffers\nlet model_uniform_buffers = create_model_uniform_buffers(  \u0026instance,  \u0026logical_device,  physical_device,  swapchain_images.len(),  MAX_MODELS,  ubo_model_aligned_size as u64, )?; Updating Descriptor Sets Now that we have allocated the buffers for storage, we need to update the descriptor sets such that the new buffer is bound.\nFirstly we need to add a second binding into the descriptor set layout and as we wrote in the shader, it’ll be at binding number 1.\n*DescriptorSetLayoutBinding::builder()  .binding(1)  .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)  .descriptor_count(1)  .stage_flags(ShaderStageFlags::VERTEX) Secondly we need to tell the pool that we will allocate dynamic uniform buffers from it. Specifically, we are allocating count descriptors from it, where count is the number of swapchain images.\n*DescriptorPoolSize::builder() \t.ty(DescriptorType::UNIFORM_BUFFER_DYNAMIC)  .descriptor_count(count) Finally we need to update the code binding the buffers to the descriptors in the set. We need to make sure that for each swapchain image we:\n Bind the appropriate uniform buffer (view projection) to binding 0 Bind the appropriate dynamic uniform buffer (model) to binding 1  fn update_descriptor_sets(  device: \u0026Device,  vp_buffers: \u0026[(Buffer, DeviceMemory)],  model_buffers: \u0026[(Buffer, DeviceMemory)],  model_buffer_stride: DeviceSize,  sets: \u0026[DescriptorSet], ) {  let vp_buffer_infos = vp_buffers  .iter()  .map(|(buffer, _)| {  vec![*DescriptorBufferInfo::builder()  .buffer(*buffer)  .range(mem::size_of::UboViewProjection().try_into().unwrap())]  })  .collect::Vec_();   let model_buffer_infos = model_buffers  .iter()  .map(|(buffer, _)| {  vec![*DescriptorBufferInfo::builder()  .buffer(*buffer)  .range(model_buffer_stride)]  })  .collect::Vec_();   let mut writes = vp_buffer_infos  .iter()  .zip(sets)  .map(|(buffer_info, set)| {  *WriteDescriptorSet::builder()  .dst_set(*set)  .descriptor_type(DescriptorType::UNIFORM_BUFFER)  .buffer_info(buffer_info)  })  .collect::Vec_();   writes.extend(  model_buffer_infos  .iter()  .zip(sets)  .map(|(buffer_info, set)| {  *WriteDescriptorSet::builder()  .dst_set(*set)  .dst_binding(1)  .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)  .buffer_info(buffer_info)  }),  );   unsafe {  device.update_descriptor_sets(\u0026writes, \u0026[]);  } } Recording Command Buffers We need to change where we record command buffers to tell the draw call what offset to read the model data from.\nFor each mesh we want to render, we will:\n Bind the meshes vertex buffer Bind the meshes index buffer Bind the descriptor set we are using Specify the offset into the model’s uniform buffer that we are using for the current mesh Issue the indexed draw call as before  For #4 specifically we can get the offset by multiplying the padded size of a UboModel instance by the index of the mesh.\nPutting it together, we’ll record this into our command buffer\nfor (mesh_index, mesh) in meshes.into_iter().enumerate() {  device.cmd_bind_vertex_buffers(*command_buffer, 0, \u0026[mesh.vertex_buffer], \u0026[0]);  device.cmd_bind_index_buffer(  *command_buffer,  mesh.index_buffer,  0,  IndexType::UINT16,  );  device.cmd_bind_descriptor_sets(  *command_buffer,  PipelineBindPoint::GRAPHICS,  pipeline_layout,  0,  \u0026[*descriptor_set],  \u0026[model_ubo_stride * mesh_index as u32],  );  device.cmd_draw_indexed(  *command_buffer,  mesh.index_count.try_into().unwrap(),  1,  0,  0,  0,  ); } Updating the Mesh Data Now that we have everything bound up and it’s all working correctly, we need a way of getting the data into the model buffer.\nFirstly we’ll add a copy of the UboModel instance into each Mesh - the definition of which now looks as follows\nstruct Mesh {  vertex_buffer: Buffer,  vertex_buffer_memory: DeviceMemory,  index_buffer: Buffer,  index_buffer_memory: DeviceMemory,  index_count: usize,  ubo_model: UboModel, } When we construct an instance of the Mesh, we’ll initialise the model matrix to identity\nOk(Mesh {  vertex_buffer,  vertex_buffer_memory,  index_buffer,  index_buffer_memory,  index_count: index_buffer_data.len(),  ubo_model: UboModel(Mat4::IDENTITY), }) Finally in the place where we are pushing data into our buffers (where we previously were updating our model/view/projection matrices in the buffer), we need to push each mesh’s UboModel instance to the correct location in the dynamic buffer\nlet model_uniform_memory = model_uniform_buffers[image_index as usize].1; let dst = device  .map_memory(  model_uniform_memory,  0,  ubo_model_stride * meshes.len() as DeviceSize,  MemoryMapFlags::empty(),  )  .context(\"Failed to map model uniform buffer memory.\")? as *mut u8; for (mesh_index, mesh) in meshes.into_iter().enumerate() {  let src = \u0026mesh.ubo_model as *const UboModel;  let dst = dst.add(ubo_model_stride as usize * mesh_index) as *mut UboModel;  ptr::copy_nonoverlapping(src, dst, 1); } device.unmap_memory(model_uniform_memory); Updating the Model Data Finally we can demonstrate that the data is correctly being received and used by the shader by adding a similar rotation per frame to the meshes, as we had previously.\nHowever, this time we will rotate one mesh clockwise, and the other mesh counter-clockwise.\nlet timestamp = Instant::now(); let elapsed = timestamp.duration_since(last_frame_timestamp).as_secs_f32(); meshes[0].ubo_model.0 *= Mat4::from_rotation_z(90.0_f32.to_radians() * elapsed); meshes[1].ubo_model.0 *= Mat4::from_rotation_z(-90.0_f32.to_radians() * elapsed); last_frame_timestamp = timestamp; window.request_redraw(); With everything in place, the rotation of our meshes can now be seen to be correct and each mesh is rotated independently (and we only needed a single additional buffer!)\n",
   "wordCount" : "2049",
   "inLanguage": "en",
   "datePublished": "2023-04-22T19:27:31+01:00",
@@ -250,68 +250,68 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <p>For both buffers we&rsquo;ll go ahead and hold the Buffer handle itself, along with the DeviceMemory since we will later need to free it at the end of the program.</p>
 <h2 id="creating-meshes">Creating Meshes<a hidden class="anchor" aria-hidden="true" href="#creating-meshes">#</a></h2>
 <p>Our Mesh structure looks as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mesh</span> {
-    vertex_buffer: <span style="color:#a6e22e">Buffer</span>,
-    vertex_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
-    index_buffer: <span style="color:#a6e22e">Buffer</span>,
-    index_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
-    index_count: <span style="color:#66d9ef">usize</span>
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mesh</span> {
+</span></span><span style="display:flex;"><span>    vertex_buffer: <span style="color:#a6e22e">Buffer</span>,
+</span></span><span style="display:flex;"><span>    vertex_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+</span></span><span style="display:flex;"><span>    index_buffer: <span style="color:#a6e22e">Buffer</span>,
+</span></span><span style="display:flex;"><span>    index_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+</span></span><span style="display:flex;"><span>    index_count: <span style="color:#66d9ef">usize</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>And we can create instances of it with a new <strong>create_mesh</strong> function we&rsquo;ll define shortly. In our case to demonstrate the issue, we will have 2 quad meshes - one on the left hand side of center, and one on the right hand side:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> meshes <span style="color:#f92672">=</span> vec![
-    create_mesh(
-        <span style="color:#f92672">&amp;</span>instance,
-        <span style="color:#f92672">&amp;</span>logical_device,
-        physical_device,
-        graphics_command_pool,
-        queues.graphics_queue,
-        <span style="color:#f92672">&amp;</span>[
-            Vertex {
-                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.6</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-        ],
-        <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>],
-    )<span style="color:#f92672">?</span>,
-    create_mesh(
-        <span style="color:#f92672">&amp;</span>instance,
-        <span style="color:#f92672">&amp;</span>logical_device,
-        physical_device,
-        graphics_command_pool,
-        queues.graphics_queue,
-        <span style="color:#f92672">&amp;</span>[
-            Vertex {
-                position: [<span style="color:#ae81ff">0.2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>],
-            },
-            Vertex {
-                position: [<span style="color:#ae81ff">0.6</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
-                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
-            },
-        ],
-        <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>],
-    )<span style="color:#f92672">?</span>,
-];</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> meshes <span style="color:#f92672">=</span> vec![
+</span></span><span style="display:flex;"><span>    create_mesh(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>instance,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>        physical_device,
+</span></span><span style="display:flex;"><span>        graphics_command_pool,
+</span></span><span style="display:flex;"><span>        queues.graphics_queue,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.6</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>    )<span style="color:#f92672">?</span>,
+</span></span><span style="display:flex;"><span>    create_mesh(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>instance,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>        physical_device,
+</span></span><span style="display:flex;"><span>        graphics_command_pool,
+</span></span><span style="display:flex;"><span>        queues.graphics_queue,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#ae81ff">0.2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            Vertex {
+</span></span><span style="display:flex;"><span>                position: [<span style="color:#ae81ff">0.6</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>                color: [<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>    )<span style="color:#f92672">?</span>,
+</span></span><span style="display:flex;"><span>];</span></span></code></pre></div>
 <p>Finally let&rsquo;s take a look at the create_mesh function itself. This needs to do the following:</p>
 <ol>
 <li>Create a vertex buffer (returning an error if there is one)</li>
@@ -319,41 +319,41 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <li>Bundle these together into a Mesh structure to return if everything went okay</li>
 </ol>
 <p>As code this looks as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_mesh</span>(
-    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
-    transfer_command_pool: <span style="color:#a6e22e">CommandPool</span>,
-    transfer_queue: <span style="color:#a6e22e">Queue</span>,
-    vertex_buffer_data: <span style="color:#66d9ef">&amp;</span>[Vertex],
-    index_buffer_data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u16</span>],
-) -&gt; Result<span style="color:#f92672">&lt;</span>Mesh<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">let</span> (vertex_buffer, vertex_buffer_memory) <span style="color:#f92672">=</span> create_vertex_buffer(
-        instance,
-        device,
-        physical_device,
-        vertex_buffer_data,
-        transfer_command_pool,
-        transfer_queue,
-    )
-    .context(<span style="color:#e6db74">&#34;Error while trying to create vertex buffer for a mesh.&#34;</span>)<span style="color:#f92672">?</span>;
-    <span style="color:#66d9ef">let</span> (index_buffer, index_buffer_memory) <span style="color:#f92672">=</span> create_index_buffer(
-        instance,
-        device,
-        physical_device,
-        index_buffer_data,
-        transfer_command_pool,
-        transfer_queue,
-    )
-    .context(<span style="color:#e6db74">&#34;Error while trying to create index buffer for a mesh.&#34;</span>)<span style="color:#f92672">?</span>;
-    Ok(Mesh {
-        vertex_buffer,
-        vertex_buffer_memory,
-        index_buffer,
-        index_buffer_memory,
-        index_count: <span style="color:#a6e22e">index_buffer_data</span>.len()
-    })
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_mesh</span>(
+</span></span><span style="display:flex;"><span>    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
+</span></span><span style="display:flex;"><span>    transfer_command_pool: <span style="color:#a6e22e">CommandPool</span>,
+</span></span><span style="display:flex;"><span>    transfer_queue: <span style="color:#a6e22e">Queue</span>,
+</span></span><span style="display:flex;"><span>    vertex_buffer_data: <span style="color:#66d9ef">&amp;</span>[Vertex],
+</span></span><span style="display:flex;"><span>    index_buffer_data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u16</span>],
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>Mesh<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (vertex_buffer, vertex_buffer_memory) <span style="color:#f92672">=</span> create_vertex_buffer(
+</span></span><span style="display:flex;"><span>        instance,
+</span></span><span style="display:flex;"><span>        device,
+</span></span><span style="display:flex;"><span>        physical_device,
+</span></span><span style="display:flex;"><span>        vertex_buffer_data,
+</span></span><span style="display:flex;"><span>        transfer_command_pool,
+</span></span><span style="display:flex;"><span>        transfer_queue,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Error while trying to create vertex buffer for a mesh.&#34;</span>)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (index_buffer, index_buffer_memory) <span style="color:#f92672">=</span> create_index_buffer(
+</span></span><span style="display:flex;"><span>        instance,
+</span></span><span style="display:flex;"><span>        device,
+</span></span><span style="display:flex;"><span>        physical_device,
+</span></span><span style="display:flex;"><span>        index_buffer_data,
+</span></span><span style="display:flex;"><span>        transfer_command_pool,
+</span></span><span style="display:flex;"><span>        transfer_queue,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Error while trying to create index buffer for a mesh.&#34;</span>)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>    Ok(Mesh {
+</span></span><span style="display:flex;"><span>        vertex_buffer,
+</span></span><span style="display:flex;"><span>        vertex_buffer_memory,
+</span></span><span style="display:flex;"><span>        index_buffer,
+</span></span><span style="display:flex;"><span>        index_buffer_memory,
+</span></span><span style="display:flex;"><span>        index_count: <span style="color:#a6e22e">index_buffer_data</span>.len()
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h2 id="rendering-meshes">Rendering Meshes<a hidden class="anchor" aria-hidden="true" href="#rendering-meshes">#</a></h2>
 <p>When it comes to rendering the data, we will loop over the meshes and for each one:</p>
 <ol>
@@ -361,31 +361,31 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <li>Bind the meshes index buffer</li>
 <li>Issue an indexed draw call for the mesh</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">for</span> mesh <span style="color:#66d9ef">in</span> meshes {
-    device.cmd_bind_vertex_buffers(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>[mesh.vertex_buffer], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>]);
-    device.cmd_bind_index_buffer(
-        <span style="color:#f92672">*</span>command_buffer,
-        mesh.index_buffer,
-        <span style="color:#ae81ff">0</span>,
-        IndexType::UINT16,
-    );
-    device.cmd_draw_indexed(
-        <span style="color:#f92672">*</span>command_buffer,
-        mesh.index_count.try_into().unwrap(),
-        <span style="color:#ae81ff">1</span>,
-        <span style="color:#ae81ff">0</span>,
-        <span style="color:#ae81ff">0</span>,
-        <span style="color:#ae81ff">0</span>,
-    );
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> mesh <span style="color:#66d9ef">in</span> meshes {
+</span></span><span style="display:flex;"><span>    device.cmd_bind_vertex_buffers(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>[mesh.vertex_buffer], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>    device.cmd_bind_index_buffer(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        mesh.index_buffer,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        IndexType::UINT16,
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    device.cmd_draw_indexed(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        mesh.index_count.try_into().unwrap(),
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h2 id="destroying-meshes">Destroying Meshes<a hidden class="anchor" aria-hidden="true" href="#destroying-meshes">#</a></h2>
 <p>Finally on program shutdown during the cleanup phase, we can destroy the buffers for each mesh too:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">for</span> mesh <span style="color:#66d9ef">in</span> meshes {
-    device.free_memory(mesh.index_buffer_memory, None);
-    device.destroy_buffer(mesh.index_buffer, None);
-    device.free_memory(mesh.vertex_buffer_memory, None);
-    device.destroy_buffer(mesh.vertex_buffer, None);
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> mesh <span style="color:#66d9ef">in</span> meshes {
+</span></span><span style="display:flex;"><span>    device.free_memory(mesh.index_buffer_memory, None);
+</span></span><span style="display:flex;"><span>    device.destroy_buffer(mesh.index_buffer, None);
+</span></span><span style="display:flex;"><span>    device.free_memory(mesh.vertex_buffer_memory, None);
+</span></span><span style="display:flex;"><span>    device.destroy_buffer(mesh.vertex_buffer, None);
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h1 id="whats-the-problem">What&rsquo;s the Problem?<a hidden class="anchor" aria-hidden="true" href="#whats-the-problem">#</a></h1>
 <p>Now that we have multiple meshes being rendered, we can see the issue that we have with our current uniform data. Since we only have a single uniform buffer, we are binding it for the entire draw call and are using the same model matrix for all meshes.</p>
 <p>This results in us rotating the entire scene rather than each model individually as shown below.</p>
@@ -398,29 +398,29 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <h1 id="split-out-viewprojection-matrices">Split out View/Projection Matrices<a hidden class="anchor" aria-hidden="true" href="#split-out-viewprojection-matrices">#</a></h1>
 <p>In order to achieve what we want, we will need to split out the view and projection matrices (which will be consistent for the entire render pass) from the model matrix (which will be varying across the render pass).</p>
 <p>The first thing we&rsquo;ll do is to remove the model data from the UBO structure on the Rust side. We&rsquo;ll rename it to identify that it&rsquo;s containing only the view and projection matrices</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[repr(C)]</span>
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UboViewProjection</span> {
-    projection: <span style="color:#a6e22e">Mat4</span>,
-    view: <span style="color:#a6e22e">Mat4</span>,
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UboViewProjection</span> {
+</span></span><span style="display:flex;"><span>    projection: <span style="color:#a6e22e">Mat4</span>,
+</span></span><span style="display:flex;"><span>    view: <span style="color:#a6e22e">Mat4</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>Secondly we&rsquo;ll do the same on the shader side</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl">layout(binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">uniform</span> UboViewProjection {
-    mat4 projection;
-    mat4 view;
-} vp;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span>layout(binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">uniform</span> UboViewProjection {
+</span></span><span style="display:flex;"><span>    mat4 projection;
+</span></span><span style="display:flex;"><span>    mat4 view;
+</span></span><span style="display:flex;"><span>} vp;</span></span></code></pre></div>
 <p>And finally we&rsquo;ll update the shader body itself to temporarily remove the model matrix. We&rsquo;ll replace it with the identity matrix here, and return it once we&rsquo;ve reinstated the model data again.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl">gl_Position <span style="color:#f92672">=</span> vp.projection <span style="color:#f92672">*</span> vp.view <span style="color:#f92672">*</span> mat4(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(position, <span style="color:#ae81ff">1.0</span>);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span>gl_Position <span style="color:#f92672">=</span> vp.projection <span style="color:#f92672">*</span> vp.view <span style="color:#f92672">*</span> mat4(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(position, <span style="color:#ae81ff">1.0</span>);</span></span></code></pre></div>
 <h1 id="adding-model-ubo">Adding Model UBO<a hidden class="anchor" aria-hidden="true" href="#adding-model-ubo">#</a></h1>
 <p>Now we can add the model matrix back in as a <strong>separate</strong> UBO which will have a different <em>binding</em> to the view and projection matrices. This different binding will allow us to vary the data received for the model matrix, and keep the view and projection matrices constant.</p>
 <p>Firstly we&rsquo;ll create a Rust structure to represent the data we will be binding. In this case, it&rsquo;s only a single matrix</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[repr(C)]</span>
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UboModel</span>(Mat4);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UboModel</span>(Mat4);</span></span></code></pre></div>
 <p>We&rsquo;ll add it into the shader again, ensuring we set the binding number to be <strong>1</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl">layout(binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">uniform</span> UboModel {
-    mat4 model;
-} m;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span>layout(binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">uniform</span> UboModel {
+</span></span><span style="display:flex;"><span>    mat4 model;
+</span></span><span style="display:flex;"><span>} m;</span></span></code></pre></div>
 <p>Finally we can add it back into the vertex shader code body</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl">gl_Position <span style="color:#f92672">=</span> vp.projection <span style="color:#f92672">*</span> vp.view <span style="color:#f92672">*</span> m.model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(position, <span style="color:#ae81ff">1.0</span>);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span>gl_Position <span style="color:#f92672">=</span> vp.projection <span style="color:#f92672">*</span> vp.view <span style="color:#f92672">*</span> m.model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(position, <span style="color:#ae81ff">1.0</span>);</span></span></code></pre></div>
 <h1 id="creating-the-buffers">Creating the Buffers<a hidden class="anchor" aria-hidden="true" href="#creating-the-buffers">#</a></h1>
 <p>Now we can go ahead and create the buffers we will use to store the model data in. We will create a new function, which will use our existing <strong>create_buffer</strong> function with the following properties:</p>
 <ul>
@@ -429,38 +429,38 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <li>Size will be set to allow for a maximum number of models, multiplied by the stride of the data</li>
 </ul>
 <p>As our other buffers, we will create one per swapchain image such that we don&rsquo;t end up writing to one while one is being processed.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_model_uniform_buffers</span>(
-    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
-    count: <span style="color:#66d9ef">usize</span>,
-    max_models: <span style="color:#66d9ef">u64</span>,
-    model_stride: <span style="color:#66d9ef">u64</span>,
-) -&gt; Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>(Buffer, DeviceMemory)<span style="color:#f92672">&gt;&gt;</span> {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> buffers <span style="color:#f92672">=</span> Vec::with_capacity(count);
-    <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>count {
-        buffers.push(
-            create_buffer(
-                instance,
-                device,
-                physical_device,
-                BufferUsageFlags::UNIFORM_BUFFER,
-                MemoryPropertyFlags::HOST_VISIBLE <span style="color:#f92672">|</span> MemoryPropertyFlags::HOST_COHERENT,
-                max_models <span style="color:#f92672">*</span> model_stride,
-            )
-            .context(<span style="color:#e6db74">&#34;Failed to create a uniform buffer.&#34;</span>)<span style="color:#f92672">?</span>,
-        );
-    }
-    Ok(buffers)
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_model_uniform_buffers</span>(
+</span></span><span style="display:flex;"><span>    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
+</span></span><span style="display:flex;"><span>    count: <span style="color:#66d9ef">usize</span>,
+</span></span><span style="display:flex;"><span>    max_models: <span style="color:#66d9ef">u64</span>,
+</span></span><span style="display:flex;"><span>    model_stride: <span style="color:#66d9ef">u64</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>(Buffer, DeviceMemory)<span style="color:#f92672">&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> buffers <span style="color:#f92672">=</span> Vec::with_capacity(count);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>count {
+</span></span><span style="display:flex;"><span>        buffers.push(
+</span></span><span style="display:flex;"><span>            create_buffer(
+</span></span><span style="display:flex;"><span>                instance,
+</span></span><span style="display:flex;"><span>                device,
+</span></span><span style="display:flex;"><span>                physical_device,
+</span></span><span style="display:flex;"><span>                BufferUsageFlags::UNIFORM_BUFFER,
+</span></span><span style="display:flex;"><span>                MemoryPropertyFlags::HOST_VISIBLE <span style="color:#f92672">|</span> MemoryPropertyFlags::HOST_COHERENT,
+</span></span><span style="display:flex;"><span>                max_models <span style="color:#f92672">*</span> model_stride,
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .context(<span style="color:#e6db74">&#34;Failed to create a uniform buffer.&#34;</span>)<span style="color:#f92672">?</span>,
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Ok(buffers)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>We&rsquo;ll create a constant for defining the maximum number of models - we&rsquo;ll set this to 2 for now</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">const</span> MAX_MODELS: <span style="color:#66d9ef">u64</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> MAX_MODELS: <span style="color:#66d9ef">u64</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;</span></span></code></pre></div>
 <p>Next, we need to find out what the minimum alignment is that Vulkan requires us to maintain for offsets within the uniform buffer. We can get this from the physical device properties</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> physical_device_properties <span style="color:#f92672">=</span>
-    <span style="color:#66d9ef">unsafe</span> { instance.get_physical_device_properties(physical_device) };
-<span style="color:#66d9ef">let</span> minimum_uniform_buffer_offset_alignment <span style="color:#f92672">=</span> physical_device_properties
-    .limits
-    .min_uniform_buffer_offset_alignment;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> physical_device_properties <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> { instance.get_physical_device_properties(physical_device) };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> minimum_uniform_buffer_offset_alignment <span style="color:#f92672">=</span> physical_device_properties
+</span></span><span style="display:flex;"><span>    .limits
+</span></span><span style="display:flex;"><span>    .min_uniform_buffer_offset_alignment;</span></span></code></pre></div>
 <p>Next, we need to calculate the padded/aligned size for a single UboModel instance. Rust provides a handy Layout API that we can make use of for this. We will:</p>
 <ol>
 <li>Get the Layout for a single unpadded UboModel</li>
@@ -469,90 +469,90 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 <li>Get the padded size from the Layout</li>
 </ol>
 <p>In code, this looks as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> ubo_model_aligned_size <span style="color:#f92672">=</span> Layout::new::<span style="color:#f92672">&lt;</span>UboModel<span style="color:#f92672">&gt;</span>()
-    .align_to(minimum_uniform_buffer_offset_alignment <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>)
-    .context(<span style="color:#e6db74">&#34;Could not pad UboModel to minimum offset alignment.&#34;</span>)<span style="color:#f92672">?</span>
-    .pad_to_align()
-    .size();</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> ubo_model_aligned_size <span style="color:#f92672">=</span> Layout::new::<span style="color:#f92672">&lt;</span>UboModel<span style="color:#f92672">&gt;</span>()
+</span></span><span style="display:flex;"><span>    .align_to(minimum_uniform_buffer_offset_alignment <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>)
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Could not pad UboModel to minimum offset alignment.&#34;</span>)<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    .pad_to_align()
+</span></span><span style="display:flex;"><span>    .size();</span></span></code></pre></div>
 <p>Finally we can go ahead and call the function we wrote to create our buffers</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> model_uniform_buffers <span style="color:#f92672">=</span> create_model_uniform_buffers(
-    <span style="color:#f92672">&amp;</span>instance,
-    <span style="color:#f92672">&amp;</span>logical_device,
-    physical_device,
-    swapchain_images.len(),
-    MAX_MODELS,
-    ubo_model_aligned_size <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>,
-)<span style="color:#f92672">?</span>;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> model_uniform_buffers <span style="color:#f92672">=</span> create_model_uniform_buffers(
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>instance,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>    physical_device,
+</span></span><span style="display:flex;"><span>    swapchain_images.len(),
+</span></span><span style="display:flex;"><span>    MAX_MODELS,
+</span></span><span style="display:flex;"><span>    ubo_model_aligned_size <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
 <h1 id="updating-descriptor-sets">Updating Descriptor Sets<a hidden class="anchor" aria-hidden="true" href="#updating-descriptor-sets">#</a></h1>
 <p>Now that we have allocated the buffers for storage, we need to update the descriptor sets such that the new buffer is bound.</p>
 <p>Firstly we need to add a second binding into the descriptor set <strong>layout</strong> and as we wrote in the shader, it&rsquo;ll be at binding number 1.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#f92672">*</span>DescriptorSetLayoutBinding::builder()
-    .binding(<span style="color:#ae81ff">1</span>)
-    .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
-    .descriptor_count(<span style="color:#ae81ff">1</span>)
-    .stage_flags(ShaderStageFlags::VERTEX)</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#f92672">*</span>DescriptorSetLayoutBinding::builder()
+</span></span><span style="display:flex;"><span>    .binding(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
+</span></span><span style="display:flex;"><span>    .descriptor_count(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    .stage_flags(ShaderStageFlags::VERTEX)</span></span></code></pre></div>
 <p>Secondly we need to tell the pool that we will allocate dynamic uniform buffers from it. Specifically, we are allocating <strong>count</strong> descriptors from it, where count is the number of swapchain images.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#f92672">*</span>DescriptorPoolSize::builder()
-	.ty(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
-    .descriptor_count(count)</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#f92672">*</span>DescriptorPoolSize::builder()
+</span></span><span style="display:flex;"><span>	.ty(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
+</span></span><span style="display:flex;"><span>    .descriptor_count(count)</span></span></code></pre></div>
 <p>Finally we need to update the code binding the buffers to the descriptors in the set. We need to make sure that for each swapchain image we:</p>
 <ol>
 <li>Bind the appropriate uniform buffer (view projection) to binding 0</li>
 <li>Bind the appropriate dynamic uniform buffer (model) to binding 1</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update_descriptor_sets</span>(
-    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
-    vp_buffers: <span style="color:#66d9ef">&amp;</span>[(Buffer, DeviceMemory)],
-    model_buffers: <span style="color:#66d9ef">&amp;</span>[(Buffer, DeviceMemory)],
-    model_buffer_stride: <span style="color:#a6e22e">DeviceSize</span>,
-    sets: <span style="color:#66d9ef">&amp;</span>[DescriptorSet],
-) {
-    <span style="color:#66d9ef">let</span> vp_buffer_infos <span style="color:#f92672">=</span> vp_buffers
-        .iter()
-        .map(<span style="color:#f92672">|</span>(buffer, _)<span style="color:#f92672">|</span> {
-            vec![<span style="color:#f92672">*</span>DescriptorBufferInfo::builder()
-                .buffer(<span style="color:#f92672">*</span>buffer)
-                .range(mem::size_of::<span style="color:#f92672">&lt;</span>UboViewProjection<span style="color:#f92672">&gt;</span>().try_into().unwrap())]
-        })
-        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
-
-    <span style="color:#66d9ef">let</span> model_buffer_infos <span style="color:#f92672">=</span> model_buffers
-        .iter()
-        .map(<span style="color:#f92672">|</span>(buffer, _)<span style="color:#f92672">|</span> {
-            vec![<span style="color:#f92672">*</span>DescriptorBufferInfo::builder()
-                .buffer(<span style="color:#f92672">*</span>buffer)
-                .range(model_buffer_stride)]
-        })
-        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
-
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writes <span style="color:#f92672">=</span> vp_buffer_infos
-        .iter()
-        .zip(sets)
-        .map(<span style="color:#f92672">|</span>(buffer_info, set)<span style="color:#f92672">|</span> {
-            <span style="color:#f92672">*</span>WriteDescriptorSet::builder()
-                .dst_set(<span style="color:#f92672">*</span>set)
-                .descriptor_type(DescriptorType::UNIFORM_BUFFER)
-                .buffer_info(buffer_info)
-        })
-        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
-
-    writes.extend(
-        model_buffer_infos
-            .iter()
-            .zip(sets)
-            .map(<span style="color:#f92672">|</span>(buffer_info, set)<span style="color:#f92672">|</span> {
-                <span style="color:#f92672">*</span>WriteDescriptorSet::builder()
-                    .dst_set(<span style="color:#f92672">*</span>set)
-                    .dst_binding(<span style="color:#ae81ff">1</span>)
-                    .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
-                    .buffer_info(buffer_info)
-            }),
-    );
-
-    <span style="color:#66d9ef">unsafe</span> {
-        device.update_descriptor_sets(<span style="color:#f92672">&amp;</span>writes, <span style="color:#f92672">&amp;</span>[]);
-    }
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update_descriptor_sets</span>(
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    vp_buffers: <span style="color:#66d9ef">&amp;</span>[(Buffer, DeviceMemory)],
+</span></span><span style="display:flex;"><span>    model_buffers: <span style="color:#66d9ef">&amp;</span>[(Buffer, DeviceMemory)],
+</span></span><span style="display:flex;"><span>    model_buffer_stride: <span style="color:#a6e22e">DeviceSize</span>,
+</span></span><span style="display:flex;"><span>    sets: <span style="color:#66d9ef">&amp;</span>[DescriptorSet],
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> vp_buffer_infos <span style="color:#f92672">=</span> vp_buffers
+</span></span><span style="display:flex;"><span>        .iter()
+</span></span><span style="display:flex;"><span>        .map(<span style="color:#f92672">|</span>(buffer, _)<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>            vec![<span style="color:#f92672">*</span>DescriptorBufferInfo::builder()
+</span></span><span style="display:flex;"><span>                .buffer(<span style="color:#f92672">*</span>buffer)
+</span></span><span style="display:flex;"><span>                .range(mem::size_of::<span style="color:#f92672">&lt;</span>UboViewProjection<span style="color:#f92672">&gt;</span>().try_into().unwrap())]
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> model_buffer_infos <span style="color:#f92672">=</span> model_buffers
+</span></span><span style="display:flex;"><span>        .iter()
+</span></span><span style="display:flex;"><span>        .map(<span style="color:#f92672">|</span>(buffer, _)<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>            vec![<span style="color:#f92672">*</span>DescriptorBufferInfo::builder()
+</span></span><span style="display:flex;"><span>                .buffer(<span style="color:#f92672">*</span>buffer)
+</span></span><span style="display:flex;"><span>                .range(model_buffer_stride)]
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writes <span style="color:#f92672">=</span> vp_buffer_infos
+</span></span><span style="display:flex;"><span>        .iter()
+</span></span><span style="display:flex;"><span>        .zip(sets)
+</span></span><span style="display:flex;"><span>        .map(<span style="color:#f92672">|</span>(buffer_info, set)<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">*</span>WriteDescriptorSet::builder()
+</span></span><span style="display:flex;"><span>                .dst_set(<span style="color:#f92672">*</span>set)
+</span></span><span style="display:flex;"><span>                .descriptor_type(DescriptorType::UNIFORM_BUFFER)
+</span></span><span style="display:flex;"><span>                .buffer_info(buffer_info)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        .collect::<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    writes.extend(
+</span></span><span style="display:flex;"><span>        model_buffer_infos
+</span></span><span style="display:flex;"><span>            .iter()
+</span></span><span style="display:flex;"><span>            .zip(sets)
+</span></span><span style="display:flex;"><span>            .map(<span style="color:#f92672">|</span>(buffer_info, set)<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">*</span>WriteDescriptorSet::builder()
+</span></span><span style="display:flex;"><span>                    .dst_set(<span style="color:#f92672">*</span>set)
+</span></span><span style="display:flex;"><span>                    .dst_binding(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                    .descriptor_type(DescriptorType::UNIFORM_BUFFER_DYNAMIC)
+</span></span><span style="display:flex;"><span>                    .buffer_info(buffer_info)
+</span></span><span style="display:flex;"><span>            }),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> {
+</span></span><span style="display:flex;"><span>        device.update_descriptor_sets(<span style="color:#f92672">&amp;</span>writes, <span style="color:#f92672">&amp;</span>[]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h1 id="recording-command-buffers">Recording Command Buffers<a hidden class="anchor" aria-hidden="true" href="#recording-command-buffers">#</a></h1>
 <p>We need to change where we record command buffers to tell the draw call what offset to read the model data from.</p>
 <p>For each mesh we want to render, we will:</p>
@@ -565,76 +565,76 @@ Define Meshes The first thing we need to do is to be able to define what a Mesh 
 </ol>
 <p>For #4 specifically we can get the offset by multiplying the <strong>padded</strong> size of a UboModel instance by the index of the mesh.</p>
 <p>Putting it together, we&rsquo;ll record this into our command buffer</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">for</span> (mesh_index, mesh) <span style="color:#66d9ef">in</span> meshes.into_iter().enumerate() {
-    device.cmd_bind_vertex_buffers(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>[mesh.vertex_buffer], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>]);
-    device.cmd_bind_index_buffer(
-        <span style="color:#f92672">*</span>command_buffer,
-        mesh.index_buffer,
-        <span style="color:#ae81ff">0</span>,
-        IndexType::UINT16,
-    );
-    device.cmd_bind_descriptor_sets(
-        <span style="color:#f92672">*</span>command_buffer,
-        PipelineBindPoint::GRAPHICS,
-        pipeline_layout,
-        <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&amp;</span>[<span style="color:#f92672">*</span>descriptor_set],
-        <span style="color:#f92672">&amp;</span>[model_ubo_stride <span style="color:#f92672">*</span> mesh_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>],
-    );
-    device.cmd_draw_indexed(
-        <span style="color:#f92672">*</span>command_buffer,
-        mesh.index_count.try_into().unwrap(),
-        <span style="color:#ae81ff">1</span>,
-        <span style="color:#ae81ff">0</span>,
-        <span style="color:#ae81ff">0</span>,
-        <span style="color:#ae81ff">0</span>,
-    );
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (mesh_index, mesh) <span style="color:#66d9ef">in</span> meshes.into_iter().enumerate() {
+</span></span><span style="display:flex;"><span>    device.cmd_bind_vertex_buffers(<span style="color:#f92672">*</span>command_buffer, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>[mesh.vertex_buffer], <span style="color:#f92672">&amp;</span>[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>    device.cmd_bind_index_buffer(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        mesh.index_buffer,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        IndexType::UINT16,
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    device.cmd_bind_descriptor_sets(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        PipelineBindPoint::GRAPHICS,
+</span></span><span style="display:flex;"><span>        pipeline_layout,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[<span style="color:#f92672">*</span>descriptor_set],
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>[model_ubo_stride <span style="color:#f92672">*</span> mesh_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>],
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    device.cmd_draw_indexed(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>command_buffer,
+</span></span><span style="display:flex;"><span>        mesh.index_count.try_into().unwrap(),
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <h1 id="updating-the-mesh-data">Updating the Mesh Data<a hidden class="anchor" aria-hidden="true" href="#updating-the-mesh-data">#</a></h1>
 <p>Now that we have everything bound up and it&rsquo;s all working correctly, we need a way of getting the data into the model buffer.</p>
 <p>Firstly we&rsquo;ll add a copy of the UboModel instance into each Mesh - the definition of which now looks as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mesh</span> {
-    vertex_buffer: <span style="color:#a6e22e">Buffer</span>,
-    vertex_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
-    index_buffer: <span style="color:#a6e22e">Buffer</span>,
-    index_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
-    index_count: <span style="color:#66d9ef">usize</span>,
-    ubo_model: <span style="color:#a6e22e">UboModel</span>,
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mesh</span> {
+</span></span><span style="display:flex;"><span>    vertex_buffer: <span style="color:#a6e22e">Buffer</span>,
+</span></span><span style="display:flex;"><span>    vertex_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+</span></span><span style="display:flex;"><span>    index_buffer: <span style="color:#a6e22e">Buffer</span>,
+</span></span><span style="display:flex;"><span>    index_buffer_memory: <span style="color:#a6e22e">DeviceMemory</span>,
+</span></span><span style="display:flex;"><span>    index_count: <span style="color:#66d9ef">usize</span>,
+</span></span><span style="display:flex;"><span>    ubo_model: <span style="color:#a6e22e">UboModel</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>When we construct an instance of the Mesh, we&rsquo;ll initialise the model matrix to identity</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">Ok(Mesh {
-    vertex_buffer,
-    vertex_buffer_memory,
-    index_buffer,
-    index_buffer_memory,
-    index_count: <span style="color:#a6e22e">index_buffer_data</span>.len(),
-    ubo_model: <span style="color:#a6e22e">UboModel</span>(Mat4::IDENTITY),
-})</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>Ok(Mesh {
+</span></span><span style="display:flex;"><span>    vertex_buffer,
+</span></span><span style="display:flex;"><span>    vertex_buffer_memory,
+</span></span><span style="display:flex;"><span>    index_buffer,
+</span></span><span style="display:flex;"><span>    index_buffer_memory,
+</span></span><span style="display:flex;"><span>    index_count: <span style="color:#a6e22e">index_buffer_data</span>.len(),
+</span></span><span style="display:flex;"><span>    ubo_model: <span style="color:#a6e22e">UboModel</span>(Mat4::IDENTITY),
+</span></span><span style="display:flex;"><span>})</span></span></code></pre></div>
 <p>Finally in the place where we are pushing data into our buffers (where we previously were updating our model/view/projection matrices in the buffer), we need to push each mesh&rsquo;s UboModel instance to the correct location in the dynamic buffer</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> model_uniform_memory <span style="color:#f92672">=</span> model_uniform_buffers[image_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>].<span style="color:#ae81ff">1</span>;
-<span style="color:#66d9ef">let</span> dst <span style="color:#f92672">=</span> device
-    .map_memory(
-        model_uniform_memory,
-        <span style="color:#ae81ff">0</span>,
-        ubo_model_stride <span style="color:#f92672">*</span> meshes.len() <span style="color:#66d9ef">as</span> DeviceSize,
-        MemoryMapFlags::empty(),
-    )
-    .context(<span style="color:#e6db74">&#34;Failed to map model uniform buffer memory.&#34;</span>)<span style="color:#f92672">?</span> <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>;
-<span style="color:#66d9ef">for</span> (mesh_index, mesh) <span style="color:#66d9ef">in</span> meshes.into_iter().enumerate() {
-    <span style="color:#66d9ef">let</span> src <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>mesh.ubo_model <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> UboModel;
-    <span style="color:#66d9ef">let</span> dst <span style="color:#f92672">=</span> dst.add(ubo_model_stride <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span> <span style="color:#f92672">*</span> mesh_index) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> UboModel;
-    ptr::copy_nonoverlapping(src, dst, <span style="color:#ae81ff">1</span>);
-}
-device.unmap_memory(model_uniform_memory);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> model_uniform_memory <span style="color:#f92672">=</span> model_uniform_buffers[image_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>].<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> dst <span style="color:#f92672">=</span> device
+</span></span><span style="display:flex;"><span>    .map_memory(
+</span></span><span style="display:flex;"><span>        model_uniform_memory,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        ubo_model_stride <span style="color:#f92672">*</span> meshes.len() <span style="color:#66d9ef">as</span> DeviceSize,
+</span></span><span style="display:flex;"><span>        MemoryMapFlags::empty(),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to map model uniform buffer memory.&#34;</span>)<span style="color:#f92672">?</span> <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (mesh_index, mesh) <span style="color:#66d9ef">in</span> meshes.into_iter().enumerate() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> src <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>mesh.ubo_model <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> UboModel;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> dst <span style="color:#f92672">=</span> dst.add(ubo_model_stride <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span> <span style="color:#f92672">*</span> mesh_index) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> UboModel;
+</span></span><span style="display:flex;"><span>    ptr::copy_nonoverlapping(src, dst, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>device.unmap_memory(model_uniform_memory);</span></span></code></pre></div>
 <h1 id="updating-the-model-data">Updating the Model Data<a hidden class="anchor" aria-hidden="true" href="#updating-the-model-data">#</a></h1>
 <p>Finally we can demonstrate that the data is correctly being received and used by the shader by adding a similar rotation per frame to the meshes, as we had previously.</p>
 <p>However, this time we will rotate one mesh clockwise, and the other mesh counter-clockwise.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> timestamp <span style="color:#f92672">=</span> Instant::now();
-<span style="color:#66d9ef">let</span> elapsed <span style="color:#f92672">=</span> timestamp.duration_since(last_frame_timestamp).as_secs_f32();
-meshes[<span style="color:#ae81ff">0</span>].ubo_model.<span style="color:#ae81ff">0</span> <span style="color:#f92672">*=</span> Mat4::from_rotation_z(<span style="color:#ae81ff">90.0_</span><span style="color:#66d9ef">f32</span>.to_radians() <span style="color:#f92672">*</span> elapsed);
-meshes[<span style="color:#ae81ff">1</span>].ubo_model.<span style="color:#ae81ff">0</span> <span style="color:#f92672">*=</span> Mat4::from_rotation_z(<span style="color:#f92672">-</span><span style="color:#ae81ff">90.0_</span><span style="color:#66d9ef">f32</span>.to_radians() <span style="color:#f92672">*</span> elapsed);
-last_frame_timestamp <span style="color:#f92672">=</span> timestamp;
-window.request_redraw();</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> timestamp <span style="color:#f92672">=</span> Instant::now();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> elapsed <span style="color:#f92672">=</span> timestamp.duration_since(last_frame_timestamp).as_secs_f32();
+</span></span><span style="display:flex;"><span>meshes[<span style="color:#ae81ff">0</span>].ubo_model.<span style="color:#ae81ff">0</span> <span style="color:#f92672">*=</span> Mat4::from_rotation_z(<span style="color:#ae81ff">90.0_</span><span style="color:#66d9ef">f32</span>.to_radians() <span style="color:#f92672">*</span> elapsed);
+</span></span><span style="display:flex;"><span>meshes[<span style="color:#ae81ff">1</span>].ubo_model.<span style="color:#ae81ff">0</span> <span style="color:#f92672">*=</span> Mat4::from_rotation_z(<span style="color:#f92672">-</span><span style="color:#ae81ff">90.0_</span><span style="color:#66d9ef">f32</span>.to_radians() <span style="color:#f92672">*</span> elapsed);
+</span></span><span style="display:flex;"><span>last_frame_timestamp <span style="color:#f92672">=</span> timestamp;
+</span></span><span style="display:flex;"><span>window.request_redraw();</span></span></code></pre></div>
 <p>With everything in place, the rotation of our meshes can now be seen to be correct and each mesh is rotated <strong>independently</strong> (and we only needed a single additional buffer!)</p>
 <p><img loading="lazy" src="correct-rotation.gif" alt="Correct Rotation"  />
 </p>

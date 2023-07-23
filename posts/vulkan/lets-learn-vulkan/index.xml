@@ -8,6 +8,16 @@
     <language>en-gb</language>
     <lastBuildDate>Mon, 09 Jan 2023 22:43:32 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>16. Depth Buffers</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</link>
+      <pubDate>Sun, 23 Jul 2023 10:19:00 +0100</pubDate>
+      
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</guid>
+      <description>Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.
+Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front.</description>
+    </item>
+    
+    <item>
       <title>15. Push Constants</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/</link>
       <pubDate>Sun, 30 Apr 2023 14:56:27 +0100</pubDate>
@@ -95,8 +105,8 @@ A framebuffer is associated with a particular render pass, and defines the actua
       <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
       <description>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
-Overview of graphics pipelineVulkan Tutorial
-The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
+ Overview of graphics pipeline Vulkan Tutorial
+  The sections highlighted in yellow indicate those sections which we can program through shader modules.</description>
     </item>
     
     <item>

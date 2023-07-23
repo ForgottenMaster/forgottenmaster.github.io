@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>16. Depth Buffers | Robin Firth</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.
+Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.96.0" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="16. Depth Buffers" />
+<meta property="og:description" content="Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.
+Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-23T10:19:00&#43;01:00" />
+<meta property="article:modified_time" content="2023-07-23T10:19:00&#43;01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="16. Depth Buffers"/>
+<meta name="twitter:description" content="Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.
+Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Let's Learn Vulkan",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "16. Depth Buffers",
+      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "16. Depth Buffers",
+  "name": "16. Depth Buffers",
+  "description": "Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.\nWithout the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.\nWithout the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front. This is a lot of work however and instead we would just like Vulkan to work out which fragments are closest as part of the rendering system.\nWhat is a depth buffer? A depth buffer (sometimes called a z-buffer), is a separate data buffer from the color pixel data, but is used to represent the distance of a given pixel from the camera.\nThe data stored is a single value per pixel (distance from camera), rather than color data which is usually 4 pieces of data per pixel (red, green, blue, alpha).\nAs an example, here’s a sample scene rendered into the color buffer as we would see it, and the depth buffer storing the distances in greyscale.\n Depth Buffer Wikipedia\n  How it works in Vulkan To create a depth buffer (or more accurately in Vulkan, a depth image) we need to do the following steps, which will be detailed in the rest of the post:\n Create a depth image resource Allocate memory for the new depth image Bind the allocated memory to the image handle Create an image view Add an attachment to the render pass for the depth image Add the depth buffer to the framebuffer too Configure the graphics pipeline to use a depth image Set the clear values for the depth image  Creating a depth image resource Creating an image resource in Vulkan is much like creating a buffer resource in Vulkan and the flow is essentially the same. The difference between images and buffers in Vulkan is that a buffer is holding data in a flat way, whereas an image can be 2-dimensional, or 3-dimensional and has different formats to store the data in.\nIn order to facilitate creating images in general - we make a create_image function which is analagous to the create_buffer function we already have.\nThe signature will look as follows:\nfn create_image(  instance: \u0026Instance,  device: \u0026Device,  physical_device: PhysicalDevice,  width: u32,  height: u32,  tiling: ImageTiling,  usage: ImageUsageFlags,  initial_layout: ImageLayout,  format: Format,  flags: MemoryPropertyFlags, ) - Result(Image, DeviceMemory) The instance, device, and physical_device are the same as in creating a buffer so will just briefly mention the others:\n width - The width of the resulting 2-D image in pixels height - The height of the resulting 2-D image in pixels tiling - The method of tiling the image, how to store the data. This will almost always be ImageTiling::OPTIMAL. usage - How we are going to use the image initial_layout - The initial layout we would like to put the image into when created format - The format of the data in the image flags - Flags indicating the memory properties we’d like (e.g. device local, host coherant, etc.)  The first thing we need to do is to tell Vulkan to create the actual image itself with our specifications and usage flags. We can do this with the following snippet\nlet image = device  .create_image(  \u0026ImageCreateInfo::builder()  .image_type(ImageType::TYPE_2D)  .format(format)  .extent(  Extent3D::builder()  .width(width)  .height(height)  .depth(1)  .build(),  )  .mip_levels(1)  .array_layers(1)  .samples(SampleCountFlags::TYPE_1)  .tiling(tiling)  .usage(usage)  .initial_layout(initial_layout)  .sharing_mode(SharingMode::EXCLUSIVE),  None,  )  .context(\"Failed to create image.\")?; Note that we aren’t using mip mapping levels at the moment, and no multisampling either. We also enforce that the image can only be used from a single queue at a time (SharingMode::EXCLUSIVE).\nOnce we have an image, we need to query Vulkan for information about what properties the memory is allowed to have in order to back the image - this is a simple call to get the memory requirements. We also go ahead and grab again the memory properties of the physical device as well\nlet memory_requirements = device.get_image_memory_requirements(image); let memory_properties = instance.get_physical_device_memory_properties(physical_device); We now need to find one of the memory types in memory_properties that actually fulfils our requirements. We have a handy function already for this which we used to do the same for buffers! It’s simple enough then to do a find, erroring if nothing can be found\nOnce we’ve located a valid memory type, we allocate enough memory from it - and then bind the memory to the image\nlet memory_index =  find_valid_memory_type_index(memory_properties, memory_requirements, flags)  .ok_or_else(|| anyhow!(\"Failed to find a valid memory index for image.\"))?; let memory = device  .allocate_memory(  \u0026MemoryAllocateInfo::builder()  .allocation_size(memory_requirements.size)  .memory_type_index(memory_index as u32),  None,  )  .context(\"Failed to allocate device memory for image.\")?; device  .bind_image_memory(image, memory, 0)  .context(\"Failed to bind image memory.\")?; Before we can actually create a specific function to allocate depth images specifically, we will take a small detour and implement a helper function able to take a list of preferred image formats, sorted by priority, and work out which one is supported.\nThe required features from the format will be different whether using optimal or linear tiling so we need to do a match on the tiling type.\nThe function is simple enough to list in its entirety here\nfn get_best_image_format(  instance: \u0026Instance,  physical_device: PhysicalDevice,  formats: \u0026[Format],  tiling: ImageTiling,  flags: FormatFeatureFlags, ) - OptionFormat {  formats.iter().copied().find(|format| {  let properties =  unsafe { instance.get_physical_device_format_properties(physical_device, *format) };  match tiling {  ImageTiling::OPTIMAL = properties.optimal_tiling_features.contains(flags),  ImageTiling::LINEAR = properties.linear_tiling_features.contains(flags),  _ = false,  }  }) } That is, we iterate over the formats in the slice and for each, get the properties for that format from the physical device. We then compare the feature flags we passed in as required features against either the optimal or linear tiling features for the format.\nNow we can write a function that creates depth images specifically!\nFirstly look up a supported format from a prioritised list of a few depth/stencil formats (also telling it that it will be a depth stencil attachment)\nlet format = get_best_image_format(  instance,  physical_device,  \u0026[  Format::D32_SFLOAT_S8_UINT,  Format::D32_SFLOAT,  Format::D24_UNORM_S8_UINT,  ],  tiling,  FormatFeatureFlags::DEPTH_STENCIL_ATTACHMENT, ) .ok_or_else(|| anyhow!(\"Failed to get a valid image format.\"))?; Then create the image and device memory\nlet (image, memory) = create_image(  instance,  device,  physical_device,  width,  height,  tiling,  ImageUsageFlags::DEPTH_STENCIL_ATTACHMENT,  ImageLayout::UNDEFINED,  format,  MemoryPropertyFlags::DEVICE_LOCAL, ) .context(\"Failed to create depth buffer image\")?; Finally, make sure to call this in main to ensure our depth image is created\nlet (depth_buffer_image, depth_buffer_image_memory, depth_buffer_format) =  create_depth_buffer_image(  \u0026instance,  \u0026logical_device,  physical_device,  swapchain_extent.width,  swapchain_extent.height,  ImageTiling::OPTIMAL,  )  .context(\"Failed to create depth buffer.\")?; Creating an image view Vulkan doesn’t work directly with images during render passes, but instead works with image views. We will therefore need to make an image view to wrap the image we just created.\nHandily this is super simple, barely an inconvenience as we have a function we were using to do this anyways!\nlet depth_image_view = create_image_view(  depth_buffer_image,  depth_buffer_format,  ImageAspectFlags::DEPTH,  \u0026logical_device, ) .context(\"Failed to create an image view for the depth buffer.\")?; Updating the render pass When we created the render pass, we had to describe the form and function of any attachments we have as part of the pass. We initially only had color information to output to, but now we have a depth image we need to add that as an attachment for the pass to use.\nWe first create an attachment description and add it to the list of attachment descriptions (so it’s at index 1).\nAttachmentDescription::builder()  .format(depth_format)  .samples(SampleCountFlags::TYPE_1)  .load_op(AttachmentLoadOp::CLEAR)  .store_op(AttachmentStoreOp::DONT_CARE)  .stencil_load_op(AttachmentLoadOp::DONT_CARE)  .stencil_store_op(AttachmentStoreOp::DONT_CARE)  .initial_layout(ImageLayout::UNDEFINED)  .final_layout(ImageLayout::DEPTH_STENCIL_ATTACHMENT_OPTIMAL) Most of these will be the same as the color attachment however we pass a different format, and also tell it the final layout of the attachment is DEPTH_STENCIL_ATTACHMENT_OPTIMAL.\nThen we can add an attachment to the subpass\nlet depth_attachment_reference = AttachmentReference::builder()  .attachment(1)  .layout(ImageLayout::DEPTH_STENCIL_ATTACHMENT_OPTIMAL);  .depth_stencil_attachment(\u0026depth_attachment_reference) Notice that we also use DEPTH_STENCIL_ATTACHMENT_OPTIMAL for the subpass layout. Consequently the depth image is transitioned from UNDEFINED to DEPTH_STENCIL_ATTACHMENT_OPTIMAL the first time the pass is entered, and then left in that layout.\nEnabling depth testing in the graphics pipeline Now that our render pass supports depth testing and we have the attachments bound for it - we need to tell the graphics pipeline that it will actually be doing depth testing as part of the pipeline.\nThis is a simple piece of code and the state can be setup as follows\nlet depth_stencil_state = PipelineDepthStencilStateCreateInfo::builder()  .depth_test_enable(true)  .depth_write_enable(true)  .depth_compare_op(CompareOp::LESS_OR_EQUAL)  .depth_bounds_test_enable(false); We could choose a different comparison operation if we would like, but here we just use LESS_OR_EQUAL so that z values which are less or equal than the current value stored in the buffer will pass the test.\nSetting the clear values As part of recording the command buffers and actually performing the render pass, we need to tell it what to clear the values in the depth image to. We’ll just use a value of 1 for now (probably should be either float MIN or MAX….not sure why tutorial uses 1).\nThe array of clear values we pass to the render now looks as follows\nlet clear_values = [  ClearValue {  color: ClearColorValue {  float32: [0.6, 0.65, 0.4, 1.0],  },  },  ClearValue {  depth_stencil: ClearDepthStencilValue {  depth: 1.0,  stencil: 0,  },  }, ]; And that’s it! everything is now setup to use depth testing\nDemonstration Now we have depth testing enabled we should actually test that it’s working. To do this we’ll change the colors of the quads we have and their positions.\nWe’ll then have 1 mesh (green) be translated over time into the screen, which we can do with the following line\nmeshes[1].push_model.0 *= Mat4::from_translation(Vec3::new(0.0, 0.0, -1.0) * elapsed); If all is working well, we should see the green mesh in front of the red and hiding it, then when it passes through the red mesh we should see the red mesh in front of the green one. Running this does indeed produce the desired result\nA segfault! After running this and closing the window, I noticed we get a segfault. Removing the code for depth testing doesn’t help so this was an existing issue.\nAfter debugging, I found out it was the call to destroy the swapchain during cleanup!\nAfter some Googling and tweaking of the code I realised it was due to the lifetimme of the swapchain being managed by the windowing system we’re using (winit) and that when we close the window, it seems to unload the swap chain extension.\nWe need to tell Vulkan to destroy the swapchain during the process of shutting the window down which, handily, winit has an event for!\nMoving the call to destroy the swapchain out of cleanup and into the event loop under the following match arm works as intended\nEvent::LoopDestroyed = unsafe { swapchain_ext.destroy_swapchain(swapchain, None) } ",
+  "wordCount" : "1775",
+  "inLanguage": "en",
+  "datePublished": "2023-07-23T10:19:00+01:00",
+  "dateModified": "2023-07-23T10:19:00+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Firth",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <h1 class="post-title">
+      16. Depth Buffers
+    </h1>
+    <div class="post-meta"><span title='2023-07-23 10:19:00 +0100 BST'>July 23, 2023</span>&nbsp;·&nbsp;9 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#what-is-a-depth-buffer" aria-label="What is a depth buffer?">What is a depth buffer?</a></li>
+                <li>
+                    <a href="#how-it-works-in-vulkan" aria-label="How it works in Vulkan">How it works in Vulkan</a></li>
+                <li>
+                    <a href="#creating-a-depth-image-resource" aria-label="Creating a depth image resource">Creating a depth image resource</a></li>
+                <li>
+                    <a href="#creating-an-image-view" aria-label="Creating an image view">Creating an image view</a></li>
+                <li>
+                    <a href="#updating-the-render-pass" aria-label="Updating the render pass">Updating the render pass</a></li>
+                <li>
+                    <a href="#enabling-depth-testing-in-the-graphics-pipeline" aria-label="Enabling depth testing in the graphics pipeline">Enabling depth testing in the graphics pipeline</a></li>
+                <li>
+                    <a href="#setting-the-clear-values" aria-label="Setting the clear values">Setting the clear values</a></li>
+                <li>
+                    <a href="#demonstration" aria-label="Demonstration">Demonstration</a></li>
+                <li>
+                    <a href="#a-segfault" aria-label="A segfault!">A segfault!</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.</p>
+<p>Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front. This is a lot of work however and instead we would just like Vulkan to work out which fragments are closest as part of the rendering system.</p>
+<h1 id="what-is-a-depth-buffer">What is a depth buffer?<a hidden class="anchor" aria-hidden="true" href="#what-is-a-depth-buffer">#</a></h1>
+<p>A depth buffer (sometimes called a z-buffer), is a separate data buffer from the color pixel data, but is used to represent the distance of a given pixel from the camera.</p>
+<p>The data stored is a single value per pixel (distance from camera), rather than color data which is usually 4 pieces of data per pixel (red, green, blue, alpha).</p>
+<p>As an example, here&rsquo;s a sample scene rendered into the color buffer as we would see it, and the depth buffer storing the distances in greyscale.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="depth-buffer.png#center"/> <figcaption>
+            Depth Buffer<p>
+                    <a href="https://en.wikipedia.org/wiki/Z-buffering">Wikipedia</a></p>
+        </figcaption>
+</figure>
+
+<h1 id="how-it-works-in-vulkan">How it works in Vulkan<a hidden class="anchor" aria-hidden="true" href="#how-it-works-in-vulkan">#</a></h1>
+<p>To create a depth buffer (or more accurately in Vulkan, a depth image) we need to do the following steps, which will be detailed in the rest of the post:</p>
+<ol>
+<li>Create a depth image resource</li>
+<li>Allocate memory for the new depth image</li>
+<li>Bind the allocated memory to the image handle</li>
+<li>Create an image <em>view</em></li>
+<li>Add an attachment to the render pass for the depth image</li>
+<li>Add the depth buffer to the framebuffer too</li>
+<li>Configure the graphics pipeline to use a depth image</li>
+<li>Set the clear values for the depth image</li>
+</ol>
+<h1 id="creating-a-depth-image-resource">Creating a depth image resource<a hidden class="anchor" aria-hidden="true" href="#creating-a-depth-image-resource">#</a></h1>
+<p>Creating an image resource in Vulkan is much like creating a buffer resource in Vulkan and the flow is essentially the same. The difference between images and buffers in Vulkan is that a buffer is holding data in a flat way, whereas an image can be 2-dimensional, or 3-dimensional and has different formats to store the data in.</p>
+<p>In order to facilitate creating images in general - we make a create_image function which is analagous to the create_buffer function we already have.</p>
+<p>The signature will look as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">create_image</span>(
+</span></span><span style="display:flex;"><span>    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
+</span></span><span style="display:flex;"><span>    device: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Device</span>,
+</span></span><span style="display:flex;"><span>    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
+</span></span><span style="display:flex;"><span>    width: <span style="color:#66d9ef">u32</span>,
+</span></span><span style="display:flex;"><span>    height: <span style="color:#66d9ef">u32</span>,
+</span></span><span style="display:flex;"><span>    tiling: <span style="color:#a6e22e">ImageTiling</span>,
+</span></span><span style="display:flex;"><span>    usage: <span style="color:#a6e22e">ImageUsageFlags</span>,
+</span></span><span style="display:flex;"><span>    initial_layout: <span style="color:#a6e22e">ImageLayout</span>,
+</span></span><span style="display:flex;"><span>    format: <span style="color:#a6e22e">Format</span>,
+</span></span><span style="display:flex;"><span>    flags: <span style="color:#a6e22e">MemoryPropertyFlags</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Result<span style="color:#f92672">&lt;</span>(Image, DeviceMemory)<span style="color:#f92672">&gt;</span></span></span></code></pre></div>
+<p>The instance, device, and physical_device are the same as in creating a buffer so will just briefly mention the others:</p>
+<ul>
+<li><strong>width</strong> - The width of the resulting 2-D image in pixels</li>
+<li><strong>height</strong> - The height of the resulting 2-D image in pixels</li>
+<li><strong>tiling</strong> - The method of tiling the image, how to store the data. This will almost always be ImageTiling::OPTIMAL.</li>
+<li><strong>usage</strong> - How we are going to use the image</li>
+<li><strong>initial_layout</strong> - The initial layout we would like to put the image into when created</li>
+<li><strong>format</strong> - The format of the data in the image</li>
+<li><strong>flags</strong> - Flags indicating the memory properties we&rsquo;d like (e.g. device local, host coherant, etc.)</li>
+</ul>
+<p>The first thing we need to do is to tell Vulkan to create the actual image itself with our specifications and usage flags. We can do this with the following snippet</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> image <span style="color:#f92672">=</span> device
+</span></span><span style="display:flex;"><span>    .create_image(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>ImageCreateInfo::builder()
+</span></span><span style="display:flex;"><span>            .image_type(ImageType::TYPE_2D)
+</span></span><span style="display:flex;"><span>            .format(format)
+</span></span><span style="display:flex;"><span>            .extent(
+</span></span><span style="display:flex;"><span>                Extent3D::builder()
+</span></span><span style="display:flex;"><span>                    .width(width)
+</span></span><span style="display:flex;"><span>                    .height(height)
+</span></span><span style="display:flex;"><span>                    .depth(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                    .build(),
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .mip_levels(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            .array_layers(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            .samples(SampleCountFlags::TYPE_1)
+</span></span><span style="display:flex;"><span>            .tiling(tiling)
+</span></span><span style="display:flex;"><span>            .usage(usage)
+</span></span><span style="display:flex;"><span>            .initial_layout(initial_layout)
+</span></span><span style="display:flex;"><span>            .sharing_mode(SharingMode::EXCLUSIVE),
+</span></span><span style="display:flex;"><span>        None,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to create image.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<p>Note that we aren&rsquo;t using mip mapping levels at the moment, and no multisampling either. We also enforce that the image can only be used from a single queue at a time (SharingMode::EXCLUSIVE).</p>
+<p>Once we have an image, we need to query Vulkan for information about what properties the memory is allowed to have in order to back the image - this is a simple call to get the memory requirements. We also go ahead and grab again the memory properties of the physical device as well</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> memory_requirements <span style="color:#f92672">=</span> device.get_image_memory_requirements(image);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> memory_properties <span style="color:#f92672">=</span> instance.get_physical_device_memory_properties(physical_device);</span></span></code></pre></div>
+<p>We now need to find one of the memory types in memory_properties that actually fulfils our requirements. We have a handy function already for this which we used to do the same for buffers! It&rsquo;s simple enough then to do a find, erroring if nothing can be found</p>
+<p>Once we&rsquo;ve located a valid memory type, we allocate enough memory from it - and then bind the memory to the image</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> memory_index <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    find_valid_memory_type_index(memory_properties, memory_requirements, flags)
+</span></span><span style="display:flex;"><span>        .ok_or_else(<span style="color:#f92672">||</span> anyhow<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Failed to find a valid memory index for image.&#34;</span>))<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> memory <span style="color:#f92672">=</span> device
+</span></span><span style="display:flex;"><span>    .allocate_memory(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>MemoryAllocateInfo::builder()
+</span></span><span style="display:flex;"><span>            .allocation_size(memory_requirements.size)
+</span></span><span style="display:flex;"><span>            .memory_type_index(memory_index <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u32</span>),
+</span></span><span style="display:flex;"><span>        None,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to allocate device memory for image.&#34;</span>)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>device
+</span></span><span style="display:flex;"><span>    .bind_image_memory(image, memory, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to bind image memory.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<p>Before we can actually create a specific function to allocate depth images specifically, we will take a small detour and implement a helper function able to take a list of preferred image formats, sorted by priority, and work out which one is supported.</p>
+<p>The required features from the format will be different whether using optimal or linear tiling so we need to do a match on the tiling type.</p>
+<p>The function is simple enough to list in its entirety here</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get_best_image_format</span>(
+</span></span><span style="display:flex;"><span>    instance: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Instance</span>,
+</span></span><span style="display:flex;"><span>    physical_device: <span style="color:#a6e22e">PhysicalDevice</span>,
+</span></span><span style="display:flex;"><span>    formats: <span style="color:#66d9ef">&amp;</span>[Format],
+</span></span><span style="display:flex;"><span>    tiling: <span style="color:#a6e22e">ImageTiling</span>,
+</span></span><span style="display:flex;"><span>    flags: <span style="color:#a6e22e">FormatFeatureFlags</span>,
+</span></span><span style="display:flex;"><span>) -&gt; Option<span style="color:#f92672">&lt;</span>Format<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    formats.iter().copied().find(<span style="color:#f92672">|</span>format<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> properties <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">unsafe</span> { instance.get_physical_device_format_properties(physical_device, <span style="color:#f92672">*</span>format) };
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> tiling {
+</span></span><span style="display:flex;"><span>            ImageTiling::OPTIMAL <span style="color:#f92672">=&gt;</span> properties.optimal_tiling_features.contains(flags),
+</span></span><span style="display:flex;"><span>            ImageTiling::LINEAR <span style="color:#f92672">=&gt;</span> properties.linear_tiling_features.contains(flags),
+</span></span><span style="display:flex;"><span>            _ <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<p>That is, we iterate over the formats in the slice and for each, get the properties for that format from the physical device. We then compare the feature flags we passed in as required features against either the optimal or linear tiling features for the format.</p>
+<p>Now we can write a function that creates depth images specifically!</p>
+<p>Firstly look up a supported format from a prioritised list of a few depth/stencil formats (also telling it that it will be a depth stencil attachment)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> format <span style="color:#f92672">=</span> get_best_image_format(
+</span></span><span style="display:flex;"><span>    instance,
+</span></span><span style="display:flex;"><span>    physical_device,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>[
+</span></span><span style="display:flex;"><span>        Format::D32_SFLOAT_S8_UINT,
+</span></span><span style="display:flex;"><span>        Format::D32_SFLOAT,
+</span></span><span style="display:flex;"><span>        Format::D24_UNORM_S8_UINT,
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    tiling,
+</span></span><span style="display:flex;"><span>    FormatFeatureFlags::DEPTH_STENCIL_ATTACHMENT,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>.ok_or_else(<span style="color:#f92672">||</span> anyhow<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Failed to get a valid image format.&#34;</span>))<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<p>Then create the image and device memory</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (image, memory) <span style="color:#f92672">=</span> create_image(
+</span></span><span style="display:flex;"><span>    instance,
+</span></span><span style="display:flex;"><span>    device,
+</span></span><span style="display:flex;"><span>    physical_device,
+</span></span><span style="display:flex;"><span>    width,
+</span></span><span style="display:flex;"><span>    height,
+</span></span><span style="display:flex;"><span>    tiling,
+</span></span><span style="display:flex;"><span>    ImageUsageFlags::DEPTH_STENCIL_ATTACHMENT,
+</span></span><span style="display:flex;"><span>    ImageLayout::UNDEFINED,
+</span></span><span style="display:flex;"><span>    format,
+</span></span><span style="display:flex;"><span>    MemoryPropertyFlags::DEVICE_LOCAL,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>.context(<span style="color:#e6db74">&#34;Failed to create depth buffer image&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<p>Finally, make sure to call this in main to ensure our depth image is created</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (depth_buffer_image, depth_buffer_image_memory, depth_buffer_format) <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    create_depth_buffer_image(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>instance,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>        physical_device,
+</span></span><span style="display:flex;"><span>        swapchain_extent.width,
+</span></span><span style="display:flex;"><span>        swapchain_extent.height,
+</span></span><span style="display:flex;"><span>        ImageTiling::OPTIMAL,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .context(<span style="color:#e6db74">&#34;Failed to create depth buffer.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<h1 id="creating-an-image-view">Creating an image view<a hidden class="anchor" aria-hidden="true" href="#creating-an-image-view">#</a></h1>
+<p>Vulkan doesn&rsquo;t work directly with images during render passes, but instead works with image <em>views</em>. We will therefore need to make an image view to wrap the image we just created.</p>
+<p>Handily this is super simple, barely an inconvenience as we have a function we were using to do this anyways!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> depth_image_view <span style="color:#f92672">=</span> create_image_view(
+</span></span><span style="display:flex;"><span>    depth_buffer_image,
+</span></span><span style="display:flex;"><span>    depth_buffer_format,
+</span></span><span style="display:flex;"><span>    ImageAspectFlags::DEPTH,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>logical_device,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>.context(<span style="color:#e6db74">&#34;Failed to create an image view for the depth buffer.&#34;</span>)<span style="color:#f92672">?</span>;</span></span></code></pre></div>
+<h1 id="updating-the-render-pass">Updating the render pass<a hidden class="anchor" aria-hidden="true" href="#updating-the-render-pass">#</a></h1>
+<p>When we created the render pass, we had to describe the form and function of any attachments we have as part of the pass. We initially only had color information to output to, but now we have a depth image we need to add that as an attachment for the pass to use.</p>
+<p>We first create an attachment description and add it to the list of attachment descriptions (so it&rsquo;s at index 1).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>AttachmentDescription::builder()
+</span></span><span style="display:flex;"><span>    .format(depth_format)
+</span></span><span style="display:flex;"><span>    .samples(SampleCountFlags::TYPE_1)
+</span></span><span style="display:flex;"><span>    .load_op(AttachmentLoadOp::CLEAR)
+</span></span><span style="display:flex;"><span>    .store_op(AttachmentStoreOp::DONT_CARE)
+</span></span><span style="display:flex;"><span>    .stencil_load_op(AttachmentLoadOp::DONT_CARE)
+</span></span><span style="display:flex;"><span>    .stencil_store_op(AttachmentStoreOp::DONT_CARE)
+</span></span><span style="display:flex;"><span>    .initial_layout(ImageLayout::UNDEFINED)
+</span></span><span style="display:flex;"><span>    .final_layout(ImageLayout::DEPTH_STENCIL_ATTACHMENT_OPTIMAL)</span></span></code></pre></div>
+<p>Most of these will be the same as the color attachment however we pass a different format, and also tell it the final layout of the attachment is DEPTH_STENCIL_ATTACHMENT_OPTIMAL.</p>
+<p>Then we can add an attachment to the subpass</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> depth_attachment_reference <span style="color:#f92672">=</span> AttachmentReference::builder()
+</span></span><span style="display:flex;"><span>    .attachment(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    .layout(ImageLayout::DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.depth_stencil_attachment(<span style="color:#f92672">&amp;</span>depth_attachment_reference)</span></span></code></pre></div>
+<p>Notice that we also use DEPTH_STENCIL_ATTACHMENT_OPTIMAL for the subpass layout. Consequently the depth image is transitioned from UNDEFINED to DEPTH_STENCIL_ATTACHMENT_OPTIMAL the first time the pass is entered, and then left in that layout.</p>
+<h1 id="enabling-depth-testing-in-the-graphics-pipeline">Enabling depth testing in the graphics pipeline<a hidden class="anchor" aria-hidden="true" href="#enabling-depth-testing-in-the-graphics-pipeline">#</a></h1>
+<p>Now that our render pass supports depth testing and we have the attachments bound for it - we need to tell the graphics pipeline that it will <em>actually</em> be doing depth testing as part of the pipeline.</p>
+<p>This is a simple piece of code and the state can be setup as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> depth_stencil_state <span style="color:#f92672">=</span> PipelineDepthStencilStateCreateInfo::builder()
+</span></span><span style="display:flex;"><span>    .depth_test_enable(<span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>    .depth_write_enable(<span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>    .depth_compare_op(CompareOp::LESS_OR_EQUAL)
+</span></span><span style="display:flex;"><span>    .depth_bounds_test_enable(<span style="color:#66d9ef">false</span>);</span></span></code></pre></div>
+<p>We could choose a different comparison operation if we would like, but here we just use LESS_OR_EQUAL so that z values which are less or equal than the current value stored in the buffer will pass the test.</p>
+<h1 id="setting-the-clear-values">Setting the clear values<a hidden class="anchor" aria-hidden="true" href="#setting-the-clear-values">#</a></h1>
+<p>As part of recording the command buffers and actually performing the render pass, we need to tell it what to clear the values in the depth image to. We&rsquo;ll just use a value of 1 for now (probably should be either float MIN or MAX&hellip;.not sure why tutorial uses 1).</p>
+<p>The array of clear values we pass to the render now looks as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> clear_values <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    ClearValue {
+</span></span><span style="display:flex;"><span>        color: <span style="color:#a6e22e">ClearColorValue</span> {
+</span></span><span style="display:flex;"><span>            float32: [<span style="color:#ae81ff">0.6</span>, <span style="color:#ae81ff">0.65</span>, <span style="color:#ae81ff">0.4</span>, <span style="color:#ae81ff">1.0</span>],
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    ClearValue {
+</span></span><span style="display:flex;"><span>        depth_stencil: <span style="color:#a6e22e">ClearDepthStencilValue</span> {
+</span></span><span style="display:flex;"><span>            depth: <span style="color:#ae81ff">1.0</span>,
+</span></span><span style="display:flex;"><span>            stencil: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>];</span></span></code></pre></div>
+<p>And that&rsquo;s it! everything is now setup to use depth testing</p>
+<h1 id="demonstration">Demonstration<a hidden class="anchor" aria-hidden="true" href="#demonstration">#</a></h1>
+<p>Now we have depth testing enabled we should actually test that it&rsquo;s working. To do this we&rsquo;ll change the colors of the quads we have and their positions.</p>
+<p>We&rsquo;ll then have 1 mesh (green) be translated over time into the screen, which we can do with the following line</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>meshes[<span style="color:#ae81ff">1</span>].push_model.<span style="color:#ae81ff">0</span> <span style="color:#f92672">*=</span> Mat4::from_translation(Vec3::new(<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> elapsed);</span></span></code></pre></div>
+<p>If all is working well, we should see the green mesh in front of the red and hiding it, then when it passes through the red mesh we should see the red mesh in front of the green one. Running this does indeed produce the desired result</p>
+<p><img loading="lazy" src="demo.gif" alt="Demonstration"  />
+</p>
+<h1 id="a-segfault">A segfault!<a hidden class="anchor" aria-hidden="true" href="#a-segfault">#</a></h1>
+<p>After running this and closing the window, I noticed we get a segfault. Removing the code for depth testing doesn&rsquo;t help so this was an existing issue.</p>
+<p>After debugging, I found out it was the call to destroy the swapchain during cleanup!</p>
+<p>After some Googling and tweaking of the code I realised it was due to the lifetimme of the swapchain being managed by the windowing system we&rsquo;re using (winit) and that when we close the window, it seems to unload the swap chain extension.</p>
+<p>We need to tell Vulkan to destroy the swapchain during the process of shutting the window down which, handily, winit has an event for!</p>
+<p>Moving the call to destroy the swapchain out of cleanup and into the event loop under the following match arm works as intended</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>Event::LoopDestroyed <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">unsafe</span> { swapchain_ext.destroy_swapchain(swapchain, None) }</span></span></code></pre></div>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

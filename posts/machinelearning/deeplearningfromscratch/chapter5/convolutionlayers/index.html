@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>5.2 - Convolutional Layers | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>5.2 - Convolutional Layers | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="The previous post explained the basic multichannel convolution operation but we now take a look at how we can integrate it into a neural network.
 Architecture In a regular dense layer we can think of a first hidden layer outputting h1 neurons, or learned features.
 If we have another hidden layer taking these h1 neurons as input and producing h2 neurons then this layer needs h1 x h2 weights in order to represent that each of the output neurons is some linear combination of all the input neurons.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -22,7 +23,7 @@ If we have another hidden layer taking these h1 neurons as input and producing h
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/">
 <noscript>
     <style>
         #theme-toggle,
@@ -40,7 +41,7 @@ If we have another hidden layer taking these h1 neurons as input and producing h
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -59,15 +60,14 @@ If we have another hidden layer taking these h1 neurons as input and producing h
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="5.2 - Convolutional Layers" />
+</noscript><meta property="og:title" content="5.2 - Convolutional Layers" />
 <meta property="og:description" content="The previous post explained the basic multichannel convolution operation but we now take a look at how we can integrate it into a neural network.
 Architecture In a regular dense layer we can think of a first hidden layer outputting h1 neurons, or learned features.
 If we have another hidden layer taking these h1 neurons as input and producing h2 neurons then this layer needs h1 x h2 weights in order to represent that each of the output neurons is some linear combination of all the input neurons." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-12-30T23:05:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-12-30T23:05:00&#43;00:00" />
+<meta property="article:published_time" content="2022-12-30T23:05:00+00:00" />
+<meta property="article:modified_time" content="2022-12-30T23:05:00+00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="5.2 - Convolutional Layers"/>
@@ -124,7 +124,7 @@ If we have another hidden layer taking these h1 neurons as input and producing h
   "keywords": [
     
   ],
-  "articleBody": "The previous post explained the basic multichannel convolution operation but we now take a look at how we can integrate it into a neural network.\nArchitecture In a regular dense layer we can think of a first hidden layer outputting h1 neurons, or learned features.\nIf we have another hidden layer taking these h1 neurons as input and producing h2 neurons then this layer needs h1 x h2 weights in order to represent that each of the output neurons is some linear combination of all the input neurons.\nWith convolutional layers, the process is the same except that instead of h1 x h2 neurons we have the same number of convolutional filters to represent that each output channel is some combination of the input channels.\nWe can define the dimensions of the ndarrays that are making up the input, output, and parameters of the multichannel operation as follows.\n The input has shape (batch size, input channels, image height, image width) The output has shape (batch size, output channels, image height, image width) The convolutional filters have shape (input channels, output channels, filter height, filter width)  Comparing Dense And Convolutional Layers Convolutional layers are analagous to dense/fully connected layers but with extra dimensions at work.\nThe comparison can be visualised as follows:\nThe interpretation of a neuron differs subtly between the two as well:\n In a dense layer, a neuron represents whether a particular combination of the features learned by the prior layer is present In a convolutional layer, a neuron represents whether a particular combination of visual patterns learned by the prior layer is present at a given location in the input image  Pooling Layers Since the size and number of the matrices at work in a CNN are an order larger than those in a standard feed-forward neural network, the computations can get expensive.\nIn order to help with performance, pooling layers provide a way to downsample each of the feature maps created from a convolution operation.\nFor the commonly used pooling size of 2, this means taking each 2x2 patch in the data to a single value, thus cutting the dimensions in half (and the data overall by 4).\nThe two types of pooling commonly used are:\n Max-Pooling: The maximum value in the section is taken Average-Pooling: The average of the values in the section is taken  These can be visualised in the following example:\nThe downside of pooling layers is that a lot of information is lost and so the training likely won’t be as accurate.\nModern CNNs don’t use pooling much, if at all.\n",
+  "articleBody": "The previous post explained the basic multichannel convolution operation but we now take a look at how we can integrate it into a neural network.\nArchitecture In a regular dense layer we can think of a first hidden layer outputting h1 neurons, or learned features.\nIf we have another hidden layer taking these h1 neurons as input and producing h2 neurons then this layer needs h1 x h2 weights in order to represent that each of the output neurons is some linear combination of all the input neurons.\nWith convolutional layers, the process is the same except that instead of h1 x h2 neurons we have the same number of convolutional filters to represent that each output channel is some combination of the input channels.\nWe can define the dimensions of the ndarrays that are making up the input, output, and parameters of the multichannel operation as follows.\nThe input has shape (batch size, input channels, image height, image width) The output has shape (batch size, output channels, image height, image width) The convolutional filters have shape (input channels, output channels, filter height, filter width) Comparing Dense And Convolutional Layers Convolutional layers are analagous to dense/fully connected layers but with extra dimensions at work.\nThe comparison can be visualised as follows:\nThe interpretation of a neuron differs subtly between the two as well:\nIn a dense layer, a neuron represents whether a particular combination of the features learned by the prior layer is present In a convolutional layer, a neuron represents whether a particular combination of visual patterns learned by the prior layer is present at a given location in the input image Pooling Layers Since the size and number of the matrices at work in a CNN are an order larger than those in a standard feed-forward neural network, the computations can get expensive.\nIn order to help with performance, pooling layers provide a way to downsample each of the feature maps created from a convolution operation.\nFor the commonly used pooling size of 2, this means taking each 2x2 patch in the data to a single value, thus cutting the dimensions in half (and the data overall by 4).\nThe two types of pooling commonly used are:\nMax-Pooling: The maximum value in the section is taken Average-Pooling: The average of the values in the section is taken These can be visualised in the following example:\nThe downside of pooling layers is that a lot of information is lost and so the training likely won’t be as accurate.\nModern CNNs don’t use pooling much, if at all.\n",
   "wordCount" : "428",
   "inLanguage": "en",
   "datePublished": "2022-12-30T23:05:00Z",
@@ -135,7 +135,7 @@ If we have another hidden layer taking these h1 neurons as input and producing h
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Robin Firth",
+    "name": "Robin Smith",
     "logo": {
       "@type": "ImageObject",
       "url": "https://forgottenmaster.github.io/favicon.ico"
@@ -160,15 +160,15 @@ If we have another hidden layer taking these h1 neurons as input and producing h
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -182,7 +182,9 @@ If we have another hidden layer taking these h1 neurons as input and producing h
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -208,7 +210,7 @@ If we have another hidden layer taking these h1 neurons as input and producing h
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/">Chapter 5 - Convolutional Neural Networks</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       5.2 - Convolutional Layers
     </h1>
     <div class="post-meta"><span title='2022-12-30 23:05:00 +0000 UTC'>December 30, 2022</span>&nbsp;·&nbsp;3 min
@@ -273,16 +275,18 @@ If we have another hidden layer taking these h1 neurons as input and producing h
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -351,12 +355,12 @@ If we have another hidden layer taking these h1 neurons as input and producing h
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 

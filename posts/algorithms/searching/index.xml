@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Searching on Robin Firth</title>
+    <title>Searching on Robin Smith</title>
     <link>https://forgottenmaster.github.io/posts/algorithms/searching/</link>
-    <description>Recent content in Searching on Robin Firth</description>
+    <description>Recent content in Searching on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language>
-    <lastBuildDate>Fri, 19 Nov 2021 12:55:58 +0000</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/algorithms/searching/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Fri, 19 Nov 2021 12:55:58 +0000</lastBuildDate>
+    <atom:link href="https://forgottenmaster.github.io/posts/algorithms/searching/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rabin-Karp Pattern Search</title>
       <link>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</link>
       <pubDate>Fri, 19 Nov 2021 12:55:58 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/algorithms/searching/rabinkarp/</guid>
       <description>Overview We often find ourselves wanting to find a smaller sequence, inside of a larger sequence. This often manifests as searching for a substring in a larger text, or determining if a list of numbers is a sublist of another.
 We can achieve this by looking at a sequence of characters at the beginning of the larger sequence (known as the haystack) that is the same length as the smaller sequence (known as the needle).</description>
     </item>
-    
   </channel>
 </rss>

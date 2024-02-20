@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Basic Concepts | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>Basic Concepts | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
 Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.">
+The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/git/basic_concepts/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/git/basic_concepts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -22,7 +23,7 @@ Repository A Git repository has 2 main storages:
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/git/basic_concepts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -40,7 +41,7 @@ Repository A Git repository has 2 main storages:
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -59,21 +60,20 @@ Repository A Git repository has 2 main storages:
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Basic Concepts" />
+</noscript><meta property="og:title" content="Basic Concepts" />
 <meta property="og:description" content="This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
 Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository." />
+The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/git/basic_concepts/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-11-06T20:51:06&#43;00:00" />
-<meta property="article:modified_time" content="2021-11-06T20:51:06&#43;00:00" />
+<meta property="article:published_time" content="2021-11-06T20:51:06+00:00" />
+<meta property="article:modified_time" content="2021-11-06T20:51:06+00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Basic Concepts"/>
 <meta name="twitter:description" content="This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.
 Repository A Git repository has 2 main storages:
-  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository."/>
+The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository."/>
 
 
 <script type="application/ld+json">
@@ -108,11 +108,11 @@ Repository A Git repository has 2 main storages:
   "@type": "BlogPosting",
   "headline": "Basic Concepts",
   "name": "Basic Concepts",
-  "description": "This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.\nRepository A Git repository has 2 main storages:\n  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.",
+  "description": "This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.\nRepository A Git repository has 2 main storages:\nThe object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository.",
   "keywords": [
     
   ],
-  "articleBody": "This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.\nRepository A Git repository has 2 main storages:\n  The object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository. This is efficiently copied across when cloning an existing repository to provide an exact duplicate of not only the data but the whole history.\n  The index This is a temporary store which records changes that have yet to be made to the repository but have been staged.\n  We’ll look at these in more detail now\nObject Store The object store portion of the repository stores the 4 main atomic types of objects that Git uses. These are:\n  Blobs - The contents of a single version of a file is represented as a Blob (a contraction of “binary large object”). A blob is simply the bytes of the file, along with a hash of the contents. Git doesn’t store any metadata along with the blob here, but that’s stored in other structures within the object store.\n  Trees - A tree is the information about 1 level of the directory structure. It contains references to all the blobs for the files in one directory, along with their path names and some metadata. It may also refer to child trees in order to build up a complete hierarchy by following the root level tree.\n  Commits - A commit object contains the author name/email, along with the commit data and the message that was provided to the log. Each commit points to a single tree object which is the root tree that allows the whole state of the repository to be reproduced for a given commit. Additionally, every commit except for the initial commit will have one (or more - in the case of branch merging) parent commits which allows the software to traverse backwards through the commit chain.\n  Tags - A tag object is an arbitrary string, usually human readable which is assigned to a specific object to allow for it to be referenced by a more readable string rather than the hash that’s generated for the object. This is usually used to give certain commits descriptive names, such as for assigning releases.\n  The Index The second storage in a repository is the index, which is a temporary binary file that captures a version of the project’s structure at some moment in time. This could be a reference to a given commit (from which we can traverse the tree objects and the blob objects to recreate the directory structure of the whole repository).\nThe developer is allowed to add and remove changes to the index in incremental steps, before finally applying the contents of the index to the object store.\nWhen one runs commands such as add, rm, or mv the changes are staged in the index in a quick and efficient way.\nThe more expensive persistence of the index is done only when the developer commits those changes to the repository.\nTherefore the index is a cache of sorts that allows adding/removing/restoring files as needed in a staging environment before finally committing the index to the repository, resulting in the more heavy processing required.\nThe index also plays an important part in merges, since it can store multiple copies of the same file for merging purposes.\nHashing Every object in the object store in Git is referenced by a unique identifier that represents it, and it only.\nIn the case of Git, this identifier is the SHA-1 hash of the contents of the blob.\nTherefore the object store is basically a hash map that allows efficient retrieval of an object from the store given its unique hash of the contents.\nThis is different to the way that most source control software will store and retrieve files. In others, the files are indexed by file path derived from the directory structure on disk. However Git indexes by hashing the content of the files, meaning if you have two hashes that are the same, you can guarantee that the contents of the blob are the same.\nAdditionally, and more powerfully, since Git stores the entire history as referenced from a head (most recent) commit, and this commit is an object in the store, just like the others, the hash of a commit or tree is derived from any child trees or commits.\nThis is a very powerful statement because it means that if you have two identifiers of two commits, and they are the same - not only do you know the same changes were made in those commits, but you know that the entire history of the repository was the same in both cases too.\nPack Files Git stores the complete contents of each version of every file, since it’s deriving the identifier of the file version from the contents of the data itself, it can only operate on entire and complete file contents.\nBut how can it store many different instances of the same file when they only differ by a few characters?\nGit solves this by using pack files, and it achieves it by storing the full contents of a certain blob, and other blobs that are close to it in content are stored alongside that as a diff.\nThus if you have version A of a file, and version B of a file which only has a single character changed, then the pack file will have the full contents of A, along with a diff with the changed character.\nHowever, because Git indexes data by the content itself, and doesn’t care about directory structure, it can store different blobs that are in no way related together in a pack file, as long as they’re close to each other in nature.\nIn order to be able to locate an object within a pack, Git will store the original SHA-1 hash for each alongside either the complete content or the delta for that content.\nObject Store Diagram A picture is worth a thousand words, as the saying goes, so below is a diagram of a sample object store - showing how blobs, trees, commits, and tags all reference one another.\nIn the diagram, the blobs, being the raw data, are located at the bottom of the diagram. Blobs are standalone objects and don’t reference anything, but are referenced by tree objects. These are represented as a rectangle.\nTree objects can reference blobs, and other child trees, along with metadata identifying the path on the user’s disk so that it can be reconstructed in the same way on disk. These are represented as a triangle.\nA circle represents a commit here, which may have one or more parent commits, allowing us to traverse backward through history (the root/initial commit has no parent), and points to a single tree, that represents the entire state of the repository at that commit.\nTags point to a commit, and are represented as a parallelogram.\nAs you can see in the diagram, Git stores references from child commits, to their parents. This makes it super easy to add a new commit, as you make the commit, and point it to the previous one - then the new commit becomes the head.\nFrom the diagram, we can see that commit #11235 has information about the author, the commit message, and the timestamp. Additionally has a reference to the parent (initial) commit.\nThe commit object references a tree that in turn, references two blobs, and a child tree referencing a blob.\nThe initial commit references a tree that references two of the same blobs (dead23 and feeb1e) as the new one, but doesn’t have access to tree #1010220.\nTherefore we can see from the diagram that the new commit added a file into a subfolder, but all the other files remain the same. Because Git indexes files by their content only, which is immutable, it’s able to refer to the same instances of the blobs.\nAccessing the object store You’re able to access any given object from the object store by it’s SHA-1 hash, which as we’re now aware, is the ID of the object (and the hash of the contents).\nWe can do this with the cat-file subcommand. The following is an example of using it to retrieve a data blob from the object store:\ngit cat-file -p 2d10 Text inside the file Note that we don’t need the full identifier of the blob, just enough of the prefix to allow Git to locate it for display.\nWe can access any object from the store this way, for example accessing a commit\ngit cat-file -p 7a97 tree 17efabebf0f96829e91a5b9dc358b2e2c2eec05e parent 8bddb3945ff1f5978c57fc298c2ab3ba88945a83 author Robin Firth  1636230599 +0000 committer Robin Firth  1636230599 +0000 Added file only on branch And we can see that the commit has a reference to its tree object, parent commit, and the author metadata.\n",
+  "articleBody": "This post will cover the basic concepts of Git from a high-level perspective. It will touch the object store and the index, along with touching on how objects in a repository are stored. The next post will then cover the usage of the Git CLI.\nRepository A Git repository has 2 main storages:\nThe object store This storage is used to store the actual data, commits, etc. for the repository and is a permanent record of all the changes to the repository. This is efficiently copied across when cloning an existing repository to provide an exact duplicate of not only the data but the whole history.\nThe index This is a temporary store which records changes that have yet to be made to the repository but have been staged.\nWe’ll look at these in more detail now\nObject Store The object store portion of the repository stores the 4 main atomic types of objects that Git uses. These are:\nBlobs - The contents of a single version of a file is represented as a Blob (a contraction of “binary large object”). A blob is simply the bytes of the file, along with a hash of the contents. Git doesn’t store any metadata along with the blob here, but that’s stored in other structures within the object store.\nTrees - A tree is the information about 1 level of the directory structure. It contains references to all the blobs for the files in one directory, along with their path names and some metadata. It may also refer to child trees in order to build up a complete hierarchy by following the root level tree.\nCommits - A commit object contains the author name/email, along with the commit data and the message that was provided to the log. Each commit points to a single tree object which is the root tree that allows the whole state of the repository to be reproduced for a given commit. Additionally, every commit except for the initial commit will have one (or more - in the case of branch merging) parent commits which allows the software to traverse backwards through the commit chain.\nTags - A tag object is an arbitrary string, usually human readable which is assigned to a specific object to allow for it to be referenced by a more readable string rather than the hash that’s generated for the object. This is usually used to give certain commits descriptive names, such as for assigning releases.\nThe Index The second storage in a repository is the index, which is a temporary binary file that captures a version of the project’s structure at some moment in time. This could be a reference to a given commit (from which we can traverse the tree objects and the blob objects to recreate the directory structure of the whole repository).\nThe developer is allowed to add and remove changes to the index in incremental steps, before finally applying the contents of the index to the object store.\nWhen one runs commands such as add, rm, or mv the changes are staged in the index in a quick and efficient way.\nThe more expensive persistence of the index is done only when the developer commits those changes to the repository.\nTherefore the index is a cache of sorts that allows adding/removing/restoring files as needed in a staging environment before finally committing the index to the repository, resulting in the more heavy processing required.\nThe index also plays an important part in merges, since it can store multiple copies of the same file for merging purposes.\nHashing Every object in the object store in Git is referenced by a unique identifier that represents it, and it only.\nIn the case of Git, this identifier is the SHA-1 hash of the contents of the blob.\nTherefore the object store is basically a hash map that allows efficient retrieval of an object from the store given its unique hash of the contents.\nThis is different to the way that most source control software will store and retrieve files. In others, the files are indexed by file path derived from the directory structure on disk. However Git indexes by hashing the content of the files, meaning if you have two hashes that are the same, you can guarantee that the contents of the blob are the same.\nAdditionally, and more powerfully, since Git stores the entire history as referenced from a head (most recent) commit, and this commit is an object in the store, just like the others, the hash of a commit or tree is derived from any child trees or commits.\nThis is a very powerful statement because it means that if you have two identifiers of two commits, and they are the same - not only do you know the same changes were made in those commits, but you know that the entire history of the repository was the same in both cases too.\nPack Files Git stores the complete contents of each version of every file, since it’s deriving the identifier of the file version from the contents of the data itself, it can only operate on entire and complete file contents.\nBut how can it store many different instances of the same file when they only differ by a few characters?\nGit solves this by using pack files, and it achieves it by storing the full contents of a certain blob, and other blobs that are close to it in content are stored alongside that as a diff.\nThus if you have version A of a file, and version B of a file which only has a single character changed, then the pack file will have the full contents of A, along with a diff with the changed character.\nHowever, because Git indexes data by the content itself, and doesn’t care about directory structure, it can store different blobs that are in no way related together in a pack file, as long as they’re close to each other in nature.\nIn order to be able to locate an object within a pack, Git will store the original SHA-1 hash for each alongside either the complete content or the delta for that content.\nObject Store Diagram A picture is worth a thousand words, as the saying goes, so below is a diagram of a sample object store - showing how blobs, trees, commits, and tags all reference one another.\nIn the diagram, the blobs, being the raw data, are located at the bottom of the diagram. Blobs are standalone objects and don’t reference anything, but are referenced by tree objects. These are represented as a rectangle.\nTree objects can reference blobs, and other child trees, along with metadata identifying the path on the user’s disk so that it can be reconstructed in the same way on disk. These are represented as a triangle.\nA circle represents a commit here, which may have one or more parent commits, allowing us to traverse backward through history (the root/initial commit has no parent), and points to a single tree, that represents the entire state of the repository at that commit.\nTags point to a commit, and are represented as a parallelogram.\nAs you can see in the diagram, Git stores references from child commits, to their parents. This makes it super easy to add a new commit, as you make the commit, and point it to the previous one - then the new commit becomes the head.\nFrom the diagram, we can see that commit #11235 has information about the author, the commit message, and the timestamp. Additionally has a reference to the parent (initial) commit.\nThe commit object references a tree that in turn, references two blobs, and a child tree referencing a blob.\nThe initial commit references a tree that references two of the same blobs (dead23 and feeb1e) as the new one, but doesn’t have access to tree #1010220.\nTherefore we can see from the diagram that the new commit added a file into a subfolder, but all the other files remain the same. Because Git indexes files by their content only, which is immutable, it’s able to refer to the same instances of the blobs.\nAccessing the object store You’re able to access any given object from the object store by it’s SHA-1 hash, which as we’re now aware, is the ID of the object (and the hash of the contents).\nWe can do this with the cat-file subcommand. The following is an example of using it to retrieve a data blob from the object store:\ngit cat-file -p 2d10\rText inside the file Note that we don’t need the full identifier of the blob, just enough of the prefix to allow Git to locate it for display.\nWe can access any object from the store this way, for example accessing a commit\ngit cat-file -p 7a97\rtree 17efabebf0f96829e91a5b9dc358b2e2c2eec05e\rparent 8bddb3945ff1f5978c57fc298c2ab3ba88945a83\rauthor Robin Firth 1636230599 +0000\rcommitter Robin Firth 1636230599 +0000\rAdded file only on branch And we can see that the commit has a reference to its tree object, parent commit, and the author metadata.\n",
   "wordCount" : "1520",
   "inLanguage": "en",
   "datePublished": "2021-11-06T20:51:06Z",
@@ -123,7 +123,7 @@ Repository A Git repository has 2 main storages:
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Robin Firth",
+    "name": "Robin Smith",
     "logo": {
       "@type": "ImageObject",
       "url": "https://forgottenmaster.github.io/favicon.ico"
@@ -148,15 +148,15 @@ Repository A Git repository has 2 main storages:
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -170,7 +170,9 @@ Repository A Git repository has 2 main storages:
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -196,7 +198,7 @@ Repository A Git repository has 2 main storages:
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/git/">Git</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Basic Concepts
     </h1>
     <div class="post-meta"><span title='2021-11-06 20:51:06 +0000 UTC'>November 6, 2021</span>&nbsp;·&nbsp;8 min
@@ -313,16 +315,18 @@ Added file only on branch
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -391,12 +395,12 @@ Added file only on branch
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 

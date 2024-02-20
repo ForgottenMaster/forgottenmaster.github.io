@@ -1,98 +1,81 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Chapter 3 - Deep Learning on Robin Firth</title>
+    <title>Chapter 3 - Deep Learning on Robin Smith</title>
     <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/</link>
-    <description>Recent content in Chapter 3 - Deep Learning on Robin Firth</description>
+    <description>Recent content in Chapter 3 - Deep Learning on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language>
-    <lastBuildDate>Sat, 09 Apr 2022 16:46:42 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Mon, 18 Apr 2022 18:47:56 +0100</lastBuildDate>
+    <atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>3.9 - Examples</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/</link>
       <pubDate>Mon, 18 Apr 2022 18:47:56 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/</guid>
       <description>Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
 Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective.</description>
     </item>
-    
     <item>
       <title>3.8 - Training</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/</link>
       <pubDate>Sat, 09 Apr 2022 16:46:42 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/</guid>
       <description>The last part to the puzzle, the last thing we need to do is to be able to encapsulate the algorithm for training a given network. In the book, this is represented as the &amp;ldquo;Trainer&amp;rdquo; type which binds together a network with an Optimiser instance. However there is only one implementation for this training process, and customisation is instead via the various trait objects in the Network setup, along with the selected Optimiser.</description>
     </item>
-    
     <item>
       <title>3.7 - Network Cloning</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</link>
       <pubDate>Tue, 05 Apr 2022 22:45:22 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/</guid>
-      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
+      <description>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.</description>
     </item>
-    
     <item>
       <title>3.6 - Optimiser</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/</link>
       <pubDate>Tue, 05 Apr 2022 22:45:21 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/</guid>
       <description>Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
 The Trait An Optimiser has a single job in the network training process.</description>
     </item>
-    
     <item>
       <title>3.5 - The Network Type</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</link>
       <pubDate>Sat, 26 Mar 2022 00:57:01 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/</guid>
       <description>In this post we&amp;rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
 Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn&amp;rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions.</description>
     </item>
-    
     <item>
       <title>3.4 - Lifetime Refactor</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</link>
       <pubDate>Sat, 19 Mar 2022 17:45:27 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/</guid>
       <description>After trying to make a start on the next level of abstraction with the NeuralNetwork class, it&amp;rsquo;s becoming apparent that dealing with lifetimes at the lower levels of abstraction (Operation and Layer trait objects) is causing it more difficult to make a nice abstraction at the upper level. We will take a brief interlude to look at what the problem is, and why we need to do a refactor at this point.</description>
     </item>
-    
     <item>
       <title>3.3 - Loss Function</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/</link>
       <pubDate>Fri, 04 Mar 2022 20:49:46 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/</guid>
       <description>Overview Once we&amp;rsquo;ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers.</description>
     </item>
-    
     <item>
       <title>3.2 - Layers</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/</link>
       <pubDate>Sun, 27 Feb 2022 17:47:20 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/</guid>
       <description>Overview The lowest level of abstraction as mentioned in the previous post is the operation. These were the lowest level building block that is able to perform a single unit of calculation on the forward pass, and single unit of partial derivative calculation on the backward pass.
 During that chapter, we could see how multiple of these operations are able to be chained together, though we don&amp;rsquo;t want to do this by hand.</description>
     </item>
-    
     <item>
       <title>3.1 - Operations</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</link>
       <pubDate>Sun, 20 Feb 2022 17:56:32 +0000</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/</guid>
       <description>This chapter is about creating the abstractions in code that enable us to think of neural networks in a modular fashion, and build up complex deep networks with simple structures.
 I will be implementing the abstractions in an accompanying library called Eidetic which is free for use and distribution, since I&amp;rsquo;m only implementing this as a learning opportunity.
 Overview The Operation construct will represent and encapsulate a single operation in a neural network, such as the sigmoid function, matrix multiplication, etc.</description>
     </item>
-    
   </channel>
 </rss>

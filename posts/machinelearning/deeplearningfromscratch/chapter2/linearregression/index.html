@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>2.2 - Linear Regression | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>2.2 - Linear Regression | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.
 Additionally we can have a weighting assigned to each feature so some features are &ldquo;worth&rdquo; more than others.
 However we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this).">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -22,7 +23,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/">
 <noscript>
     <style>
         #theme-toggle,
@@ -40,7 +41,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -59,15 +60,14 @@ However we also require a baseline value for when every numeric feature is a 0 (
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="2.2 - Linear Regression" />
+</noscript><meta property="og:title" content="2.2 - Linear Regression" />
 <meta property="og:description" content="Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.
 Additionally we can have a weighting assigned to each feature so some features are &ldquo;worth&rdquo; more than others.
 However we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this)." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-02-11T10:46:23&#43;00:00" />
-<meta property="article:modified_time" content="2022-02-11T10:46:23&#43;00:00" />
+<meta property="article:published_time" content="2022-02-11T10:46:23+00:00" />
+<meta property="article:modified_time" content="2022-02-11T10:46:23+00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2.2 - Linear Regression"/>
@@ -124,7 +124,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
   "keywords": [
     
   ],
-  "articleBody": "Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.\nAdditionally we can have a weighting assigned to each feature so some features are “worth” more than others.\nHowever we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this).\nThe formula for calculating the target/output value for a given record is then given as the following which is known as a linear regression.\n$$ y_i = {\\beta}_0 + {\\beta}_1 \\times x_1 + … + {\\beta}_n \\times x_k + \\epsilon $$\nIn this, we have a vector of weights for features and a vector of the actual values for a record that we can add together to get the final target value for the record.\nHowever we also include a base term (beta 0) at the beginning which is the value we use when all features of the record are 0. This lets us shift the line of the regression to better fit the samples.\nCalculating predictions without the intercept The first step is to think of how we can generate our “predictions” for a given set of feature weights, and a given batch of samples. At first it helps to look at this calculation without the additional “intercept” (the base term we add to the weighted sum).\nWithout the intercept, the calculation is simply a dot product, or matrix multiplication between the vector of feature weights, and the matrix batch of samples. This will produce a vector of predictions.\nEach element of the prediction vector will be a dot product between the feature weight vector and the corresponding row of the batch.\nThis is represented as:\n$$ P_{batch} = X_{batch} \\times W = \\begin{bmatrix} X_{11} \u0026 X_{12} \u0026 X_{13} \u0026 … \u0026 X_{1k} \\\\ X_{21} \u0026 X_{22} \u0026 X_{23} \u0026 … \u0026 X_{2k} \\\\ X_{31} \u0026 X_{32} \u0026 X_{33} \u0026 … \u0026 X_{3k} \\end{bmatrix} \\times \\begin{bmatrix} W_1 \\\\ W_2 \\\\ W_3 \\\\ . \\\\ . \\\\ . \\\\ W_k \\end{bmatrix} = \\begin{bmatrix} P_1 \\\\ P_2 \\\\ P_3 \\end{bmatrix} $$\nCalculating error Once we have a way to calculate our predictions, we do need a way to know how “good” those predictions are. This is just a measure of how close they are to the target/measured numbers that we already have.\nA good measure of this is the “Mean Squared Error” which is simply that we take the sum of the squared differences between the predictions and our target numbers, and divide by the number of entries to get the average difference.\nA “perfect” set of weights would give us a difference of precisely 0, so the closer we get to 0 the better.\nThis “Mean Squared Error” function takes a vector of predictions and a vector of targets and produces a single number as output and is given by the formula:\n$$ MSE(P_{batch}, Y_{batch}) = MSE(\\begin{bmatrix}P_1 \\\\ P_2 \\\\ P_3\\end{bmatrix}, \\begin{bmatrix}Y_1 \\\\ Y_2 \\\\ Y_3\\end{bmatrix}) = \\frac {(Y_1 - P_1)^2 + (Y_2 - P_2)^2 + (Y_3 - P_3)^2} 3 $$\nA diagram We can visualise the above with a little diagram. In this diagram we take the batch matrix which we call X, and the weights which we call W.\nWe apply the matrix multiplication in an operation we call V to get the prediction vector P.\nAfter we have the prediction vector P, we take in our target/result vector Y and perform the “Mean Squared Error” operation.\nWe represent this function with the ^ character, and the output is a single error value known as L.\nAdding the intercept In order to calculate the error with the intercept (bias) included. We simply perform a scalar addition of the bias value to each element of the prediction vector just before we calculate the error.\nThis operation is represented with the alpha symbol in the below diagram, and the bias term represented with the character ‘B’ (a scalar not a vector here).\nCalculating the partial derivatives for W and B Now that we have a way to go from the input parameters to a single value indicating our total deviation from the actual values, we need to somehow use that value to update our weights and bias terms such as to minimize L and bring it towards 0.\nWe can do this using everything from chapter 1 that we learned about partial derivatives.\nWe can figure out how much a change in each of the elements of the weighting vector, or the intercept term will cause a change in L and use that to modify those terms appropriately.\nWe will work backwards when calculating the partial derivatives here (using MSE instead of ^ to indicate the mean squared error function due to LaTeX issues).\nPartial derivative of L (with respect to P) For each element in Y and P (they’re the same size) then the partial derivative of the associated input element with respect to that pair is defined as the squared difference.\nSumming the values and dividing by the number of elements is an operation that occurs afterwards and isn’t affected by the changing of any of the input values by any amount, so the partial derivative can eliminate the sum and the division.\nSince:\n$$ MSE(P, Y) = (Y - P)^2 $$\nWe can extend this by FOIL to give us:\n$$ Y_2 - (2 \\times Y \\times P) + P_2 $$\nWith this, we can see that for each element in P, if we are to increase it by a value of 1, then it has no effect on the squared Y term. For the squared P term we can use the power rule of differentiation and see that it will become (2*P).\nFor the central term (-2 * Y * P), raising P by a value of 1 will raise the total by -2 * Y.\nTherefore after this, we get:\n$$ \\frac {\\partial L} {\\partial P}(P, Y) = (-2 \\times Y) + (2 \\times P) = (-2 \\times Y) - (-2 \\times P) = -2 \\times (Y - P) $$\nDerivative of intercept addition The intercept addition operation is simply defined as\n$$ \\alpha = N + B $$\nThen clearly increasing the value of each element of N by one unit will increase the value of each output by 1 unit and so the derivative is just a vector of 1’s with the same shape as N.\nSince it’s simply an addition, then this is also the partial derivative with respect to B. Increasing the bias term by 1 unit also increases the elements of N by the same difference.\nTherefore both partial derivatives for intercept addition are just a vector of 1’s of the same shape.\nDerivative of matrix multiplication (with respect to W) As described in chapter 1, when we have a matrix multiplication and want to calculate the derivative with respect to one of the operands, that the result is just the transpose of the other operand.\nTherefore:\n$$ \\frac {\\partial v} {\\partial W}(X, W) = X^T$$\nFinal products Now that we can calculate the partial derivatives, we can calculate the total derivative using the chain rule with respect to both W and B.\nOne thing to note, however is that B is a single float value, whereas the partial derivative of L with respect to P is a vector (since each element of P contributes to a change in L). We need to take into account that the bias, B is applied to each element of N to produce P. To account for the bias being applied to each element we sum to get the final derivative of L with respect to B\nThe total derivatives can be calculated therefore by the following formulas:\n$$ \\frac {\\delta L} {\\delta W} = {\\frac {\\partial N} {\\partial W}} \\times {{\\frac {\\partial P} {\\partial N}} \\times {\\frac {\\partial L} {\\partial P}}} $$ $$ \\frac {\\delta L} {\\delta B} = sum({\\frac {\\partial L} {\\partial P}} \\times {\\frac {\\partial P} {\\partial B}}) $$\nUsing the derivatives to train Now that we’ve passed the data through the formula to get the mean squared error (L), and then done a backwards pass to get the derivatives of L with respect to W and B, we need to update W and B themselves in order to bring L towards 0.\nThis is a simple process and just involves us subtracting some proportion of the derivative to W and B. This proportion/multiplier is known as the learning rate and makes it so we don’t make too large a jump each time in the weights.\nFor training, we simply repeat the forward pass, backward derivative calculation, and weight updating over and over in a loop for a number of iterations known as epochs\nTraining set and testing set There is a problem when it comes to training linear regressions and neural networks of overfitting. This is the problem where a set of weights have been determined that work very well in producing the target output for a given entry in the sample, but which doesn’t then generalise and correctly predict for entries that haven’t been seen yet.\nIn order to solve this issue we break up the data set into two sets.\nThe training set is a data set that is used to train the weights - it’s the data that is passed through the formula, and for which we calculate derivatives to update the weights.\nThe testing set is a data set that is not used to update the weights, and is data that the network/regression hasn’t had passed through it at all yet. This lets us test whether the trained network will generalise well enough to entries that it hasn’t seen yet.\nCode Example The coded example of the above linear regression concepts can be found in the zip file HERE. As with most of the code I write nowadays, it is in Rust and will require installation of Cargo to run. The easiest way to install Rust and Cargo is through Rustup\nThe data set I am using for this linear regression can be found HERE and is a set of features about people applying for credit, along with whether they are deemed “good” or “bad” for the purposes of credit (the target feature).\nIt should be fairly easy to understand and is just a codification of the above method with a few points to note:\n Instead of training for a number of epochs, I’m training until the delta between the previous and new mean squared error values drops to within a given threshold (it’s settling around the final position). I am dividing the input data by the maximum value in the array to bring all values within 0 and 1 since the initial large values cause the squared error calculation to go off to infinity. Since the target values are 0 (bad) and 1 (good) we want all the values and weights to be close to this too. I split the input data into 3/4 training data and 1/4 testing data. Once training has determined the final weights and intercept, I apply to the testing data to see if there’s a similar error when applied to the data the system hadn’t seen yet.  After running this code, I got these values (on this particular run):\nFinal error (training): 0.20486995882901385 Final error (testing): 0.20561283878025513 This shows that the linear regression at least seems to work with this data set as there’s a very small difference in error between the training batch and the testing batch.\n",
+  "articleBody": "Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.\nAdditionally we can have a weighting assigned to each feature so some features are “worth” more than others.\nHowever we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this).\nThe formula for calculating the target/output value for a given record is then given as the following which is known as a linear regression.\n$$ y_i = {\\beta}_0 + {\\beta}_1 \\times x_1 + … + {\\beta}_n \\times x_k + \\epsilon $$\nIn this, we have a vector of weights for features and a vector of the actual values for a record that we can add together to get the final target value for the record.\nHowever we also include a base term (beta 0) at the beginning which is the value we use when all features of the record are 0. This lets us shift the line of the regression to better fit the samples.\nCalculating predictions without the intercept The first step is to think of how we can generate our “predictions” for a given set of feature weights, and a given batch of samples. At first it helps to look at this calculation without the additional “intercept” (the base term we add to the weighted sum).\nWithout the intercept, the calculation is simply a dot product, or matrix multiplication between the vector of feature weights, and the matrix batch of samples. This will produce a vector of predictions.\nEach element of the prediction vector will be a dot product between the feature weight vector and the corresponding row of the batch.\nThis is represented as:\n$$ P_{batch} = X_{batch} \\times W = \\begin{bmatrix} X_{11} \u0026 X_{12} \u0026 X_{13} \u0026 … \u0026 X_{1k} \\\\ X_{21} \u0026 X_{22} \u0026 X_{23} \u0026 … \u0026 X_{2k} \\\\ X_{31} \u0026 X_{32} \u0026 X_{33} \u0026 … \u0026 X_{3k} \\end{bmatrix} \\times \\begin{bmatrix} W_1 \\\\ W_2 \\\\ W_3 \\\\ . \\\\ . \\\\ . \\\\ W_k \\end{bmatrix} = \\begin{bmatrix} P_1 \\\\ P_2 \\\\ P_3 \\end{bmatrix} $$\nCalculating error Once we have a way to calculate our predictions, we do need a way to know how “good” those predictions are. This is just a measure of how close they are to the target/measured numbers that we already have.\nA good measure of this is the “Mean Squared Error” which is simply that we take the sum of the squared differences between the predictions and our target numbers, and divide by the number of entries to get the average difference.\nA “perfect” set of weights would give us a difference of precisely 0, so the closer we get to 0 the better.\nThis “Mean Squared Error” function takes a vector of predictions and a vector of targets and produces a single number as output and is given by the formula:\n$$ MSE(P_{batch}, Y_{batch}) = MSE(\\begin{bmatrix}P_1 \\\\ P_2 \\\\ P_3\\end{bmatrix}, \\begin{bmatrix}Y_1 \\\\ Y_2 \\\\ Y_3\\end{bmatrix}) = \\frac {(Y_1 - P_1)^2 + (Y_2 - P_2)^2 + (Y_3 - P_3)^2} 3 $$\nA diagram We can visualise the above with a little diagram. In this diagram we take the batch matrix which we call X, and the weights which we call W.\nWe apply the matrix multiplication in an operation we call V to get the prediction vector P.\nAfter we have the prediction vector P, we take in our target/result vector Y and perform the “Mean Squared Error” operation.\nWe represent this function with the ^ character, and the output is a single error value known as L.\nAdding the intercept In order to calculate the error with the intercept (bias) included. We simply perform a scalar addition of the bias value to each element of the prediction vector just before we calculate the error.\nThis operation is represented with the alpha symbol in the below diagram, and the bias term represented with the character ‘B’ (a scalar not a vector here).\nCalculating the partial derivatives for W and B Now that we have a way to go from the input parameters to a single value indicating our total deviation from the actual values, we need to somehow use that value to update our weights and bias terms such as to minimize L and bring it towards 0.\nWe can do this using everything from chapter 1 that we learned about partial derivatives.\nWe can figure out how much a change in each of the elements of the weighting vector, or the intercept term will cause a change in L and use that to modify those terms appropriately.\nWe will work backwards when calculating the partial derivatives here (using MSE instead of ^ to indicate the mean squared error function due to LaTeX issues).\nPartial derivative of L (with respect to P) For each element in Y and P (they’re the same size) then the partial derivative of the associated input element with respect to that pair is defined as the squared difference.\nSumming the values and dividing by the number of elements is an operation that occurs afterwards and isn’t affected by the changing of any of the input values by any amount, so the partial derivative can eliminate the sum and the division.\nSince:\n$$ MSE(P, Y) = (Y - P)^2 $$\nWe can extend this by FOIL to give us:\n$$ Y_2 - (2 \\times Y \\times P) + P_2 $$\nWith this, we can see that for each element in P, if we are to increase it by a value of 1, then it has no effect on the squared Y term. For the squared P term we can use the power rule of differentiation and see that it will become (2*P).\nFor the central term (-2 * Y * P), raising P by a value of 1 will raise the total by -2 * Y.\nTherefore after this, we get:\n$$ \\frac {\\partial L} {\\partial P}(P, Y) = (-2 \\times Y) + (2 \\times P) = (-2 \\times Y) - (-2 \\times P) = -2 \\times (Y - P) $$\nDerivative of intercept addition The intercept addition operation is simply defined as\n$$ \\alpha = N + B $$\nThen clearly increasing the value of each element of N by one unit will increase the value of each output by 1 unit and so the derivative is just a vector of 1’s with the same shape as N.\nSince it’s simply an addition, then this is also the partial derivative with respect to B. Increasing the bias term by 1 unit also increases the elements of N by the same difference.\nTherefore both partial derivatives for intercept addition are just a vector of 1’s of the same shape.\nDerivative of matrix multiplication (with respect to W) As described in chapter 1, when we have a matrix multiplication and want to calculate the derivative with respect to one of the operands, that the result is just the transpose of the other operand.\nTherefore:\n$$ \\frac {\\partial v} {\\partial W}(X, W) = X^T$$\nFinal products Now that we can calculate the partial derivatives, we can calculate the total derivative using the chain rule with respect to both W and B.\nOne thing to note, however is that B is a single float value, whereas the partial derivative of L with respect to P is a vector (since each element of P contributes to a change in L). We need to take into account that the bias, B is applied to each element of N to produce P. To account for the bias being applied to each element we sum to get the final derivative of L with respect to B\nThe total derivatives can be calculated therefore by the following formulas:\n$$ \\frac {\\delta L} {\\delta W} = {\\frac {\\partial N} {\\partial W}} \\times {{\\frac {\\partial P} {\\partial N}} \\times {\\frac {\\partial L} {\\partial P}}} $$ $$ \\frac {\\delta L} {\\delta B} = sum({\\frac {\\partial L} {\\partial P}} \\times {\\frac {\\partial P} {\\partial B}}) $$\nUsing the derivatives to train Now that we’ve passed the data through the formula to get the mean squared error (L), and then done a backwards pass to get the derivatives of L with respect to W and B, we need to update W and B themselves in order to bring L towards 0.\nThis is a simple process and just involves us subtracting some proportion of the derivative to W and B. This proportion/multiplier is known as the learning rate and makes it so we don’t make too large a jump each time in the weights.\nFor training, we simply repeat the forward pass, backward derivative calculation, and weight updating over and over in a loop for a number of iterations known as epochs\nTraining set and testing set There is a problem when it comes to training linear regressions and neural networks of overfitting. This is the problem where a set of weights have been determined that work very well in producing the target output for a given entry in the sample, but which doesn’t then generalise and correctly predict for entries that haven’t been seen yet.\nIn order to solve this issue we break up the data set into two sets.\nThe training set is a data set that is used to train the weights - it’s the data that is passed through the formula, and for which we calculate derivatives to update the weights.\nThe testing set is a data set that is not used to update the weights, and is data that the network/regression hasn’t had passed through it at all yet. This lets us test whether the trained network will generalise well enough to entries that it hasn’t seen yet.\nCode Example The coded example of the above linear regression concepts can be found in the zip file HERE. As with most of the code I write nowadays, it is in Rust and will require installation of Cargo to run. The easiest way to install Rust and Cargo is through Rustup\nThe data set I am using for this linear regression can be found HERE and is a set of features about people applying for credit, along with whether they are deemed “good” or “bad” for the purposes of credit (the target feature).\nIt should be fairly easy to understand and is just a codification of the above method with a few points to note:\nInstead of training for a number of epochs, I’m training until the delta between the previous and new mean squared error values drops to within a given threshold (it’s settling around the final position). I am dividing the input data by the maximum value in the array to bring all values within 0 and 1 since the initial large values cause the squared error calculation to go off to infinity. Since the target values are 0 (bad) and 1 (good) we want all the values and weights to be close to this too. I split the input data into 3/4 training data and 1/4 testing data. Once training has determined the final weights and intercept, I apply to the testing data to see if there’s a similar error when applied to the data the system hadn’t seen yet. After running this code, I got these values (on this particular run):\nFinal error (training): 0.20486995882901385\rFinal error (testing): 0.20561283878025513 This shows that the linear regression at least seems to work with this data set as there’s a very small difference in error between the training batch and the testing batch.\n",
   "wordCount" : "1944",
   "inLanguage": "en",
   "datePublished": "2022-02-11T10:46:23Z",
@@ -135,7 +135,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Robin Firth",
+    "name": "Robin Smith",
     "logo": {
       "@type": "ImageObject",
       "url": "https://forgottenmaster.github.io/favicon.ico"
@@ -160,15 +160,15 @@ However we also require a baseline value for when every numeric feature is a 0 (
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -182,7 +182,9 @@ However we also require a baseline value for when every numeric feature is a 0 (
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -208,7 +210,7 @@ However we also require a baseline value for when every numeric feature is a 0 (
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/">Chapter 2 - Fundamentals</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       2.2 - Linear Regression
     </h1>
     <div class="post-meta"><span title='2022-02-11 10:46:23 +0000 UTC'>February 11, 2022</span>&nbsp;·&nbsp;10 min
@@ -388,7 +390,7 @@ target output for a given entry in the sample, but which doesn&rsquo;t then gene
 <p>The testing set is a data set that is not used to update the weights, and is data that the network/regression hasn&rsquo;t had passed through it at all yet. This lets us test whether the trained
 network will generalise well enough to entries that it hasn&rsquo;t seen yet.</p>
 <h3 id="code-example">Code Example<a hidden class="anchor" aria-hidden="true" href="#code-example">#</a></h3>
-<p>The coded example of the above linear regression concepts can be found in the zip file <a href="linear_regression.zip">HERE</a>. As with most of the code I write nowadays, it is in Rust and will require installation of
+<p>The coded example of the above linear regression concepts can be found in the zip file <a href="/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/linear_regression.zip">HERE</a>. As with most of the code I write nowadays, it is in Rust and will require installation of
 Cargo to run. The easiest way to install Rust and Cargo is through <a href="https://rustup.rs/">Rustup</a></p>
 <p>The data set I am using for this linear regression can be found <a href="https://www.openml.org/d/31">HERE</a> and is a set of features about people applying for credit, along with whether they are deemed &ldquo;good&rdquo; or &ldquo;bad&rdquo; for the purposes of credit (the target feature).</p>
 <p>It should be fairly easy to understand and is just a codification of the above method with a few points to note:</p>
@@ -406,16 +408,18 @@ Final error (testing): 0.20561283878025513
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -484,12 +488,12 @@ Final error (testing): 0.20561283878025513
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 

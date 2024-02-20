@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Chapter 5 - Convolutional Neural Networks | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>Chapter 5 - Convolutional Neural Networks | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="Convolutional Neural Networks (CNNs) are a different type of neural network architecture that are designed for images and can take account of the proximity of pixels in the image when learning features in hidden layers.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -18,8 +21,8 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/index.xml">
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/">
 <noscript>
     <style>
         #theme-toggle,
@@ -37,7 +40,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -56,8 +59,7 @@
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Chapter 5 - Convolutional Neural Networks" />
+</noscript><meta property="og:title" content="Chapter 5 - Convolutional Neural Networks" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/" />
@@ -116,15 +118,15 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -138,7 +140,9 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -161,7 +165,9 @@
 </header>
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
-  <h1>Chapter 5 - Convolutional Neural Networks</h1>
+  <h1>
+    Chapter 5 - Convolutional Neural Networks
+  </h1>
 </header>
 <div class="post-content"><p>Convolutional Neural Networks (CNNs) are a different type of neural network architecture that are designed for images and can take account of the proximity of pixels in the image when learning features in hidden layers.</p>
 
@@ -170,38 +176,38 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>5.2 - Convolutional Layers
+    <h2 class="entry-hint-parent">5.2 - Convolutional Layers
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>The previous post explained the basic multichannel convolution operation but we now take a look at how we can integrate it into a neural network.
 Architecture In a regular dense layer we can think of a first hidden layer outputting h1 neurons, or learned features.
 If we have another hidden layer taking these h1 neurons as input and producing h2 neurons then this layer needs h1 x h2 weights in order to represent that each of the output neurons is some linear combination of all the input neurons....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-12-30 23:05:00 +0000 UTC'>December 30, 2022</span>&nbsp;·&nbsp;3 min</footer>
   <a class="entry-link" aria-label="post link to 5.2 - Convolutional Layers" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/convolutionlayers/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>5.1 - Introduction
+    <h2 class="entry-hint-parent">5.1 - Introduction
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.
 However, such a “flat” model has no knowledge or concept of “closeness” of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-12-30 22:17:58 +0000 UTC'>December 30, 2022</span>&nbsp;·&nbsp;3 min</footer>
   <a class="entry-link" aria-label="post link to 5.1 - Introduction" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">

@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head>
+	<meta name="generator" content="Hugo 0.123.0"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Robin Firth</title>
+<title>Robin Smith</title>
 
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<link rel="preload" href="profile-image.png" as="image">
+<link rel="canonical" href="https://forgottenmaster.github.io/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -19,9 +22,9 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/index.xml">
 <link rel="alternate" type="application/json" href="https://forgottenmaster.github.io/index.json">
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/">
 <noscript>
     <style>
         #theme-toggle,
@@ -39,7 +42,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -58,21 +61,20 @@
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Robin Firth" />
+</noscript><meta property="og:title" content="Robin Smith" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://forgottenmaster.github.io/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Robin Firth"/>
+<meta name="twitter:title" content="Robin Smith"/>
 <meta name="twitter:description" content=""/>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Robin Firth",
+  "name": "Robin Smith",
   "url": "https://forgottenmaster.github.io/",
   "description": "",
   "thumbnailUrl": "https://forgottenmaster.github.io/favicon.ico",
@@ -98,15 +100,15 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -120,7 +122,9 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -142,11 +146,13 @@
     </nav>
 </header>
 <main class="main"><div class="profile">
-    <div class="profile_inner"><img src="profile-image.png" alt="Image of me"
+    <div class="profile_inner">
+        <img draggable="false" src="https://forgottenmaster.github.io/profile-image.png" alt="Image of me" title="Image of me"
             height="150" width="150" />
         <h1>Welcome!</h1>
-        <span>I am a professional video game developer based in Newcastle upon Tyne.</span><div class="social-icons">
-    <a href="https://github.com/ForgottenMaster" target="_blank" rel="noopener noreferrer me" title="Github">
+        <span>I am a professional video game developer based in Newcastle upon Tyne.</span><div class="social-icons" >
+    <a href="https://github.com/ForgottenMaster" target="_blank" rel="noopener noreferrer me"
+        title="Github">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path
@@ -154,7 +160,8 @@
     </path>
 </svg>
     </a>
-    <a href="mailto:theforgottenmaster@googlemail.com" target="_blank" rel="noopener noreferrer me" title="Email">
+    <a href="mailto:theforgottenmaster@googlemail.com" target="_blank" rel="noopener noreferrer me"
+        title="Email">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -169,11 +176,11 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">

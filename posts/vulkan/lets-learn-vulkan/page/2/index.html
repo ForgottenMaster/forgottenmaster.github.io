@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Let&#39;s Learn Vulkan | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>Let&#39;s Learn Vulkan | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="In this series I will be learning the basics of Vulkan by coding along with the Udemy course HERE but will be coding in Rust rather than C&#43;&#43;.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -18,8 +21,8 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml">
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">
 <noscript>
     <style>
         #theme-toggle,
@@ -37,7 +40,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -56,8 +59,7 @@
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Let&#39;s Learn Vulkan" />
+</noscript><meta property="og:title" content="Let&#39;s Learn Vulkan" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/" />
@@ -110,15 +112,15 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -132,7 +134,9 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -155,7 +159,9 @@
 </header>
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a></div>
-  <h1>Let&#39;s Learn Vulkan</h1>
+  <h1>
+    Let&#39;s Learn Vulkan
+  </h1>
 </header>
 <div class="post-content"><p>In this series I will be learning the basics of Vulkan by coding along with the Udemy course <a href="https://www.udemy.com/course/learn-the-vulkan-api-with-cpp">HERE</a> but will be coding in Rust rather than C++.</p>
 
@@ -164,96 +170,98 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>6. Shaders
+    <h2 class="entry-hint-parent">6. Shaders
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
 Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2023-02-21 23:26:25 +0000 UTC'>February 21, 2023</span>&nbsp;·&nbsp;15 min</footer>
   <a class="entry-link" aria-label="post link to 6. Shaders" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>5. Swapchain
+    <h2 class="entry-hint-parent">5. Swapchain
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Now that we’ve been able to create the device surface, and get appropriate information about what formats, color spaces, and presentation modes are available, we are ready to tackle the next step in setting up a rendering environment. This next step will be what’s called a swapchain
 What is screen tearing? On the front-end side of things, the device surface represents the rendering context and can be considered “the window” for our purposes....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2023-02-19 12:21:42 +0000 UTC'>February 19, 2023</span>&nbsp;·&nbsp;14 min</footer>
   <a class="entry-link" aria-label="post link to 5. Swapchain" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>4. Surface
+    <h2 class="entry-hint-parent">4. Surface
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
 Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
 Surface extensions We could manually detect the platform we’re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:...</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2023-02-18 12:08:01 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;8 min</footer>
   <a class="entry-link" aria-label="post link to 4. Surface" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3. Validation
+    <h2 class="entry-hint-parent">3. Validation
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won’t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
 This is because Vulkan will do the bare minimum by default for efficiency - what we don’t use we don’t pay for, and this includes extra validations that can cause incorrect but safe behaviours....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2023-02-18 01:04:25 +0000 UTC'>February 18, 2023</span>&nbsp;·&nbsp;5 min</footer>
   <a class="entry-link" aria-label="post link to 3. Validation" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>2. The Window, the Instance, and the Device
+    <h2 class="entry-hint-parent">2. The Window, the Instance, and the Device
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>The first things we’ll need to do to start using Vulkan will be to open a window to render into, create a Vulkan instance, and create a logical Vulkan device from that instance.
 The end result will just show a blank white window as shown below.
 Event loop and window The first step which we can get out of the way before even touching Vulkan will be to create a window for us to eventually render into, and an event loop that winit uses to allow us to handle the events from the user such as resizing etc....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2023-02-15 22:32:00 +0000 UTC'>February 15, 2023</span>&nbsp;·&nbsp;14 min</footer>
   <a class="entry-link" aria-label="post link to 2. The Window, the Instance, and the Device" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>1. Setup
+    <h2 class="entry-hint-parent">1. Setup
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>In order to follow along with the course, we’ll want to get the project up and running, and nail down the tech stack we’ll be using.
-The Stack  The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window  Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install....</p>
-  </section>
+The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install....</p>
+  </div>
   <footer class="entry-footer"><span title='2023-01-09 22:43:32 +0000 UTC'>January 9, 2023</span>&nbsp;·&nbsp;3 min</footer>
   <a class="entry-link" aria-label="post link to 1. Setup" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="prev" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">« Prev Page</a>
+    <a class="prev" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">
+      «&nbsp;Prev&nbsp;
+    </a>
   </nav>
 </footer>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">

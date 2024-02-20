@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>3.7 - Network Cloning | Robin Firth</title>
-<meta name="keywords" content="" />
-<meta name="description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.">
+<title>3.7 - Network Cloning | Robin Smith</title>
+<meta name="keywords" content="">
+<meta name="description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -20,7 +21,7 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +39,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,17 +58,16 @@
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="3.7 - Network Cloning" />
-<meta property="og:description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate." />
+</noscript><meta property="og:title" content="3.7 - Network Cloning" />
+<meta property="og:description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-05T22:45:22&#43;01:00" />
-<meta property="article:modified_time" content="2022-04-05T22:45:22&#43;01:00" />
+<meta property="article:published_time" content="2022-04-05T22:45:22+01:00" />
+<meta property="article:modified_time" content="2022-04-05T22:45:22+01:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="3.7 - Network Cloning"/>
-<meta name="twitter:description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate."/>
+<meta name="twitter:description" content="As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate."/>
 
 
 <script type="application/ld+json">
@@ -114,12 +114,12 @@
   "@type": "BlogPosting",
   "headline": "3.7 - Network Cloning",
   "name": "3.7 - Network Cloning",
-  "description": "As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.",
+  "description": "As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate.",
   "keywords": [
     
   ],
-  "articleBody": "As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate. However as we’ll soon see, this is problematic and requires a clever trick.\nThe Problem Okay, so we want to add the ability to clone a Networkfor taking a snapshot when training. This seems simple enough and, at least for the Network itself we can use the derive macro in order to automatically implement Clone in the case that all members implement Clone. The definition is simple enough:\n#[derive(Clone)] pub struct NetworkT {  layers: VecLayerT,  loss: LossT, } Okay…\nAs mentioned, Network will be clonable if all its component parts are clonable. In this case we have a Vec and a Lossthat are required to be clonable. Vec will be clonable if Layeritself is clonable.\nThis means that we need to make sure that both Layerand Lossimplement Clone (when T itself implements Clone of course).\nLet’s take a look at making Lossclonable as it’s simpler. Firstly we’ll hop over to the definition of Loss and add the derive attribute there too:\n#[derive(Clone)] pub struct LossT {  implementation: Boxdyn LossImplT,  prediction: OptionArrayT, Ix2,  target: OptionArrayT, Ix2, } Now we take a look again at the members.\n prediction and target are Options which will implement Clone if the underlying type implements Clone. In this case the underlying type is an Array which will implement Clone in the case that T does. These two members are fine and not an issue. implementation is a boxed trait object. Boximplements Clone if T implements clone. T in this case is “dyn LossImpl”. However, this is where we have an issue. trait objects don’t implement Clone.  This is one such location, however there are a few locations where we have a boxed trait object that we would like to clone. The complete list of such types in the library is:\n Loss LayerSetup BasicOperation ParameterOperation  All of these types are held in boxes as trait objects, and all need to support the ability to be cloned.\nWhy doesn’t clone work? Let’s take a little look at why trait objects can’t implement Clone. The reason is pretty simple really. Let’s first look at the definition of the clone method as required by the Clone trait:\nfn clone(\u0026self) - Self; That is, it is called on an immutable reference to an instance, and must return a new instance by value of the same concrete type (Self). However, in the case of a trait object which is dynamically sized - the compiler cannot determine the concrete size at compile time of, for example dyn LossImpl.\nThe compiler however, needs to be able to calculate how many bytes are required in order to allocate the correct memory on the stack for the clone.\nTherefore we hit one of the rules of trait objects in Rust:\nTraits that have methods returning “Self” cannot be made into trait objects\nWorkaround So, how can we make sure that we are able to clone our trait objects?.\nWell, we don’t need to be able to implement Clone for the trait objects themselves (e.g. dyn LossImpl), but instead we should realise that we only ever store them inside a Box. This means that what we actually need to do is to implement Clone for Box (or Box, etc.)\nSo how can we do this?, well there’s nothing actually stopping us from implementing Clone on the boxed trait object. A Boxis always a known size, even when T is dynamically sized because a Box is just a pointer. Therefore we start to write this out:\nimplT Clone for Boxdyn LossImplT {  fn clone(\u0026self) - Self {  Box::new(???)  } } Of course, we run into an issue here, since we know how to create a new Box with Box::new. However, we need to provide a new and concrete instance of the underlying type to the constructor. However our underlying type is “dyn LossImpl” so we run into the same issue we had before.\nHow can we solve this? Well, we can use another trait to get a newly constructed Box with a newly cloned object inside and use that as such:\nimplT Clone for Boxdyn LossImplT {  fn clone(\u0026self) - Self {  self.clone_box()  } } So, what does this trait look like?. It’s simple enough and almost the same as Clone, except it returns the Box directly. This allows us to do any cloning internally where it would know about concrete sizes, etc. The trait looks as follows:\npub trait LossImplCloneT {  fn clone_box(\u0026self) - Boxdyn LossImplT; } Slight problem The eagle-eyed will notice that this trait is LossImplCloneand not LossImpl, however in the implementation for Box we are calling clone_box directly on the Box. This will pass through to calling it on the dyn LossImpltrait object internally.\nHow can we possibly call a method from our new trait when we have an instance of a different trait?, well, we need to make LossImpla subtrait of LossImplClone:\npub trait LossImplT: LossImplCloneT {  ... } The compiler will then know that, if we have a trait object of type LossImplthen it will also be implementing LossImplClonewhich means that we can call functions from that trait when we have an instance of the subtrait.\nImplementing LossImplClone The only thing remaining is to actually implement the new LossImplClonewhich is required by all LossImplimplementors.\nRather than requiring every implementation of LossImplto manually implement this trait which is very boilerplatey, we can instead use Rust’s ability to do a blanket implementation and implement this trait for all valid types as such:\nimplT, U LossImplCloneT for U where  U: 'static + LossImplT + Clone, {  fn clone_box(\u0026self) - Boxdyn LossImplT {  Box::new(self.clone())  } } For all concrete types, U, such that they already implement LossImpland Clone themselves, and have ‘static lifetime we can provide the implementation of LossImplClonefor them. This implementation just constructs a new box and clones self to put inside it.\nThe bound on LossImpland Clone is fairly self-explanatory however a brief comment could help to understand why the ‘static bound is required for the type we’re implementing this clone trait for.\nThe reason is because we are able to implement traits on any type in Rust, and references are first-class citizens in the type system. Therefore, we could if we wanted, implement LossImplClonefor a reference. These references obviously have a lifetime that’s tied to the stack generally.\nThis means that Rust won’t let us create a Box with that data. If it did, we could create a Box with a short-lived reference in it. Since we have no lifetime information in the trait, we can’t guarantee that the type U lives for at least as long as the returned Box will live.\nTherefore Rust won’t compile this program without the ‘static bound.\nThe ‘static bound ensures that we’re only implementing this for concrete types, and not references, and allows us to actually put the data inside a Box as we require.\nAll together And that’s the workaround, but it would help to look at it all in one place:\npub trait LossImplCloneT {  fn clone_box(\u0026self) - Boxdyn LossImplT; }  implT, U LossImplCloneT for U where  U: 'static + LossImplT + Clone, {  fn clone_box(\u0026self) - Boxdyn LossImplT {  Box::new(self.clone())  } }  implT Clone for Boxdyn LossImplT {  fn clone(\u0026self) - Self {  self.clone_box()  } } Conclusion We were able to make the various boxed trait objects we’re using implement Clone through a little workaround using the trait system, and ultimately was able to make Networkitself implement Clone. We’ll see in the next post how we make use of that to take a “snapshot” of the Network for rolling back/early termination of the training process.\n",
-  "wordCount" : "1343",
+  "articleBody": "As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate. However as we’ll soon see, this is problematic and requires a clever trick.\nThe Problem Okay, so we want to add the ability to clone a Network for taking a snapshot when training. This seems simple enough and, at least for the Network itself we can use the derive macro in order to automatically implement Clone in the case that all members implement Clone. The definition is simple enough:\n#[derive(Clone)] pub struct Network\u003cT\u003e { layers: Vec\u003cLayer\u003cT\u003e\u003e, loss: Loss\u003cT\u003e, } Okay…\nAs mentioned, Network will be clonable if all its component parts are clonable. In this case we have a Vec",
+  "wordCount" : "1365",
   "inLanguage": "en",
   "datePublished": "2022-04-05T22:45:22+01:00",
   "dateModified": "2022-04-05T22:45:22+01:00",
@@ -129,7 +129,7 @@
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Robin Firth",
+    "name": "Robin Smith",
     "logo": {
       "@type": "ImageObject",
       "url": "https://forgottenmaster.github.io/favicon.ico"
@@ -154,15 +154,15 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -176,7 +176,9 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -202,7 +204,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       3.7 - Network Cloning
     </h1>
     <div class="post-meta"><span title='2022-04-05 22:45:22 +0100 BST'>April 5, 2022</span>&nbsp;·&nbsp;7 min
@@ -218,7 +220,7 @@
                 <li>
                     <a href="#the-problem" aria-label="The Problem">The Problem</a></li>
                 <li>
-                    <a href="#why-doesnt-clone-work" aria-label="Why doesn&amp;rsquo;t clone work?">Why doesn&rsquo;t clone work?</a></li>
+                    <a href="#why-doesnt-clone-work" aria-label="Why doesn&rsquo;t clone work?">Why doesn&rsquo;t clone work?</a></li>
                 <li>
                     <a href="#workaround" aria-label="Workaround">Workaround</a><ul>
                         
@@ -227,7 +229,7 @@
                 <li>
                     <a href="#slight-problem" aria-label="Slight problem">Slight problem</a></li>
                 <li>
-                    <a href="#implementing-lossimplclonet" aria-label="Implementing LossImplClone">Implementing LossImplClone<!-- raw HTML omitted --></a></li>
+                    <a href="#implementing-lossimplclonet" aria-label="Implementing LossImplClone">Implementing LossImplClone</a></li>
                 <li>
                     <a href="#all-together" aria-label="All together">All together</a></li></ul>
                 </li>
@@ -310,7 +312,7 @@
 <p>Rather than requiring every implementation of LossImpl<!-- raw HTML omitted --> to manually implement this trait which is very boilerplatey, we can instead use Rust&rsquo;s ability to do a <strong>blanket implementation</strong> and implement this trait for all valid types as such:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> LossImplClone<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> U
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
-</span></span><span style="display:flex;"><span>    U: <span style="color:#f92672">&#39;</span>static <span style="color:#f92672">+</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> Clone,
+</span></span><span style="display:flex;"><span>    U: &#39;static <span style="color:#f92672">+</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> Clone,
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone_box</span>(<span style="color:#f92672">&amp;</span>self) -&gt; Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        Box::new(self.clone())
@@ -330,7 +332,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> LossImplClone<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> U
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
-</span></span><span style="display:flex;"><span>    U: <span style="color:#f92672">&#39;</span>static <span style="color:#f92672">+</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> Clone,
+</span></span><span style="display:flex;"><span>    U: &#39;static <span style="color:#f92672">+</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> Clone,
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone_box</span>(<span style="color:#f92672">&amp;</span>self) -&gt; Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> LossImpl<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        Box::new(self.clone())
@@ -349,16 +351,18 @@
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -427,12 +431,12 @@
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 

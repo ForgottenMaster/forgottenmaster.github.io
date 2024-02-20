@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Chapter 3 - Deep Learning | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>Chapter 3 - Deep Learning | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="Chapter 3 progresses on from the theory of neural networks to implementation (in Rust).">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -18,8 +21,8 @@
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
 <link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/index.xml">
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">
 <noscript>
     <style>
         #theme-toggle,
@@ -37,7 +40,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -56,8 +59,7 @@
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Chapter 3 - Deep Learning" />
+</noscript><meta property="og:title" content="Chapter 3 - Deep Learning" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/" />
@@ -116,15 +118,15 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -138,7 +140,9 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -161,7 +165,9 @@
 </header>
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
-  <h1>Chapter 3 - Deep Learning</h1>
+  <h1>
+    Chapter 3 - Deep Learning
+  </h1>
 </header>
 <div class="post-content"><p>Chapter 3 progresses on from the theory of neural networks to implementation (in Rust).</p>
 
@@ -170,125 +176,125 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.9 - Examples
+    <h2 class="entry-hint-parent">3.9 - Examples
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
 Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-04-18 18:47:56 +0100 BST'>April 18, 2022</span>&nbsp;·&nbsp;5 min</footer>
   <a class="entry-link" aria-label="post link to 3.9 - Examples" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.8 - Training
+    <h2 class="entry-hint-parent">3.8 - Training
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>The last part to the puzzle, the last thing we need to do is to be able to encapsulate the algorithm for training a given network. In the book, this is represented as the “Trainer” type which binds together a network with an Optimiser instance. However there is only one implementation for this training process, and customisation is instead via the various trait objects in the Network setup, along with the selected Optimiser....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-04-09 16:46:42 +0100 BST'>April 9, 2022</span>&nbsp;·&nbsp;13 min</footer>
   <a class="entry-link" aria-label="post link to 3.8 - Training" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/training/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.7 - Network Cloning
+    <h2 class="entry-hint-parent">3.7 - Network Cloning
     </h2>
   </header>
-  <section class="entry-content">
-    <p>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Networktype cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate....</p>
-  </section>
+  <div class="entry-content">
+    <p>As a small detour before we talk about the final structures required for a basic and usable deep learning API, we will talk about making the Network type cloneable. As we will find out when we talk about the trainer, we need to be able to take a snapshot of the neural network for us to restore to at a later date. This requires us to be able to call the clone() method to obtain a duplicate....</p>
+  </div>
   <footer class="entry-footer"><span title='2022-04-05 22:45:22 +0100 BST'>April 5, 2022</span>&nbsp;·&nbsp;7 min</footer>
   <a class="entry-link" aria-label="post link to 3.7 - Network Cloning" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/networkcloning/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.6 - Optimiser
+    <h2 class="entry-hint-parent">3.6 - Optimiser
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
 The Trait An Optimiser has a single job in the network training process....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-04-05 22:45:21 +0100 BST'>April 5, 2022</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to 3.6 - Optimiser" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.5 - The Network Type
+    <h2 class="entry-hint-parent">3.5 - The Network Type
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>In this post we’ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
 Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn’t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-03-26 00:57:01 +0000 UTC'>March 26, 2022</span>&nbsp;·&nbsp;6 min</footer>
   <a class="entry-link" aria-label="post link to 3.5 - The Network Type" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.4 - Lifetime Refactor
+    <h2 class="entry-hint-parent">3.4 - Lifetime Refactor
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>After trying to make a start on the next level of abstraction with the NeuralNetwork class, it’s becoming apparent that dealing with lifetimes at the lower levels of abstraction (Operation and Layer trait objects) is causing it more difficult to make a nice abstraction at the upper level. We will take a brief interlude to look at what the problem is, and why we need to do a refactor at this point....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-03-19 17:45:27 +0000 UTC'>March 19, 2022</span>&nbsp;·&nbsp;10 min</footer>
   <a class="entry-link" aria-label="post link to 3.4 - Lifetime Refactor" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lifetimerefactor/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.3 - Loss Function
+    <h2 class="entry-hint-parent">3.3 - Loss Function
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Overview Once we’ve passed the data through the hidden layers of our neural network, and passed it through a final output layer (which should have only 1 neuron to bring the dimensionality of the data back to 1 feature/column) we will end up with a vector of predictions as mentioned previously (1 for each observation in the data). We already have a vector of targets which are the actual measured answers....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-03-04 20:49:46 +0000 UTC'>March 4, 2022</span>&nbsp;·&nbsp;7 min</footer>
   <a class="entry-link" aria-label="post link to 3.3 - Loss Function" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/lossfunction/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.2 - Layers
+    <h2 class="entry-hint-parent">3.2 - Layers
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>Overview The lowest level of abstraction as mentioned in the previous post is the operation. These were the lowest level building block that is able to perform a single unit of calculation on the forward pass, and single unit of partial derivative calculation on the backward pass.
 During that chapter, we could see how multiple of these operations are able to be chained together, though we don’t want to do this by hand....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-02-27 17:47:20 +0000 UTC'>February 27, 2022</span>&nbsp;·&nbsp;16 min</footer>
   <a class="entry-link" aria-label="post link to 3.2 - Layers" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/layers/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3.1 - Operations
+    <h2 class="entry-hint-parent">3.1 - Operations
     </h2>
   </header>
-  <section class="entry-content">
+  <div class="entry-content">
     <p>This chapter is about creating the abstractions in code that enable us to think of neural networks in a modular fashion, and build up complex deep networks with simple structures.
 I will be implementing the abstractions in an accompanying library called Eidetic which is free for use and distribution, since I’m only implementing this as a learning opportunity.
 Overview The Operation construct will represent and encapsulate a single operation in a neural network, such as the sigmoid function, matrix multiplication, etc....</p>
-  </section>
+  </div>
   <footer class="entry-footer"><span title='2022-02-20 17:56:32 +0000 UTC'>February 20, 2022</span>&nbsp;·&nbsp;22 min</footer>
   <a class="entry-link" aria-label="post link to 3.1 - Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/operations/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">

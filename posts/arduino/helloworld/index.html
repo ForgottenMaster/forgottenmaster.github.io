@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Hello World | Robin Firth</title>
-<meta name="keywords" content="" />
+<title>Hello World | Robin Smith</title>
+<meta name="keywords" content="">
 <meta name="description" content="This is the first in hopefully a long series of posts in Arduino development as I learn about embedded development, microcontrollers, and electrical engineering.
 The hardware The target hardware for the experimentation will be this very Arduino Uno
 And, a quick look at the back will tell us that this is the R3 model
 However I believe any Arduino Uno model, as well as a few other Arduinos will work with the methods and APIs we&rsquo;re using">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/arduino/helloworld/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/arduino/helloworld/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
@@ -23,7 +24,7 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
 <link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.96.0" />
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/arduino/helloworld/">
 <noscript>
     <style>
         #theme-toggle,
@@ -41,7 +42,7 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -60,16 +61,15 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
         }
 
     </style>
-</noscript><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:title" content="Hello World" />
+</noscript><meta property="og:title" content="Hello World" />
 <meta property="og:description" content="This is the first in hopefully a long series of posts in Arduino development as I learn about embedded development, microcontrollers, and electrical engineering.
 The hardware The target hardware for the experimentation will be this very Arduino Uno
 And, a quick look at the back will tell us that this is the R3 model
 However I believe any Arduino Uno model, as well as a few other Arduinos will work with the methods and APIs we&rsquo;re using" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://forgottenmaster.github.io/posts/arduino/helloworld/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-24T00:37:11&#43;01:00" />
-<meta property="article:modified_time" content="2022-04-24T00:37:11&#43;01:00" />
+<meta property="article:published_time" content="2022-04-24T00:37:11+01:00" />
+<meta property="article:modified_time" content="2022-04-24T00:37:11+01:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Hello World"/>
@@ -115,7 +115,7 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
   "keywords": [
     
   ],
-  "articleBody": "This is the first in hopefully a long series of posts in Arduino development as I learn about embedded development, microcontrollers, and electrical engineering.\nThe hardware The target hardware for the experimentation will be this very Arduino Uno\nAnd, a quick look at the back will tell us that this is the R3 model\nHowever I believe any Arduino Uno model, as well as a few other Arduinos will work with the methods and APIs we’re using\nThe second component we will need is the cable to connect the Arduino to the computer, this is a male USB-A (plugs into the computer) to USB-B (plugs into Arduino) cable\nThis will be all that is needed to set up the environment and a “Hello, World!” application, but obviously as we go through different projects, etc. we’ll require more peripherals.\nThe coding environment We will be using Rust for all Arduino development which has the ability to compile to various embedded target platforms.\nMore generically, Rust has the ability to compile for any target platform for which LLVM supports, and a linker is available for.\nRust is a systems programming language rivalling C and due to the language itself being more expressive (such as expressing ownership), has a very good optimising compiler.\nThe Rust environment is easy to install, simply follow the directions provided on the Rustup website which will install Cargo and the Rust compiler.\nThe repository All of the code for this Arduino experimentation will be put in the Arduino Uno repository.\nThis repository is setup with Github workflows to check compilation and formatting on code submission, similar to my other repositories, except I’ve removed code coverage and testing workflows.\nDependencies There are a few dependencies that need to be set up on the development machine to support Arduino development. These are detailed below.\nAVR As mentioned previously, the Rust compiler is able to compile to any platform that LLVM supports, however requires an appropriate linker to be present on the system.\nIn the case of AVR development, we will need to make sure we install the tools for an AVR development environment.\nOn linux, these can be installed with the following command\nsudo apt install avr-libc gcc-avr pkg-config avrdude On windows, the process is a little more involved, but not exactly difficult.\n Install the WinAVR package, which sets up an AVR development environment. The WinAVR package can be found HERE WinAVR is a little out of date, in particular the version of avrdude is too old for us to use with the library we’re going to be using. Download the latest version of avrdude from HERE and replace the avrdude.exe binary with it  Ravedude Ravedude is a program which handles flashing the compiled program onto the device. With Ravedude installed, running\ncargo run in a project that is setup to compile AVR executables will result in the executable being built, and then pushed to a connected device.\nTo set this up on either Windows or Linux (or any other OS), it can be installed through Cargo with the command\ncargo +stable install ravedude Creating the project The API we will be using is called avr-hal which stands for AVR Hardware Abstraction Layer.\nA HAL will handle mapping coding structures (such as an enum of pins) to the actual pins on a device. It’s intended that a HAL will abstract the hardware from the coder, leaving them to focus only on what they want it to do.\nThe author provides a neat template that can be used with cargo-generate to create the project.\nTo create a project with this method, simply install the cargo-generate program, conveniently through Cargo itself:\ncargo install cargo-generate Secondly invoke it as such:\ncargo generate --git https://github.com/Rahix/avr-hal-template.git It will ask for the project name, and the target Arduino device (I chose Arduino Uno).\nRunning the project Thanks to the HAL, and Ravedude, it’s easy to build and run the generated project.\nFirstly, plug the Arduino device into the computer.\nSecondly, run the following command\ncargo run --release This will compile the sample program, and push the executable to the Arduino, resulting in a lovely little flashing light as shown in the video below\nThere should have been a video here but your browser does not seem to support it.  ",
+  "articleBody": "This is the first in hopefully a long series of posts in Arduino development as I learn about embedded development, microcontrollers, and electrical engineering.\nThe hardware The target hardware for the experimentation will be this very Arduino Uno\nAnd, a quick look at the back will tell us that this is the R3 model\nHowever I believe any Arduino Uno model, as well as a few other Arduinos will work with the methods and APIs we’re using\nThe second component we will need is the cable to connect the Arduino to the computer, this is a male USB-A (plugs into the computer) to USB-B (plugs into Arduino) cable\nThis will be all that is needed to set up the environment and a “Hello, World!” application, but obviously as we go through different projects, etc. we’ll require more peripherals.\nThe coding environment We will be using Rust for all Arduino development which has the ability to compile to various embedded target platforms.\nMore generically, Rust has the ability to compile for any target platform for which LLVM supports, and a linker is available for.\nRust is a systems programming language rivalling C and due to the language itself being more expressive (such as expressing ownership), has a very good optimising compiler.\nThe Rust environment is easy to install, simply follow the directions provided on the Rustup website which will install Cargo and the Rust compiler.\nThe repository All of the code for this Arduino experimentation will be put in the Arduino Uno repository.\nThis repository is setup with Github workflows to check compilation and formatting on code submission, similar to my other repositories, except I’ve removed code coverage and testing workflows.\nDependencies There are a few dependencies that need to be set up on the development machine to support Arduino development. These are detailed below.\nAVR As mentioned previously, the Rust compiler is able to compile to any platform that LLVM supports, however requires an appropriate linker to be present on the system.\nIn the case of AVR development, we will need to make sure we install the tools for an AVR development environment.\nOn linux, these can be installed with the following command\nsudo apt install avr-libc gcc-avr pkg-config avrdude On windows, the process is a little more involved, but not exactly difficult.\nInstall the WinAVR package, which sets up an AVR development environment. The WinAVR package can be found HERE WinAVR is a little out of date, in particular the version of avrdude is too old for us to use with the library we’re going to be using. Download the latest version of avrdude from HERE and replace the avrdude.exe binary with it Ravedude Ravedude is a program which handles flashing the compiled program onto the device. With Ravedude installed, running\ncargo run in a project that is setup to compile AVR executables will result in the executable being built, and then pushed to a connected device.\nTo set this up on either Windows or Linux (or any other OS), it can be installed through Cargo with the command\ncargo +stable install ravedude Creating the project The API we will be using is called avr-hal which stands for AVR Hardware Abstraction Layer.\nA HAL will handle mapping coding structures (such as an enum of pins) to the actual pins on a device. It’s intended that a HAL will abstract the hardware from the coder, leaving them to focus only on what they want it to do.\nThe author provides a neat template that can be used with cargo-generate to create the project.\nTo create a project with this method, simply install the cargo-generate program, conveniently through Cargo itself:\ncargo install cargo-generate Secondly invoke it as such:\ncargo generate --git https://github.com/Rahix/avr-hal-template.git It will ask for the project name, and the target Arduino device (I chose Arduino Uno).\nRunning the project Thanks to the HAL, and Ravedude, it’s easy to build and run the generated project.\nFirstly, plug the Arduino device into the computer.\nSecondly, run the following command\ncargo run --release This will compile the sample program, and push the executable to the Arduino, resulting in a lovely little flashing light as shown in the video below\nThere should have been a video here but your browser does not seem\rto support it.\r",
   "wordCount" : "713",
   "inLanguage": "en",
   "datePublished": "2022-04-24T00:37:11+01:00",
@@ -126,7 +126,7 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Robin Firth",
+    "name": "Robin Smith",
     "logo": {
       "@type": "ImageObject",
       "url": "https://forgottenmaster.github.io/favicon.ico"
@@ -151,15 +151,15 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Firth (Alt + H)">Robin Firth</a>
-            <span class="logo-switches">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -173,7 +173,9 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -199,7 +201,7 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/arduino/">Arduino</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Hello World
     </h1>
     <div class="post-meta"><span title='2022-04-24 00:37:11 +0100 BST'>April 24, 2022</span>&nbsp;·&nbsp;4 min
@@ -300,16 +302,18 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://forgottenmaster.github.io/">Robin Firth</a></span>
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -378,12 +382,12 @@ However I believe any Arduino Uno model, as well as a few other Arduinos will wo
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 

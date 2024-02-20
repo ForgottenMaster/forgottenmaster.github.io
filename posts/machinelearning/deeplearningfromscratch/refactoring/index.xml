@@ -1,70 +1,59 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Refactoring Eidetic on Robin Firth</title>
+    <title>Refactoring Eidetic on Robin Smith</title>
     <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/</link>
-    <description>Recent content in Refactoring Eidetic on Robin Firth</description>
+    <description>Recent content in Refactoring Eidetic on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language>
-    <lastBuildDate>Fri, 07 Oct 2022 00:23:32 +0100</lastBuildDate><atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Fri, 07 Oct 2022 00:23:32 +0100</lastBuildDate>
+    <atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Part 6 - Forward &amp; Backward</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/</link>
       <pubDate>Fri, 07 Oct 2022 00:23:32 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/</guid>
       <description>We now almost have all the pieces in place in the refactored API to be able to train a neural network using the described typestates in the previous sections. The final thing we need to be able to do is to run the forward and backward passes, and apply optimisation to the network weights.
 In the last post I covered the Forward trait and described why it needs to be generic over a lifetime, so we have our way of performing the forward pass.</description>
     </item>
-    
     <item>
       <title>Part 5 - Trainable State</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/</link>
       <pubDate>Tue, 26 Jul 2022 20:26:21 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/</guid>
       <description>Now we&amp;rsquo;ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren&amp;rsquo;t needed in the previous initialised state.
 In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters.</description>
     </item>
-    
     <item>
       <title>Part 4 - Initialised Operations</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/</link>
       <pubDate>Sun, 24 Jul 2022 21:06:33 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/</guid>
       <description>After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.
 We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can&amp;rsquo;t directly construct new instances of this type because it&amp;rsquo;s not publicly visible/nameable.</description>
     </item>
-    
     <item>
       <title>Part 3 - Uninitialised Operations</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/uninitialisedoperations/</link>
       <pubDate>Sun, 24 Jul 2022 17:28:00 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/uninitialisedoperations/</guid>
       <description>Now that we&amp;rsquo;ve covered tensors which are the representation of data that is flowing through the API, we can start taking a look at the operations and how we are using typestates to ensure valid usage of the API without unnecessary bloat in code by keeping members around that aren&amp;rsquo;t necessary.
 What are typestates anyway? If you aren&amp;rsquo;t used to programming with generics at the type level, you may not have encountered type states before, so a quick explanation of what they are might be necessary.</description>
     </item>
-    
     <item>
       <title>Part 2 - Tensors</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/tensors/</link>
       <pubDate>Sun, 24 Jul 2022 12:48:11 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/tensors/</guid>
       <description>A &amp;ldquo;tensor&amp;rdquo; is just a fancy name for &amp;ldquo;n-dimensional array&amp;rdquo; (AKA ndarray) and provides a way of thinking about scalars, vectors, matrices, etc. in a uniform way. We refactor Eidetic to use this concept because we want operations to be able to specify how many dimensions are in the input and output data. This post will provide a brief overview of what a tensor is, and how we implement it in Eidetic.</description>
     </item>
-    
     <item>
       <title>Part 1 - Rationale</title>
       <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/</link>
       <pubDate>Sun, 24 Jul 2022 12:06:05 +0100</pubDate>
-      
       <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/</guid>
       <description>The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.
 This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long.</description>
     </item>
-    
   </channel>
 </rss>

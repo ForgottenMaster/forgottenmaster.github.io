@@ -6,8 +6,15 @@
     <description>Recent content in Let&#39;s Learn Vulkan on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 23 Jul 2023 10:19:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 31 Mar 2024 14:30:59 +0100</lastBuildDate>
     <atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>17. Textures Part 1</title>
+      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</link>
+      <pubDate>Sun, 31 Mar 2024 14:30:59 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</guid>
+      <description>So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler.</description>
+    </item>
     <item>
       <title>16. Depth Buffers</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</link>

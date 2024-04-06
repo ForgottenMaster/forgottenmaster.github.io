@@ -2,19 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/</loc>
+    <lastmod>2024-04-06T17:33:50+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/</loc>
+    <lastmod>2024-04-06T17:33:50+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/blueprint-classes/</loc>
+    <lastmod>2024-04-06T17:04:32+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/</loc>
+    <lastmod>2024-04-06T16:28:03+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/</loc>
+    <lastmod>2024-04-06T13:31:41+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/physics-simulation/</loc>
+    <lastmod>2024-04-06T13:04:11+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/</loc>
+    <lastmod>2024-04-06T12:25:17+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/setup/</loc>
+    <lastmod>2024-04-06T11:25:58+01:00</lastmod>
+  </url><url>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/</loc>
+    <lastmod>2024-04-06T11:20:56+01:00</lastmod>
+  </url><url>
     <loc>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</loc>
     <lastmod>2024-03-31T14:30:59+01:00</lastmod>
   </url><url>
-    <loc>https://forgottenmaster.github.io/</loc>
-    <lastmod>2024-03-31T14:30:59+01:00</lastmod>
-  </url><url>
-    <loc>https://forgottenmaster.github.io/posts/unreal/learnunreal/</loc>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/</loc>
     <lastmod>2024-03-30T21:36:31+00:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/unreal/</loc>
     <lastmod>2024-03-30T21:35:41+00:00</lastmod>
   </url><url>
-    <loc>https://forgottenmaster.github.io/posts/unreal/learnunreal/setup/</loc>
+    <loc>https://forgottenmaster.github.io/posts/unreal/learn-unreal/setup/</loc>
     <lastmod>2024-03-30T21:34:40+00:00</lastmod>
   </url><url>
     <loc>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</loc>

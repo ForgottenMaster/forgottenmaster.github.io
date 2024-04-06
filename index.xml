@@ -6,8 +6,64 @@
     <description>Recent content on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 31 Mar 2024 14:30:59 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 06 Apr 2024 17:33:50 +0100</lastBuildDate>
     <atom:link href="https://forgottenmaster.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>7. Spawning</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/</link>
+      <pubDate>Sat, 06 Apr 2024 17:33:50 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/</guid>
+      <description>We need to be able to spawn new instances of the blueprint class/prefab that we&amp;rsquo;ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.
+Adding a Spawner First of all we&amp;rsquo;ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles.</description>
+    </item>
+    <item>
+      <title>6. Blueprint Classes</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/blueprint-classes/</link>
+      <pubDate>Sat, 06 Apr 2024 17:04:32 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/blueprint-classes/</guid>
+      <description>In Unity there&amp;rsquo;s the concept of having a prefab which is a template for a GameObject to be spawned. Unreal has a similar concept although they&amp;rsquo;re called Blueprint Classes. This small post is showing how to convert an existing actor into a blueprint class which can then be instantiated multiple times.
+Adding a Sphere Firstly we can start off by adding a sphere actor as just a standalone actor in the scene.</description>
+    </item>
+    <item>
+      <title>5. Adding an Impulse</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/</link>
+      <pubDate>Sat, 06 Apr 2024 16:28:03 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/</guid>
+      <description>After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
+What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.</description>
+    </item>
+    <item>
+      <title>4. Object References</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/</link>
+      <pubDate>Sat, 06 Apr 2024 13:31:41 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/</guid>
+      <description>Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we&amp;rsquo;ll look at how to get a reference to an actor in the scene, along with how to get some information from it.
+Adding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph.</description>
+    </item>
+    <item>
+      <title>3. Physics Simulation</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/physics-simulation/</link>
+      <pubDate>Sat, 06 Apr 2024 13:04:11 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/physics-simulation/</guid>
+      <description>The next thing to briefly look at is how to enable physics on the actors in the scene. This first project will be a physics-based game so we&amp;rsquo;ll need to know how to set objects to participate in the physics simulation so we can knock them over.
+Setting Physics Toggling on physics is super simple (barely an inconvenience) in Unreal, we simply select an object we want to tweak - either by cicking on it in the scene viewport, or by clicking on it in the Outliner window.</description>
+    </item>
+    <item>
+      <title>2. Level Blueprint</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/</link>
+      <pubDate>Sat, 06 Apr 2024 12:25:17 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/</guid>
+      <description>After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.
+Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost.</description>
+    </item>
+    <item>
+      <title>1. Setup</title>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/setup/</link>
+      <pubDate>Sat, 06 Apr 2024 11:25:58 +0100</pubDate>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/setup/</guid>
+      <description>The first thing that is required in order to begin developing the game will be to ensure everything is set up correctly. Firstly, if not already, follow the steps outlined HERE in order to install and get familiar with basic functionality in the editor.
+Creating the Project First step is to create the project. This is straightforward enough, just make sure the settings are as shown in the screenshot below.</description>
+    </item>
     <item>
       <title>17. Textures Part 1</title>
       <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</link>
@@ -17,9 +73,9 @@
     </item>
     <item>
       <title>Setup</title>
-      <link>https://forgottenmaster.github.io/posts/unreal/learnunreal/setup/</link>
+      <link>https://forgottenmaster.github.io/posts/unreal/learn-unreal/setup/</link>
       <pubDate>Sat, 30 Mar 2024 21:34:40 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/unreal/learnunreal/setup/</guid>
+      <guid>https://forgottenmaster.github.io/posts/unreal/learn-unreal/setup/</guid>
       <description>In order to be able to develop with Unreal engine, we first need to get it set up and learn how to navigate the editor before starting to actually make anything in it. This post is just a quick overview of where to install it and basic controls.
 Installation The Epic games launcher is required to be able to download versions of the Unreal engine which can be found HERE. It should detect your OS and present the appropriate download option for you.</description>
     </item>

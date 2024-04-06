@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>5. Adding an Impulse | Robin Smith</title>
+<meta name="keywords" content="">
+<meta name="description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
+What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.">
+<meta name="author" content="">
+<link rel="canonical" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="5. Adding an Impulse" />
+<meta property="og:description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
+What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-06T16:28:03+01:00" />
+<meta property="article:modified_time" content="2024-04-06T16:28:03+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="5. Adding an Impulse"/>
+<meta name="twitter:description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
+What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://forgottenmaster.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Unreal",
+      "item": "https://forgottenmaster.github.io/posts/unreal/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Learn Unreal",
+      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Project 1: Warehouse Wreckage",
+      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "5. Adding an Impulse",
+      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "5. Adding an Impulse",
+  "name": "5. Adding an Impulse",
+  "description": "After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.\nWhat is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.",
+  "keywords": [
+    
+  ],
+  "articleBody": "After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.\nWhat is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.\nThe formula for force is \\(Force = Mass * Acceleration\\) which is a change over time (due to acceleration being a change in velocity over time).\nWhereas the formula for an impulse is \\(Impulse = Mass * Velocity Change\\).\nAdding an Impulse For this little example, let’s add an impulse to the cube that’s spawned in the scene by using blueprints.\nThe graph is simple enough to show here, the new nodes are circled and explained below.\nSpace Bar =\u003e This is an event node that triggers the Pressed pin when the space bar is pressed, and the Released pin when the space bar is released. Add Impulse =\u003e This node takes the Static Mesh Component to apply an impulse to. We can specify the impulse (in world space), which here we specify to be 70,000. NOTE: If we wanted to ignore mass and do a direct velocity change regardless of mass, then we can check the Vel Change box.\nResults Running the scene, and then tapping space bar allows us to apply upwards impulses to the cube to hop it around a bit.\n",
+  "wordCount" : "274",
+  "inLanguage": "en",
+  "datePublished": "2024-04-06T16:28:03+01:00",
+  "dateModified": "2024-04-06T16:28:03+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Robin Smith",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://forgottenmaster.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                    <span>Résumé</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
+    <h1 class="post-title entry-hint-parent">
+      5. Adding an Impulse
+    </h1>
+    <div class="post-meta"><span title='2024-04-06 16:28:03 +0100 BST'>April 6, 2024</span>&nbsp;·&nbsp;2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#what-is-an-impulse" aria-label="What is an Impulse?">What is an Impulse?</a></li>
+                <li>
+                    <a href="#adding-an-impulse" aria-label="Adding an Impulse">Adding an Impulse</a></li>
+                <li>
+                    <a href="#results" aria-label="Results">Results</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.</p>
+<h1 id="what-is-an-impulse">What is an Impulse?<a hidden class="anchor" aria-hidden="true" href="#what-is-an-impulse">#</a></h1>
+<p>An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.</p>
+<p>The formula for force is \(Force = Mass * Acceleration\) which is a change over time (due to acceleration being a change in velocity over time).</p>
+<p>Whereas the formula for an impulse is \(Impulse = Mass * Velocity Change\).</p>
+<h1 id="adding-an-impulse">Adding an Impulse<a hidden class="anchor" aria-hidden="true" href="#adding-an-impulse">#</a></h1>
+<p>For this little example, let&rsquo;s add an impulse to the cube that&rsquo;s spawned in the scene by using blueprints.</p>
+<p>The graph is simple enough to show here, the new nodes are circled and explained below.</p>
+<p><img loading="lazy" src="graph-setup.PNG" alt="Graph Setup"  />
+</p>
+<ul>
+<li><strong>Space Bar</strong> =&gt; This is an event node that triggers the Pressed pin when the space bar is pressed, and the Released pin when the space bar is released.</li>
+<li><strong>Add Impulse</strong> =&gt; This node takes the Static Mesh Component to apply an impulse to. We can specify the impulse (in world space), which here we specify to be 70,000.</li>
+</ul>
+<p>NOTE: If we wanted to ignore mass and do a direct velocity change regardless of mass, then we can check the <strong>Vel Change</strong> box.</p>
+<h1 id="results">Results<a hidden class="anchor" aria-hidden="true" href="#results">#</a></h1>
+<p>Running the scene, and then tapping space bar allows us to apply upwards impulses to the cube to hop it around a bit.</p>
+<p><img loading="lazy" src="results.gif" alt="Results"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+
+</html>

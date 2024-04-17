@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Infrastructure on Robin Smith</title>
-    <link>https://forgottenmaster.github.io/posts/rust/infrastructure/</link>
+    <link>http://localhost:1313/posts/rust/infrastructure/</link>
     <description>Recent content in Infrastructure on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 22 Dec 2021 23:57:14 +0000</lastBuildDate>
-    <atom:link href="https://forgottenmaster.github.io/posts/rust/infrastructure/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/rust/infrastructure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tarpaulin</title>
-      <link>https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/</link>
+      <link>http://localhost:1313/posts/rust/infrastructure/tarpaulin/</link>
       <pubDate>Wed, 22 Dec 2021 23:57:14 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/rust/infrastructure/tarpaulin/</guid>
+      <guid>http://localhost:1313/posts/rust/infrastructure/tarpaulin/</guid>
       <description>Since setting up my Github workflows as detailed HERE, I have noticed that the code coverage report generation tool that was being used was generating a lot of false negatives and certain code (mainly .except calls) were causing a &amp;ldquo;Not covered&amp;rdquo; status to be reported.
 Tarpaulin is an alternative tool that has better integration with Rust, however the downside of it is that due to the instrumentation required it&amp;rsquo;s only available on x86_64 processors and only on the Linux OS.</description>
     </item>
     <item>
       <title>Github Workflows</title>
-      <link>https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/</link>
+      <link>http://localhost:1313/posts/rust/infrastructure/githubworkflow/</link>
       <pubDate>Mon, 13 Dec 2021 20:08:57 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/rust/infrastructure/githubworkflow/</guid>
+      <guid>http://localhost:1313/posts/rust/infrastructure/githubworkflow/</guid>
       <description>I recently found out how to add appropriate GitHub action workflows to a Rust project in a GitHub repository. It was surprisingly easy to do with GitHub actions, and even lets you put a badge in the README.md file.
 Template Repository Luckily I stumbled upon this template repository containing exactly the GitHub workflows that I needed. In order to add the appropriate workflows to a Cargo project, clone this repository. The repository is located at: https://github.</description>
     </item>

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Chapter 4 - Extensions | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Now that we have a working library for creating feed forward neural networks, we can look at ways to better train them. This chapter will focus on several &ldquo;extensions&rdquo; that can be used to reduce the loss when training a neural network to produce more accurate results.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,48 +56,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Chapter 4 - Extensions" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Chapter 4 - Extensions"/>
-<meta name="twitter:description" content=""/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }
-  ]
-}
-</script>
+</noscript>
 </head>
 
 <body class="list" id="top">
@@ -115,7 +74,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -143,17 +102,17 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -161,7 +120,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
+<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
   <h1>
     Chapter 4 - Extensions
   </h1>
@@ -181,7 +140,7 @@
 The next chapters will be about entirely new network architectures, namely Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs), but now that we have enough pieces for training a standard feed forward network, I want to try out training on something more substantial and meaningful than just a simple mathematical formula or comparison operation such as we’ve seen so far....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-10 23:38:37 +0100 BST'>May 10, 2022</span>&nbsp;·&nbsp;21 min</footer>
-  <a class="entry-link" aria-label="post link to Extra - Training on the MNIST" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/"></a>
+  <a class="entry-link" aria-label="post link to Extra - Training on the MNIST" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -195,7 +154,7 @@ Introduction Adding more neurons to the network can take one of two forms:
 Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some “learned feature” that the network deems important....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-07 02:11:16 +0100 BST'>May 7, 2022</span>&nbsp;·&nbsp;18 min</footer>
-  <a class="entry-link" aria-label="post link to 4.6 - Dropout" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/"></a>
+  <a class="entry-link" aria-label="post link to 4.6 - Dropout" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -208,7 +167,7 @@ Adding more neurons to a hidden layer in the network (expanding wide) Adding mor
 A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-06 01:12:54 +0100 BST'>May 6, 2022</span>&nbsp;·&nbsp;13 min</footer>
-  <a class="entry-link" aria-label="post link to 4.5 - Learning Rate Decay" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"></a>
+  <a class="entry-link" aria-label="post link to 4.5 - Learning Rate Decay" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -222,7 +181,7 @@ This means that between two successive epochs, the velocity change can be instan
 In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that)....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-05 19:13:16 +0100 BST'>May 5, 2022</span>&nbsp;·&nbsp;11 min</footer>
-  <a class="entry-link" aria-label="post link to 4.4 - Momentum" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/"></a>
+  <a class="entry-link" aria-label="post link to 4.4 - Momentum" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -235,7 +194,7 @@ In terms of the updating of the weights with respect to the gradients of paramet
 Softmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that’s sent in the backpropagation pass is which enables it to converge quite fast....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-02 19:33:53 +0100 BST'>May 2, 2022</span>&nbsp;·&nbsp;18 min</footer>
-  <a class="entry-link" aria-label="post link to 4.3 - Softmax" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/"></a>
+  <a class="entry-link" aria-label="post link to 4.3 - Softmax" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -248,7 +207,7 @@ Softmax Thus far we used the mean squared error as a loss function which has a n
 Changing the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the “mean squared error” loss function....</p>
   </div>
   <footer class="entry-footer"><span title='2022-05-02 19:33:52 +0100 BST'>May 2, 2022</span>&nbsp;·&nbsp;9 min</footer>
-  <a class="entry-link" aria-label="post link to 4.2 - Refactorings" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/"></a>
+  <a class="entry-link" aria-label="post link to 4.2 - Refactorings" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -261,12 +220,12 @@ Changing the examples Eidetic at this point has examples that are showing the pe
 High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records....</p>
   </div>
   <footer class="entry-footer"><span title='2022-04-26 23:54:29 +0100 BST'>April 26, 2022</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to 4.1 - Overview" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/"></a>
+  <a class="entry-link" aria-label="post link to 4.1 - Overview" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/overview/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

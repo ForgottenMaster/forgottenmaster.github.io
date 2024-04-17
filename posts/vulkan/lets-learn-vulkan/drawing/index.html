@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>9. Drawing | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="We can finally start drawing on the screen now that we&rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
 Semaphores &amp; Fences There are two kinds of synchronization primitives in Vulkan which are">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/drawing/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/drawing/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ Semaphores &amp; Fences There are two kinds of synchronization primitives in Vul
         }
 
     </style>
-</noscript><meta property="og:title" content="9. Drawing" />
-<meta property="og:description" content="We can finally start drawing on the screen now that we&rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
-Semaphores &amp; Fences There are two kinds of synchronization primitives in Vulkan which are" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-26T16:30:01+00:00" />
-<meta property="article:modified_time" content="2023-02-26T16:30:01+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="9. Drawing"/>
-<meta name="twitter:description" content="We can finally start drawing on the screen now that we&rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
-Semaphores &amp; Fences There are two kinds of synchronization primitives in Vulkan which are"/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "9. Drawing",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "9. Drawing",
-  "name": "9. Drawing",
-  "description": "We can finally start drawing on the screen now that we\u0026rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.\nSemaphores \u0026amp; Fences There are two kinds of synchronization primitives in Vulkan which are",
-  "keywords": [
-    
-  ],
-  "articleBody": "We can finally start drawing on the screen now that we’ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.\nSemaphores \u0026 Fences There are two kinds of synchronization primitives in Vulkan which are\nSemaphores: Synchronize one GPU action with another GPU action. These are reset automatically by the GPU Fences: Synchronize the CPU with a GPU action by blocking. We can wait for a fence to be signalled, and then have to manually reset it For our drawing, we will use 2 semaphores and 1 fence with the following semantics\nSemaphore 1: Will be used to sequence the playback of the command buffer so it only occurs after the image is ready in the swapchain Semaphore 2: Will be used to ensure that we don’t present the image for display until after the command buffer is finished being processed Fence: Will be used to ensure we don’t push more frames onto the queue than we support. Specifically, we don’t want to re-use images when they’re still in use by the GPU Creating our semaphores and fences in Vulkan is super easy. We do need to use creation and destruction functions and pass some creation info but they hardly require any setup.\nWe’ll make a single function to handle semaphores and fences, with the following signature\nfn create_synchronization( device: \u0026Device, amount: usize, ) -\u003e Result\u003c(Vec\u003cSemaphore\u003e, Vec\u003cSemaphore\u003e, Vec\u003cFence\u003e)\u003e We require the logical device to be able to create N semaphores and fences, along with the amount to create, and then we simply return a tuple containing:\nThe semaphores to be used for the image being made available The semaphores to be used for the command buffer having finished being processed The fences to be used to allow the CPU to wait on a particular command buffer having been processed Note that Vulkan doesn’t guarantee that creation of these semaphores or fences is actually successful, so we need to return a Result to indicate that an error has occurred.\nWe’ll first go ahead and make the builders for these create infos. The semaphore builder will be straightforward as there is nothing to configure.\nFor the fences, Vulkan will initially create them in an unsignaled state. However, in our case, we want them to start off signaled so that waiting on them will pass immediately the first time.\nIn order to do this we can pass a flag to the fence creation via the SIGNALED bit\nlet semaphore_builder = SemaphoreCreateInfo::builder(); let fence_builder = FenceCreateInfo::builder().flags(FenceCreateFlags::SIGNALED); For the actual creation we can only make a single semaphore or fence at a time with Vulkan unfortunately, so we need to iterate from 0 to N, creating a semaphore/fence each time.\nThis results in an iterator over results, which can then be collected into a result of a vec. Therefore this looks as follows\nlet image_available_semaphores = (0..amount) .map(|_| unsafe { device .create_semaphore(\u0026semaphore_builder, None) .context(\"Failed to create an image available semaphore.\") }) .collect::\u003cResult\u003cVec\u003c_\u003e\u003e\u003e()?; let queue_submit_complete_semaphores = (0..amount) .map(|_| unsafe { device .create_semaphore(\u0026semaphore_builder, None) .context(\"Failed to create a queue submit complete semaphore.\") }) .collect::\u003cResult\u003cVec\u003c_\u003e\u003e\u003e()?; let queue_submit_complete_fences = (0..amount) .map(|_| unsafe { device .create_fence(\u0026fence_builder, None) .context(\"Failed to create a queue submit complete fence.\") }) .collect::\u003cResult\u003cVec\u003c_\u003e\u003e\u003e()?; Finally we can go ahead and return these in a tuple if all were created successfully\nOk(( image_available_semaphores, queue_submit_complete_semaphores, queue_submit_complete_fences, )) We’ll have to remember to destroy these during cleanup too!\nPassing Data to the Draw Function Next we need to make sure that the main function passes along all the required data to the new draw function we’ll make. In order to do this though, it first needs to be passed along to the run_event_loop function.\nWe update the signature to add all the additional parameters we need\nfn run_event_loop( mut event_loop: EventLoop\u003c()\u003e, window: Window, device: \u0026Device, swapchain: SwapchainKHR, image_available_semaphores: \u0026[Semaphore], queue_submit_complete_semaphores: \u0026[Semaphore], queue_submit_complete_fences: \u0026[Fence], swapchain_ext: \u0026Swapchain, graphics_queue: Queue, present_queue: Queue, command_buffers: \u0026[CommandBuffer], ) -\u003e i32 The main job of the run_event_loop will be to cycle through the semaphores/fences to ensure that not too many frames are in flight at once.\nIn order to do this we start off at frame number 0, and the maximum frame count/index we can have is limited by the number of entries in the semaphores (or fences) lists.\nTherefore we can just take the length of the image_available_semaphores slice to figure out how many frames we can have in flight at a time.\nlet mut current_frame = 0; let max_frames = image_available_semaphores.len(); We essentially want to call draw each frame, with the current frame number. Then after drawing we want to update the current frame number to the next one, wrapping around when we reach max_frames.\nThe call to draw, and the current_frame update looks as follows\ndraw( device, swapchain, image_available_semaphores[current_frame], queue_submit_complete_semaphores[current_frame], queue_submit_complete_fences[current_frame], swapchain_ext, graphics_queue, present_queue, command_buffers, ) .unwrap(); current_frame = (current_frame + 1) % max_frames; How do we ensure we do this every frame, or as fast as possible at least?. Winit actually provides a handy event type that we can hook into called MainEventsCleared so we put our logic in there.\nDrawing Finally we can implement our draw function body and get something shown on screen!\nEach frame/draw function call, we follow the following sequence\nRender Loop\rIntel\nOn the Fence The very first thing that we need to do is to ensure that the command buffer we will be submitting to the queue for processing isn’t still being processed from a previous frame.\nWe don’t want a backlog of work being submitted, since doing so would cause memory to just keep increasing so we can use the fence to let the CPU wait until the appropriate frame is finished being processed.\nVisually, this can be represented with the following timeline diagram\nFence\rIntel\nCode-wise, we can use a Vulkan function to cause the CPU to block while waiting for a fence to be signaled via the GPU. Vulkan allows us to wait on multiple fences at a time so the invocation takes a slice\ndevice .wait_for_fences(\u0026[queue_submit_complete_fence], true, u64::MAX) .context(\"Failed to wait for fence while drawing image.\")?; Parameters to the wait_for_fences function are\nThe slice containing the fences we’re waiting for Whether we are waiting for all the fences to be signaled. If this is false, this function only blocks the CPU until one has been signaled. A timeout to block the CPU for. In our case we just want to block for however long it takes. After having been signaled, we need to reset the fence manually for them to be re-usable next time\ndevice .reset_fences(\u0026[queue_submit_complete_fence]) .context(\"Failed to reset fence while drawing image.\")?; Acquiring an Image The first step of our sequence, now that we’re cleared to continue by the fence, is to acquire the next available image from the swapchain.\nWe can do this with the acquire_next_image function of the swapchain extension, and it will provide us the index of the image that we should use immediately.\nHowever, we can’t actually use the image until it’s stopped being used potentially from a previous frame. In order to sequence the command buffer execution until after the image is available, we’ll use the image_available_semaphore.\nNote that we are able to pass a fence through to this method so that we can block the CPU if needed until the image is acquired. However, blocking the CPU is heavy-handed in this case, so we just pass a null handle for the fence.\nlet (image_index, _) = swapchain_ext .acquire_next_image( swapchain, u64::MAX, image_available_semaphore, Fence::null(), ) .context(\"Failed to acquire next image while drawing.\")?; Again, we set a timeout of u64::MAX since we want to block at least until Vulkan is able to tell us which image to use.\nSubmitting Command Buffer Once we’ve acquired the image index we’ll use, we need to submit the command buffer associated with that swapchain image to the graphics queue.\nHowever this requires a lot of setup for synchronization purposes to make sure Vulkan respects the correct dependencies as it processes the commands we give it.\nIn particular, to submit to a queue we need:\nA list of the semaphores that need to be triggered before this command buffer can start being processed. A list of pipeline stages that we need to wait for before this command buffer can be processed. A list of the command buffers that will be processed. A list of semaphores that will be triggered/signaled when the command buffers have all finished being processing. These lists will be as follows\nlet wait_semaphores = [image_available_semaphore]; let wait_dst_stages = [PipelineStageFlags::COLOR_ATTACHMENT_OUTPUT]; let command_buffers = [command_buffers[image_index as usize]]; let signal_semaphores = [queue_submit_complete_semaphore]; The queue submission command can submit multiple things at once, so we will make an array but we only need a single submit info with the above\nlet submit_infos = [*SubmitInfo::builder() .wait_semaphores(\u0026wait_semaphores) .wait_dst_stage_mask(\u0026wait_dst_stages) .command_buffers(\u0026command_buffers) .signal_semaphores(\u0026signal_semaphores)]; Finally we can just go ahead and submit to the queue. We will submit to the graphics queue, and, equally importantly, we need to pass the fence through so that if the CPU spins around to this frame index again, they don’t end up sending the same command buffer again while it’s still being processed.\ndevice .queue_submit(graphics_queue, \u0026submit_infos, queue_submit_complete_fence) .context(\"Error while submitting command buffer to he queue during rendering.\")?; Presentation The last step of the sequence after acquiring an image, and rendering to that image, is to present that image to be displayed.\nTo do this we need\nA list of semaphores that the GPU needs signaled before proceeding to present A list of swapchains to present to A list of image indices on those swapchains to present In our case we have only one of each again, so the code looks as follows\nlet wait_semaphores = [queue_submit_complete_semaphore]; let swapchains = [swapchain]; let image_indices = [image_index]; Then we submit to the queue!\nswapchain_ext .queue_present( present_queue, \u0026PresentInfoKHR::builder() .wait_semaphores(\u0026wait_semaphores) .swapchains(\u0026swapchains) .image_indices(\u0026image_indices), ) .context(\"Error while presenting image to the swapchain.\")?; Vulkan will then ensure it waits for the command buffer to be finished processing (thanks to the semaphore), and then dutifully present the image to the screen for us.\nOutput Finally!, after 1000 lines of code, setting up every component of the pipeline required by Vulkan, we can go ahead and see the fruits of our labour!\nRunning our program we can see that avacado background we expect and a multicolored tria….wait, this doesn’t look right\nWe don’t see our triangle….do we now have to go through 1000 lines of code to find the issue?\nIn this case, the reason was pretty simple to track down. We have enabled back face culling, and our viewport is rendered flipped over, thus the triangle is being culled out!\nThis is due to the coordinate systems in OpenGL and Vulkan being inverted.\nOpenGL has the origin in the bottom left corner of the screen, and the y values going upwards toward the top of the screen, whereas Vulkan has the origin in the top left corner with the y axis running downwards.\nSince we have our coordinates baked into our vertex shader at the moment which is written in GLSL, we’re subject to OpenGL’s coordinate system unfortunately.\nThe difference can be illustrated with the following diagram\nCoordinate Systems\rSascha Willems\nAs detailed in the linked blog post, we can go ahead and flip our viewport over by specifying negative height to the viewport, causing it to grow upwards. However, due to the origin still being at the top left corner this would result in it being off-screen, thus we also need to offset the y position\nlet viewports = [Viewport { width: swapchain_extents.width as f32, height: -(swapchain_extents.height as f32), y: swapchain_extents.height as f32, max_depth: 1.0, ..Viewport::default() }]; Doing this change results in the front face of our triangle being correctly displayed and thus we can see that it’s now worked correctly!\n",
-  "wordCount" : "1994",
-  "inLanguage": "en",
-  "datePublished": "2023-02-26T16:30:01Z",
-  "dateModified": "2023-02-26T16:30:01Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ Semaphores &amp; Fences There are two kinds of synchronization primitives in Vul
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ Semaphores &amp; Fences There are two kinds of synchronization primitives in Vul
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ Semaphores &amp; Fences There are two kinds of synchronization primitives in Vul
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       9. Drawing
     </h1>
@@ -473,7 +399,7 @@ Semaphores &amp; Fences There are two kinds of synchronization primitives in Vul
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

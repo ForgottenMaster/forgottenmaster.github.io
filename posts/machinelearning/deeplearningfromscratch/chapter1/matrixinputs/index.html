@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>1.6 - Matrix Inputs | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
 In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
 Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,89 +57,7 @@ Matrix Multiplication Refresher The first step is to recall how we can multiply 
         }
 
     </style>
-</noscript><meta property="og:title" content="1.6 - Matrix Inputs" />
-<meta property="og:description" content="The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
-In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
-Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-10-13T23:47:35+01:00" />
-<meta property="article:modified_time" content="2021-10-13T23:47:35+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="1.6 - Matrix Inputs"/>
-<meta name="twitter:description" content="The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.
-In the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.
-Matrix Multiplication Refresher The first step is to recall how we can multiply two matrices together."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 1 - Foundations",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "1.6 - Matrix Inputs",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "1.6 - Matrix Inputs",
-  "name": "1.6 - Matrix Inputs",
-  "description": "The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.\nIn the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.\nMatrix Multiplication Refresher The first step is to recall how we can multiply two matrices together.",
-  "keywords": [
-    
-  ],
-  "articleBody": "The final piece of the puzzle in the mathematical foundations needed is to determine how we can trace back a derivative with respect to matrix inputs.\nIn the previous post we saw that calculating the derivative of two vectors of equal length when passing through the dot product operation results in the transpose of the other.\nMatrix Multiplication Refresher The first step is to recall how we can multiply two matrices together. In deep learning typically this will be performed with a matrix of samples, and a matrix of weights to be applied. The result being a weighted sum of the samples with weights.\nIn order for the product of two matrices to be defined, the number of columns in the first matrix must equal the number of rows in the second. The resulting matrix will be of the outer dimensions.\nThat is, given a matrix X, of dimensions m x n and a matrix W, of dimensions n x p then the multiplication is defined, and the resulting matrix is of dimensions m x p.\nIn the resulting matrix, an element at row i and column j is the result of the dot product of the ith row of the first matrix, and the jth row of the second matrix.\nAs a concrete example, suppose we have\n$$ X = \\begin{bmatrix} X_{11} \u0026 X_{12} \u0026 X_{13} \\\\ X_{21} \u0026 X_{22} \u0026 X_{23} \\\\ X_{31} \u0026 X_{32} \u0026 X_{33} \\end{bmatrix} $$ $$ W = \\begin{bmatrix} W_{11} \u0026 W_{12} \\\\ W_{21} \u0026 W_{22} \\\\ W_{31} \u0026 W_{32} \\end{bmatrix} $$\nThen the resulting matrix can be represented as\n$$ X \\cdot W = \\begin{bmatrix} XW_{11} \u0026 XW_{12} \\\\ XW_{21} \u0026 XW_{22} \\\\ XW_{31} \u0026 XW_{32} \\end{bmatrix} $$\nWhere \\(XW_{ij}\\) is the dot product of the ith row of X and the jth row of W\nDerivative Of Matrices In order for us to be able to calculate the rate of change in the output of a function with respect to the elements of one of the input matrices we will need to have the output be either:\nA matrix of the same size as an input matrix - derivative can be calculated elementwise in that case between input and output matrices A scalar value - derivative can be calculated elementwise for each element in the input matrix to determine how this affects the single output For deep learning, we want to be able to first multiply a matrix of samples (X) by a matrix of weights (W) in order to get the weighted sum of the records in a resulting matrix, then we would like to pass the resulting matrix to a function that produces a single value that could be used to activate a neuron for example.\nTherefore what we have is a function F which can be defined as\n$$ F = F(Y) $$\nThat is it takes some matrix Y and performs an operation on it (in our case likely summing the elements). The matrix Y will be produced by multiplying the two input matrices, that is:\n$$ Y = X \\cdot W $$\nIn order to calculate the total derivative with respect to the input matrices, we can apply the chain rule. The first step of which is easy, that is to take Y and calculate how a change in each element would affect the resulting single value. The derivative of F therefore is a matrix representing these partial derivatives. We will call this G, that is \\(G = F’(Y)\\)\nThe derivative of Y depends on two variables X and W which are multiplied together. The formula for the total derivative therefore is\n$$ dY = dX \\cdot W + X \\cdot dW $$\nThat is, changes in the elements of X would end up being multiplied by W, and also changes in the elements of W would end up being multiplied by X.\nThen, the derivative of the total function can be given (using the chain rule) as:\n$$ dF = G:dY $$\nAnd expanding out dY with the above formula gives\n$$ dF = G:dX \\cdot W + G:X \\cdot dW $$\nFor notation, X:Y means the elementwise multiplication of matrices X and Y, that must be the same dimensions (also known as frobenius inner product).\nIsolating dX and dY In the above formula, we have G being multiplied elementwise by a matrix that is the result of matrix multiplication between dX and W or X and dW.\nWhat we want to do is to isolate dX and dY so that they are multiplied elementwise with the other matrix. How can we get W and X onto the other side?\nWell,\n$$ G : (dX \\cdot W) = (G \\cdot W^T) : dX $$\nAnd\n$$ G : (X \\cdot dW) = (X^T \\cdot G) : dW $$\nThat is, the total derivative can be calculated as\n$$ dF = (G \\cdot W^T) : dX + (X^T \\cdot G) : dW $$\nPartial Derivatives Now from the above formula, we can easily calculate the partial derivatives of F by holding either X or W as constant, meaning dX or dW respectively is 0.\nDoing this will eliminate the term from the formula leaving only the other one. This shows us how the partial derivatives are\n$$ \\frac{\\partial F}{\\partial X} = G \\cdot W^T $$ $$ \\frac{\\partial F}{\\partial W} = X^T \\cdot W $$\nAdditional Notes The book at this point actually didn’t explain how we get to using the transpose matrices for derivatives, instead the book says in a handwavey fashion that “the way the mathematics works out”.\nI found the above explanation at This Page and above tried to break it down as best I could.\nI will likely need to revisit matrix multiplication in the future but for now understand it enough to move on to learning more about the structure of a neural network and applying these rules in practice.\n",
-  "wordCount" : "987",
-  "inLanguage": "en",
-  "datePublished": "2021-10-13T23:47:35+01:00",
-  "dateModified": "2021-10-13T23:47:35+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/matrixinputs/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -157,7 +75,7 @@ Matrix Multiplication Refresher The first step is to recall how we can multiply 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -185,17 +103,17 @@ Matrix Multiplication Refresher The first step is to recall how we can multiply 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -206,7 +124,7 @@ Matrix Multiplication Refresher The first step is to recall how we can multiply 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/">Chapter 1 - Foundations</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/">Chapter 1 - Foundations</a></div>
     <h1 class="post-title entry-hint-parent">
       1.6 - Matrix Inputs
     </h1>
@@ -299,7 +217,7 @@ $$ \frac{\partial F}{\partial W} = X^T \cdot W $$</p>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

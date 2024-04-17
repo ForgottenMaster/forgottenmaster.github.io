@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Part 1 - Rationale | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.
 This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ This post in particular will provide a brief overview of the problems that the r
         }
 
     </style>
-</noscript><meta property="og:title" content="Part 1 - Rationale" />
-<meta property="og:description" content="The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.
-This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-07-24T12:06:05+01:00" />
-<meta property="article:modified_time" content="2022-07-24T12:06:05+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Part 1 - Rationale"/>
-<meta name="twitter:description" content="The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.
-This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Refactoring Eidetic",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "Part 1 - Rationale",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Part 1 - Rationale",
-  "name": "Part 1 - Rationale",
-  "description": "The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.\nThis post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long.",
-  "keywords": [
-    
-  ],
-  "articleBody": "The following sections will detail the implementation of the refactoring of our Eidetic API of which the new version can be found HERE.\nThis post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long.\nInstead, we will explain patterns in code as they come up with the understanding that the logic implemented internally is more or less the same as in the original implementation (e.g. dense network layers are still consisting of a dot product, bias addition, and activation function).\nWhy did we need to refactor? The following issues were present with the original implementation of Eidetic which we aim to solve with the new version:\nSTD Reliance. Dynamic allocations were everywhere in the API which didn’t give the flexibility to choose whether you wanted to run in an environment that didn’t support dynamic allocations/the standard library. Boxes were used in trait signatures and so there was no way to turn this off. The new API runs without the standard library by default but can be opted into for additional functionality if needed. Error Detection. There was no error handling in the original implementation of Eidetic and everything was using unwrapping under the hood. The new version ensures that any fallible function returns a Result so that the caller gets to decide if it’s propagated up the stack or not. Invalid Function Call Sequences. The previous version of Eidetic didn’t enforce that a forward pass must be performed before a backward pass in a training epoch. The result was that the caller could run a backward pass on a network before a forward pass and that the code would panic as a result of the lack of error detection. This is a result of the one type we used for representing the network having all functions on it that might be invoked. The new API solves this by using typestates so that functions can only be run if the network is in the correct state at a type level (from calling a previous sequence of functions). Inflexible Networks. The previous API had networks that had their loss function baked in which meant that we couldn’t have networks that were intended to be fed from other networks (for example when we try to implement a GAN) and that each network was a complete, trainable network in its own right. We solve this in the new API by keeping the loss function separated from the network. Hardcoded Tensor Rank. In the old API, operations were forced to have rank 2 tensors only but the new API allows them to define their own input/output/parameter types which will allow us to easily later on add in layers with tensor ranks greater than 2 (for example convolutional layers). Code Bloat. The old API had all data required by an operation be stored in that operation regardless of whether it’s needed or not. For example running a forward pass would always store off the input and calculated output even if a backward pass isn’t needed. The new API uses typestates which means that each step of training is a separate type and so the operations are able to store just enough data that they will need but no more. ",
-  "wordCount" : "575",
-  "inLanguage": "en",
-  "datePublished": "2022-07-24T12:06:05+01:00",
-  "dateModified": "2022-07-24T12:06:05+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ This post in particular will provide a brief overview of the problems that the r
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ This post in particular will provide a brief overview of the problems that the r
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ This post in particular will provide a brief overview of the problems that the r
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
     <h1 class="post-title entry-hint-parent">
       Part 1 - Rationale
     </h1>
@@ -250,7 +170,7 @@ This post in particular will provide a brief overview of the problems that the r
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

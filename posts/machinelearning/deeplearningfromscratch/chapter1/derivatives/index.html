@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>1.2 - Derivatives | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,85 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="1.2 - Derivatives" />
-<meta property="og:description" content="Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-09-26T00:42:04+01:00" />
-<meta property="article:modified_time" content="2021-09-26T00:42:04+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="1.2 - Derivatives"/>
-<meta name="twitter:description" content="Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 1 - Foundations",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "1.2 - Derivatives",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "1.2 - Derivatives",
-  "name": "1.2 - Derivatives",
-  "description": "Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Maths The derivative of a function is the rate at which the output changes with respect to a change in the input at a specific value for the input. This last part is important as the derivative of a function is essentially the gradient, or tangent of the graph of that function at a specific point which can of course change depending on where you are on the number line.\nThe formula for calculating the derivative of a given function “f” with respect to it’s input parameter “x”, at a given value of x which we call “a” here, can be written as:\n$$ \\frac{\\partial f}{\\partial x}(a) = \\lim_{\\Delta \\to 0} \\frac{f(a + \\Delta) - f(a - \\Delta)}{2 \\times \\Delta} $$\nLet’s break this down a little.\nWe’ll take the left hand side of the formula first, that is \\( \\frac{\\partial f}{\\partial x}(a) \\) which is the partial derivative of f with respect to x, at the given value of a. If we wanted to take another partial derivative of f, for example if the function took multiple parameters, the parameter we’re taking the partial derivative with respect to will appear as the denominator. For example, in a function such as:\n$$ f(x, y, z) = x + y + z $$\nThen the partial derivatives could be written as: \\( \\frac{\\partial f}{\\partial x} \\), \\( \\frac{\\partial f}{\\partial y} \\), and \\( \\frac{\\partial f}{\\partial z} \\)\nWhat’s a limit?\nThe first symbol in the right hand side is this \\( \\lim_{\\Delta \\to 0} \\) which means “as \\(\\Delta\\) approaches 0”. Limits are a way of talking about the way the function reacts to bringing certain parameters closer to a given limit. Essentially, the closer the parameter is to the limit, the more accurate the approximation is. In our case we talk about the function being as \\(\\Delta\\) approaches 0, the right hand side becomes more accurately the correct value for the derivative.\nOf course, \\(\\Delta\\) can never be 0, as this would result in a divide by zero operation which is undefined, but we can get arbitrarily close.\nWhat’s delta?\nThe symbol \\(\\Delta\\) is the greek symbol “Delta” which we use here to mean a change. Since to calculate the derivative we’re applying a small change to the value, and measuring how the output is affected by this small change.\nHow is the derivative calculated?\nThe rest of the right hand side is simply calculating the actual derivative at the value a, with the given \\(\\Delta\\) value. For a pretty close approximation of the true derivative, we can choose a very small value of delta, for example 0.001. We first add the small value to the value at which we’re calculating the derivative, this is the \\( f(a + \\Delta) \\)\nThis gives us the output of the function at a point ever so slightly in front of the test value (a). In order to measure a rate of change, two samples are required. We could have simply applied the function to a itself, however in order to account for asymmetry in the graph, we can get a better test by applying the function to the value located slightly behind the test value, this is \\( f(a - \\Delta) \\).\nFinally we take the difference of these two sample points, that is the difference in their outputs. This gives us the difference in the function output \\( f(a + \\Delta) - f(a - \\Delta) \\).\nIn order to get the gradient, once we have the change in the output of the function, we must divide by the change in the input. Since we both added and subtracted \\( \\Delta \\) to get our sample input points, the range (change in input) is \\( 2 \\times \\Delta \\)\nCode We can code up a function that can calculate the derivative of another function at a given input value, and given the value of the small delta we’re applying.\nThe function we write here will take a float in and output a float for simplicity. We could of course use generics to allow this to work for various types. With floats being the data type used, it would look as follows\nfn derivative(f: impl Fn(f64) -\u003e f64, a: f64, delta: f64) -\u003e f64 { let front_result = f(a + delta); let back_result = f(a - delta); let input_change = delta * 2.0; let output_change = front_result - back_result; output_change / input_change } An example call of finding the derivative of a function:\n$$ f(x) = x^2 $$\nat the input value 42 might look as follows:\nlet f = |x| x * x; let a = 42.0; let delta = 0.001; derivative(f, a, delta) Diagram A derivative of a function being the rate of change of the output with change in the input can be visualised by the following diagram. This diagram shows a function f, which maps “x” to “y”, and shows a change in the input (dx) producing a change in the output (dy). The ratio of \\( \\frac{dy}{dx} \\) gives us the derivative\n",
-  "wordCount" : "844",
-  "inLanguage": "en",
-  "datePublished": "2021-09-26T00:42:04+01:00",
-  "dateModified": "2021-09-26T00:42:04+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/derivatives/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -151,7 +73,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -179,17 +101,17 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -200,7 +122,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter1/">Chapter 1 - Foundations</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter1/">Chapter 1 - Foundations</a></div>
     <h1 class="post-title entry-hint-parent">
       1.2 - Derivatives
     </h1>
@@ -282,7 +204,7 @@ The rest of the right hand side is simply calculating the actual derivative at t
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -2,67 +2,67 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Chapter 4 - Extensions on Robin Smith</title>
-    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/</link>
+    <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/</link>
     <description>Recent content in Chapter 4 - Extensions on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 10 May 2022 23:38:37 +0100</lastBuildDate>
-    <atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Extra - Training on the MNIST</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</link>
       <pubDate>Tue, 10 May 2022 23:38:37 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/mnist/</guid>
       <description>At this point we&amp;rsquo;ve successfully coded a neural network library that should be extensible enough to create various architectures of densely connected layers. We&amp;rsquo;ve also implemented various techniques that can be used to potentially get better results from the network.
 The next chapters will be about entirely new network architectures, namely Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs), but now that we have enough pieces for training a standard feed forward network, I want to try out training on something more substantial and meaningful than just a simple mathematical formula or comparison operation such as we&amp;rsquo;ve seen so far.</description>
     </item>
     <item>
       <title>4.6 - Dropout</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</link>
       <pubDate>Sat, 07 May 2022 02:11:16 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/</guid>
       <description>Out of all the modifications for neural networks we&amp;rsquo;ve covered in order to try to get the network to train the problem &amp;ldquo;better&amp;rdquo;, we haven&amp;rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
 Introduction Adding more neurons to the network can take one of two forms:
 Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &amp;ldquo;learned feature&amp;rdquo; that the network deems important.</description>
     </item>
     <item>
       <title>4.5 - Learning Rate Decay</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</link>
       <pubDate>Fri, 06 May 2022 01:12:54 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/</guid>
       <description>As we&amp;rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&amp;rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
 A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.</description>
     </item>
     <item>
       <title>4.4 - Momentum</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</link>
       <pubDate>Thu, 05 May 2022 19:13:16 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/</guid>
       <description>So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.
 This means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.
 In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that).</description>
     </item>
     <item>
       <title>4.3 - Softmax</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</link>
       <pubDate>Mon, 02 May 2022 19:33:53 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/</guid>
       <description>This post will describe a new loss function called &amp;ldquo;cross entropy loss&amp;rdquo;. Due to often being coupled with the &amp;ldquo;softmax&amp;rdquo; function, this is often just called the &amp;ldquo;softmax cross entropy loss&amp;rdquo; function. There are a couple of components needed to support that.
 Softmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that&amp;rsquo;s sent in the backpropagation pass is which enables it to converge quite fast.</description>
     </item>
     <item>
       <title>4.2 - Refactorings</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/</link>
       <pubDate>Mon, 02 May 2022 19:33:52 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/refactorings/</guid>
       <description>There are a couple of things that were required to be tweaked as we go on with development of the extensions to the network API. This post will briefly explain the changes that were required before we move onto the extensions themselves.
 Changing the examples Eidetic at this point has examples that are showing the performance of a linear regression vs a basic neural network, both using the &amp;ldquo;mean squared error&amp;rdquo; loss function.</description>
     </item>
     <item>
       <title>4.1 - Overview</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</link>
       <pubDate>Tue, 26 Apr 2022 23:54:29 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/overview/</guid>
       <description>Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
 High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records.</description>
     </item>

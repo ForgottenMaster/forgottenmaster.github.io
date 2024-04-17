@@ -2,96 +2,96 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Let&#39;s Learn Vulkan on Robin Smith</title>
-    <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/</link>
+    <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/</link>
     <description>Recent content in Let&#39;s Learn Vulkan on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 31 Mar 2024 14:30:59 +0100</lastBuildDate>
-    <atom:link href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>17. Textures Part 1</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/textures-1/</link>
       <pubDate>Sun, 31 Mar 2024 14:30:59 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/textures-1/</guid>
       <description>So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler.</description>
     </item>
     <item>
       <title>16. Depth Buffers</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/depth-buffer/</link>
       <pubDate>Sun, 23 Jul 2023 10:19:00 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/depth-buffer/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/depth-buffer/</guid>
       <description>Now that we have the ability to render multiple meshes at different 3-D locations, we can notice that placing one mesh in front of another in world space does not necessarily cause the fragments behind to be hidden. Instead, the fragments appearing in front will be those of the triangles rendered last.
 Without the concept of a depth buffer we would have to keep our triangles sorted by distance from the camera and then rendered back to front.</description>
     </item>
     <item>
       <title>15. Push Constants</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/push-constants/</link>
       <pubDate>Sun, 30 Apr 2023 14:56:27 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/push-constants/</guid>
       <description>Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into.</description>
     </item>
     <item>
       <title>14. Dynamic Ubos</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</link>
       <pubDate>Sat, 22 Apr 2023 19:27:31 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/dynamic-ubos/</guid>
       <description>Now we have the ability to pass data through to the shaders using uniform buffers, we should extend our system to be able to render multiple meshes rather than a single one as we have currently. This will also demonstrate an issue we have currently with our implementation of using a single uniform buffer.
 Define Meshes The first thing we need to do is to be able to define what a Mesh actually is.</description>
     </item>
     <item>
       <title>13. Uniform Buffer Objects</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/</link>
       <pubDate>Thu, 09 Mar 2023 19:16:52 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/</guid>
       <description>Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let&amp;rsquo;s take a look at our current implementation in a window with a width of 1200 and a height of only 600
 Solution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices.</description>
     </item>
     <item>
       <title>12. Index Buffers</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/index-buffers/</link>
       <pubDate>Sat, 04 Mar 2023 23:06:01 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/index-buffers/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/index-buffers/</guid>
       <description>Currently, we are rendering a multi-color square as two triangles. However, two of the vertices are shared between both triangles and currently we have to duplicate all the vertex data for those shared vertices.
 Using an index buffer allows us to only duplicate indices which then index into the vertex buffer for the actual data. An index may only be 2 bytes and so duplicating that as opposed to duplicating N bytes of vertex data results in large savings.</description>
     </item>
     <item>
       <title>11. Staging Buffers</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/staging-buffers/</link>
       <pubDate>Sat, 04 Mar 2023 19:56:24 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/staging-buffers/</guid>
       <description>Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it&amp;rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.
 Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory.</description>
     </item>
     <item>
       <title>10. Vertex Buffers</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/vertex-buffers/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/vertex-buffers/</link>
       <pubDate>Wed, 01 Mar 2023 17:26:02 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/vertex-buffers/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/vertex-buffers/</guid>
       <description>We now have a triangle rendering to the screen which proves that our setup is all correct and valid. However currently our vertex positions and colors are baked into our vertex shader.
 The next step is to allow our application to define the vertex data to be passed into our graphics pipeline, which we can do with vertex buffers.
 Vertex Data The first thing we want to do is to define how we will store our vertex data.</description>
     </item>
     <item>
       <title>9. Drawing</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/drawing/</link>
       <pubDate>Sun, 26 Feb 2023 16:30:01 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/drawing/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/drawing/</guid>
       <description>We can finally start drawing on the screen now that we&amp;rsquo;ve got our framebuffers and recorded our command buffers. In order to render to the screen we will have to acquire an image from the swapchain, submit our command buffer that we recorded to the graphics queue, and then submit the image for presentation on the presentation queue. We will also however need to worry about synchronization.
 Semaphores &amp;amp; Fences There are two kinds of synchronization primitives in Vulkan which are</description>
     </item>
     <item>
       <title>8. Framebuffers and Command Buffers</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</link>
       <pubDate>Sun, 26 Feb 2023 00:10:55 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/</guid>
       <description>Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.
 A framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment.</description>
     </item>
     <item>
       <title>7. Graphics Pipeline</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</link>
       <pubDate>Sat, 25 Feb 2023 16:21:48 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/graphics-pipeline/</guid>
       <description>Now that we have somewhere to render to (surface), and something to render with (swapchain), we need to define how to render. This is going to be the responsibility of the graphics pipeline which we must set up manually.
 Overview An overview of the graphics pipeline is shown below
 Overview of graphics pipelineVulkan Tutorial
@@ -99,51 +99,51 @@ The sections highlighted in yellow indicate those sections which we can program 
     </item>
     <item>
       <title>6. Shaders</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/shaders/</link>
       <pubDate>Tue, 21 Feb 2023 23:26:25 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/shaders/</guid>
       <description>Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
 Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V.</description>
     </item>
     <item>
       <title>5. Swapchain</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/swapchain/</link>
       <pubDate>Sun, 19 Feb 2023 12:21:42 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/swapchain/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/swapchain/</guid>
       <description>Now that we&amp;rsquo;ve been able to create the device surface, and get appropriate information about what formats, color spaces, and presentation modes are available, we are ready to tackle the next step in setting up a rendering environment. This next step will be what&amp;rsquo;s called a swapchain
 What is screen tearing? On the front-end side of things, the device surface represents the rendering context and can be considered &amp;ldquo;the window&amp;rdquo; for our purposes.</description>
     </item>
     <item>
       <title>4. Surface</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/surface/</link>
       <pubDate>Sat, 18 Feb 2023 12:08:01 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/surface/</guid>
       <description>The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
 Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
 Surface extensions We could manually detect the platform we&amp;rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:</description>
     </item>
     <item>
       <title>3. Validation</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/validation/</link>
       <pubDate>Sat, 18 Feb 2023 01:04:25 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/validation/</guid>
       <description>By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won&amp;rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
 This is because Vulkan will do the bare minimum by default for efficiency - what we don&amp;rsquo;t use we don&amp;rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours.</description>
     </item>
     <item>
       <title>2. The Window, the Instance, and the Device</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/instance-and-device/</link>
       <pubDate>Wed, 15 Feb 2023 22:32:00 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/instance-and-device/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/instance-and-device/</guid>
       <description>The first things we&amp;rsquo;ll need to do to start using Vulkan will be to open a window to render into, create a Vulkan instance, and create a logical Vulkan device from that instance.
 The end result will just show a blank white window as shown below.
 Event loop and window The first step which we can get out of the way before even touching Vulkan will be to create a window for us to eventually render into, and an event loop that winit uses to allow us to handle the events from the user such as resizing etc.</description>
     </item>
     <item>
       <title>1. Setup</title>
-      <link>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</link>
+      <link>http://localhost:1313/posts/vulkan/lets-learn-vulkan/setup/</link>
       <pubDate>Mon, 09 Jan 2023 22:43:32 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/</guid>
+      <guid>http://localhost:1313/posts/vulkan/lets-learn-vulkan/setup/</guid>
       <description>In order to follow along with the course, we&amp;rsquo;ll want to get the project up and running, and nail down the tech stack we&amp;rsquo;ll be using.
 The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.</description>
     </item>

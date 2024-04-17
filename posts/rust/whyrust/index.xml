@@ -2,33 +2,33 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Why Rust? on Robin Smith</title>
-    <link>https://forgottenmaster.github.io/posts/rust/whyrust/</link>
+    <link>http://localhost:1313/posts/rust/whyrust/</link>
     <description>Recent content in Why Rust? on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 23 Oct 2021 09:55:16 +0100</lastBuildDate>
-    <atom:link href="https://forgottenmaster.github.io/posts/rust/whyrust/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/rust/whyrust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Traits</title>
-      <link>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</link>
+      <link>http://localhost:1313/posts/rust/whyrust/traits/</link>
       <pubDate>Sat, 23 Oct 2021 09:55:16 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/traits/</guid>
+      <guid>http://localhost:1313/posts/rust/whyrust/traits/</guid>
       <description>What are traits? Traits in Rust can basically be thought of as interfaces in C#. They can do everything that a C# interface can do except with a few more capabilities. We will start off by equating the common functionality of traits in Rust with C# interfaces, and then explore the additional capabilities we get with Rust traits.
 Describes capabilities In C# interfaces, we can describe a set of function signatures which will tell the user the capabilities of that interface, such that they know when they call something what data to pass in, and what they should get back.</description>
     </item>
     <item>
       <title>Memory Safety</title>
-      <link>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</link>
+      <link>http://localhost:1313/posts/rust/whyrust/memorysafety/</link>
       <pubDate>Fri, 15 Oct 2021 01:31:14 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/</guid>
+      <guid>http://localhost:1313/posts/rust/whyrust/memorysafety/</guid>
       <description>Here we&amp;rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C++ as they are both low level programming languages that are suitable for systems programming.
 Memory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:</description>
     </item>
     <item>
       <title>Enums</title>
-      <link>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</link>
+      <link>http://localhost:1313/posts/rust/whyrust/enums/</link>
       <pubDate>Sun, 26 Sep 2021 17:14:48 +0100</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/rust/whyrust/enums/</guid>
+      <guid>http://localhost:1313/posts/rust/whyrust/enums/</guid>
       <description>C Style Enums In C#, C++, and a lot of other popular programming languages, we have access to a type called an &amp;ldquo;enumeration&amp;rdquo; (or enum for short). This is simply a type safe collection of named constant values.
 For example in C++, making an enum whose variants represent a set of allowed colors for a hypothetical UI framework could be written as (with the values of the variants explicitly typed out for transparency):</description>
     </item>

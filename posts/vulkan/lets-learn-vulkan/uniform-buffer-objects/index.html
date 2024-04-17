@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>13. Uniform Buffer Objects | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let&rsquo;s take a look at our current implementation in a window with a width of 1200 and a height of only 600
 Solution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ Solution In order to solve this issue we will need to transform the vertices in 
         }
 
     </style>
-</noscript><meta property="og:title" content="13. Uniform Buffer Objects" />
-<meta property="og:description" content="Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let&rsquo;s take a look at our current implementation in a window with a width of 1200 and a height of only 600
-Solution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-09T19:16:52+00:00" />
-<meta property="article:modified_time" content="2023-03-09T19:16:52+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="13. Uniform Buffer Objects"/>
-<meta name="twitter:description" content="Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let&rsquo;s take a look at our current implementation in a window with a width of 1200 and a height of only 600
-Solution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "13. Uniform Buffer Objects",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "13. Uniform Buffer Objects",
-  "name": "13. Uniform Buffer Objects",
-  "description": "Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let\u0026rsquo;s take a look at our current implementation in a window with a width of 1200 and a height of only 600\nSolution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Currently although we are defining the 4 vertices of a square what we actually have is a rectangle due to the scaling of the window. This is more obvious on windows that are much wider, or taller than the other dimension. As an example let’s take a look at our current implementation in a window with a width of 1200 and a height of only 600\nSolution In order to solve this issue we will need to transform the vertices in our vertex shader by a model-view-projection trio of matrices. Definitions for these are as follows:\nmodel: This matrix transforms the model itself such as scaling it, moving, or rotating it in world space. view: This defines the positioning and orientation of the camera that is viewing the scene. projection: This matrix defines how the world space coordinates are projected into screen space. The big question is how do we get these matrices from our application into the shader to be used? The answer here is Uniform Buffer Objects.\nAdding Definitions In order to use UBO’s in Vulkan, we must first define the structure of the object on the application side, as well as the shader side. However first we will need to install a new dependency.\nInstalling Glam We don’t want to reinvent the wheel when it comes to matrix maths, and there are several crates which contain types compatible with the shader equivalents so that the buffer of data on the application side matches up with what the shader expects.\nWe’ll install a crate called glam which is as simple as adding this to our Cargo.toml\nglam = \"0.23.0\" Defining the UBO Application Side We can define our UBO structure on the application side fairly easily now that we’ve installed glam since it contains types matching up with the shader types. Putting these into a struct with “C” representation will result in the same layout.\nIn this case, the three entries are 4-D matrices which in GLSL is mat4. Similarly in glam, it’s Mat4 so the structure looks as follows\n#[repr(C)] struct ModelViewProjection { projection: Mat4, view: Mat4, model: Mat4, } Defining the UBO Shader Side We can then go ahead and define the UBO with the same structure in our Vertex shader.\nlayout(binding = 0) uniform MVP { mat4 projection; mat4 view; mat4 model; } mvp; Notice here that we must specify a layout and must tell it that this UBO is at binding 0. We can also have different descriptor sets which we’ll encounter soon, and here there’s an implicit “set = 0” in the layout, but we can leave it off here.\nNotice also the keyword uniform which means this data will be constant over the whole draw call and not vary per-vertex like attributes do.\nUsing the UBO Now we can alter the vertex shader to actually use the UBO data. This is simple, we will take the calculated vertex position (in model/local space) and apply in order the model, view, and projection matrices as so\ngl_Position = mvp.projection * mvp.view * mvp.model * vec4(position, 1.0); Descriptors Overview Next we need to consider how we get data hooked up to the graphics pipeline so that it can be passed over to the Vertex shader. Vulkan uses something known as descriptor sets for this type of data, of which uniform buffers are only one kind.\nThere are a few different types that interplay here but as a visual overview we can look to this diagram\nDescriptor Sets\rReddit\nOver the next few sections i’ll go over these types and setting them up to get our data into a uniform buffer and connected up to the pipeline.\nDescriptor Set Layout The first step is to tell the pipeline the layout of our descriptor sets. This can be thought of as defining the shape of the descriptor sets, as it’s used to create the pipeline layout, and the actual descriptor sets matching this shape are bound before using the pipeline to draw.\nFirst step then is to create this descriptor set layout. Like the PipelineLayout, Vulkan expects us to create this separately (and destroy separately) before we go ahead and use it to construct one or more pipeline layouts. We’ll do this in a create_descriptor_set_layout function.\nfn create_descriptor_set_layout(device: \u0026Device) -\u003e Result\u003cDescriptorSetLayout\u003e { unsafe { device .create_descriptor_set_layout( \u0026DescriptorSetLayoutCreateInfo::builder().bindings(\u0026[ *DescriptorSetLayoutBinding::builder() .descriptor_type(DescriptorType::UNIFORM_BUFFER) .descriptor_count(1) .stage_flags(ShaderStageFlags::VERTEX), ]), None, ) .context(\"Failed to create a descriptor set layout.\") } } We can pass multiple bindings as mentioned into the builder when constructing a layout for a single descriptor set. The index of the binding in the list corresponds with the “binding” number in our vertex shader. In this case we only have a single binding at index 0 and that is indeed what the vertex shader looks at when mapping the UBO.\nWe are only creating a single descriptor within this set, and the type of this descriptor is a UNIFORM_BUFFER. We must specify which stage of the pipeline we’ll be binding the descriptors to, and in this case the vertex shader uses the data, so it gets bound to ShaderStageFlags::VERTEX.\nOnce we’ve constructed this, we need to go ahead and pass it in to our pipeline layout also\nfn create_pipeline_layout( device: \u0026Device, set_layouts: \u0026[DescriptorSetLayout], ) -\u003e Result\u003cPipelineLayout\u003e { unsafe { device.create_pipeline_layout( \u0026PipelineLayoutCreateInfo::builder() .set_layouts(set_layouts) .push_constant_ranges(\u0026[]), None, ) } .context(\"Error trying to create a pipeline layout.\") } Notice that we can pass multiple sets also, which corresponds to the “set” number in the layout within our vertex shader. set=0 is the default and is what we’re using, which corresponds to the descriptor set at index 0.\nUniform Buffers Next we can go ahead and allocate the buffers and backing memory for our uniform data. We need to create one buffer per swapchain image because we don’t want the application to be updating the uniform data within the buffer while it’s still being rendered.\nTherefore we make our create_uniform_buffers function, and pass the number to create in.\nfn create_uniform_buffers( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, count: usize, ) -\u003e Result\u003cVec\u003c(Buffer, DeviceMemory)\u003e\u003e { let mut buffers = Vec::with_capacity(count); for _ in 0..count { buffers.push( create_buffer( instance, device, physical_device, BufferUsageFlags::UNIFORM_BUFFER, MemoryPropertyFlags::HOST_VISIBLE | MemoryPropertyFlags::HOST_COHERENT, mem::size_of::\u003cModelViewProjection\u003e().try_into().unwrap(), ) .context(\"Failed to create a uniform buffer.\")?, ); } Ok(buffers) } We return a Vec\u003c(Buffer, DeviceMemory)\u003e because we are creating multiple in a loop.\nWe force the device memory to be HOST_VISIBLE and HOST_COHERENT because we will be updating this memory every frame potentially as the model/view matrices change due to the model moving in the world, or the camera. There’s no point using staging buffer because the overhead of constantly copying to device local memory every frame would not be worth it.\nThe buffer usage is set to UNIFORM_BUFFER, and the size of the buffer wants to be large enough to store a single ModelViewProjection struct in it.\nThe create_buffer function we wrote earlier will take care of allocating the buffer and memory, and binding the two together!\nAllocating Descriptor Sets Now that we have told the pipeline what the structure of the descriptor set is that it should expect, and we’ve allocated our buffers for them we can start working on the actual descriptor set instances.\nHowever, Vulkan doesn’t allow us to just create descriptor sets unfortunately. They must be allocated from a pool much like command buffers are.\nfn create_descriptor_pool(device: \u0026Device, count: u32) -\u003e Result\u003cDescriptorPool\u003e { unsafe { device .create_descriptor_pool( \u0026DescriptorPoolCreateInfo::builder() .max_sets(count) .pool_sizes(\u0026[*DescriptorPoolSize::builder() .ty(DescriptorType::UNIFORM_BUFFER) .descriptor_count(count)]), None, ) .context(\"Failed to create a descriptor pool.\") } } In order to create a descriptor pool though, unlike when creating a command buffer pool, we must tell Vulkan the maximum number of different descriptor sets that can be allocated from this pool at any given time. Additionally we need to tell Vulkan the maximum number of individual descriptor types.\nIn our case, the maximum number of descriptor set instances is the number of swapchain images (passed in via count). Additionally, since we only have a single uniform buffer descriptor per set, then we tell Vulkan to create a number of uniform buffer descriptors in the pool equal to count also.\nNext we need to actually allocate the descriptor set instances we need from the pool. In our case we will just be draining the pool since we told it to create just enough for our needs.\nfn allocate_descriptor_sets( device: \u0026Device, descriptor_pool: DescriptorPool, descriptor_set_layout: DescriptorSetLayout, count: usize, ) -\u003e Result\u003cVec\u003cDescriptorSet\u003e\u003e { let layouts = std::iter::repeat(descriptor_set_layout) .take(count) .collect::\u003cVec\u003c_\u003e\u003e(); unsafe { device .allocate_descriptor_sets( \u0026DescriptorSetAllocateInfo::builder() .descriptor_pool(descriptor_pool) .set_layouts(\u0026layouts), ) .context(\"Failed to allocate descriptor sets.\") } } We pass the DescriptorSetLayout here through to the allocate_descriptor_sets function, along with the pool, and the count of how many.\nThe way the allocate_descriptor_sets function is setup from Vulkan isthat it takes the pool, along with a slice of layouts, and will return an instance per layout in the slice in the same order (hence this function returns a Vec).\nWe only have one DescriptorSetLayout and want count copies, so we can use the handy iterator functions to create a vector with count copies of the layout with\nlet layouts = std::iter::repeat(descriptor_set_layout) .take(count) .collect::\u003cVec\u003c_\u003e\u003e(); With that, we have allocated the descriptor set instances and are one step closer to using them!\nBinding There are two kinds of bindings we need to do at this point to make the buffers usable in our shaders\nBinding the buffers to the descriptor sets Binding the descriptor sets to the draw call Binding the buffers to the descriptor sets is slightly more involved but it’s not too bad - it’s just that Vulkan has a few different types we need to construct to do the updating.\nFor this, we’ll go ahead and make a function update_descriptor_sets with the following signature\nfn update_descriptor_sets( device: \u0026Device, buffers: \u0026[(Buffer, DeviceMemory)], sets: \u0026[DescriptorSet], ) It requires the device to be able to call the update function with, but along with this requires the buffers, and descriptor sets. The function expects these two slices to be the same length and order such that buffers[i] should be boun to sets[i].\nThe first thing we need to do here is to create the list of DescriptorBufferInfo. This is a separate type because our descriptors, as mentioned could be of various types and in this case they are buffers, so we need the buffer infos.\nThe buffer info has the following information in it\nThe buffer that this descriptor will be bound to The offset within the buffer that the descriptor should be associated with The range within the buffer of the data to be bound to this descriptor In our case, the offset is 0 (default), and the range is the size of one ModelViewProjection instance.\nWe will go ahead and create on DescriptorBufferInfo struct for each uniform buffer\nlet buffer_infos = buffers .iter() .map(|(buffer, _)| { vec![*DescriptorBufferInfo::builder() .buffer(*buffer) .range(mem::size_of::\u003cModelViewProjection\u003e().try_into().unwrap())] }) .collect::\u003cVec\u003c_\u003e\u003e(); Notice that we are returning a Vec for each buffer, this is because the next step will take a vec of those and each one would be associated with a binding though again we’re using only a single buffer per set, so this is just going to be at binding 0 (index 0).\nNow we need to go over the buffer infos, and the DescriptorSet instances associated with them, which we can do by zipping them together\nbuffer_infos .iter() .zip(sets) And for each pair, we’ll map them to a WriteDescriptorSet instance containing the information to write/bind to the descriptor set instance\n.map(|(buffer_info, set)| { *WriteDescriptorSet::builder() .dst_set(*set) .descriptor_type(DescriptorType::UNIFORM_BUFFER) .buffer_info(buffer_info) }) We set the descriptor set, along with the descriptor type (UNIFORM_BUFFER), and the list of buffer infos defining all the uniform buffers in the set. We only have one, but it’s still a list, we can pass it straight in.\nFinally we can go ahead and collect all these WriteDescriptorSet instances into a Vec\n.collect::\u003cVec\u003c_\u003e\u003e(); The last step is to tell Vulkan to actually go ahead and update these descriptor set instances with the appropriate information\nunsafe { device.update_descriptor_sets(\u0026writes, \u0026[]); } There are actually two kinds of updates we can do with descriptor sets. We’re only doing writes but we could also do copies where we copy bindings from one set to another.\nThat’s enough for binding our buffers to our descriptor sets!. Next we just have to bind our descriptor sets to our draw calls. We’ll hop on over to where we record our command buffers per frame and add this just before the draw call\ndevice.cmd_bind_descriptor_sets( *command_buffer, PipelineBindPoint::GRAPHICS, pipeline_layout, 0, \u0026[*descriptor_set], \u0026[], ); Here we’re saying we want to bind these descriptor sets to the graphics pipeline bind point, with the given pipeline layout, and we’re providing the descriptor sets to match the pipeline layout. In this case only a single descriptor set which will be the one associated with the current command buffer.\nAnd….that’s all the setup we need! our vertex shader is now reading the UBO, however we need to populate it with something sensible.\nWriting Into the UBOs We’ll handle this by keeping an instance of the ModelViewProjection structure around that we can update during our application as needed. Just before we ask to draw to the appropriate image, we’ll copy the data from this single instance into the matching UBO for that frame/image.\nFirstly we’ll initialise the struct as follows\nlet mut mvp = ModelViewProjection { model: Mat4::IDENTITY, view: Mat4::look_at_rh( Vec3::new(0.0, 0.0, 2.0), Vec3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), ), projection: Mat4::perspective_rh(45.0_f32.to_radians(), aspect, 0.1, 100.0), }; The explanations are as follows\nmodel: We start off with the model being untranslated, unrotated, and unscaled - the identity matrix view: We can use the look_at_rh function (OpenGL is a RH coordinate system) to create a camera matrix at coordinate (0, 0, 2) and looking towards the origin, with up being the standard (0, 1, 0) projection: Here we’re using a perspective projection with a 45 degree field of view. We calculate the aspect ratio of the images, and we set the near clipping plane to 0.1, the far clipping plane to 100 To update the UBO before the draw is executed, we’ll hop over to the draw function. We’ll need to do what we did with our other buffers and map the memory for the uniform buffer, write to it, and then unmap. Since we’ve seen this before, I’ll just show the code in its entirety\n// update the uniform buffer with the MVP. let uniform_memory = uniform_buffers[image_index as usize].1; let dst = device .map_memory( uniform_memory, 0, mem::size_of::\u003cModelViewProjection\u003e().try_into().unwrap(), MemoryMapFlags::empty(), ) .context(\"Failed to map uniform buffer memory.\")? as *mut ModelViewProjection; let src = mvp as *const ModelViewProjection; ptr::copy_nonoverlapping(src, dst, 1); device.unmap_memory(uniform_memory); With this, we can now see that our square is actually a square! (finally)\nAnimation Finally we can have an animated image, all we need to do is to simply rotate the model matrix a little each frame.\nWe will do this in the standard way of calculating the delta time between the last frame, and the current frame. We can then use this delta time along with a speed to rotate the square in a framerate-independant way.\nIn Rust we can get a timestamp like\nlet mut last_frame_timestamp = Instant::now(); So we start off with a timestamp initialised to the time that we start our application’s event loop.\nIn order to calculate the elapsed time since the last frame and now, we can take another timestamp and calculate the elapsed time between the two as\nlet timestamp = Instant::now(); let elapsed = timestamp.duration_since(last_frame_timestamp).as_secs_f32(); The function duration_since will take an earlier timestamp and calculate a Duration between the two. We can choose how to extract information from this Duration but here we’ll just get the total number of seconds as an f32, which handles partial seconds.\nOnce we have the elapsed time, we can rotate the model matrix by some amount - in this case we’ll use a speed of 100 degrees per second\nmvp.model *= Mat4::from_rotation_z(100.0_f32.to_radians() * elapsed); Although notice that Mat4::from_rotation_z expects the angle in radians so we convert from degrees to radians by using the built-in Rust function on f32’s, to_radians.\nAfter rotating the model matrix, we update the timestamp of the previous frame, and request that the window be redrawn\nlast_frame_timestamp = timestamp; window.request_redraw(); Running our program now, we can see a very nice rotating square!\nThere should have been a video here but your browser does not seem\rto support it.\r",
-  "wordCount" : "2716",
-  "inLanguage": "en",
-  "datePublished": "2023-03-09T19:16:52Z",
-  "dateModified": "2023-03-09T19:16:52Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/uniform-buffer-objects/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ Solution In order to solve this issue we will need to transform the vertices in 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ Solution In order to solve this issue we will need to transform the vertices in 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ Solution In order to solve this issue we will need to transform the vertices in 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       13. Uniform Buffer Objects
     </h1>
@@ -537,7 +463,7 @@ Solution In order to solve this issue we will need to transform the vertices in 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>3.9 - Examples | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
 Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/examples/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/examples/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Doing this will ensure that users of our API have some reference examples of how
         }
 
     </style>
-</noscript><meta property="og:title" content="3.9 - Examples" />
-<meta property="og:description" content="Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
-Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-18T18:47:56+01:00" />
-<meta property="article:modified_time" content="2022-04-18T18:47:56+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="3.9 - Examples"/>
-<meta name="twitter:description" content="Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.
-Doing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 3 - Deep Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "3.9 - Examples",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "3.9 - Examples",
-  "name": "3.9 - Examples",
-  "description": "Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.\nDoing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Now that we have a basic framework for creating neural networks, we will re-visit the code examples for Linear Regression and Neural Networks that were quickly implemented in chapter 2 and reimplement them as examples for the Eidetic library.\nDoing this will ensure that users of our API have some reference examples of how to create and train their networks, as well as ensuring that the API fulfils the required functionality from a users perspective.\nCreating a prelude Most Rust library crates will contain a module named by convention as the prelude. This is located at the root of the crate, and is intended to contain the most important items, re-exported from the library.\nThe usage of the prelude will look as follows\nuse eidetic::prelude::*; This common practice allows us to avoid each user having to import items individually or from multiple sub-modules for basic usage, although allows for optional items to be not included in the prelude and be imported individually still.\nCrates can have multiple preludes if needed, since they’re just regular modules that are named by convention, however for Eidetic we only require one.\nThe prelude for Eidetic can be located HERE\nData wrangling The first thing we’ll need to do is to provide common functionality for the examples that will do the following:\nOpen the data file Read the data Parse features as floating point values for training Split the data into training and testing data Separate out the targets from the input data The data wrangling code can be found HERE for anyone that’s interested but it’s just reading the credit score information found HERE and preparing it into a format that we can use for network training.\nUsing the data wrangler simply requires that the source file be included (with the include! macro) into the example source file.\nThe include! macro in Rust will dump the source contents into the file during compilation (so that the compiler sees it as if that data wrangling source code were written directly into the example source file).\ninclude!(\"credit_score_data_wrangler.rs\"); After including the data wrangling source code, we then just need to call the get_batches and get_targets functions which will each return a tuple containing firstly the training Array, and secondly the testing array.\nThese functions both take a float (should be between 0 and 1) indicating the proportion of the input data rows that are going to be in the training set (for example 0.8 indicates that 80% of the rows in the input data will make up the training data array, and 20% makes up the testing data array).\nThese are used for example as:\nlet (training_batch, testing_batch) = get_batches(TRAINING_BATCH_PROPORTION); let (training_targets, testing_targets) = get_targets(TRAINING_BATCH_PROPORTION); Linear regression example In order to perform a linear regression on the data, we can set up a network with a single dense layer and use a linear activation function to combine the results at the end into a single neuron. The loss function we use is the mean squared error as usual, and for the optimisation strategy we use the stochastic gradient descent as mentioned previously.\nThe code to setup the network then looks like the following:\nlet mut network = Network::new( vec![Layer::new( 1, DenseLayerSetup::new_boxed(Linear::new_boxed()), )], Loss::new(MeanSquaredError::new_boxed()), ); And to setup the SGD optimiser is simple too, we need to provide a learning rate value though:\nlet mut optimiser = SGD::new(LEARNING_RATE); We can train the network with the training function which we need to pass the network and optimiser into, along with training and testing input data and targets. The final few parameters we need to pass are indicating the number of epochs we are training for, how often we evaluate the training process for early termination, the size of the batches we feed through the network in each epoch, and finally, the random seed (if we’re using one - here it’s None) we’re using. After plugging all of this in, we get the following:\ntrain( \u0026mut network, \u0026mut optimiser, training_batch.clone(), training_targets.clone(), testing_batch.clone(), testing_targets.clone(), EPOCHS, EVAL_EVERY, BATCH_SIZE, SEED, ); After we finish training the network, we can print out the error/loss of the trained network on both the training and testing data to see how close they are to zero (0 is perfect training with no error), and more importantly how close they are to each other (to show the network generalises well and doesn’t overfit the training data too much).\nIn the Eidetic API we can use the forward_loss function which returns the predictions (that we don’t care about) and the error loss (that we do care about). We can thus just print out the item at index 1 of the tuple (the loss) as such:\nprintln!( \"Final error (training): {}\", network.forward_loss(training_batch, training_targets).1 ); println!( \"Final error (testing): {}\", network.forward_loss(testing_batch, testing_targets).1 ); When we run this, we see that the error is around what we had without the API when the algorithm was hacked together, and that they are very close to one another:\nFinal error (training): 0.20482454235971267\rFinal error (testing): 0.20557973252746742 Neural network example Now that we have an example that uses Eidetic to train a network using linear regression, we literally only need to modify the setup of the network to change the linear regression into a deeper neural network.\nThe difference between a neural network and a linear regression is the addition of one or more dense “hidden” layers with multiple neurons and using the sigmoid nonlinear activation function. In the example program, we have the following setup (with 25 hidden neurons on one layer):\nlet mut network = Network::new( vec![ Layer::new(25, DenseLayerSetup::new_boxed(Sigmoid::new_boxed())), Layer::new(1, DenseLayerSetup::new_boxed(Linear::new_boxed())), ], Loss::new(MeanSquaredError::new_boxed()), ); When we run this, it takes a little longer, but we see similar values as with the linear regression:\nFinal error (training): 0.20514753984418146\rFinal error (testing): 0.20600618973999624 As mentioned in chapter 2 with the original implementation, the neural network approach is slightly worse than the linear regression approach, but both are around 0.2 indicating that the API seems to be working as intended.\n",
-  "wordCount" : "994",
-  "inLanguage": "en",
-  "datePublished": "2022-04-18T18:47:56+01:00",
-  "dateModified": "2022-04-18T18:47:56+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/examples/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Doing this will ensure that users of our API have some reference examples of how
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Doing this will ensure that users of our API have some reference examples of how
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Doing this will ensure that users of our API have some reference examples of how
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
     <h1 class="post-title entry-hint-parent">
       3.9 - Examples
     </h1>
@@ -322,7 +242,7 @@ Final error (testing): 0.20600618973999624
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

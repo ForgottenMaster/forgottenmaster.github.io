@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Part 4 - Initialised Operations | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.
 We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can&rsquo;t directly construct new instances of this type because it&rsquo;s not publicly visible/nameable.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ We are only able to get an operation into the initialised state by first startin
         }
 
     </style>
-</noscript><meta property="og:title" content="Part 4 - Initialised Operations" />
-<meta property="og:description" content="After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.
-We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can&rsquo;t directly construct new instances of this type because it&rsquo;s not publicly visible/nameable." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-07-24T21:06:33+01:00" />
-<meta property="article:modified_time" content="2022-07-24T21:06:33+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Part 4 - Initialised Operations"/>
-<meta name="twitter:description" content="After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.
-We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can&rsquo;t directly construct new instances of this type because it&rsquo;s not publicly visible/nameable."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Refactoring Eidetic",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "Part 4 - Initialised Operations",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Part 4 - Initialised Operations",
-  "name": "Part 4 - Initialised Operations",
-  "description": "After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.\nWe are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can\u0026rsquo;t directly construct new instances of this type because it\u0026rsquo;s not publicly visible/nameable.",
-  "keywords": [
-    
-  ],
-  "articleBody": "After building the network/operation chain and initialising it with weights/parameters either via a known set (through previous training), or via a random seed (using Xavier initialisation) we have a network that is capable of making predictions given some input. We are also at this point able to read out the set of parameters for later use.\nWe are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can’t directly construct new instances of this type because it’s not publicly visible/nameable.\nThirdly we’re able to take this initialised operation and put it into “training” mode by binding an optimiser with it.\nThe InitialisedOperation trait First we’ll take a look at the overall trait definition:\npub trait InitialisedOperation: Sealed { type Input; type Output; type ParameterIter: Iterator\u003cItem = ElementType\u003e; fn iter(\u0026self) -\u003e Self::ParameterIter; fn predict(\u0026self, input: Self::Input) -\u003e Result\u003cSelf::Output\u003e; } As before, and as with all the traits in Eidetic, this is a Sealed trait to allow us to control implementation details and correctness by implementing it only for operations inside the crate. In fact, it’s likely this won’t be pointed out again on any future traits.\nAs far as associated types go, we need:\nInput. The type of input to the operation, always a tensor type. Output. The type of output from the operation, again a tensor type. ParameterIter. The type of iterator that is produced from the iter method to gain access to the stream of trained weights. The parameter iterator will produce elements/weights in the same order as they are expected when initialising a network of the exact same architecture via the with_iter method, so this can be used to store those weights off to a file or transmit across a network, or otherwise store for later use.\nThe other capability is the ability to make predictions for the operation via the predict method. This will take an input of the appropriate type, and produce an output. Note that this is a fallible method because the input may not be correctly shaped at runtime for the operation (e.g. an incorrect number of columns/features), so it returns a Result type which can either be propagated or unwrapped as needed.\nWhat’s the next step? You may have noticed that this trait does not have any way to move the type state over to the next state (the trainable state). This is because the output type will depend on the specific optimiser chosen to use to put this operation into a trainable state.\nThis means the trainable state is generic over the optimiser in use, since it needs to hold onto an instance of an optimiser to support adaptive optimisation and things like learning rate decay.\nSince each type can only have one implementation of a given trait, and since we want the initialised operation to be moved to trainable with any compatible optimiser, we need a separate trait that itself is generic over the optimiser type.\nThe WithOptimiser trait This secondary trait is the WithOptimiser trait which looks as follows:\npub trait WithOptimiser\u003cT\u003e: Sealed { type Trainable; fn with_optimiser(self, optimiser: T) -\u003e Self::Trainable; } T in this case is the optimiser type we’re using (actually, we’ll see later it’s an optimiser factory because it needs to support making an optimiser that’s generic over a particular type). This lets us implement versions of this trait for each optimiser type in existance which lets the caller pick the optimiser to use.\nThe Trainable type here is the type which is used for this operation that is bound to an instance of that optimiser. For operations that don’t have any parameters and thus, no need for optimisation, they will always produce the same type to represent their trainable form regardless of the optimiser chosen.\nFor types that do require storing an optimiser for later use during the optimisation stage, the correct implementation can be chosen here.\nRust will pick the correct version of the trait to use when the with_optimiser function is called because it will be able to see what the type of T is, due to it requiring an instance into the with_optimiser function. Therefore all of the following calls will be correct:\nlet null = initialised.with_optimiser(NullOptimiser::new()); let sgd = initialised.with_optimiser(SGD::new(FixedLearningRateHandler::new(0.01))); let sgd_momentum = initialised.with_optimiser(SGDMomentum::new(FixedLearningRateHandler::new(0.01), 0.9)); Why the optimiser isn’t an optimiser? As mentioned, the type T that is passed into the with_optimiser function (e.g. NullOptimiser, SGD, etc.) is not implementing the Optimiser trait directly but another trait called OptimiserFactory. We’ll look into more details when we cover the optimisation stage, but the reason for this is because an optimiser type will require storing state that is dependant on the type of parameter for a given optimisation (e.g. Tensor of a certain rank).\nHowever, for operation chains/composite operations we want to be able to take the type T and pass it to both/all operations in the chain - but they might store different parameter types. Therefore the type with_optimiser takes is a factory which can produce optimiser instances of various types when required by those operations.\n",
-  "wordCount" : "847",
-  "inLanguage": "en",
-  "datePublished": "2022-07-24T21:06:33+01:00",
-  "dateModified": "2022-07-24T21:06:33+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ We are only able to get an operation into the initialised state by first startin
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ We are only able to get an operation into the initialised state by first startin
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ We are only able to get an operation into the initialised state by first startin
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
     <h1 class="post-title entry-hint-parent">
       Part 4 - Initialised Operations
     </h1>
@@ -286,7 +206,7 @@ We are only able to get an operation into the initialised state by first startin
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

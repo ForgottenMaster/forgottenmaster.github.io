@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4.4 - Momentum | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.
 This means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.
 In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that).">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,89 +57,7 @@ In terms of the updating of the weights with respect to the gradients of paramet
         }
 
     </style>
-</noscript><meta property="og:title" content="4.4 - Momentum" />
-<meta property="og:description" content="So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.
-This means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.
-In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-05T19:13:16+01:00" />
-<meta property="article:modified_time" content="2022-05-05T19:13:16+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4.4 - Momentum"/>
-<meta name="twitter:description" content="So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.
-This means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.
-In terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that)."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4.4 - Momentum",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4.4 - Momentum",
-  "name": "4.4 - Momentum",
-  "description": "So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.\nThis means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.\nIn terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that).",
-  "keywords": [
-    
-  ],
-  "articleBody": "So far, when we have updated the weights on our parameters with their gradients, it has been an instantaneous update without any temporal relationship with previous optimisation steps.\nThis means that between two successive epochs, the velocity change can be instantaneous. One epoch the velocity could be low, and the next it might be super high.\nIn terms of the updating of the weights with respect to the gradients of parameters, we can imagine this from the graph visualisation as being the object moving up and down the line of the graph, or bouncing around the troughs and valleys created by such a graph (there was a diagram in a previous post showing the arrows bouncing around like that).\nHowever, in real life, objects don’t suddenly change direction on an instant and instead if the velocity (gradient) stops or becomes 0, the object will slow down over time before coming to a stop.\nWe can simulate this momentum in our neural network optimisation also.\nThe rationale is that when we reach a trough in the graph, and the gradient is 0, the weights will still be updated for a time (although the rate will slow on successive iterations). This preservation of momentum can allow the weights to escape a false, or local minima.\nFormula What this means in practice is that the amount we use to update the weight of each parameter (the velocity) isn’t just a function of the gradient at that point, and the learning rate but instead is a weighted average of the velocities at previous timesteps with the weights decaying exponentially.\nThe formula to calculate this sum is pretty simple and is defined as:\n$$ update = \\nabla_t + (\\mu \\times \\nabla_{t-1}) + (\\mu^2 \\times \\nabla_{t-2}) + … $$\nWhere \\(\\mu\\) is the momentum parameter, or, how much the velocity from the previous timestep is degraded.\nFor example if the momentum parameter is 0.9, then in a given time step, we multiply the velocity from the previous timestep by 0.9, or 90%, the one from two timesteps ago by \\(0.9^2\\) (0.81), the one from three time steps ago by \\(0.9^3\\) (0.729), and so on. We then add them all up to get the total velocity for the current time step.\nHowever in practice, we won’t compute the entire history each update, as we’ll soon see.\nAlgorithm In order to implement the momentum, we can’t be computing the entire historical sum every update, so we should find a better way to calculate what the velocity should be.\nAs it turns out, we can just do the following steps to update the velocity with momentum, and the current gradient:\nMultiply the velocity by the momentum parameter (0.9 in the above example) Add the current gradient in As an example, this is what the stored velocity would represent at each timestep, starting at t=1:\n\\(\\nabla_1\\) \\(\\nabla_2 + (\\mu \\times \\nabla_1)\\) \\(\\nabla_3 + (\\mu \\times \\nabla_2) + (\\mu^2 \\times \\nabla_1)\\) And so on, all with us only needing to store a single quantity and not a history of previous quantities.\nImplementation To implement this, we will be create a new implementor of the Optimiser trait, so far we have only had the basic Stochastic Gradient Descent (SGD) optimiser.\nWe will still be following the same basic algorithm of SGD and updating the weight with a proportion of the gradient, however we will want to incorporate momentum into the calculation of velocity.\nWe call this new optimiser SGDMomentum\nSDGMomentum The structure itself is a bit more than with the regular SGD optimiser. The regular one only had a learning rate, which was the proportion of the gradient to update the weights with.\nThis new optimiser needs two additional pieces of data stored to retain state between update steps:\nvelocities - This will be a Vec of Arrays with the elements in the same order as they appear in the iterator returned by the parameters_and_gradients() function on Network. Thus, the velocity at index i will be the velocity for the parameter/weight at index i. momentum - This is a simple parameter like learning rate which represents the multiplier we will update the current velocity with before updating it with the current gradient. Represents the degredation of velocity when no forces are acting on it (slowing down). One thing to note is that we can only calculate the velocities when there is a valid iterator of parameter weights and gradients from the network, and this is only valid after one forward and backward pass have been performed.\nThis means that when we create the optimiser the vector will be uninitialised and we will need to initialise it the first time we’re optimising. We will therefore use Option to represent the None state initially, and it will be replaced with Some once the velocities are initialised.\nThe whole definition of our structure looks as follows\npub struct SGDMomentum\u003cT\u003e { velocities: Option\u003cVec\u003cArray\u003cT, Ix2\u003e\u003e\u003e, learning_rate: T, momentum: T, } Construction In order to construct a new instance of the Optimiser we require both a learning rate, and a momentum parameter. The velocities as mentioned previously are initialised to None by default until the first step is performed.\nThe “new” function we add to handle the creation of a new instance looks as follows\nimpl\u003cT\u003e SGDMomentum\u003cT\u003e { pub fn new(learning_rate: T, momentum: T) -\u003e Self { Self { velocities: None, learning_rate, momentum, } } } Optimiser Now we just need to implement the Optimiser trait for SGDMomentum, which requires only a single function, step. Step operates on a mutable reference to self, to allow us to retain state between calls (which is ideal because that’s precisely what we’re doing with velocities), and it takes a mutable reference to the Network to optimise.\nThe very first thing we will want to do is to check if the velocities list has been initialised (is some). If it’s still None then this is the first time we’ve had the step function called, and we need to initialise one velocities array for each parameter weight entry, and in the same order.\nEach velocity Array will have the same shape as the associated network parameter weight, since we will be performing an elementwise subtraction when we update the weights. The elements will start at all zeroes initially as the velocity is “at rest”.\nIn order to check if we need to initialise the velocities, we can use the following function provided by Option\nif self.velocities.is_none() { // initialisation code } What we want to do to create the Vec of velocities is take the iterator provided by the network that iterates over all the parameter weights in the network (provided by the parameters_and_gradients function), and for each element of that iterator, we want to produce an Array of the same shape that’s all zeroes.\nThere is a method provided to us by the Iterator trait for this which is the map function. Finally, we can take that new iterator and use the collect function to allocate a Vec and collect the iterator into it.\nThe code for that looks as follows:\nnet.parameters_and_gradients() .map(|(param, _)| Array::zeros(param.raw_dim())) .collect() Then we can do the actual update. For this we will once again want to iterate over the parameters and gradients in the network, but we want to do this in tandem with their current velocities.\nAnother provided method by the Iterator trait is zip which is called on an iterator, takes another iterator and produces a new iterator whose elements are a tuple of the elements from each.\nTherefore each element in the zipped iterator will be a tuple containing the parameter/gradient, and the associated velocity for that parameter.\nFinally we want to run “some code” for each element in the zipped iterator, which we can do with the for_each method.\nThis section of code then looks as follows:\nnet.parameters_and_gradients() .zip(self.velocities.as_mut().unwrap().iter_mut()) .for_each(|((parameter, gradient), velocity)| { // do stuff here }); The code we put inside the callback to for_each will be the code to update one parameter, given its velocity.\nWe can do this elementwise by zipping the weight, gradient, and velocity arrays together which will let us iterate over their elements in an arbitrary order, but in lockstep with one another.\nndarray gives us a macro to perform this iteration, called azip (probably for Array Zip).\nThe way this macro is called is you provide a set of specifiers and arrays from which to draw the values for each specifier, in a syntax like a parameter list. The code to run for each set of elements goes in curly braces. For example, the following snippet:\nazip!((parameter in parameter, gradient in gradient, velocity in velocity) { // do stuff here }); will iterate over the elements of the parameter, gradient, and velocity arrays in lockstep with each other, and for each element will bind the appropriate element of parameter to the binding “parameter”, the appropriate element of gradient to the binding “gradient”, and velocity to “velocity”. This is a feature in Rust called shadowing and is useful because it means that inside the function, we can’t accidentally use them as arrays and are limited to only operating on the individual elements provided for that iteration.\nInside the function body, to update a single element we want to do the following sequence of steps:\nMultiply the current velocity by momentum Add the correct proportion of the current gradient to the velocity (using learning rate) Update the parameter weight by the new velocity We can use standard arithmetic operations for these, however we need to explicitly clone the various parameters since we’re in a generic context and only require Clone, not Copy as a trait bound. The resulting function body is then:\n*velocity = (*velocity).clone() * momentum.clone() + (*gradient).clone() * learning_rate.clone(); *parameter -= (*velocity).clone(); Note the use of the dereference (*) operator, this is because we’re iterating over references to arrays, meaning the elements we’re iterating over are also references. We need to dereference them whenever we want to access the value (like to update the parameter, or velocity).\nIn order to support these operations, the following trait bounds are required on the element type T\nClone - Required because as mentioned before, we need to reuse things like the learning rate and momentum, and also arithmetic operators take operands by value (which we can’t do in generics out of a reference, can’t move from a reference) Mul",
-  "wordCount" : "2167",
-  "inLanguage": "en",
-  "datePublished": "2022-05-05T19:13:16+01:00",
-  "dateModified": "2022-05-05T19:13:16+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/momentum/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -157,7 +75,7 @@ In terms of the updating of the weights with respect to the gradients of paramet
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -185,17 +103,17 @@ In terms of the updating of the weights with respect to the gradients of paramet
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -206,7 +124,7 @@ In terms of the updating of the weights with respect to the gradients of paramet
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
     <h1 class="post-title entry-hint-parent">
       4.4 - Momentum
     </h1>
@@ -401,7 +319,7 @@ Accuracy (testing): 93.522%
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

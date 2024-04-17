@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Introduction | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C&#43;&#43;, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.
 One thing to note is that it&rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/rust/consteval/intro/">
+<link rel="canonical" href="http://localhost:1313/posts/rust/consteval/intro/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/rust/consteval/intro/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/rust/consteval/intro/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ One thing to note is that it&rsquo;s not possible to do everything at compile ti
         }
 
     </style>
-</noscript><meta property="og:title" content="Introduction" />
-<meta property="og:description" content="What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C&#43;&#43;, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.
-One thing to note is that it&rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/rust/consteval/intro/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-12-09T21:07:37+00:00" />
-<meta property="article:modified_time" content="2021-12-09T21:07:37+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction"/>
-<meta name="twitter:description" content="What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C&#43;&#43;, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.
-One thing to note is that it&rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Rust",
-      "item": "https://forgottenmaster.github.io/posts/rust/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Constant Evaluation",
-      "item": "https://forgottenmaster.github.io/posts/rust/consteval/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Introduction",
-      "item": "https://forgottenmaster.github.io/posts/rust/consteval/intro/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Introduction",
-  "name": "Introduction",
-  "description": "What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C++, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.\nOne thing to note is that it\u0026rsquo;s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time.",
-  "keywords": [
-    
-  ],
-  "articleBody": "What is constant evaluation? Constant evaluation is basically just performing calculations at compile time rather than runtime. There are some constructs that we would like to represent with a high level programming language such as Rust or C++, but for which, if we know the parameters to the function at compile time, then we can also calculate the output at compile time as well.\nOne thing to note is that it’s not possible to do everything at compile time since we generally require I/O, and whenever I/O is involved it can no longer be performed or baked in at compile time. However we can isolate sections of the program that are able to be executed by the compiler and ensure they can be executed in a constant evaluation environment.\nWhy is it needed? Most of the time, source code is compiled by a compiler into machine code which then executes on the target machine. The compiler performs checks such as type checking, and when it outputs the machine code has additional duties such as filling in function pointers to virtual functions, etc. The source code provides a nice high level way to code using types, interfaces, and other such concepts, and the compiler has the job of turning that into CPU instructions.\nHowever, the more CPU instructions are required, the slower the execution will be. Usually we are trying to target a high frame rate and are therefore limited in the time we can spend on each frame. Every operation performed by the CPU will eat up this budget.\nThe more calculations we can move from runtime to compile time, the better the execution will be. Additionally since the program is compiled generally much less than it’s executed, it would be a better trade-off of time to have a longer compile time but shorter run time.\nAnother point is that if calculations are done at compile time, with the results stored in the binary itself in the data section, older hardware will be able to run it due to the lower load on the CPU required.\nHow do we do this in Rust? Compared to a language like C++, Rust has comparatively weaker compile time capabilities, but these capabilities are being expanded all the time due to the open source nature of the language. However, compared to other languages that have no compile time/const evaluation capabilities at all, the features we have access to are decent enough.\nThere are four main building blocks for constant evaluation in Rust. The most common method of metaprogramming is the use of macros.\nMacros A macro in rust looks like a function, except that instead of taking values as parameters, and producing a value as an output, it takes code as input and produces replacement code as output.\nIn languages without a deep macro system such as C++, macros are often implemented as simple textual substitutions with no knowledge of the types of syntax accepted.\nIn Rust there are actually 2 different types of macros:\nDeclarative macros - these look a lot like functions in Rust, but are different, and identified as a macro by the little “!” that Rust requires be placed before the opening parenthesis. These are more powerful than macros in C++ for example, but more limited than the second form. Procedural macros - these are compiled in their own separate library and imported to be used, but these have access to the entire Abstract Syntax Tree (AST) that they’re decorating. Whereas declarative macros can only add/expand syntax and can’t remove syntax, proc macros can rewrite the entire item they’re attached to. These are more similar to function decorators in Python. There’s too much to macros to explain here, so i’ll do a separate post on them which will let me explore them deeper myself too. However, for a quick example of a macro, here’s one that can create a HashMap for us:\nmacro_rules! hashmap { // This case handles the logic and is used when the parameter list does NOT // have a trailing comma (e.g. hashmap!(22 =\u003e \"twenty-two\", 35 =\u003e \"thirty-five\")) ($($key:expr =\u003e $value:expr),*) =\u003e { { let mut hm = ::std::collections::HashMap::new(); $(hm.insert($key, $value);)* hm } }; } fn main() { let hm = hashmap!(\"one\" =\u003e 1, \"two\" =\u003e 2, \"three\" =\u003e 3); } Generics Generics allow for complex composite types to be defined that are known in their entirety at compile time, but which the compiler might be able to compile down to a no-op in certain cases. We call these zero-cost abstractions and they’re quite common in Rust. It’s common to define a transparent wrapper around another type, for example:\n#[repr(transparent)] struct NewType\u003cT\u003e(T); // NewType is a wrapper around T In the above snippet we can make a wrapper type, and we can compose it with other generic types as needed to be able to give information to the compiler for reasoning, and then have that entirely compiled away at runtime so there’s no overhead.\nThe next tool in our compile time toolbox in Rust is the const function\nConst function Whereas macros allow us to expand or replace syntax, const functions let us write familiar looking (albeit very restricted) functions in a way that let them be executed at compile time if the parameters are constant.\nIn a macro, the syntax expansion is performed at compile time but the resulting syntax is still only executed at runtime, which allows us to still make use of heap-allocated structures and such.\nIn a const function, the function itself is executed at compile time (if the parameters are constant), but can still be run at runtime (if the parameters are non-constant).\nHowever because we must write the function with the possibility that it’s executing at compile time, we have a whole host of things we can’t make use of. In addition to not being able to heap allocate structures, we can’t for example, make use of trait bounds or traits in a const function.\nDue to these limitations, we have to code in a more low level and possibly unsafe way than we have before, but this is something I’ll be exploring in the upcoming posts.\nAs a simple example, the following is a const function that takes two integers and adds them together:\nconst fn add_together(a: u32, b: u32) -\u003e u32 { a + b } Const keyword The const keyword identifies to the compiler that this is a const context. The left-hand side of a const declaration must explicitly state the type (no type inference). The right-hand side of a const declaration must be entirely calculable at compile time.\nA function written as a const function (as the example add_together function above) can also be invoked at runtime with parameters deduced at runtime, however we can force it to be executed at compile time by introducing a const context as such:\nconst ADDED: u32 = add_together(add_together(1, 2), add_together(3, 4)); The compiler will execute this at compile time and the resulting binary will simply have the result (10) embedded.\nLimitations The limitations of writing code to be executable within a constant context are detailed HERE\nHowever the main limitations are:\nNo heap allocations (no allocator present in the compiler) No floating point operations (floats aren’t reliable enough for use in the compiler) No bounds on generics in const functions No comparing raw pointers (pointers don’t exist in the same way in the compiler) The other big limitation will be that large parts of the standard library aren’t executable in constant contexts and that we will have to find other means to build the same functionality.\nThere are crates that have been developed to add this functionality into a constant context but for the sake of education, we’ll be developing this kind of functionality ourselves into a package called consteval\n",
-  "wordCount" : "1301",
-  "inLanguage": "en",
-  "datePublished": "2021-12-09T21:07:37Z",
-  "dateModified": "2021-12-09T21:07:37Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/rust/consteval/intro/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ One thing to note is that it&rsquo;s not possible to do everything at compile ti
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ One thing to note is that it&rsquo;s not possible to do everything at compile ti
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ One thing to note is that it&rsquo;s not possible to do everything at compile ti
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/">Rust</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/consteval/">Constant Evaluation</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/rust/">Rust</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/rust/consteval/">Constant Evaluation</a></div>
     <h1 class="post-title entry-hint-parent">
       Introduction
     </h1>
@@ -315,7 +241,7 @@ One thing to note is that it&rsquo;s not possible to do everything at compile ti
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

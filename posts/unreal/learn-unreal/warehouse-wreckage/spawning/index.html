@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>7. Spawning | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="We need to be able to spawn new instances of the blueprint class/prefab that we&rsquo;ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.
 Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/">
+<link rel="canonical" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/spawning/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/spawning/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will 
         }
 
     </style>
-</noscript><meta property="og:title" content="7. Spawning" />
-<meta property="og:description" content="We need to be able to spawn new instances of the blueprint class/prefab that we&rsquo;ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.
-Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-04-06T17:33:50+01:00" />
-<meta property="article:modified_time" content="2024-04-06T17:33:50+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="7. Spawning"/>
-<meta name="twitter:description" content="We need to be able to spawn new instances of the blueprint class/prefab that we&rsquo;ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.
-Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Learn Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Project 1: Warehouse Wreckage",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "7. Spawning",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "7. Spawning",
-  "name": "7. Spawning",
-  "description": "We need to be able to spawn new instances of the blueprint class/prefab that we\u0026rsquo;ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.\nAdding a Spawner First of all we\u0026rsquo;ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles.",
-  "keywords": [
-    
-  ],
-  "articleBody": "We need to be able to spawn new instances of the blueprint class/prefab that we’ve created in the previous section in order to be able to have it act as a projectile for a physics based game. Luckily Unreal makes this easy enough to do.\nAdding a Spawner First of all we’ll add a spawner to the level. This will be an invisible Actor which is only present to be able to get the transform from which to spawn the projectiles.\nThis can be added to the scene in the same way as we’ve added other actors in the past.\nI’ll rename this as Spawner in the outliner.\nWe can add a reference to this spawner into the level blueprint as we have previously with the cube actor.\nSpawning the Projectile The node we will be invoking when the space bar is pressed, in order to spawn a projectile instance is called Spawn Actor From Class as shown below, and can be hooked off the Pressed pin since we want to fire a projectile when the space bar is pressed.\nWe need to do a couple of things (circled in the image below):\nWe need to specify which blueprint class we’re spawning, using the Class drop down. We need to pass in a transform to spawn the instance at. We get this using the Get Actor Transform node on the spawner. Additionally we then want to apply the upwards velocity change to the spawned instance. The full graph looks as follows\nResults Running the game we can see that as the projectile spawns in, it’s given an upward velocity and then falls down due to gravity.\n",
-  "wordCount" : "276",
-  "inLanguage": "en",
-  "datePublished": "2024-04-06T17:33:50+01:00",
-  "dateModified": "2024-04-06T17:33:50+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/spawning/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
     <h1 class="post-title entry-hint-parent">
       7. Spawning
     </h1>
@@ -265,7 +185,7 @@ Adding a Spawner First of all we&rsquo;ll add a spawner to the level. This will 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

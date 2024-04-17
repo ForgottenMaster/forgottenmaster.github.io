@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4. Surface | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
 Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
 Surface extensions We could manually detect the platform we&rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/surface/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/surface/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,83 +57,7 @@ Surface extensions We could manually detect the platform we&rsquo;re compiling o
         }
 
     </style>
-</noscript><meta property="og:title" content="4. Surface" />
-<meta property="og:description" content="The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
-Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
-Surface extensions We could manually detect the platform we&rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-18T12:08:01+00:00" />
-<meta property="article:modified_time" content="2023-02-18T12:08:01+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4. Surface"/>
-<meta name="twitter:description" content="The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.
-Instead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.
-Surface extensions We could manually detect the platform we&rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:"/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "4. Surface",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4. Surface",
-  "name": "4. Surface",
-  "description": "The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.\nInstead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.\nSurface extensions We could manually detect the platform we\u0026rsquo;re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:",
-  "keywords": [
-    
-  ],
-  "articleBody": "The next thing we need to set up is called a surface. Since Vulkan does not interact directly with the windowing system in use, due to OS differences etc.\nInstead, Vulkan uses a common API to interact with a surface, and then uses extensions on a per platform basis to handle the differences of actually creating this surface type.\nSurface extensions We could manually detect the platform we’re compiling on, and then enable the appropriate extension through the Vulkan API, for example we could do:\n#[cfg(target_os=\"windows\")] { Win32Surface::new(\u0026entry, \u0026instance).create_win32_surface(\u0026win_creation_info, None) } #[cfg(target_os=\"linux\")] { XlibSurface::new(\u0026entry, \u0026instance).create_xlib_surface(\u0026xlib_creation_info, None) } // and more However, this is tedious and cumbersome, so instead what we can use, as we’ll see soon is a function that does this for us in our ash_window glue crate…create_surface\nCreating our surface In order to create our surface, as mentioned above, we’ll use the function create_surface which handles the platform differences for us!.\nAll we need to do is call the function with a Vulkan entry point, Vulkan instance, and valid window and display handles which we can get from our winit::Window.\nWe’ll bundle this logic up into a little function of our own called create_surface which just lets the caller (main) pass slightly fewer parameters, and adds context/converts the return type to an anyhow::Result.\n/// # Safety /// This function is unsafe because we can't guarantee that the resulting surface doesn't outlive Instance /// which is a precondition violation - surface should be destroyed before the instance that created it. unsafe fn create_surface( entry: \u0026Entry, instance: \u0026Instance, window: \u0026Window, ) -\u003e Result\u003cSurfaceKHR\u003e { let display_handle = window.raw_display_handle(); let window_handle = window.raw_window_handle(); ash_window::create_surface(entry, instance, display_handle, window_handle, None) .context(\"Error while creating a surface to use.\") } As mentioned in the safety comment, this function is marked as unsafe because we require that the surface does not outlive the instance, which is something we can’t check, nor control in this function. The responsibility lies with main to ensure that the order of destruction is correct.\nIn order to call it, therefore we extend the “unsafe” block in main so that it covers the entire duration of the surface being called, to the cleanup having finished. The cleanup function is a safe function so destroys things in the correct order.\nDestroying the surface We then need to remember to pass the surface to the cleanup function to make sure it gets destroyed (before the instance). Cleanup function now looks like this (note we need to pass the Entry point so we can access the Surface extension methods/function pointers):\nfn cleanup( instance: Instance, device: Device, debug_utils: DebugUtils, messenger: DebugUtilsMessengerEXT, surface_ext: Surface, surface: SurfaceKHR, ) { unsafe { device.destroy_device(None); debug_utils.destroy_debug_utils_messenger(messenger, None); surface_ext.destroy_surface(surface, None); instance.destroy_instance(None); } } Checking for presentation queues We need to check that the physical device we’re selecting actually has support for presenting to a surface, as we’ll need to use a queue from a family with the presentation capabilities when we come to making our swapchain.\nNow that we’ve got to track two family indices and we want two queues for commands, we need to change the struct containing our family indices to hold Option’s instead. We’ll also add a method to check if the indices set is complete\nstruct QueueFamilyIndices { graphics_family: Option\u003cu32\u003e, presentation_family: Option\u003cu32\u003e, } impl QueueFamilyIndices { fn is_complete(\u0026self) -\u003e bool { self.graphics_family.is_some() \u0026\u0026 self.presentation_family.is_some() } } We do need to route through the Surface extension object to access the functions relating to this extension, because we’ll be using one of them to check if the physical device queue family supports presentation to our surface.\nWe change the get_queue_family_indices function to initialise the struct holding the indices such that it’s not holding anything initially:\nlet mut queue_family_indices = QueueFamilyIndices { graphics_family: None, presentation_family: None, }; As we’re iterating over the queue families on the device, we’ll set the appropriate index to Some if it matches. The graphics queue family index as before:\nif props.queue_count \u003e 0 \u0026\u0026 props.queue_flags.contains(vk::QueueFlags::GRAPHICS) { queue_family_indices.graphics_family = Some(idx as u32); } And then, for the presentation queue family index, we can use the extension method get_physical_device_surface_support which returns a VkResult if it fails. In the case of it failing we’ll count that as no support for that family. Therefore the check looks as follows:\nif let Ok(surface_supported) = unsafe { surface_ext.get_physical_device_surface_support(device, idx as u32, surface) } { if surface_supported { queue_family_indices.presentation_family = Some(idx as u32); } } After performing both checks and setting if applicable, it might be the case our set of indices is complete - in which case it’s fine for this physical device:\nif queue_family_indices.is_complete() { return Some(queue_family_indices); } Creating the second queue type Now we have the index of the family to use for presentation, we need to tell Vulkan to create us a queue from that family. However, it could be (and probably is) the case that the graphics queue family also supports presentation, so we need to handle duplicate families being used for the same role.\nFirst we add the second handle to our struct storing the queue handles:\nstruct QueueHandles { graphics_queue: vk::Queue, presentation_queue: vk::Queue, } We can look up the presentation queue after creation the same way as we did with the graphics queue with:\npresentation_queue: unsafe { device.get_device_queue(queue_family_indices.presentation_family.unwrap(), 0) } However for creating the logical device, and telling Vulkan to create us our queues we don’t want to request two different queues if the family happens to be the same. To handle this case, we can make a vector of queue families and deduplicate, then create a queue create info for whichever ones are left after deduplication.\nTherefore we do this:\nlet mut indices = vec![ queue_family_indices.graphics_family.unwrap(), queue_family_indices.presentation_family.unwrap(), ]; indices.dedup(); let infos = indices .into_iter() .map(|idx| { *vk::DeviceQueueCreateInfo::builder() .queue_family_index(idx) .queue_priorities(\u0026[1.0]) }) .collect::\u003cVec\u003c_\u003e\u003e(); And then pass them into the device creation info:\nlet device = unsafe { instance.create_device( physical_device, \u0026vk::DeviceCreateInfo::builder().queue_create_infos(\u0026infos), None, ) }?; Enabling device extensions We will require the VK_KHR_swapchain device extension to be enabled when we create the Vulkan device in order to be able to use swapchain functionality to present images to the surface.\nWe will need to take this into consideration when selecting a PhysicalDevice to work with, so that we only select from those devices that support the swapchain extension. Additionally, we will need to tell Vulkan to enable these when we create the logical device.\nThe first thing we need to do is to define them in an array, which we can do with the CStr type that is then safe to work with in the other functions. We’ll go ahead and use unsafe to safely construct a CStr from a null-terminated byte string:\nlet device_extensions = [unsafe { CStr::from_bytes_with_nul_unchecked(b\"VK_KHR_swapchain\\0\") }]; We need to pass this through to get_physical_device and create_logical_device.\nFor getting a physical device we need to ensure the physical device we choose actually supports the extension, so we change the code to add an additional check here:\nlet has_required_extensions = validate_required_device_extensions(instance, physical_device, required_extensions)?; if has_required_extensions { return Ok((physical_device, queue_family_indices)); } The validate_required_device_extensions function is the same as the other ones we’ve been writing except this time I decided to write it as a safe function that takes a slice of CStr references and handle the unsafety inside the function…..no particular reason, but having safe APIs is normally better.\nThe function itself just gets the supported device extensions for a physical device and checks to make sure our required ones are in there. The difference is that there can be multiple PhysicalDevices in a machine, and not having a required extension isn’t an immediate issue, we just pass over that physical device - so we don’t return Err explicitly this time, only when a Vulkan API call changes:\nfn validate_required_device_extensions( instance: \u0026Instance, physical_device: vk::PhysicalDevice, required_extensions: \u0026[\u0026CStr], ) -\u003e Result\u003cbool\u003e { { unsafe { let device_extension_properties = instance.enumerate_device_extension_properties(physical_device)?; let available_extensions = device_extension_properties .iter() .map(|prop| CStr::from_ptr(prop.extension_name.as_ptr())) .collect::\u003cHashSet\u003c_\u003e\u003e(); for required_extension in required_extensions { if !available_extensions.contains(required_extension) { return Ok::\u003c_, Error\u003e(false); } } } Ok::\u003c_, Error\u003e(true) } .context(\"Error in validate_required_device_extensions.\") } The second time we need the extensions are when creating the logical device. However in that case, we do need to extract the raw pointers from the CStrs since the builder for creating a new Vulkan device is taking a \u0026[*const i8] rather than a \u0026[\u0026CStr]. We can’t transmute the memory directly unfortunately so we need to create a secondary collection with the transformed pointers. Then we add them to the device create info:\nlet device = unsafe { let required_extensions = required_extensions .iter() .map(|cstr| cstr.as_ptr()) .collect::\u003cVec\u003c_\u003e\u003e(); instance.create_device( physical_device, \u0026vk::DeviceCreateInfo::builder() .queue_create_infos(\u0026infos) .enabled_extension_names(\u0026required_extensions), None, ) }?; Getting surface information Another thing we need to do is to get information about the surface capabilities of the physical device so that we can make use of that information when we need to set up a swap chain.\nWe’ll first create a struct to hold the information. The information we’ll keep hold of is:\nThe available formats for data on the surface (e.g. RGBA) The avalable presentation modes for strategies and timings of when the image swapping in a swapchain actually happens The assorted capabilities of the surface such as maximum number of images, minimum number, etc. The struct looks as follows. We also add an is_valid method that ensures there’s at least 1 supported format and presentation mode:\nstruct SurfaceInfo { present_modes: Vec\u003cPresentModeKHR\u003e, surface_formats: Vec\u003cSurfaceFormatKHR\u003e, surface_capabilities: SurfaceCapabilitiesKHR, } impl SurfaceInfo { fn is_valid(\u0026self) -\u003e bool { !self.present_modes.is_empty() \u0026\u0026 !self.surface_formats.is_empty() } } We’ll look up all of these things in a function called get_surface_info which calls the functions to retrieve the information through unsafe code. The function itself will return a Result because it’s fallible (each of the FFI calls returns a VkResult so they’re fallible). But there’s nothing surprising about it:\nfn get_surface_info( surface_ext: \u0026Surface, physical_device: vk::PhysicalDevice, surface: SurfaceKHR, ) -\u003e Result\u003cSurfaceInfo\u003e { { let present_modes = unsafe { surface_ext.get_physical_device_surface_present_modes(physical_device, surface) }?; let surface_capabilities = unsafe { surface_ext.get_physical_device_surface_capabilities(physical_device, surface) }?; let surface_formats = unsafe { surface_ext.get_physical_device_surface_formats(physical_device, surface) }?; Ok::\u003c_, Error\u003e(SurfaceInfo { present_modes, surface_capabilities, surface_formats, }) } .context(\"Error when trying to get surface information for a physical device.\") } ",
-  "wordCount" : "1672",
-  "inLanguage": "en",
-  "datePublished": "2023-02-18T12:08:01Z",
-  "dateModified": "2023-02-18T12:08:01Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/surface/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -151,7 +75,7 @@ Surface extensions We could manually detect the platform we&rsquo;re compiling o
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -179,17 +103,17 @@ Surface extensions We could manually detect the platform we&rsquo;re compiling o
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -200,7 +124,7 @@ Surface extensions We could manually detect the platform we&rsquo;re compiling o
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       4. Surface
     </h1>
@@ -461,7 +385,7 @@ Surface extensions We could manually detect the platform we&rsquo;re compiling o
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

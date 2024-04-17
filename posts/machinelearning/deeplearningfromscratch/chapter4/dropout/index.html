@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4.6 - Dropout | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Out of all the modifications for neural networks we&rsquo;ve covered in order to try to get the network to train the problem &ldquo;better&rdquo;, we haven&rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
 Introduction Adding more neurons to the network can take one of two forms:
 Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &ldquo;learned feature&rdquo; that the network deems important.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,89 +57,7 @@ Adding more neurons to a hidden layer in the network (expanding wide) Adding mor
         }
 
     </style>
-</noscript><meta property="og:title" content="4.6 - Dropout" />
-<meta property="og:description" content="Out of all the modifications for neural networks we&rsquo;ve covered in order to try to get the network to train the problem &ldquo;better&rdquo;, we haven&rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
-Introduction Adding more neurons to the network can take one of two forms:
-Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &ldquo;learned feature&rdquo; that the network deems important." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-07T02:11:16+01:00" />
-<meta property="article:modified_time" content="2022-05-07T02:11:16+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4.6 - Dropout"/>
-<meta name="twitter:description" content="Out of all the modifications for neural networks we&rsquo;ve covered in order to try to get the network to train the problem &ldquo;better&rdquo;, we haven&rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.
-Introduction Adding more neurons to the network can take one of two forms:
-Adding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some &ldquo;learned feature&rdquo; that the network deems important."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4.6 - Dropout",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4.6 - Dropout",
-  "name": "4.6 - Dropout",
-  "description": "Out of all the modifications for neural networks we\u0026rsquo;ve covered in order to try to get the network to train the problem \u0026ldquo;better\u0026rdquo;, we haven\u0026rsquo;t actually tried what people would think is the most obvious - adding more neurons to the network.\nIntroduction Adding more neurons to the network can take one of two forms:\nAdding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some \u0026ldquo;learned feature\u0026rdquo; that the network deems important.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Out of all the modifications for neural networks we’ve covered in order to try to get the network to train the problem “better”, we haven’t actually tried what people would think is the most obvious - adding more neurons to the network.\nIntroduction Adding more neurons to the network can take one of two forms:\nAdding more neurons to a hidden layer in the network (expanding wide) Adding more hidden layers to the network (expanding long) More neurons means more parameters in the network that can be tweaked - if you recall, each weight is a contribution to the overall prediction and a set of neurons in the network can represent some “learned feature” that the network deems important.\nWith a linear regression, we only have a single neuron which means only a single parameter we can tweak in order to change the prediction. It’s clear that there are some numbers in a linear regression that just can’t possibly be made because we only have a single multiplier and bias term (y = mx + c).\nSo if fewer data points means that the network is less accurate then surely adding more neurons to the network means it will be more accurate, right?\nWell….yes, and no. It’s true that more neurons means we can model more complex graphs, however it’s also true that the network will overfit to the training data, and not perform very well at all when used on testing data, or “in the wild”.\nDropout is a way to let us add additional capacity (extra neurons) to the network, while also making it less likely that the network overfits the training data.\nWhat is dropout? How do we avoid the network overfitting the training data?. We simply need to randomly set neurons in the network back to 0, or remove their contribution from the predictions in each epoch.\nThe intuition here is that it prevents a neuron’s weight from “locking on” to a particular value and keeping it for the entirety of training. When we set a neuron’s weight back to 0 then it must recalculate it from other neurons in the network in the optimisation step.\nThis continuous set back of random neurons, and their subsequent recalculation from other neurons means that the network ends up not overfitting (or at least less likely). After all, how can you overfit the data if you keep changing?\nOne thing to remember though, is when we’re making predictions for the purposes of testing, or when being used in the wild to predict using a trained network - we do not want to use dropout, since that changes the state of the network that we’ve worked so hard to train!\nHowever, during training, dropout ends up reducing the total magnitude of the values that are output from the layer by an average of (1-p) where p is the probability of dropping the neuron.\nThis makes sense, because when we dropout a neuron and set it to 0, the entire contribution to the weighted sum from that neuron is dropped to 0. The total weighted sum from the layer which was calculated from M neurons is now only calculated from \\(M \\times (1 - p)\\) neurons. When averaging this, it means that if the chance of dropout is 30% for example, it means that 30% of the overall sum passing forward is reduced by 30%.\nTherefore, when we’re making predictions, we want to not drop out the neuron, but we do want to simulate this reduction in magnitude so as to keep the values going forward at the expected range to not give false answers. We’ll do that by allowing the caller to specify they’re using inference mode, and we’ll just simulate the dropout by multiplying the whole output by the keep probability.\nImplementing Dropout In order to implement dropout, we’ll create a BasicOperation that is tacked onto the end of the operation sequence of the layer when we create the layer.\nHowever there is a minor problem, as we’ll soon see that will require a little refactor to our code in order to allow operations to retain state.\nUp until now, our operations were stateless and have just been used as a vtable, however in order for us to apply the same dropout mask as calculated in the forward pass (remember this is generated randomly each forward pass), we’ll need to make operations mutable.\nMaking Operation’s forward and backward passes mutable In order for us to allow implementations of operations to store state in their forward pass for use during their backward pass, we will need to change the trait implementation for our BasicOperation and ParameterOperation traits such that they look as follows:\npub trait BasicOperation\u003cT\u003e: BasicOperationClone\u003cT\u003e { fn calculate_output(\u0026mut self, input: \u0026Array\u003cT, Ix2\u003e) -\u003e Array\u003cT, Ix2\u003e; fn calculate_input_gradient( \u0026mut self, output_gradient: \u0026Array\u003cT, Ix2\u003e, input: \u0026Array\u003cT, Ix2\u003e, ) -\u003e Array\u003cT, Ix2\u003e; } pub trait ParameterOperation\u003cT\u003e: ParameterOperationClone\u003cT\u003e { fn calculate_output(\u0026mut self, input: \u0026Array\u003cT, Ix2\u003e, parameter: \u0026Array\u003cT, Ix2\u003e) -\u003e Array\u003cT, Ix2\u003e; fn calculate_input_gradient( \u0026mut self, output_gradient: \u0026Array\u003cT, Ix2\u003e, input: \u0026Array\u003cT, Ix2\u003e, parameter: \u0026Array\u003cT, Ix2\u003e, ) -\u003e Array\u003cT, Ix2\u003e; fn calculate_parameter_gradient( \u0026mut self, output_gradient: \u0026Array\u003cT, Ix2\u003e, input: \u0026Array\u003cT, Ix2\u003e, parameter: \u0026Array\u003cT, Ix2\u003e, ) -\u003e Array\u003cT, Ix2\u003e; } That is, we simply need to change \u0026self to \u0026mut self in the calculation functions however this has the knock on effect then of requiring that all implementations are updated to the new signature (changing a trait is a breaking change in Rust).\nI won’t show that here, but again it’s just a case of changing all the \u0026self’s to \u0026mut self.\nThis has the unfortunate knock on effect of requiring that the Operation struct is also updated, this is because it will be calling these methods, which previously were able to be called on an immutable reference. Now, however it will need a mutable object to be able to call them, so we need to update Operation also.\nAgain, this is a simple enough change to not show here.\nIdentifying “inference” mode Up until now, when we go through the forward pass, we have no idea if we’re in training mode or inference mode. However for the dropout operation we will be required to know if we’re in training or inference mode.\nThis is because, as mentioned previously when we’re training the network, we want fully fledged dropout of neurons, however when we’re only in inference mode we don’t actually want to do any changes to the network, but still need to simulate the dropout.\nTo do this, we will firstly create an enum indicating the mode that we’re in. We could use a boolean for this as there’s only two states, however using an enumeration is more typesafe and more readable at the call site (it’s better to see Mode.Inference instead of just “true”).\n#[derive(Clone, Copy, PartialEq)] pub enum Mode { Training, Inference, } We will need to take the correct mode into the Network.forward method, since we only require the forward pass to be aware of what mode we’re operating in. We have three “entry point” functions when interacting with the Network. These are:\nforward - Called on a fully trained network to produce predictions. Should always run in inference mode train - Called when we are training the network (performs a forward and backward pass). Always runs in training mode forward_loss - Called both by training and also by examples on a trained network to see the loss values. Can run in both modes Therefore we will move the contents into a helper function (inner_forward) which will take a Mode and can be called by both forward_loss and forward, passing the appropriate mode. We change forward to call this with a fixed mode of Inference, and change train to call it with a fixed mode of Training. forward_loss changes to take a Mode and pass it along. These 4 relevant functions now look as follows:\npub fn train(\u0026mut self, batch: Array\u003cT, Ix2\u003e, targets: Array\u003cT, Ix2\u003e) -\u003e T { let (_, loss) = self.forward_loss(batch, targets, Mode::Training); self.backward(); loss } pub fn forward(\u0026mut self, batch: Array\u003cT, Ix2\u003e) -\u003e Array\u003cT, Ix2\u003e { self.inner_forward(batch, Mode::Inference) } pub fn forward_loss( \u0026mut self, batch: Array\u003cT, Ix2\u003e, targets: Array\u003cT, Ix2\u003e, mode: Mode, ) -\u003e (Array\u003cT, Ix2\u003e, T) { let predictions = self.inner_forward(batch, mode); let loss = self.loss.forward(predictions.clone(), targets); (predictions, loss) } fn inner_forward(\u0026mut self, batch: Array\u003cT, Ix2\u003e, mode: Mode) -\u003e Array\u003cT, Ix2\u003e { self.layers .iter_mut() .fold(batch, |state, layer| layer.forward(\u0026state)) } Next we will need to pass this along to the forward method of the Layer type inside inner_forward. Updating the code here is simple enough, we simply pass the mode into the layer.forward call.\nHowever as you might have guessed, this doesn’t compile!. Layer::forward is not expecting a second parameter, so we will need to make sure we add one:\n// Layer::forward pub fn forward(\u0026mut self, input: \u0026Array\u003cT, Ix2\u003e, mode: Mode) -\u003e Array\u003cT, Ix2\u003e { // rest of the code is the same here } We’re one level deeper now, we need to thread this inference mode down to the next lowest level which is into the individual operations themselves, which we can do inside the Layer::forward method when we’re going over the operations. Adding this gives us a compile error once more, due to Operation::forward not expecting this parameter. So we add it:\n// Operation::forward pub fn forward(\u0026mut self, input: \u0026Array\u003cT, Ix2\u003e, mode: Mode) -\u003e Array\u003cT, Ix2\u003e { // rest of code stays the same } Finally, we need to thread this mode into the calculate_output function on the BasicOperation or ParameterOperation trait object. However, you guessed it!, we need to update those traits to take the mode as a parameter into the calculate_output function:\n// BasicOperation fn calculate_output(\u0026mut self, input: \u0026Array\u003cT, Ix2\u003e, mode: Mode) -\u003e Array\u003cT, Ix2\u003e; // ParameterOperation fn calculate_output( \u0026mut self, input: \u0026Array\u003cT, Ix2\u003e, parameter: \u0026Array\u003cT, Ix2\u003e, mode: Mode ) -\u003e Array\u003cT, Ix2\u003e; As a result, we need to update all implementors to satisfy the new signature, but I won’t show that here.\nWith that, we’re finally done!, we are now able to specify the operating mode to the Network and it’s correctly passed down all the way to the individual operations. We can finally implement the Dropout operation!\nThe dropout operation We’ll implement the dropout operation as a BasicOperation that we will tack onto the end of the appropriate layers, and with the above changes should be pretty easy to implement. We will need to store some internal state however. Namely, we need to record the generated random mask from the forward pass that we use to drop out some of the neurons so that we can drop the associated gradients on the backward pass (the gradient associated with an input we nullify shouldn’t be passed back in the network).\nWe will also need to specify the proportion of the neurons that are kept which is the multiplier we use in inference mode, but also lets us generate the random mask in training mode.\nThe struct definition itself is pretty simple:\n#[derive(Clone)] pub struct Dropout\u003cT\u003e { mask: Array\u003cT, Ix2\u003e, keep_probability: T, seed: Option\u003cu64\u003e } Note that we also include the ability to specify a seed for the RNG to generate the mask. This is required for testing purposes as this is the only operation with a random element so we need to make sure we can handle a seed being passed.\nAs with the other operations, we will want to work with boxed versions of this type so as to be able to use it in the list of operations setup by our layer setup. Therefore we add a new_boxed method to produce a new Dropout instance. We will also add a new_boxed_with_seed function that specifies a seed for RNG also.\nimpl\u003cT: Default\u003e Dropout\u003cT\u003e { pub fn new_boxed(keep_probability: T) -\u003e Box\u003cSelf\u003e { Box::new(Self { mask: Default::default(), keep_probability, seed: None, }) } pub fn new_boxed_with_seed(keep_probability: T, seed: u64) -\u003e Box\u003cSelf\u003e { Box::new(Self { mask: Default::default(), keep_probability, seed: Some(seed), }) } } Note that we do require Default on elements of type T in order to use default on Array, even if we’re creating an array of size 0, just because there seems to be no “empty” constructor to construct a new, empty array and Default is only implemented for Array in the case that the element type is also Default.\nNow we just need to implement the BasicOperation trait for our Dropout type.\nAs far as trait bounds go, we will need the signature to look as follows:\nimpl\u003c T: 'static + Clone + Mul\u003cOutput = T\u003e + One + PartialOrd + SampleUniform + ScalarOperand + Zero, \u003e BasicOperation\u003cT\u003e for Dropout\u003cT\u003e where Standard: Distribution\u003cT\u003e, { // implementation follows } The explanations for these are below:\n‘static - This is required because to be able to be clonable by the BasicOperationClone supertrait we need the elements to be of type T. The other operations so far have been empty, so the lifetime of T doesn’t matter as we never store any, and the operation type is ‘static. However for this one we store a mask of T’s and so we need to explicitly say T has to be ‘static for our type overall to be ‘static. Clone - This is required also for the cloning behaviour, we need T to be clonable so we can be clonable. Mul",
-  "wordCount" : "3707",
-  "inLanguage": "en",
-  "datePublished": "2022-05-07T02:11:16+01:00",
-  "dateModified": "2022-05-07T02:11:16+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/dropout/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -157,7 +75,7 @@ Adding more neurons to a hidden layer in the network (expanding wide) Adding mor
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -185,17 +103,17 @@ Adding more neurons to a hidden layer in the network (expanding wide) Adding mor
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -206,7 +124,7 @@ Adding more neurons to a hidden layer in the network (expanding wide) Adding mor
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
     <h1 class="post-title entry-hint-parent">
       4.6 - Dropout
     </h1>
@@ -569,7 +487,7 @@ Accuracy (testing): 87.434%
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

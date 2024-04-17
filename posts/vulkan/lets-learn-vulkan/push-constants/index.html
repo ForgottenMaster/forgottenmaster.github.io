@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>15. Push Constants | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/push-constants/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/push-constants/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,79 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="15. Push Constants" />
-<meta property="og:description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-04-30T14:56:27+01:00" />
-<meta property="article:modified_time" content="2023-04-30T14:56:27+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="15. Push Constants"/>
-<meta name="twitter:description" content="Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "15. Push Constants",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "15. Push Constants",
-  "name": "15. Push Constants",
-  "description": "Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Although dynamic UBOs allow us to keep all the model matrices together for our entities, in order to update the data in them we need to map the memory, write to the memory, and unmap the memory. This process of writing to memory is particularly slow and for frequently changing data (like a model matrix for our spinning cubes), it is too much of an overhead. However, Vulkan gives us a pathway to a small amount of fast memory which we can put our model matrices into. These are called Push Constants.\nPush Constants A push constant is a very small object similar to a UBO however it has the following properties:\n128 byte maximum in most cases Can only have 1 push constant per shader Requires re-recording the command buffer if the data changes This last point is most important - since this is where it differs from a traditional UBO. With a regular UBO, the command buffer records the buffer in use, and offsets/strides to be used - however the data inside the buffer is able to be changed at any time by the application without re-recording the command buffer.\nHowever a push constant directly records the data to be passed to the GPU into the command buffer itself. This necessitates a re-recording of the command buffer whenever the data changes (in our case each frame).\nThis may sound like a lot of overhead, and an expensive task to re-record the command buffer, however in Vulkan such an operation is actually really fast, since it’s only recording the operations to be executed,and not actually executing them - until the command buffer is submitted to a queue.\nResettable/Re-recordable Command Buffers By default, any command buffers that come out of the command buffer pool are configured to be only recorded once - and then submitted multiple times. Attempting to record a command buffer that was previously recorded is an error, however Vulkan allows us to opt-in to this ability.\nAll we need to do is to simply pass a flag to the command buffer pool creation to let Vulkan know we are intending to reset and re-record the buffers obtained from it. This uses the RESET_COMMAND_BUFFER flag and the code for pool creation looks thus\nfn create_command_pool(device: \u0026Device, queue_family_index: u32) -\u003e Result\u003cCommandPool\u003e { unsafe { device .create_command_pool( \u0026CommandPoolCreateInfo::builder() .flags(CommandPoolCreateFlags::RESET_COMMAND_BUFFER) .queue_family_index(queue_family_index), None, ) .context(\"Failed to create a command pool.\") } } Then, when we tell Vulkan we’re beginning to record the command buffer, it will perform a reset for us first.\nWe do need to change the function that records the command buffers though. Previously we were recording all the command buffers for the frames, and the function didn’t have a way to record only some of them. We modify the function to take in the current image index to operate on.\nWe don’t need to record the command buffers up front now - instead just recording a particular frame’s command buffer before drawing it which we can do with a call to the record_command_buffer function and passing in the current index\nrecord_command_buffers( \u0026device, command_buffers, framebuffers, render_pass, swapchain_extent, graphics_pipeline, \u0026meshes, \u0026descriptor_sets, pipeline_layout, image_index as usize, )?; UBO =\u003e Push Constant Next, we need to update both the vertex shader and the code to reflect that we’re now using a push constant instead of a UBO. For the shader, this change is necessary and results in the following declaration\nlayout(push_constant) uniform PushModel { mat4 model; } m; Notice that instead of a binding number, we have the keyword push_constant in the layout declaration. This is because, as mentioned previously we can have only a single push constant per shader, so it doesn’t need a binding number. This is the push constant for this vertex shader.\nUpdating the name of the data in code however isn’t required because the structure of the object is the same. However we will change the name UboModel to PushModel for clarity\n#[repr(C)] struct PushModel(Mat4); struct Mesh { vertex_buffer: Buffer, vertex_buffer_memory: DeviceMemory, index_buffer: Buffer, index_buffer_memory: DeviceMemory, index_count: usize, push_model: PushModel, } Updating Descriptors Since we’re no longer using a separate UBO for the model data and are using a push constant instead, we will need to remove the dynamic UBO definition from our descriptor set.\nThe first thing is to change the layout so that we are only binding a single UBO again (for the projection and view matrices)\nfn create_descriptor_set_layout(device: \u0026Device) -\u003e Result\u003cDescriptorSetLayout\u003e { unsafe { device .create_descriptor_set_layout( \u0026DescriptorSetLayoutCreateInfo::builder().bindings(\u0026[ *DescriptorSetLayoutBinding::builder() .descriptor_type(DescriptorType::UNIFORM_BUFFER) .descriptor_count(1) .stage_flags(ShaderStageFlags::VERTEX), ]), None, ) .context(\"Failed to create a descriptor set layout.\") } } Likewise, we don’t actually need to tell the descriptor pool to allocate these dynamic UBO descriptors as they’re not used. The pool will therefore go back to using only a single descriptor type for our UBOs\nfn create_descriptor_pool(device: \u0026Device, count: u32) -\u003e Result\u003cDescriptorPool\u003e { unsafe { device .create_descriptor_pool( \u0026DescriptorPoolCreateInfo::builder() .max_sets(count) .pool_sizes(\u0026[ *DescriptorPoolSize::builder() .ty(DescriptorType::UNIFORM_BUFFER) .descriptor_count(count), ]), None, ) .context(\"Failed to create a descriptor pool.\") } } Finally the pipeline layout needs to be updated to be compatible with our push constants. Specifically, we need to tell Vulkan what the push constant ranges are that we are using.\nA PushConstantRange will let Vulkan know, for each range:\nWhich shader stage(s) that push constant data is used for The offset of the data for those stage(s) - this is the offset in bytes from the beginning of the block of data pushed to Vulkan The size of the data used for those stage(s) In our case, we have:\nPush constant data is only accessible by the vertex shader stage We will start pulling the data from the beginning of the block (offset 0) We will use a number of bytes equal to the size of our PushModel structure In code then, when setting up the pipeline layout and specifying this range, we have what looks as follows\nfn create_pipeline_layout( device: \u0026Device, set_layouts: \u0026[DescriptorSetLayout], ) -\u003e Result\u003cPipelineLayout\u003e { unsafe { device.create_pipeline_layout( \u0026PipelineLayoutCreateInfo::builder() .set_layouts(set_layouts) .push_constant_ranges(\u0026[*PushConstantRange::builder() .stage_flags(ShaderStageFlags::VERTEX) .size(std::mem::size_of::\u003cPushModel\u003e() as u32)]), None, ) } .context(\"Error trying to create a pipeline layout.\") } Recording the Command Buffer Finally everything is set up! just to recap:\nThe vertex shader is set up to use a push constant data block The pipeline layout knows the format of the push constant data to pass to the vertex shader Descriptor sets no longer allocate the dynamic UBOs for our model matrices Now we just need to record the push constant data into the command buffer. We re-record the command buffer each frame, just before submitting it to the queue for presentation.\nWhen we record the command buffer we can use the cmd_push_constants command to provide the data to be used for push constants.\nIn our case we’ll get the push_model from the mesh, and interpret it as a \u0026[u8] slice which is what Ash is expecting to receive.\nThe amount of bytes will be the size of PushModel again and in Rust we can use the std::slice::from_raw_parts function to get a slice with a particular length. The whole code for that is as below\nlet push_constant_ptr = \u0026mesh.push_model as *const PushModel as *const u8; let push_constant_size = std::mem::size_of::\u003cPushModel\u003e(); let push_constant_bytes = std::slice::from_raw_parts(push_constant_ptr, push_constant_size); device.cmd_push_constants( command_buffer, pipeline_layout, ShaderStageFlags::VERTEX, 0, push_constant_bytes, ); And then re-running the application we can see it works the same! However it’s now using the much faster memory to push the model matrices to the shader instead.\n",
-  "wordCount" : "1225",
-  "inLanguage": "en",
-  "datePublished": "2023-04-30T14:56:27+01:00",
-  "dateModified": "2023-04-30T14:56:27+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/push-constants/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -145,7 +73,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -173,17 +101,17 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -194,7 +122,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       15. Push Constants
     </h1>
@@ -383,7 +311,7 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

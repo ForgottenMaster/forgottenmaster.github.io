@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>2. Level Blueprint | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.
 Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/">
+<link rel="canonical" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder i
         }
 
     </style>
-</noscript><meta property="og:title" content="2. Level Blueprint" />
-<meta property="og:description" content="After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.
-Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-04-06T12:25:17+01:00" />
-<meta property="article:modified_time" content="2024-04-06T12:25:17+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2. Level Blueprint"/>
-<meta name="twitter:description" content="After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.
-Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Learn Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Project 1: Warehouse Wreckage",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "2. Level Blueprint",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "2. Level Blueprint",
-  "name": "2. Level Blueprint",
-  "description": "After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.\nDuplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost.",
-  "keywords": [
-    
-  ],
-  "articleBody": "After setting up the project and getting used to the editor, the next thing to do is to start getting comfy with the blueprint graph editor, and hook up some basic nodes to see how it all works. However, there is one thing that we will need to do from UE version 5.1 and onwards.\nDuplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder is re-initialised on startup and any changes would be lost. Therefore in order to edit one of the existing maps which we’ll do for testing purposes, we’ll first need to duplicate the Minimal_Default map which can be done by right-clicking it in the Content Drawer and choosing to duplicate.\nNext we’ll create a new folder in the Content folder which is also easy enough from the right-click menu.\nI’ve created a CustomContent folder, with a Maps folder underneath to mimic the structure of the StarterContent.\nWe can then drag-n-drop the map from the StarterContent/Maps folder into the CustomContent/Maps folder\nThen double-click the newly duplicated map to open it for editing - we’ll work with that for now!\nAdding the First Node Open up the level blueprint as explained at the end of the last section, and right-click to get the node selection dialog.\nWe can search for a node by text, then click on it to drop it into the graph.\nIn the above image, I am searching for the Print String node, adding it to the graph, and then change the string that is printed by clicking on the box on the node itself.\nAdding an Event Node The entry points into the Event Graph are (as the name implies), the event nodes. There are a lot of different event nodes, but for testing purposes right now, will just use the node called BeginPlay.\nThat can be hooked up by clicking on the event node’s output pin, and dragging to connect it to the print node’s input pin as shown in the diagram above.\nResult Now when we click play to run the level, we can see the debug string printed in the top left corner\n",
-  "wordCount" : "354",
-  "inLanguage": "en",
-  "datePublished": "2024-04-06T12:25:17+01:00",
-  "dateModified": "2024-04-06T12:25:17+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/level-blueprint/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder i
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder i
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder i
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
     <h1 class="post-title entry-hint-parent">
       2. Level Blueprint
     </h1>
@@ -271,7 +191,7 @@ Duplicating the Starter Map From UE 5.1 and onwards, the StarterContent folder i
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

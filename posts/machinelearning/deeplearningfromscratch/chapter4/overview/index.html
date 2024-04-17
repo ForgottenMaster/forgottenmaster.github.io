@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4.1 - Overview | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
 High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/overview/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/overview/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ High level review We can imagine a neural network at a high level as a black box
         }
 
     </style>
-</noscript><meta property="og:title" content="4.1 - Overview" />
-<meta property="og:description" content="Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
-High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-26T23:54:29+01:00" />
-<meta property="article:modified_time" content="2022-04-26T23:54:29+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4.1 - Overview"/>
-<meta name="twitter:description" content="Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.
-High level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4.1 - Overview",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4.1 - Overview",
-  "name": "4.1 - Overview",
-  "description": "Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.\nHigh level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Although we have managed to put together a working neural network library that allows us to build various topologies of networks and to train them to fit a non-specified mathematical function that is represented by the input data and targets, the initial implementation is only somewhat successful. We can do better in a few ways, we will explore 5 such extensions to the basic approach in the following notes.\nHigh level review We can imagine a neural network at a high level as a black box which consists of a bunch of weights internally (grouped into layers, but we can consider this as an implementation detail), taking a bunch of input data records and producing a bunch of predictions for those records. These predictions are then compared with the known targets during the training process to see how close they are (using the loss function).\nTherefore this high level intuition can be represented by the following diagram\nA more accurate representation The above diagram is good for seeing at a high level that neural networks are treated as black boxes to produce predictions and can be trained to produce better predictions, however what is really happening under the hood is that we’re tweaking the weights in such a way as to represent the complex mathematical function between the set of weights and the output loss that those weights produce (given a static set of inputs and outputs).\nThis graph between the weights and the loss can be shown as follows\nTraining With the above graph representation we can see that as the set of weights vary along the horizontal axis, the loss, or error, of the network can be greater or lower (actually the set of weights isn’t a single value to be plotted on an axis, but it helps intuition to think of it as a single dimension on which a single point is a set of values for all weights in the network).\nThe training process is then represented as starting from one point, or set of weights and using the learning rate, determining a new set of weights and continuing until we settle on the set of weights producing the lowest loss.\nWe can view this process as the following diagram\nIn the above diagram, the blue arrows show the process with a small learning rate, that is we move only slightly to the next set of weights. The red arrows represent a large learning rate which causes the set of weights and resulting loss to “bounce around” more than it might want to.\nThe problem As we can see from the diagram, we would like to find the set of weights that gives the lowest global loss across all sets of weights, however with a very small learning rate we risk the chance of falling into a local minima and accepting a sub-optimal solution.\nIf the steps we take are too large (the red arrows), then we might be near the global minimum but we might end up “skipping over” it repeatedly and again accepting a sub-optimal solution.\nThe tricks and tweaks described and implemented in the coming posts serve as to allow us to efficiently locate this global minimum without falling into a false, local minimum.\n",
-  "wordCount" : "541",
-  "inLanguage": "en",
-  "datePublished": "2022-04-26T23:54:29+01:00",
-  "dateModified": "2022-04-26T23:54:29+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/overview/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ High level review We can imagine a neural network at a high level as a black box
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ High level review We can imagine a neural network at a high level as a black box
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ High level review We can imagine a neural network at a high level as a black box
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
     <h1 class="post-title entry-hint-parent">
       4.1 - Overview
     </h1>
@@ -265,7 +185,7 @@ High level review We can imagine a neural network at a high level as a black box
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4.5 - Learning Rate Decay | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
 A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ A hyperparameter in deep learning is a tweakable value that needs to be tuned ba
         }
 
     </style>
-</noscript><meta property="og:title" content="4.5 - Learning Rate Decay" />
-<meta property="og:description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
-A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-06T01:12:54+01:00" />
-<meta property="article:modified_time" content="2022-05-06T01:12:54+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4.5 - Learning Rate Decay"/>
-<meta name="twitter:description" content="As we&rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it&rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.
-A hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4.5 - Learning Rate Decay",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4.5 - Learning Rate Decay",
-  "name": "4.5 - Learning Rate Decay",
-  "description": "As we\u0026rsquo;ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it\u0026rsquo;s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.\nA hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.",
-  "keywords": [
-    
-  ],
-  "articleBody": "As we’ve covered a couple of different optimisation strategies (stochastic gradient descent with and without momentum), it’s become clear that the learning rate hyperparameter is one of, if not the most important hyperparameters in deep learning.\nA hyperparameter in deep learning is a tweakable value that needs to be tuned based on the problem at hand. These include the learning rate, momentum, epoch count, batch size, etc. and half of the success for training a network is finding the correct hyperparameter values.\nIf we refer back to the diagram seen previously, which can be seen below\nWe can see that with small values for the learning rate (the blue arrows), the steps we take are small but we run the risk of falling into a local minimum. Conversely, if the learning rate is too large (the red arrows), we can see that we “bounce around” and might skip over the true minimum.\nWhat we would like is a happy balance of the two approaches, in fact we’d like to start the training with a larger learning rate to broadly find the region of the minimum, but as we progress through training, we’d like to take smaller and smaller steps so as to hone in on the true minimum and be less likely to skip over it.\nWe can achieve this by decaying the learning rate hyperparameter as we progress through the epochs.\nRefactoring In order to allow for decaying the learning rate over the process of training the network, we will need to (slightly) refactor the existing code such that we can later drop in a decaying learning rate if needed.\nOptimiser trait The first step will be to add a couple of additional methods to the Optimiser trait, these will be:\ninit(epochs) - Called at the very beginning of the training process with the number of epochs we plan to run through. This allows a chance to set up data at the beginning of the process that might rely on that total epoch count (such as a percentage progress, or something else). end_epoch() - Called at the end of each epoch EXCEPT for the very last one, and gives the Optimiser a chance to update state at the end of the epoch before it ends up getting stepped again (allowing for example learning rate to decay). After we add these, the Optimiser trait looks as follows:\npub trait Optimiser\u003cT\u003e { fn init(\u0026mut self, epochs: u32); fn step(\u0026mut self, net: \u0026mut Network\u003cT\u003e); fn end_epoch(\u0026mut self); } train function I’ll show how we implement this into our Optimiser implementations in a moment, but let’s take a look at the changes required to the train function to invoke these new functions. Firstly at the beginning of the train function before entering the epoch loop, we call init:\nlet mut best_loss: Option\u003cT\u003e = None; optimiser.init(epochs); for e in 0..epochs { // rest of code follows And at the end of the loop, we call the end_epoch function. However, we only do this if the epoch number is not the very last one. If it’s the very last one then there’s no point updating the optimiser as it’s not going to be invoked again. The code therefore looks as follows:\nif let Some(last_model) = last_model { let (_, test_loss) = network.forward_loss(batch_test.clone(), targets_test.clone()); if best_loss.is_none() || test_loss.abs() \u003c *best_loss.as_ref().unwrap() { best_loss = Some(test_loss.abs()); } else { *network = last_model; break; } } if e \u003c (epochs - 1) { optimiser.end_epoch(); } SGD For the SGD optimiser, we will need to implement the new functionality required by the trait, however we know that we will be implementing the new functionality in the SGDMomentum type also in the exact same way. In order to prevent duplicated code, and in order to support easily picking which strategy we’re using for handling the learning rate, we will delegate the handling of the learning rate to a new type.\nWe’ll talk about that soon, but for now just be aware that instead of directly storing a T inside our SGD type, we will be storing a different type that will implement a particular interface.\nFor the struct definition, we don’t actually need to change anything!. We only had one field (learning_rate), so we can simply rename this to indicate it should be a handler for our learning rate instead:\npub struct SGD\u003cT\u003e { learning_rate_handler: T, } We rename it also in the new and new_boxed functions:\nimpl\u003cT\u003e SGD\u003cT\u003e { pub fn new(learning_rate_handler: T) -\u003e Self { Self { learning_rate_handler, } } pub fn new_boxed(learning_rate_handler: T) -\u003e Box\u003cSelf\u003e { Box::new(Self::new(learning_rate_handler)) } } For the trait implementation, this is where we will need to tell the compiler about this new trait type that we have that will represent our handler, or wrapper that is responsible for storing and updating the learning rate hyperparameter.\nTo do this, we need to introduce a second generic parameter. We place a trait bound on that generic parameter to indicate that it must implement LearningRateHandler, and the type that it’s handling/wrapping around must be the same type as the elements in the Network.\nAfter adding this, it looks like follows:\nimpl\u003cT: LearningRateHandler\u003cU\u003e, U: LinalgScalar + ScalarOperand\u003e Optimiser\u003cU\u003e for SGD\u003cT\u003e { // implementation here } In this, we’re saying:\nT is the type that’s stored inside the SGD and is handling the learning rate hyperparameter. Our trait bound indicates that this type is implementing LearningRateHandler and the type that it’s handling is our element type, U U is the type of the elements inside the neural network we’re optimising, and contains all the same bounds as it previously did As for the implementations of the new function, we will delegate to the handler type. This will allow us to have a central handler type with the correct degregation logic, and have that shared between our SGD and SGDMomentum (and any other Optimiser implementations we might write).\nThe new function implementations then just look as follows:\nfn init(\u0026mut self, epochs: u32) { self.learning_rate_handler.init(epochs); } fn end_epoch(\u0026mut self) { self.learning_rate_handler.end_epoch(); } The only other change is that since we aren’t storing the learning rate directly now, we must access it instead through the handler object when we’re optimising the network parameters:\n*param = \u0026*param - (gradient * *self.learning_rate_handler.learning_rate()); SGDMomentum The same changes are required here basically as we made to the SGD. That is:\nWe need to change learning_rate inside the type to be learning_rate_handler This type needs to be independant of the element type (which we use for momentum, and as the element type for storing velocities) We need to implement the new functions from the Optimiser trait, and delegate their behaviour to our LearningRateHandler implementation We need to make sure we get the current learning rate by calling the learning_rate() method on our LearningRateHandler implementor LearningRateHandler This is our new trait that we are using to define the behaviour and capabilities of whichever type is wrapping the actual learning rate. This trait needs to have the following functionalities:\nIt needs to be able to provide the current learning rate to a caller It needs to be able to be initialised at the beginning of training, with the number of epochs that will be run It needs to be able to be updated at the end of an epoch When coded up, this is pretty easy:\npub trait LearningRateHandler\u003cT\u003e { fn learning_rate(\u0026self) -\u003e \u0026T; fn init(\u0026mut self, epochs: u32); fn end_epoch(\u0026mut self); } LearningRateFixed The final part of refactoring the existing stuff to support the potential for decaying learning rates, while making sure the existing tests and examples continue to work, is a handler for our learning rate that behaves the same as we had our learning rate behaving before.\nThat is, a LearningRateHandler that is initialised with a learning rate, and never changes it.\nFor this struct, it will just contain the actual fixed learning rate inside of itself, and the “new” function is similarly uneventful:\npub struct LearningRateFixed\u003cT\u003e { learning_rate: T, } impl\u003cT\u003e LearningRateFixed\u003cT\u003e { pub fn new(learning_rate: T) -\u003e Self { Self { learning_rate } } } We’ll implement the LearningRateHandler trait for this type, but the only thing it does is to return a reference to the inner learning_rate when asked for it:\nimpl\u003cT\u003e LearningRateHandler\u003cT\u003e for LearningRateFixed\u003cT\u003e { fn learning_rate(\u0026self) -\u003e \u0026T { \u0026self.learning_rate } fn init(\u0026mut self, _epochs: u32) {} fn end_epoch(\u0026mut self) {} } Finally, we just need to make sure wherever we construct an SGD or an SGDMomentum instance, that instead of passing the learning rate, we’re now passing an instance of a fixed handler. We just go through and change all the tests/examples to look something like:\nlet mut optim = SGDMomentum::new(LearningRateFixed::new(0.1), 0.9); And with that, our refactor is done!\nThe next couple of sections of this post will be dedicated to the actually decaying handler types.\nLinear Decay The first of the two types of decay that we’ll cover is a decay that has a fixed size step between epochs, that is, it always decays the current learning rate by a fixed amount each epoch.\nThe formula for this is\n$$ \\alpha_t = \\alpha_{start} - (\\alpha_{start} - \\alpha_{end}) \\times \\frac t {epochs - 1} $$\nBut rather than computing quantities each frame, we will calculate the amount to be subtracted per epoch at the point where the handler is initialised. We then simply subtract that each time end_epoch is called.\nStruct For the structure itself, we will need to store several quantities which will be:\nThe defined starting learning rate. This is the starting rate that the current rate will be set to whenever the init function is called. The defined ending learning rate. After the maximum number of epochs is called, the learning rate will end up being this value (or close to it due to rounding errors). The current learning rate The amount of learning rate to subtract each epoch These are generic as with everything else, but the type is just defined as “T”:\npub struct LearningRateLinearDecay\u003cT\u003e { starting_rate: T, ending_rate: T, current_rate: T, decay_per_epoch: T, } Constructor In order to construct a new instance of this structure, the required fields are the starting and ending learning rates that must be passed in. The other two fields are used internally and calculated from these two.\nWe will however require the Clone trait bound on T, because we firstly need to initialise the current learning rate to the starting rate anyway, but also because we need to initialise our decay_per_epoch field to something. We don’t mind what we set it to because it’ll be recalculated when we initialise during training, but it must be set to something, so we’ll just use the starting rate as a valid value.\nThe whole constructor function then looks as follows:\nimpl\u003cT: Clone\u003e LearningRateLinearDecay\u003cT\u003e { pub fn new(starting_rate: T, ending_rate: T) -\u003e Self { Self { starting_rate: starting_rate.clone(), ending_rate, current_rate: starting_rate.clone(), decay_per_epoch: starting_rate, // this will get recalculated during training } } } Trait Now we just need to implement the LearningRateHandler trait so that we can use this type as a decaying learning rate with one of our optimisers.\nThe init function will simply calculate the amount of decay per epoch. In order to do this, it will use the following formula:\n$$ decay = (start - end) / (epochs - 1) $$\nThat is, it takes the difference between start and end (the distance to decay over), and the number of epochs it needs to decay over (the time it has to decay), and calculates the rate of decay (the speed).\nThe number of epochs is epochs - 1 rather than epochs because we don’t call the end_epoch function on the very last epoch so we need to make sure we reach the ending learning rate after we call end_epoch for the very last time (which is 1 iteration fewer than the total number of steps we’re doing).\nCoding that up, it will look as follows:\nfn init(\u0026mut self, epochs: u32) { let epochs: T = epochs.into(); self.decay_per_epoch = (self.starting_rate.clone() - self.ending_rate.clone()) / (epochs - T::one()); } Note that we need to clone starting and ending rate as the subtraction operator consumes its inputs. We also need to convert the number of epochs from a u32 into a T before dividing. We do this rather than requiring a bound on Div (as in, dividing a T by u32), because it’s more common to have a Div implementation that takes a T on the right hand side.\nReturning the current learning_rate is a trivial operation:\nfn learning_rate(\u0026self) -\u003e \u0026T { \u0026self.current_rate } Finally, when the end_epoch is called, we modify the current learning rate by simply subtracting the decay amount. Again though, we must clone it as the SubAssign trait consumes the right hand side input:\nfn end_epoch(\u0026mut self) { self.current_rate -= self.decay_per_epoch.clone(); } We put all these implementations inside an impl block for the trait, making sure to place the appropriate trait bounds on T based on the operations we required inside the implementations.\nThe block then looks as follows:\nimpl\u003cT: Clone + Div\u003cOutput = T\u003e + From\u003cu32\u003e + One + Sub\u003cOutput = T\u003e + SubAssign\u003e LearningRateHandler\u003cT\u003e for LearningRateLinearDecay\u003cT\u003e { // implementations here } Exponential Decay Whereas linear decay applies a fixed decay to the learning rate each step, the exponential decay instead applies a multiplier.\nThe definition of the struct, and the new function actually is identical to the linear version. This is because we need the exact same parameters, it’s just we’re calculating the decay multiplier differently, and applying it to the learning rate differently too.\nThe struct definition and new function then look as follows\npub struct LearningRateExponentialDecay\u003cT\u003e { starting_rate: T, ending_rate: T, current_rate: T, decay_per_epoch: T, } impl\u003cT: Clone\u003e LearningRateExponentialDecay\u003cT\u003e { pub fn new(starting_rate: T, ending_rate: T) -\u003e Self { Self { starting_rate: starting_rate.clone(), ending_rate, current_rate: starting_rate.clone(), decay_per_epoch: starting_rate, } } } The changes come in the implementation of the trait itself. The formula we use to calculate the decay multiplier is as follows:\n$$ {\\frac {end} {start}}^{\\frac {1} {epochs - 1}} $$\nWhich is coded up as below in the init function\nfn init(\u0026mut self, epochs: u32) { let epochs: T = epochs.into(); self.decay_per_epoch = (self.ending_rate / self.starting_rate).powf(T::one() / (epochs - T::one())); } Accessing the learning rate in the learning_rate method remains the same as the linear version. The only other change except from calculating the decay rate is actually applying it.\nIn the linear version we had used subtraction to subtract the decay amount from the learning rate at the end of an epoch, however in the exponential version we need to multiply it instead, so the end_epoch method looks as follows\nfn end_epoch(\u0026mut self) { self.current_rate *= self.decay_per_epoch; } Testing In order to test these decay methods, we will create two new examples, based off the softmax_cross_entropy_loss_with_momentum example. These will be:\nsoftmax_cross_entropy_loss_with_linear_decay - A version that applies a linear decay to the learning rate. softmax_cross_entropy_loss_with_exponential_decay - A version that applies an exponential decay to the learning rate. As a refresher, we’ll re-run the base version (with no decay) and we can see that we get a decent accuracy:\nAccuracy (training): 93.47999999999999%\rAccuracy (testing): 93.522% For the linear decay, we’ll still start with a learning rate of 0.1, but we’ll decay down to 0.05 over our epochs, and the results we can see are slightly better:\nAccuracy (training): 94.582%\rAccuracy (testing): 94.624% Finally, we’ll test the exponential decay with the same start and end learning rates, however we see a sudden drop in accuracy!. Using exponential decay results in a drop to 90% accuracy.\nThis is because the decay rate with exponential is much steeper, and so we are taking too small a step too quickly.\nOne thing this steep decay lets us do though is take larger steps at the beginning. Let’s go ahead and change the starting learning rate to something slightly higher (0.2) and we see that the results are better again:\nAccuracy (training): 95.506%\rAccuracy (testing): 95.562% 95% aint bad!\n",
-  "wordCount" : "2659",
-  "inLanguage": "en",
-  "datePublished": "2022-05-06T01:12:54+01:00",
-  "dateModified": "2022-05-06T01:12:54+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/learningratedecay/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ A hyperparameter in deep learning is a tweakable value that needs to be tuned ba
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ A hyperparameter in deep learning is a tweakable value that needs to be tuned ba
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ A hyperparameter in deep learning is a tweakable value that needs to be tuned ba
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
     <h1 class="post-title entry-hint-parent">
       4.5 - Learning Rate Decay
     </h1>
@@ -510,7 +430,7 @@ Accuracy (testing): 95.562%
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

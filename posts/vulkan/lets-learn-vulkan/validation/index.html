@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>3. Validation | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won&rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
 This is because Vulkan will do the bare minimum by default for efficiency - what we don&rsquo;t use we don&rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/validation/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/validation/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
         }
 
     </style>
-</noscript><meta property="og:title" content="3. Validation" />
-<meta property="og:description" content="By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won&rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
-This is because Vulkan will do the bare minimum by default for efficiency - what we don&rsquo;t use we don&rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-18T01:04:25+00:00" />
-<meta property="article:modified_time" content="2023-02-18T01:04:25+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="3. Validation"/>
-<meta name="twitter:description" content="By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won&rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.
-This is because Vulkan will do the bare minimum by default for efficiency - what we don&rsquo;t use we don&rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "3. Validation",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "3. Validation",
-  "name": "3. Validation",
-  "description": "By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won\u0026rsquo;t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.\nThis is because Vulkan will do the bare minimum by default for efficiency - what we don\u0026rsquo;t use we don\u0026rsquo;t pay for, and this includes extra validations that can cause incorrect but safe behaviours.",
-  "keywords": [
-    
-  ],
-  "articleBody": "By default, Vulkan will not perform any validation above or beyond checking preconditions for API calls. It won’t catch things like forgetting to destroy a Vulkan object, or other issues with parameters passed to API calls.\nThis is because Vulkan will do the bare minimum by default for efficiency - what we don’t use we don’t pay for, and this includes extra validations that can cause incorrect but safe behaviours.\nIn order to enable validation in our Vulkan application we need to do the following things:\nEnable the debug utils extension Enable the validation layer when we create the Vulkan instance Register a message reporting callback that can print out the message (or log to file, database, whatever) Enable the debug utils extension This one is pretty easy to achieve since we already are passing some extensions through to instance creation, and validating them. We just need to manually add one more extension, VK_EXT_debug_utils.\nPreviously we were just passing the extensions slice we got from the ash_window glue function call as-is, however we can’t resize or add to a slice. Therefore to be able to add our own required extensions in, we need to take the extensions given to us and collect them into a Vec, which we can do with the to_vec function on slices:\nlet mut required_extensions = enumerate_required_extensions(raw_display_handle)?.to_vec(); Then, we can extend the Vec with our own hard coded extensions. We can define these in an array, using the CStr::from_bytes_with_nul_unchecked and a bytestring approach, much like defining our application name:\nrequired_extensions .extend([ unsafe { CStr::from_bytes_with_nul_unchecked(b\"VK_EXT_debug_utils\\0\") }.as_ptr(), ]); Enable the validation layer Next we need to enable the actual validation layer which is called VK_LAYER_KHRONOS_validation which will require some new code as we’ve only validated and enabled extensions thus far.\nHowever, it turns out we can just copy/paste the validation we did for extensions but check the available layers instead.\nWe then just call enabled_layer_names and pass in the checked layer names for enabling when we create the Vulkan instance.\nFor reference, this is the new validate_required_layers function:\n/// # Safety /// This function doesn't validate that the *const i8 pointers /// inside the required_layers slice are all valid null-terminated /// UTF-8 strings. Caller must ensure that these are correctly formatted /// or retrieved from a verified source such as the Vulkan API itself. unsafe fn validate_required_layers(required_layers: \u0026[*const i8], entry: \u0026Entry) -\u003e Result\u003c()\u003e { { let instance_layer_properties = entry.enumerate_instance_layer_properties()?; let required_layers = required_layers .iter() .copied() .map(|ptr| CStr::from_ptr(ptr)) .collect::\u003cVec\u003c_\u003e\u003e(); let available_layers = instance_layer_properties .iter() .map(|prop| CStr::from_ptr(prop.layer_name.as_ptr())) .collect::\u003cHashSet\u003c_\u003e\u003e(); for required_layer in required_layers { if !available_layers.contains(required_layer) { return Err(anyhow::anyhow!(format!( \"Required layer {} is not available\", required_layer.to_str()? ))); } } Ok::\u003c_, Error\u003e(()) } .context(\"Error in validate_required_layers.\") } Register a message reporting callback Now we’ve enabled the extension, and the layer for validation, we still won’t see anything printed out because we will be responsible for handling any debug logging that occurs in whichever way we see fit (for our purposes we’ll just log to console).\nWe can do this in ash through the DebugUtils type, which we can create a new one of fairly easily:\nlet debug_utils = DebugUtils::new(\u0026entry, \u0026instance); We then invoke a new function create_debug_utils_messenger to create a messenger for us which will handle loggin validation errors to the console.\nThe signature of this new function looks as follows:\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) -\u003e Result\u003cDebugUtilsMessengerEXT\u003e So it takes a reference to the DebugUtils “context” we created above and if successful will return us a handle to the messenger so we can destroy it during cleanup.\nIn order to create a messenger we need three things:\nA callback function A bitfield of the message severity we want to receive A bitfield of the message type we want to receive In our case, to keep the logs clean, we’ll only receive error messages, and only relating to validation.\nfn create_debug_utils_messenger(debug_utils: \u0026DebugUtils) -\u003e Result\u003cDebugUtilsMessengerEXT\u003e { unsafe { debug_utils.create_debug_utils_messenger( \u0026DebugUtilsMessengerCreateInfoEXT::builder() .pfn_user_callback(Some(debug_callback)) .message_severity(DebugUtilsMessageSeverityFlagsEXT::ERROR) .message_type(DebugUtilsMessageTypeFlagsEXT::VALIDATION), None, ) } .context(\"Error while creating a debug utils messenger\") } The callback function (debug_callback) is a Rust function that we pass a pointer to over to the C API so it can be called back. This is an example of FFI at work and it’s fairly straightforward to define our Rust function so that it’s compatible.\nIt needs to be unsafe, because everything touching the FFI is unsafe.\nWe need to make it use the “system” calling convention, and the parameter types must be correct. It also needs to return a u32, which according to the docs should always be VK_FALSE. VK_FALSE is the value of 0.\nWithin the function we simply print out the message we receive, for which we need to convert the C-string pointer we receive into a CStr wrapper so it can print properly. The function in its entirety is as follows:\nunsafe extern \"system\" fn debug_callback( _severity_flags: DebugUtilsMessageSeverityFlagsEXT, _type_flags: DebugUtilsMessageTypeFlagsEXT, callback_data: *const DebugUtilsMessengerCallbackDataEXT, _user_data: *mut c_void, ) -\u003e u32 { let message = CStr::from_ptr((*callback_data).p_message); println!(\"{message:?}\"); 0 } Cleanup Finally we will need to correctly destroy the debug utils messenger during the cleanup of the application. The cleanup function is modified to destroy the messenger before the Vulkan instance:\nfn cleanup( instance: Instance, device: Device, debug_utils: DebugUtils, messenger: DebugUtilsMessengerEXT, ) { unsafe { device.destroy_device(None); debug_utils.destroy_debug_utils_messenger(messenger, None); instance.destroy_instance(None); } } And that’s it!. Now when we get a validation error, we’ll have it logged to the console, for example if we forget to destroy the Vulkan device before the instance is destroyed:\nUNASSIGNED-ObjectTracker-ObjectLeak(ERROR / SPEC): msgNum: 699204130 - Validation Error: [ UNASSIGNED-ObjectTracker-ObjectLeak ] Object 0: handle = 0x1c9c9339be0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x29ad0222 | OBJ ERROR : VK_DEBUG_REPORT_OBJECT_TYPE_DEVICE_EXT object VkDevice 0x1c9c9339be0[] has not been destroyed. Objects: 1 [0] 0x1c9c9339be0, type: 3, name: NULL ",
-  "wordCount" : "947",
-  "inLanguage": "en",
-  "datePublished": "2023-02-18T01:04:25Z",
-  "dateModified": "2023-02-18T01:04:25Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/validation/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       3. Validation
     </h1>
@@ -347,7 +273,7 @@ This is because Vulkan will do the bare minimum by default for efficiency - what
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

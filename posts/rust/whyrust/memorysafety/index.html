@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Memory Safety | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Here we&rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C&#43;&#43; as they are both low level programming languages that are suitable for systems programming.
 Memory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/">
+<link rel="canonical" href="http://localhost:1313/posts/rust/whyrust/memorysafety/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/rust/whyrust/memorysafety/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
         }
 
     </style>
-</noscript><meta property="og:title" content="Memory Safety" />
-<meta property="og:description" content="Here we&rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C&#43;&#43; as they are both low level programming languages that are suitable for systems programming.
-Memory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-10-15T01:31:14+01:00" />
-<meta property="article:modified_time" content="2021-10-15T01:31:14+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Memory Safety"/>
-<meta name="twitter:description" content="Here we&rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C&#43;&#43; as they are both low level programming languages that are suitable for systems programming.
-Memory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:"/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Rust",
-      "item": "https://forgottenmaster.github.io/posts/rust/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Why Rust?",
-      "item": "https://forgottenmaster.github.io/posts/rust/whyrust/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Memory Safety",
-      "item": "https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Memory Safety",
-  "name": "Memory Safety",
-  "description": "Here we\u0026rsquo;ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C++ as they are both low level programming languages that are suitable for systems programming.\nMemory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:",
-  "keywords": [
-    
-  ],
-  "articleBody": "Here we’ll go over the memory model in Rust, along with the language design choices that allow for Rust to guarantee memory safety in any programs written using it. We will also be comparing Rust against C++ as they are both low level programming languages that are suitable for systems programming.\nMemory guarantees The Rust language was designed with memory safety in mind and as such, the following guarantees are always true in a Rust program:\nA value has only one owner in the code at a given time. When the owner of a value goes out of scope, the value is dropped. A value cannot be referenced after it’s dropped. A value cannot have ownership transferred while there are still references taken to it. A value can only be mutably referenced if there are no other references. In contrast, C++ guarantees the following:\nNo memory safety guarantees The design decisions taken by the Rust language team in developing the language mean that the following types of bugs don’t exist in Rust:\nUse after free Double free Modification while reading (e.g. changing collection while iterating) Data races (multiple threads accessing same memory location at the same time) Disclaimer Rust has a method to allow the developer to write unsafe code, and ensures that developers know exactly which portions of the code have been manually checked for correctness versus those portions of the code that have been determined to be correct by the compiler.\nWhen writing unsafe Rust, it is the developers responsibility to ensure that everything they do in that unsafe block upholds Rust’s memory safety guarantees. Safe Rust must be able to assume that unsafe Rust code blocks are correct.\nThe above memory safety guarantees therefore are only valid if all the unsafe code blocks are correct and also following the guarantees. It’s 100% possible to introduce the above behaviours and therefore undefined behaviour by abusing the powers granted by the unsafe keyword.\nThe problems in C++ and how to solve them As mentioned in the Memory guarantees section, Rust guarantees that invalid memory is never used, and also guarantees data races where one source can be writing to a memory location while another is reading from it (multiple readers is fine).\nThis section will go over the 4 big issues which the C++ compiler doesn’t do anything to help with, and how the Rust compiler will catch them.\n1. Use after free C++ #include using namespace std; int main() { string* s = new string{\"Hello, World!\"}; delete s; s-\u003epush_back('c'); return 0; }\nResult (runtime)\nRuntime error #stdin #stdout #stderr 0.01s 5436KB Rust fn main() { let mut s = String::from(\"Hello, World!\"); drop(s); s.push('c'); }\nResult (compile time)\nerror[E0382]: borrow of moved value: `s`\r--\u003e src/main.rs:4:5\r|\r2 | let mut s = String::from(\"Hello, World!\");\r| ----- move occurs because `s` has type `String`, which does not implement the `Copy` trait\r3 | drop(s);\r| - value moved here\r4 | s.push('c');\r| ^^^^^^^^^^^ value borrowed here after move 2. Double free C++ #include using namespace std; int main() { string* s = new string{\"Hello, World!\"}; delete s; delete s; return 0; }\nResult (runtime)\nRuntime error #stdin #stdout #stderr 0.01s 5432KB Rust fn main() { let s = String::from(\"Hello, World!\"); drop(s); drop(s); }\nResult (compile time)\nerror[E0382]: use of moved value: `s`\r--\u003e src/main.rs:4:10\r|\r2 | let s = String::from(\"Hello, World!\");\r| - move occurs because `s` has type `String`, which does not implement the `Copy` trait\r3 | drop(s);\r| - value moved here\r4 | drop(s);\r| ^ value used here after move 3. Modification while reading C++ #include #include using namespace std; int main() { vector\u003cint\u003e v; v.push_back(1); v.push_back(2); v.push_back(3); for (int\u0026 i : v) { v.reserve(10); // causes reallocation, while iterating over the vector cout \u003c\u003c i \u003c\u003c endl; } return 0; }\nResult (runtime)\nSuccess #stdin #stdout 0.01s 5516KB\r-1913700720\r21879\r-1913774064 Rust fn main() { let mut v = Vec::with_capacity(3); v.push(1); v.push(2); v.push(3); for i in \u0026v { v.reserve(10); println!(\"{i}\"); } }\nResult (compile time)\nerror[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable\r--\u003e src/main.rs:7:9\r|\r6 | for \u0026i in \u0026v {\r| --\r| |\r| immutable borrow occurs here\r| immutable borrow later used here\r7 | v.reserve(10);\r| ^^^^^^^^^^^^^ mutable borrow occurs here 4. Data races Rust prevents data races by using two marker interfaces which are automatically implemented for types that are safe to send to a different thread or to share between threads. When writing custom types that should be threadsafe using unsafe code, you may need to manually implement these to tell the compiler that it can assume that these are thread safe and that implementation was checked by the developer.\nFrom the point of view of safe Rust though, it can use these traits/interfaces to identify that all types being used in a multithreaded situation are in fact marked as being thread safe.\nThese traits are called Send and Sync.\nSend identifies a type as being safe to have its ownership transferred to another thread. Sync identifies a type as being safe to have references transferred to another thread.\nA type that is marked as Sync is essentially saying that it’s proven to be safe and correct to access the methods from multiple threads at the same time.\nThis kind of markup is something that C++ is missing. C++ allows any types to be used and accessed from multiple threads which results in potential data races as multiple threads write to the same memory location at the same time.\nBy allowing a method of flagging a type as being thread safe, and only allowing those types to be used in a multithreaded environment, the possibility of a data race is eliminated.\nThe example below does not compile because we’re trying to share an Rc (reference counted heap based ownership) between threads which is not flagged as thread safe because the reference count being used is not atomic:\nuse std::rc::Rc; use std::thread; fn main() { let v = Rc::new(42); thread::scope(|s| { s.spawn(|| println!(\"{}\", Rc::clone(\u0026v))); s.spawn(|| println!(\"{}\", Rc::clone(\u0026v))); }); } Results in the compiler error:\nerror[E0277]: `Rc` cannot be shared between threads safely\r--\u003e src/main.rs:7:17\r|\r7 | s.spawn(|| println!(\"{}\", Rc::clone(\u0026v)));\r| ----- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `Rc` cannot be shared between threads safely\r| |\r| required by a bound introduced by this call\r|\r= help: the trait `Sync` is not implemented for `Rc`\r= note: required for `\u0026Rc` to implement `Send` However, using an Arc (atomic reference counted heap allocated value) is thread safe, specifically because the reference count being used is atomic and thus safe for sending to multiple threads:\nuse std::sync::Arc; use std::thread; fn main() { let v = Arc::new(42); thread::scope(|s| { s.spawn(|| println!(\"{}\", Arc::clone(\u0026v))); s.spawn(|| println!(\"{}\", Arc::clone(\u0026v))); }); } We then get the correct output\n42\r42 ",
-  "wordCount" : "1144",
-  "inLanguage": "en",
-  "datePublished": "2021-10-15T01:31:14+01:00",
-  "dateModified": "2021-10-15T01:31:14+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/rust/whyrust/memorysafety/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/">Rust</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/rust/whyrust/">Why Rust?</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/rust/">Rust</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/rust/whyrust/">Why Rust?</a></div>
     <h1 class="post-title entry-hint-parent">
       Memory Safety
     </h1>
@@ -422,7 +348,7 @@ Memory guarantees The Rust language was designed with memory safety in mind and 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>5.1 - Introduction | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.
 However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;closeness&rdquo; of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;c
         }
 
     </style>
-</noscript><meta property="og:title" content="5.1 - Introduction" />
-<meta property="og:description" content="With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.
-However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;closeness&rdquo; of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-12-30T22:17:58+00:00" />
-<meta property="article:modified_time" content="2022-12-30T22:17:58+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="5.1 - Introduction"/>
-<meta name="twitter:description" content="With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.
-However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;closeness&rdquo; of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 5 - Convolutional Neural Networks",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "5.1 - Introduction",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "5.1 - Introduction",
-  "name": "5.1 - Introduction",
-  "description": "With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.\nHowever, such a \u0026ldquo;flat\u0026rdquo; model has no knowledge or concept of \u0026ldquo;closeness\u0026rdquo; of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input.",
-  "keywords": [
-    
-  ],
-  "articleBody": "With the standard feed-forward architecture we used in the chapters until this point, we are able to input a collection of observations, with each observation having a number of features. In the case of the MNIST recognition network, these features were the greyscale pixel values.\nHowever, such a “flat” model has no knowledge or concept of “closeness” of features to one another. This means that the learned features in a hidden layer, derived as some linear combination of the input pixel data could draw from pixels that are nowhere near each other in the input.\nIn a convolutional neural network, we can provide a way to learn based on data that is spatially close to each other (such as a 3x3 patch of pixels in a 2D image).\nArchitecture The architecture we will be going for at a high level can be represented with the image below:\nThe basic idea is that we will take small patches of a 2 dimensional area in the original data, and the learned features will be some linear combination of those.\nWe therefore need a way to transform these 2-D patches into values that can then be linearly combined with the regular dense layers.\nConvolution Operation The core of a CNN is this operation that allows us to extract features from an image by applying some weight matrix as a sliding window over the original image to produce a slightly different image.\nAs an example, if we have a 5x5 input image defined as:\n$$ I = \\begin{bmatrix} i_{11} \u0026 i_{12} \u0026 i_{13} \u0026 i_{14} \u0026 i_{15} \\\\ i_{21} \u0026 i_{22} \u0026 i_{23} \u0026 i_{24} \u0026 i_{25} \\\\ i_{31} \u0026 i_{32} \u0026 i_{33} \u0026 i_{34} \u0026 i_{35} \\\\ i_{41} \u0026 i_{42} \u0026 i_{43} \u0026 i_{44} \u0026 i_{45} \\\\ i_{51} \u0026 i_{52} \u0026 i_{53} \u0026 i_{54} \u0026 i_{55} \\end{bmatrix} $$\nAnd we want to extract features of each 3x3 patch in the image, we can envisage this as sliding a smaller matrix of weights across the image pixels and generating a new pixel value in an output image that is a result of the weights being applied to the surrounding pixels in the input image.\nGiven a 3x3 matrix of weights:\n$$ W = \\begin{bmatrix} w_{11} \u0026 w_{12} \u0026 w_{13} \\\\ w_{21} \u0026 w_{22} \u0026 w_{23} \\\\ w_{31} \u0026 w_{32} \u0026 w_{33} \\end{bmatrix} $$\nThen take for example the pixel in I that is centered over (3,3). We would multiply each pixel in the patch by the associated weight in the weight matrix and sum the result as in:\n$$ O_{33} = w_{11} \\times i_{22} + w_{12} \\times i_{23} + w_{13} \\times i_{24} + w_{21} \\times i_{32} + w_{22} \\times i_{33} + w_{23} \\times i_{34} + w_{31} \\times i_{42} + w_{32} \\times i_{43} + w_{33} \\times i_{44} $$\nThis feature can then be passed through activation functions or through subsequent layers in the neural network.\nMultichannel Convolution Operation The above describes a single application of some set of weights to an input image to produce an output image (AKA a feature map), under a single convolution operation.\nHowever in a CNN, we will apply multiple convolution operations with different sets of weights.\nThe below image shows a representation of how an input image is transformed to an output image/feature map, but in a multichannel convolution operation this will be repeated a number of times - one for each set of weights:\nIn terms of CNNs, the number of output images we’re generating is called the number of channels. Each of the sets of weights is known as a convolutional filter\n",
-  "wordCount" : "595",
-  "inLanguage": "en",
-  "datePublished": "2022-12-30T22:17:58Z",
-  "dateModified": "2022-12-30T22:17:58Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/introduction/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;c
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;c
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ However, such a &ldquo;flat&rdquo; model has no knowledge or concept of &ldquo;c
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter5/">Chapter 5 - Convolutional Neural Networks</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter5/">Chapter 5 - Convolutional Neural Networks</a></div>
     <h1 class="post-title entry-hint-parent">
       5.1 - Introduction
     </h1>
@@ -277,7 +197,7 @@ w_{31} &amp; w_{32} &amp; w_{33}
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

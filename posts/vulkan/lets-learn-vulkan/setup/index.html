@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>1. Setup | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="In order to follow along with the course, we&rsquo;ll want to get the project up and running, and nail down the tech stack we&rsquo;ll be using.
 The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/setup/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/setup/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit
         }
 
     </style>
-</noscript><meta property="og:title" content="1. Setup" />
-<meta property="og:description" content="In order to follow along with the course, we&rsquo;ll want to get the project up and running, and nail down the tech stack we&rsquo;ll be using.
-The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-09T22:43:32+00:00" />
-<meta property="article:modified_time" content="2023-01-09T22:43:32+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="1. Setup"/>
-<meta name="twitter:description" content="In order to follow along with the course, we&rsquo;ll want to get the project up and running, and nail down the tech stack we&rsquo;ll be using.
-The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "1. Setup",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "1. Setup",
-  "name": "1. Setup",
-  "description": "In order to follow along with the course, we\u0026rsquo;ll want to get the project up and running, and nail down the tech stack we\u0026rsquo;ll be using.\nThe Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install.",
-  "keywords": [
-    
-  ],
-  "articleBody": "In order to follow along with the course, we’ll want to get the project up and running, and nail down the tech stack we’ll be using.\nThe Stack The language - Rust The Vulkan crate - ash The windowing crate - winit The window abstraction crate - raw-window-handle The glue crate - ash-window Install Rust If the Rust toolchain is already installed, we can skip this bit. Luckily Rust is easy enough to install. Simply download and run Rustup which will install the entire Rust toolchain including Cargo.\nCreate Github Repository We’ll go and create a Github Repo to use which can be located at Let’s Learn Vulkan\nNext we’ll clone the repository to our machine using the command\ngit clone https://github.com/ForgottenMaster/lets-learn-vulkan Initialise Cargo Project Once we’ve cloned the repository, we can go ahead and initialise it as a Cargo project which is easy enough to do with\ncargo init When we’re inside the root folder of the repository at the command prompt\nAdd Dependencies We need two dependencies which can be added to the Cargo.toml file:\nash - This is the actual Vulkan API bindings which will be low level and as close to the C++ API as we can be. winit - This crate provides us the means to create windows in a cross-platform way. raw-window-handle - This crate is used by winit to provide us the window handle and display handle. Need this crate to be visible in the project as well so we can access the trait to get the raw handles. ash-window - This crate provides us the methods to get the required Vulkan extensions from a given raw display handle, along with allowing us to create a Vulkan surface to a window. After adding these dependencies our Cargo.toml looks as follows:\n[package] name = \"lets-learn-vulkan\" version = \"0.1.0\" edition = \"2021\" [dependencies] ash = \"0.37.1\" ash-window = \"0.12.0\" raw-window-handle = \"0.5.0\" winit = \"0.27.5\" Sanity Test In order to make sure all the crates are working together, we can run the following code snippet which:\nOpens a window Creates a Vulkan instance Creates a Vulkan surface use { ash::{vk, Entry}, core::ffi::CStr, raw_window_handle::HasRawDisplayHandle, winit::{ event::{Event, WindowEvent}, event_loop::EventLoop, window::Window, }, }; fn main() { // create an event loop and open a window. let event_loop = EventLoop::new(); let window = Window::new(\u0026event_loop).unwrap(); // get the required extensions needed from Vulkan. let required_extensions = ash_window::enumerate_required_extensions(window.raw_display_handle()).unwrap(); for required_extension in required_extensions { let name = unsafe { CStr::from_ptr(*required_extension).to_str().unwrap() }; println!(\"{name}\"); } // get the entry point for Vulkan. let entry = unsafe { Entry::load().unwrap() }; // create the instance creation info. let create_info = vk::InstanceCreateInfo { enabled_extension_count: required_extensions.len() as u32, pp_enabled_extension_names: required_extensions.as_ptr(), ..Default::default() }; // create the instance. let _instance = unsafe { entry.create_instance(\u0026create_info, None).unwrap() }; // stay in event loop until window close is requested. event_loop.run(move |event, _, control_flow| { control_flow.set_wait(); if let Event::WindowEvent { event: WindowEvent::CloseRequested, .. } = event { control_flow.set_exit(); } }); } This can be found in the setup-test.rs binary which can be run with\ncargo run --bin setup-test It will open a window that stays open until it’s closed, and will print out the names on the command line of the extensions required to create a Vulkan surface for the window.\nIt also creates and unwraps a Vulkan instance with the required extensions which tests the Vulkan loader is found and an instance is able to successfully be created.\n",
-  "wordCount" : "565",
-  "inLanguage": "en",
-  "datePublished": "2023-01-09T22:43:32Z",
-  "dateModified": "2023-01-09T22:43:32Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/setup/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       1. Setup
     </h1>
@@ -340,7 +266,7 @@ The Stack The language - Rust The Vulkan crate - ash The windowing crate - winit
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

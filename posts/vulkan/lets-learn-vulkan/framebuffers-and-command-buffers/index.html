@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>8. Framebuffers and Command Buffers | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.
 A framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
         }
 
     </style>
-</noscript><meta property="og:title" content="8. Framebuffers and Command Buffers" />
-<meta property="og:description" content="Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.
-A framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-26T00:10:55+00:00" />
-<meta property="article:modified_time" content="2023-02-26T00:10:55+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="8. Framebuffers and Command Buffers"/>
-<meta name="twitter:description" content="Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.
-A framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "8. Framebuffers and Command Buffers",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "8. Framebuffers and Command Buffers",
-  "name": "8. Framebuffers and Command Buffers",
-  "description": "Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.\nA framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Before we are able to render anything to the screen we need to fill in a couple of final missing pieces. These are the framebuffers, and the command buffers.\nA framebuffer is associated with a particular render pass, and defines the actual image views for the attachments that render pass expects. For example when we created the render pass, we may have specified we needed two attachments - a color attachment, and a depth attachment. A framebuffer is where we specify the concrete image views that these attachments resolve to. Thus the same render pass can be used with multiple framebuffers.\nA command buffer is where we will record our commands to, before submitting the command buffer as a whole to a queue. command buffers are produced from command pools, and each pool is linked to a specific queue family to which queues its command buffers can be submitted to exclusively.\nCreating Framebuffers Each of our framebuffers will use the same render pass (the one we set up for the pipeline to operate with) but with specifying a different concrete image.\nHere is a small diagram indicating the relationship between render passes and framebuffers.\nFramebuffers\rVulkan Cookbook\nIn our case, we have X swapchain images and for each one, we’ll want a framebuffer that is associated with it.\nWe can get an iterator over our swapchain images, and for each one try to create a framebuffer for it. This process of creating a framebuffer may return a Result so if any of the framebuffer results is Err, we should propagate this up.\nRust provides us a nice facility to do this!\nWe can collect an iterator over items of type Result into a Result",
-  "wordCount" : "1283",
-  "inLanguage": "en",
-  "datePublished": "2023-02-26T00:10:55Z",
-  "dateModified": "2023-02-26T00:10:55Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/framebuffers-and-command-buffers/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ A framebuffer is associated with a particular render pass, and defines the actua
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       8. Framebuffers and Command Buffers
     </h1>
@@ -416,7 +342,7 @@ A framebuffer is associated with a particular render pass, and defines the actua
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

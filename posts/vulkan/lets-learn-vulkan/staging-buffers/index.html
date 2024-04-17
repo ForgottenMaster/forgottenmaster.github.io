@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>11. Staging Buffers | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it&rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.
 Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/staging-buffers/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/staging-buffers/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ Memory Types In Vulkan there are various pools of memory with different properti
         }
 
     </style>
-</noscript><meta property="og:title" content="11. Staging Buffers" />
-<meta property="og:description" content="Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it&rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.
-Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-04T19:56:24+00:00" />
-<meta property="article:modified_time" content="2023-03-04T19:56:24+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="11. Staging Buffers"/>
-<meta name="twitter:description" content="Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it&rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.
-Memory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "11. Staging Buffers",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "11. Staging Buffers",
-  "name": "11. Staging Buffers",
-  "description": "Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it\u0026rsquo;s not able to process that memory as fast as it could if it knew the CPU could not see it.\nMemory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Currently our vertex buffer is residing on the GPU but in a section of memory that is visible to the CPU. This incurs an overhead on the GPU so that it’s not able to process that memory as fast as it could if it knew the CPU could not see it.\nMemory Types In Vulkan there are various pools of memory with different properties that we can use to allocate buffer memory. This diagram shows a relationship between the various areas that memory and caching can reside\nMemory Types\rFaster than life\nThe fastest area for memory, as mentioned already, is the area labelled “device local”. The GPU can run this memory as fast as it can because it knows it’s in sole charge of the data and the CPU cannot see, nor modify it without going through the GPU first.\nBut how can we get data into that memory if we can’t see it? This is where staging buffers come in.\nStaging Buffers A staging buffer is a (potentially) temporary buffer that is host visible, that we can write our data into from the application side. From there, we tell Vulkan to transfer our data from that buffer, into a buffer backed by device local memory where it’ll be used longer term.\nThe sequence of operations therefore to get data onto device local memory is as follows:\nAllocate a buffer of the appropriate size, with the usage type of TRANSFER_SRC set. Allocate memory of the correct size from a supported type, with the properties HOST_VISIBLE and HOST_COHERENT set. Bind the memory allocated in step 2, to the buffer allocated in step 1. Map, write the data, and unmap the staging buffer to get the data into this memory from the application. Allocate a buffer of the appropriate size, with the usage type of TRANSFER_DST set. Allocate memory of the correct size from a supported type, with the property DEVICE_LOCAL set. Bind the memory allocated in step 6, to the buffer allocated in step 5. Allocate a command buffer. Record a copy operation into the command buffer. Submit the command buffer to a queue capable of transfer operations. (Optional) Free the command buffer. (Optional) Free the staging buffer memory. (Optional) Free the staging buffer. Note that steps 11, 12, and 13 are marked as optional because they may be reused through the lifetime of an application. They’ll need to be freed/destroyed by the application teardown stage though.\nWe’ll then go ahead and implement this sequence of steps, assuming that the staging buffer and copy command buffer are only good for one staging operation, meaning we’ll clean them up after the copy is finished.\nFunction to Make a Buffer The first step will be to take our code that we had in our create_vertex_buffer function and make it generic, so that we can make any kind of buffer with it.\nThis is mostly a simple exercise, the signature will look as follows\nfn create_buffer( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, usage: BufferUsageFlags, memory_property_flags: MemoryPropertyFlags, size: DeviceSize, ) -\u003e Result\u003c(Buffer, DeviceMemory)\u003e We pass into the generic function the information it needs\nusage: This is the buffer usage, such as VERTEX_BUFFER, TRANSFER_SRC, etc. memory_property_flags: Indicates the type of memory we want to allocate from, for example DEVICE_LOCAL, HOST_VISIBLE, etc. size: The size (in bytes) of the buffer to allocate. There isn’t much to write home about on this function - it’s the same as we had for our vertex buffer, but with some hard-coded things replaced with parameters. As such, I’ll just list the entire code\nunsafe { // create a buffer handle of the right size and type. let buffer = device.create_buffer( \u0026BufferCreateInfo::builder() .size(size) .usage(usage) .sharing_mode(SharingMode::EXCLUSIVE), None, )?; // get buffer memory requirements plus the memory properties of our physical device. let memory_requirements = device.get_buffer_memory_requirements(buffer); let memory_properties = instance.get_physical_device_memory_properties(physical_device); // find a valid memory type index to use. let memory_type_index = find_valid_memory_type_index( memory_properties, memory_requirements, memory_property_flags, ) .ok_or_else(|| anyhow!(\"Failed to get a valid memory type for buffer.\"))?; // allocate memory. let buffer_memory = device .allocate_memory( \u0026MemoryAllocateInfo::builder() .allocation_size(memory_requirements.size) .memory_type_index(memory_type_index as u32), None, ) .context(\"Failed to allocate buffer memory.\")?; // bind buffer memory. device .bind_buffer_memory(buffer, buffer_memory, 0) .context(\"Failed to bind buffer memory to the buffer.\")?; // return. Ok::\u003c_, Error\u003e((buffer, buffer_memory)) } .context(\"Error when trying to create a buffer of some type.\") Function to Make a Staged Buffer Next, we’ll make a reusable function that will be able to take a list of some data type T as a slice, and will push that data to a buffer residing on device local memory via a staging buffer.\nWe’ll essentially be implementing steps 1-13 above in code.\nFirstly let’s take a look at the signature of this function\nfn create_staged_buffer\u003cT\u003e( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, elements: \u0026[T], usage: BufferUsageFlags, transfer_command_pool: CommandPool, transfer_queue: Queue, ) -\u003e Result\u003c(Buffer, DeviceMemory)\u003e Notably this function is generic over any type T, and takes a slice of T’s to push to the GPU. Additionally the caller must provide a command pool created on a queue family that supports transfer operations, and a specific queue to push the copy command buffer to.\nThe first thing required is to determine how many bytes we need to allocate. This is quite simple as we can get the size of a T from std::mem::size_of, and we know how many T’s there are. We must, however also convert this to a DeviceSize, which is a type alias for u64, because size_of returns a usize.\nlet size = (mem::size_of::\u003cT\u003e() * elements.len()) as DeviceSize; Next we need to create 2 buffers, and backing memory storage. One will be for the staging buffer and will be dropped after copying the data, which will require a usage flag of TRANSFER_SRC, and will require a memory type that is HOST_VISIBLE and HOST_COHERENT.\nThe device local buffer we will be returning needs to have TRANSFER_DST, and the memory type needs to be DEVICE_LOCAL. Written as code this would be\nlet (staging_buffer, staging_buffer_memory) = create_buffer( instance, device, physical_device, usage | BufferUsageFlags::TRANSFER_SRC, MemoryPropertyFlags::HOST_VISIBLE | MemoryPropertyFlags::HOST_COHERENT, size, ) .context(\"Failed to create staging buffer.\")?; let (gpu_buffer, gpu_buffer_memory) = create_buffer( instance, device, physical_device, usage | BufferUsageFlags::TRANSFER_DST, MemoryPropertyFlags::DEVICE_LOCAL, size, ) .context(\"Failed to create GPU buffer.\")?; We then go ahead and copy the data from our slice of T’s to the allocated staging buffer memory using the method that we previously used for our vertex buffer (map, write, unmap)\nlet write_ptr = device .map_memory(staging_buffer_memory, 0, size, MemoryMapFlags::empty()) .context(\"Failed to map the staging buffer memory.\")? as *mut T; ptr::copy_nonoverlapping(elements.as_ptr(), write_ptr, elements.len()); device.unmap_memory(staging_buffer_memory); Our data is now residing in our staging buffer so we can tell Vulkan to transfer it to our device local buffer. To do this we first need to allocate a command buffer to record the copy operation into. This needs to be a primary command buffer because we will be submitting it directly to the queue.\nlet command_buffer = device .allocate_command_buffers( \u0026CommandBufferAllocateInfo::builder() .command_pool(transfer_command_pool) .level(CommandBufferLevel::PRIMARY) .command_buffer_count(1), ) .context(\"Failed to allocate a staging transfer command buffer.\")?[0]; Before we can record any commands to the buffer, we need to tell Vulkan we are starting to record to that particular buffer. In this case we will use the ONE_TIME_SUBMIT flag since we will be returning the command buffer to the pool once the copy operation is over.\ndevice .begin_command_buffer( command_buffer, \u0026CommandBufferBeginInfo::builder().flags(CommandBufferUsageFlags::ONE_TIME_SUBMIT), ) .context(\"Failed to begin recording the command buffer.\")?; Now that we’ve told Vulkan we’re recording our commands into that buffer, we can go ahead and issue our command. In this case we have only a single command to do a buffer copy operation.\nVulkan expects the source buffer, and the destination buffer, but also we can specify offsets in each to copy with. In our case though, we copy from the beginning of the source buffer (our staging buffer), to the beginning of the destination buffer (our device local buffer).\ndevice.cmd_copy_buffer( command_buffer, staging_buffer, gpu_buffer, \u0026[*BufferCopy::builder().size(size)], ); With that, we can tell Vulkan we’re done recording commands into the command buffer\ndevice .end_command_buffer(command_buffer) .context(\"Failed to end recording the command buffer.\")?; We will now submit the buffer to the transfer queue, much like we submitted our drawing buffer to the graphics queue for rendering. We could provide a fence or semaphore to this operation if needed, but in our case we will push the buffer to the queue, and then wait until the queue is finished processing.\nBlocking the CPU like this isn’t necessarily a good idea, but it makes the code simpler in this case!\n// submit the copy operation to the transfer queue. let command_buffers = [command_buffer]; let submit_infos = [*SubmitInfo::builder().command_buffers(\u0026command_buffers)]; device .queue_submit(transfer_queue, \u0026submit_infos, Fence::null()) .context(\"Failed to submit the command buffer to the queue.\")?; // block the thread until the copy operation is finished. device .queue_wait_idle(transfer_queue) .context(\"Failed to wait for the transfer to finish.\")?; After the copy operation is finished we have no more need for the transfer command buffer, nor for the staging buffer/memory so we free those. Note that we might want to keep these around for re-use in a bigger application but for now, we are just pushing the data to the GPU once and never changing it, so we can do that at the beginning an drop the staging buffers.\ndevice.free_command_buffers(transfer_command_pool, \u0026[command_buffer]); device.free_memory(staging_buffer_memory, None); device.destroy_buffer(staging_buffer, None); Modifying the Vertex Shader Function Finally, we can go ahead and just modify the create_vertex_shader function to simply use the staged buffer function we just created, with a buffer usage type of VERTEX_BUFFER. Since the function is so simple I’ll just drop all the code here.\nfn create_vertex_buffer( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, vertices: \u0026[Vertex], transfer_command_pool: CommandPool, transfer_queue: Queue, ) -\u003e Result\u003c(Buffer, DeviceMemory)\u003e { create_staged_buffer( instance, device, physical_device, vertices, BufferUsageFlags::VERTEX_BUFFER, transfer_command_pool, transfer_queue, ) .context(\"Failed to create a vertex buffer.\") } Testing We’ll go ahead and test that after making tese changes our program still works as before.\nIndeed it does! (and now our vertex data resides in the much faster GPU-only memory section :D)\n",
-  "wordCount" : "1644",
-  "inLanguage": "en",
-  "datePublished": "2023-03-04T19:56:24Z",
-  "dateModified": "2023-03-04T19:56:24Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/staging-buffers/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ Memory Types In Vulkan there are various pools of memory with different properti
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ Memory Types In Vulkan there are various pools of memory with different properti
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ Memory Types In Vulkan there are various pools of memory with different properti
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       11. Staging Buffers
     </h1>
@@ -446,7 +372,7 @@ Memory Types In Vulkan there are various pools of memory with different properti
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

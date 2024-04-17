@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>6. Shaders | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
 Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/shaders/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/shaders/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,81 +56,7 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
         }
 
     </style>
-</noscript><meta property="og:title" content="6. Shaders" />
-<meta property="og:description" content="Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
-Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-21T23:26:25+00:00" />
-<meta property="article:modified_time" content="2023-02-21T23:26:25+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="6. Shaders"/>
-<meta name="twitter:description" content="Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.
-Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "6. Shaders",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "6. Shaders",
-  "name": "6. Shaders",
-  "description": "Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.\nShaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Before we can set up the graphics pipeline we need to be able to render things to the surface, we need to be able to create shader modules, since shaders are going to do the work in a Vulkan application.\nShaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vulkan application does not accept shader code in source code form but in a binary format known as SPIR-V.\nThe Vulkan SDK contains a program which can be run to convert GLSL to SPIR-V however there are alternative programs that are able to convert GLSL and other languages to SPIR-V.\nThe advantages of Vulkan dealing directly with a binary format is that there is no parsing of source code text to be done at runtime, instead the Vulkan drivers can simply process the binary data which is much much faster.\nVertex shader We’ll write a basic vertex shader first of all, and place it at the path assets/shaders/triangle.vert.\nWe’ll write the source code in GLSL and then convert to SPIR-V. The first thing we need to do is identify the shader version we’re using, we’ll use shader version 4.5\n#version 450 We need to pass along a vertex color to the fragment shader, which we will do by specifying an “out parameter”. However, we are required to specify a numerical location for it, which is used to match up the out parameters with the identically named in parameters of the next shader in the pipeline.\nIn our case we’ll specify that we want a 3 component vector (for RGB) and it should have binding location 0\nlayout(location = 0) out vec3 fragColour; In a proper shader we’ll get the vertex positions and colors from attached buffers. However in order to get something rendering faster, we just hard code the vertex positions and colors into the shader\nvec3 positions[3] = vec3[]( vec3(0.0, -0.4, 0.0), vec3(0.4, 0.4, 0.0), vec3(-0.4, 0.4, 0.0) ); vec3 colours[3] = vec3[]( vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0) ); Finally we can define the main function which will do two things:\nSet the gl_Position property to the position for the vertex identified by gl_VertexIndex Set the out parameter fragColour with the color of the vertex identified by gl_VertexIndex void main() { gl_Position = vec4(positions[gl_VertexIndex], 1.0); fragColour = colours[gl_VertexIndex]; } Fragment shader The fragment shader will be pretty simple, and will be located at assets/shaders/triangle.frag.\nAgain we define that we want shader version 4.5, but we won’t show that here for brevity.\nThe first thing we need is to make an in parameter with the same binding location as the out parameter from the vertex shader. To make things easier we’ll use the same name as well as was passed from the vertex shader\nlayout(location = 0) in vec3 fragColour; We also need to define an out parameter for the final fragment color, note that we can use the same binding location because the binding location is only used to pair up an out parameter from a shader to the in parameter with the same location in the next shader. In this case the in and out are in the same shader so they don’t conflict or pair up with each other\nlayout(location = 0) out vec4 outColour; Finally we can define the main function which is just gonna assign the fragment color from the in parameter to out parameter (adding in an alpha of 1)\nvoid main() { outColour = vec4(fragColour, 1.0); } Compiling shaders with Naga As mentioned previously, the Vulkan SDK ships with a program to compile GLSL to SPIR-V, however it requires the developer to have the SDK installed. Additionally, if we ever wanted the end user to be able to modify and recompile the shaders on the target machine, we don’t want to force the Vulkan SDK to be installed.\nInstead, we can use the handy crate Naga which is able to take a few different input shader formats, and output a few different formats.\nIn our case we want to accept GLSL in, and output SPIR-V.\nFirst we can add the naga crate to our Cargo.toml. In our case, we will be compiling these shaders at build time with a build script, so we add it as a dev dependency\n[build-dependencies] naga = { version = \"0.11.0\", features = [\"glsl-in\", \"spv-out\"] } Naga requires that we enable the features for whichever source code we’re taking in, and whichever formats we’re producing (in our case we enable glsl-in, and spv-out).\nUsing Naga is actually quite easy, first of all we need to specify which type of shader we are parsing as options, which we can do, for example in the case of a vertex shader with the following\nlet options = Options::from(ShaderStage::Vertex); We then parse the source code into a module which is an intermediate format that can then be output to the various formats. This is just a case of passing the source along with the options\nlet module = parser.parse(\u0026options, \u0026source).unwrap(); We then need to validate the module is correct, which we can do with the validator type. This process also produces some information which we need for the compiling to SPIR-V\nlet info = Validator::new(ValidationFlags::all(), Capabilities::all()) .validate(\u0026module) .unwrap(); We need to create storage for the SPIR-V output which outputs into a vector of u32’s…..so we’ll create this vector, along with the writer which will write the module out as SPIR-V\nlet mut words = vec![]; let mut writer = Writer::new(\u0026spv::Options::default()).unwrap(); Finally we just call the write method on the writer which will write the SPIR-V words out to the words vec\nwriter.write(\u0026module, \u0026info, None, \u0026mut words).unwrap(); Templating with tinytemplate Another tool we’ll make use of is the tinytemplate library which allows us to define a text template and then make substitutions of some context into it resulting in a final string.\nWe need the following crates:\ntinytemplate: This is the main crate that will perform the substitutions and render the final string serde: tinytemplate requires serde for serialization since it uses the serialized data for making substitutions serde_derive: Provides the Serialize derive we’ll use We can add these into our Cargo.toml - again we’ll put these into build-dependencies as we won’t use them at runtime and are compiling our shaders at build time.\ntinytemplate = \"1.2.1\" serde_derive = \"1.0.152\" serde = \"1.0.152\" In order to use tinytemplate, we simply make a TinyTemplate object\nlet mut tt = TinyTemplate::new(); We then add a template string under a certain name\ntt.add_template(\"shaders\", TEMPLATE).unwrap(); We create a context structure, with contents applicable to the template we’re rendering, and for the actual rendering we just pass the context in, along with the name of the template we’re rendering\nlet code = tt.render(\"shaders\", \u0026context).unwrap(); Compiling the shaders Cargo, which is the official project tooling for Rust, supports having a build script that is run before the program itself is compiled.\nThese are often used to generate additional Rust code at build time that can be incorporated into regular Rust code during the build, or to compile C libraries that can be linked in.\nWe will use a build script to find all of the shaders (vertex and fragment only at the moment) in the assets/shaders directory, and compile them into SPIR-V. We’ll then bake the generated code into our build.\nMaking the build script The first step is to make a script named build.rs in the root of the Cargo project, which will be picked up automatically by Rust\nThe build script has a main function, same as a regular binary main file, however it’s run by Cargo at build time, and can issue directives to Cargo through printing to stdout.\nThe build script will be re-run when it’s changed but we can also tell it to re-run when other files have changed. In our case we want to re-run it whenever any of the shader files under our search path changes. We can do this with the following line\nprintln!(\"cargo:rerun-if-changed=\\\"assets/shaders\\\"\"); This has a few parts to it\ncargo: identifies this output as being a directive for Cargo rerun-if-changed is the directive which says to re-run the build script if the referenced file or files change =\"assets/shaders\" is our path. We have to escape the quote marks due to them being within a string already Recursing the shader directory The first thing we’ll do inside this build script is initialise a stack for our recursion. Initially it’ll only have the assets/shaders path in it but as we find more directories to recurse into, we’ll push onto this\nlet prefix: PathBuf = \"assets/shaders\".into(); let mut paths: Vec\u003c_\u003e = vec![prefix.clone()]; Secondly we’ll need a parser for Naga to use when we’re parsing our shader sources. We can re-use this parser between shaders for efficiency though. We’ll also allocate storage for the shader name/data\nlet mut parser = Parser::default(); let mut shaders = vec![]; For a recursive directory search, we’ll keep going while there’s more paths in our “paths” stack, and use fs::read_dir to get the information for files and subdirectories within that directory. This function gets us an iterator over all the files/directories there, so we iterate it\nwhile let Some(path) = paths.pop() { if let Ok(files) = fs::read_dir(path) { for file in files { let file = file.unwrap(); // more code here } } } We can get the file type (directory, file, etc.), and the file path from this entry\nlet file_type = file.file_type().unwrap(); let file_path = file.path(); Now we check the file type. If it’s a directory, then we simply push it onto the stack for processing, if it’s a file though we’ll need to do more work\nif file_type.is_dir() { paths.push(file_path); } else if file_type.is_file() { if let Some(source) = read_and_compile_shader(file_path.clone(), \u0026mut parser) { let shader_name = file_path .strip_prefix(prefix.clone()) .unwrap() .to_str() .unwrap() .replace('\\\\', \"/\"); let source = format!(\"{source:?}\"); shaders.push((shader_name, source)); } } What we do if it’s a file, is we pass it to our helper function read_and_compile_shader which attempts to parse the file as shader source and return the SPIR-V data. This function is optional, because the file could be not a shader, in which case it’s ignored.\nIf the conversion is successful then we take the file path, and rmeove the “assets/shaders” portion, so we get a relative path to that folder. We then replace any backslashes with forward slashes to standardise the path for our application code to correctly look up a shader.\nThe source is formatted as a string which will format it as a string like: \"[12, 13, 14, 42]\"\nFinally we push the shader name and source code string into the shaders list.\nBuilding the source code Once we’ve found all the shaders in our assets folder, and have our list of pairs, we can generate a Rust source file that will then be included into and built into our application.\nFor this we use tinytemplate as briefly mentioned in a previous section. However tinytemplate uses the { and } characters to identify substitutions into the template. This means we can’t use them to define our Rust function (I couldn’t find a way anyway), and instead have to substitute in those characters themselves.\nIn our template we call those open_brace and close_brace. Template is as follows\nconst TEMPLATE: \u0026str = \" fn get_compiled_shader_mapping() -\u003e ::std::collections::HashMap\u003c\u0026'static str, \u0026'static [u32]\u003e {open_brace} let mut hash_map = ::std::collections::HashMap::new(); {{ for shader in shaders }} {open_brace} const ARR: \u0026[u32] = \u0026{shader.1}; hash_map.insert(\\\"{shader.0}\\\", ARR); {close_brace} {{ endfor }} hash_map {close_brace} \"; This is generating a function called get_compiled_shader_mapping which builds and returns a HashMap linking the shader path (relative to assets/shaders) to the bytes of that shader.\nWe can see the following special commands in the template:\n{open_brace}: substitutes the “{” character {close_brace}: substitutes the “}” character {{for shader in shaders}}: A loop which runs the code until endfor, for every element of shaders (every pair) {{endfor}}: delimits the end of the section that is repeated in the for loop {shader.0}: this is the shader path {shader.1}: this is the stringified version of the SPIR-V array generated for that shader We then go ahead and use tinytemplate to generate the final code\nlet mut tt = TinyTemplate::new(); tt.add_template(\"shaders\", TEMPLATE).unwrap(); let context = Context { shaders, open_brace: '{', close_brace: '}', }; let code = tt.render(\"shaders\", \u0026context).unwrap(); The code generated with this template looks something like\nfn get_compiled_shader_mapping() -\u003e ::std::collections::HashMap\u003c\u0026'static str, \u0026'static [u32]\u003e { let mut hash_map = ::std::collections::HashMap::new(); { const ARR: \u0026[u32] = \u0026[119734787, 65536, 28, 37, 0, 131089, 1, 393227, 1, 1280527431, 1685353262, 808793134, 0, 196622, 0, 1, 458767, 4, 31, 1852399981, 0, 26, 29, 196624, 31, 7, 327752, 9, 0, 35, 0, 262215, 26, 30, 0, 262215, 29, 30, 0, 131091, 2, 262165, 4, 32, 1, 262187, 4, 3, 0, 196630, 6, 32, 262187, 6, 5, 1065353216, 262167, 7, 6, 3, 262167, 8, 6, 4, 196638, 9, 8, 262176, 11, 6, 7, 196654, 7, 12, 327739, 11, 10, 6, 12, 262176, 14, 6, 8, 196654, 8, 15, 327739, 14, 13, 6, 15, 196641, 18, 2, 262176, 27, 1, 7, 262203, 27, 26, 1, 262176, 30, 3, 8, 262203, 30, 29, 3, 327734, 2, 17, 0, 18, 131320, 16, 131321, 19, 131320, 19, 262205, 7, 20, 10, 327761, 6, 21, 20, 0, 327761, 6, 22, 20, 1, 327761, 6, 23, 20, 2, 458832, 8, 24, 21, 22, 23, 5, 196670, 13, 24, 65789, 65592, 327734, 2, 31, 0, 18, 131320, 25, 262205, 7, 28, 26, 131321, 32, 131320, 32, 196670, 10, 28, 262201, 2, 33, 17, 262205, 8, 34, 13, 262224, 9, 35, 34, 327761, 8, 36, 35, 0, 196670, 29, 36, 65789, 65592]; hash_map.insert(\"triangle.frag\", ARR); } { const ARR: \u0026[u32] = \u0026[119734787, 65536, 28, 83, 0, 131089, 1, 393227, 1, 1280527431, 1685353262, 808793134, 0, 196622, 0, 1, 524303, 0, 60, 1852399981, 0, 53, 56, 58, 262215, 14, 6, 16, 262215, 15, 6, 16, 327752, 17, 0, 35, 0, 327752, 17, 1, 35, 12, 262215, 53, 11, 42, 262215, 56, 30, 0, 262215, 58, 11, 0, 131091, 2, 262165, 4, 32, 1, 262187, 4, 3, 0, 262187, 4, 5, 3, 262165, 7, 32, 0, 262187, 7, 6, 3, 196630, 9, 32, 262187, 9, 8, 0, 262187, 9, 10, 1053609165, 262187, 9, 11, 3201092813, 262187, 9, 12, 1065353216, 262167, 13, 9, 3, 262172, 14, 13, 6, 196637, 15, 13, 262167, 16, 9, 4, 262174, 17, 13, 16, 393260, 13, 18, 8, 11, 8, 393260, 13, 19, 10, 10, 8, 393260, 13, 20, 11, 10, 8, 393260, 14, 21, 18, 19, 20, 393260, 13, 22, 12, 8, 8, 393260, 13, 23, 8, 12, 8, 393260, 13, 24, 8, 8, 12, 393260, 14, 25, 22, 23, 24, 262176, 27, 6, 13, 196654, 13, 28, 327739, 27, 26, 6, 28, 262176, 30, 6, 14, 327739, 30, 29, 6, 21, 327739, 30, 31, 6, 25, 262176, 33, 6, 16, 196654, 16, 34, 327739, 33, 32, 6, 34, 262176, 36, 6, 7, 196654, 7, 37, 327739, 36, 35, 6, 37, 196641, 40, 2, 262176, 54, 1, 7, 262203, 54, 53, 1, 262176, 57, 3, 13, 262203, 57, 56, 3, 262176, 59, 3, 16, 262203, 59, 58, 3, 262176, 78, 3, 9, 262187, 7, 79, 1, 327734, 2, 39, 0, 40, 131320, 38, 131321, 41, 131320, 41, 262205, 7, 42, 35, 327745, 27, 43, 29, 42, 262205, 13, 44, 43, 327761, 9, 45, 44, 0, 327761, 9, 46, 44, 1, 327761, 9, 47, 44, 2, 458832, 16, 48, 45, 46, 47, 12, 196670, 32, 48, 262205, 7, 49, 35, 327745, 27, 50, 31, 49, 262205, 13, 51, 50, 196670, 26, 51, 65789, 65592, 327734, 2, 60, 0, 40, 131320, 52, 262205, 7, 55, 53, 131321, 61, 131320, 61, 196670, 35, 55, 262271, 9, 62, 10, 393296, 13, 63, 8, 62, 8, 393296, 13, 64, 10, 10, 8, 262271, 9, 65, 10, 393296, 13, 66, 65, 10, 8, 393296, 14, 67, 63, 64, 66, 393296, 13, 68, 12, 8, 8, 393296, 13, 69, 8, 12, 8, 393296, 13, 70, 8, 8, 12, 393296, 14, 71, 68, 69, 70, 262201, 2, 72, 39, 262205, 13, 73, 26, 262205, 16, 74, 32, 327760, 17, 75, 73, 74, 327761, 13, 76, 75, 0, 196670, 56, 76, 327761, 16, 77, 75, 1, 196670, 58, 77, 327745, 78, 80, 58, 79, 262205, 9, 81, 80, 262271, 9, 82, 81, 196670, 80, 82, 65789, 65592]; hash_map.insert(\"triangle.vert\", ARR); } hash_map } Finally, we’ll write it out to file so it can be included later. Rust only supports writing build script output to the directory specified by the OUT_DIR environment variable. Rust gives us a way to get this through std::env::var, passing a key.\nWe can therefore write out this source code to a file called shaders.rs under that folder\nlet path = format!(\"{}/shaders.rs\", env::var(\"OUT_DIR\").unwrap()); fs::write(path, code).unwrap(); Compiling shader source As mentioned above, we use a file read_and_compile_shader to take a file path, and a Naga parser and read the source code as GLSL source if it can, outputting and returning the SPIR-V data.\nThe first steps are to get the file extension which will tell us whether it’s a vertex (.vert) or fragment shader (.frag), and also to read the text of the file\nlet extension = input_path.extension()?.to_str()?; let source = fs::read_to_string(\u0026input_path).ok()?; let options = match extension { \"frag\" =\u003e Options::from(ShaderStage::Fragment), \"vert\" =\u003e Options::from(ShaderStage::Vertex), _ =\u003e return None, }; We then use the process of parsing the shader as GLSL into a Naga module, and then writing out to SPIR-V. We return the generated bytes\nlet module = parser.parse(\u0026options, \u0026source).ok()?; let info = Validator::new(ValidationFlags::all(), Capabilities::all()) .validate(\u0026module) .ok()?; let mut words = vec![]; let mut writer = Writer::new(\u0026spv::Options::default()).ok()?; writer.write(\u0026module, \u0026info, None, \u0026mut words).ok()?; Some(words) Including shaders into application Our build script has now generated a Rust source code file with a function in it that when it’s called returns a HashMap of the shader names to code.\nWe can include this generated file into our build by adding the following to our main.rs file\ninclude!(concat!(env!(\"OUT_DIR\"), \"/shaders.rs\")); So this takes the environment variable corresponding to the OUT_DIR key, and appends the “/shaders.rs” to load the file at that path (concat! stitches the two strings together). include! then includes the contents of that file as Rust source code.\nMaking shader modules Now we have the SPIR-V data in our application, we can pass it to Vulkan to make a shader module that can be used.\nWe’ll make a simple wrapper function called create_shader_module and it’s called as such\nlet vertex_shader = create_shader_module(\u0026logical_device, shader_mapping[\"triangle.vert\"])?; let fragment_shader = create_shader_module(\u0026logical_device, shader_mapping[\"triangle.frag\"])?; The function itself is pretty simple - there’s a create_shader_module on the logical device. The creation parameters only require the code slice to be constructed\nfn create_shader_module(device: \u0026Device, code: \u0026[u32]) -\u003e Result\u003cShaderModule\u003e { unsafe { device.create_shader_module(\u0026ShaderModuleCreateInfo::builder().code(code), None) } .context(\"Error while creating a shader module.\") } We’ll change cleanup to take a slice of shader modules to destroy - and ensure they’re destroyed before the logical device\nfn cleanup( instance: Instance, device: Device, debug_utils: DebugUtils, messenger: DebugUtilsMessengerEXT, surface_ext: Surface, surface: SurfaceKHR, swapchain_ext: Swapchain, swapchain: SwapchainKHR, swapchain_images: Vec\u003cSwapchainImage\u003e, shader_modules: \u0026[ShaderModule], ) { unsafe { for shader_module in shader_modules { device.destroy_shader_module(*shader_module, None); } for swapchain_image in swapchain_images { device.destroy_image_view(swapchain_image.image_view, None); } swapchain_ext.destroy_swapchain(swapchain, None); device.destroy_device(None); debug_utils.destroy_debug_utils_messenger(messenger, None); surface_ext.destroy_surface(surface, None); instance.destroy_instance(None); } } ",
-  "wordCount" : "3189",
-  "inLanguage": "en",
-  "datePublished": "2023-02-21T23:26:25Z",
-  "dateModified": "2023-02-21T23:26:25Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/shaders/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -148,7 +74,7 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -176,17 +102,17 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -197,7 +123,7 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       6. Shaders
     </h1>
@@ -510,7 +436,7 @@ Shaders in Vulkan Unlike OpenGL which accepts shaders in source code form, a Vul
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

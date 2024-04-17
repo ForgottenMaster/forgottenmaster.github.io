@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>17. Textures Part 1 | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/">
+<link rel="canonical" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/textures-1/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/textures-1/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,79 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="17. Textures Part 1" />
-<meta property="og:description" content="So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-03-31T14:30:59+01:00" />
-<meta property="article:modified_time" content="2024-03-31T14:30:59+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="17. Textures Part 1"/>
-<meta name="twitter:description" content="So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Let's Learn Vulkan",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "17. Textures Part 1",
-      "item": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "17. Textures Part 1",
-  "name": "17. Textures Part 1",
-  "description": "So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler.",
-  "keywords": [
-    
-  ],
-  "articleBody": "So far we have two animated but flat-color shaded quads in the scene, but we will often want to be able to render textures to models in an actual application. This post focuses on loading the image data into memory,and setting up pipeline barriers for getting the image into the correct format for the correct part of the pipeline. The next post will deal with actually setting up descriptors and allowing the shader to access the image through a sampler.\nLoading Image From File Firstly we will need to be able to load an image from an image file we have. We can do this in Rust with the image crate easily, and we’ll make a function for loading the image data from file so we can just call it multiple times.\nThe function itself looks as follows\nfn load_image_from_file(path: impl AsRef\u003cPath\u003e + Clone + Display) -\u003e Result\u003c(Vec\u003cu8\u003e, u32, u32)\u003e { let image = image::io::Reader::open(path.clone()) .with_context(|| format!(\"Loading image from file path: {path}\"))? .decode() .with_context(|| format!(\"Decoding image loaded from file path: {path}\"))? .into_rgba8(); Ok((image.as_bytes().to_owned(), image.width(), image.height())) } For the function, we take a path which is any type with the following traits:\nAsRef =\u003e Required because the image reader opening function requires this trait Clone =\u003e Required because we’re needing to reuse path for the error reporting message Display =\u003e Required so that the error messages can incorporate the path for more information The function then returns a tuple with:\nThe bytes of the image The width of the image The height of the image Inside the function we simply use the Reader type from the image crate with the file path, and then call decode after loading to get a DynamicImage. We need to put error handling on both loading and decoding the image, which is why with_context is used.\nThe image may be in any format, but we want to guarantee RGBA8 so as to make the code easier (we only have to write it for one image format), therefore we use the into_rgba8 method to convert the data if needed.\nFor our purposes we’ll test that the loading is correct with the following call in main\nlet (_image_bytes, _width, _height) = load_image_from_file(\"assets/textures/image1.jpg\").context(\"Loading image1.jpg\")?; And we’ll use the following image at that location\nMaking Helper Functions Before moving onto making a function to create a texture, we will need to implement a copy command buffer to image function. Before we do that however, there’s a couple of parts that are shared between this copying and the copying we’re already doing, with respect to command buffers.\nWe still want to be able to create/allocate a command buffer and set it to be one time submit, and we want to be able to end recording and submit the buffer to the queue.\nWe can do this by copying the code we have already inside create_staged_buffer into a couple of helper functions which are simple enough to just display here\nfn begin_command_buffer(device: \u0026Device, command_pool: CommandPool) -\u003e Result\u003cCommandBuffer\u003e { unsafe { let command_buffer = device .allocate_command_buffers( \u0026CommandBufferAllocateInfo::builder() .command_pool(command_pool) .level(CommandBufferLevel::PRIMARY) .command_buffer_count(1), ) .context(\"Failed to allocate a command buffer.\")?[0]; device .begin_command_buffer( command_buffer, \u0026CommandBufferBeginInfo::builder().flags(CommandBufferUsageFlags::ONE_TIME_SUBMIT), ) .context(\"Failed to begin recording the command buffer.\")?; Ok(command_buffer) } } fn end_and_submit_command_buffer( device: \u0026Device, queue: Queue, command_pool: CommandPool, command_buffer: CommandBuffer, ) -\u003e Result\u003c()\u003e { unsafe { device .end_command_buffer(command_buffer) .context(\"Failed to end recording the command buffer.\")?; let command_buffers = [command_buffer]; let submit_infos = [*SubmitInfo::builder().command_buffers(\u0026command_buffers)]; device .queue_submit(queue, \u0026submit_infos, Fence::null()) .context(\"Failed to submit the command buffer to the queue.\")?; device .queue_wait_idle(queue) .context(\"Failed to wait for the transfer to finish.\")?; device.free_command_buffers(command_pool, \u0026[command_buffer]); } Ok(()) } Copy Image Buffer Function We want to be able to copy image data from a buffer to an image, so we should make a reusable function to do this which we’ll call copy_image_buffer.\nThe functionality of this function will be to take a source buffer holding the data (this will be the staging buffer we will make in the create_texture function a bit later), and a destination image. We need to also specify the width and height of the image so Vulkan knows the row length.\nWe do the copy on the transfer queue, which is gonna be the same as the graphics queue because graphics can also perform transfers (however it could be a different queue in theory).\nThe signature of the function will be as follows\nfn copy_image_buffer( device: \u0026Device, transfer_queue: Queue, transfer_command_pool: CommandPool, src_buffer: Buffer, dst_image: Image, width: u32, height: u32, ) -\u003e Result\u003c()\u003e We don’t need any data as such, but we still need to return anyhow::Result because one of the steps of the process may fail.\nThe first step is to use the begin_command_buffer helper function we made above to allocate and begin recording of a command buffer. This may fail for example if we can’t allocate any more buffers from the pool or something like that.\nlet transfer_command_buffer = begin_command_buffer(device, transfer_command_pool) .context(\"Beginning command buffer recording for copy_image_buffer\")?; There are a few pieces of data required to specify what to copy where when doing an image transfer from a buffer.\nThe first will be the subresource information which tells Vulkan which layer or level, or even channel of the destination image we’re copying the data to\nlet image_subresource = ImageSubresourceLayers::builder() .aspect_mask(ImageAspectFlags::COLOR) .mip_level(0) .base_array_layer(0) .layer_count(1) .build(); Here we specify:\naspect_mask =\u003e This specifies the aspects of the image we’re copying to such as depth, color, etc. In our case we’re copying the color data. mip_level =\u003e This specifies the MIP level we’re copying. We aren’t using MIP levels though, so we specify level 0. base_array_layer =\u003e This specifies the index of the first layer we’re copying in the image (for multi-layer images). We’re only using one layer though, so index is set to 0. layer_count =\u003e This is the number of layers we’re copying in the image. We’re only using one layer, so this is set to 1. Secondly we need to define the offset (in 3-dimensions) of the copy in the destination image, which we can form with the Offset3D type\nlet offset_3d = Offset3D::builder().x(0).y(0).z(0).build(); This one is very simple, because we’re copying the entire image, from the beginning, so there is no offset in any axis.\nNext up, now that we’ve determined where to copy to in the image, we need to determine how much to copy. We can do this with the Extent3D type.\nlet extent_3d = Extent3D::builder() .width(width) .height(height) .depth(1) .build(); Here we specify:\nwidth =\u003e The width of the image, which we pass in since we receive it as a parameter to the copy_image_buffer function height =\u003e The height of the image, which we can also simply pass in as it’s received into the function depth =\u003e The depth of the image, which is 1 here because we’re using a 2D image Finally we can make the actual description of the image copy arguments:\nlet buffer_image_copy = BufferImageCopy::builder() .buffer_offset(0) .buffer_row_length(0) .buffer_image_height(0) .image_subresource(image_subresource) .image_offset(offset_3d) .image_extent(extent_3d) .build(); The image_subresource, image_offset, and image_extent are already specified above, so we can just pass those in as they’re self-explanatory. Apart from this we have:\nbuffer_offset =\u003e This is the offset into the source buffer that we are copying the data from. It allows the same buffer to hold many pieces of data if needed. buffer_row_length =\u003e This specifies the length of a row in texels in the buffer memory of a sub-image. If 0 it’s ignored, and image_extent.width is used. If non-zero then must be equal or greater than image_extent.width buffer_image_height =\u003e This specifies the height in texels in the buffer memory of a sub-image to copy from. If 0 it’s ignored, and image_extent.height is used. If non-zero then must be equal or greater than image_extent.height Finally, we perform the actual transfer operation. The only thing of note here is that we want the image layout to be put into TRANSFER_DST_OPTIMAL for the transfer to happen fast.\ndevice.cmd_copy_buffer_to_image( transfer_command_buffer, src_buffer, dst_image, ImageLayout::TRANSFER_DST_OPTIMAL, \u0026[buffer_image_copy], ); Finally we can end recording of the command buffer, and submit it to the transfer queue to actually perform the operation. Again this may fail, so we add some context in case it does\nend_and_submit_command_buffer( device, transfer_queue, transfer_command_pool, transfer_command_buffer, ) .context(\"Ending and submitting command buffer recording in copy_image_buffer\") Transition Image Layout Function In order to be able to use the image we’ve allocated, we first need to be able to put it into the correct format for the way we’ll be using it.\nVulkan requires us to allocate the image initially with either undefined layout, or preinitialized but we can’t keep it in that layout.\nWe will need to do a couple of transitions during the texture creation process, so I introduce a helper function with the following signature\nfn transition_image_layout( device: \u0026Device, queue: Queue, command_pool: CommandPool, image: Image, old_layout: ImageLayout, new_layout: ImageLayout, ) -\u003e Result\u003c()\u003e We need to pass the usual (device, queue, and command pool) but the things that are important for this function are:\nimage =\u003e The image that we are wanting to transition the layout of old_layout =\u003e The layout that we’re transitioning from new_layout =\u003e The layout that we’re wanting to transition to The first step to implementing this function will be to allocate and begin a command buffer from the pool. Luckily we have a function for this\nlet command_buffer = begin_command_buffer(device, command_pool) .context(\"Beginning a command buffer for transitioning image layout\")?; For the transition, we need to identify which subresource range of the image we’re actually transitioning. This allows for a single Image resource in Vulkan to have multiple independant sub images, and we might only transition one of those.\nIn our case however the entire image is a single resource with no subresources. Therefore this looks the same as it did in the create_image function\nlet subresource_range = ImageSubresourceRange::builder() .aspect_mask(ImageAspectFlags::COLOR) .base_mip_level(0) .level_count(1) .base_array_layer(0) .layer_count(1) .build(); The second piece of information we will need is the actual description of the memory barrier we will be setting up. This barrier tells Vulkan when to perform the transition, and what the format change is.\nBefore we can set up this description however, there are a few pieces of information that are dependant on the layout transition we’re performing. Rust makes it easy to represent as a match expression. However for creating a texture, there is only an immediate need for 2 particular transitions. We’ll just return an error if anything else is given.\nlet (src_access_mask, dst_access_mask, src_stage_flags, dst_stage_flags) = match (old_layout, new_layout) { (ImageLayout::UNDEFINED, ImageLayout::TRANSFER_DST_OPTIMAL) =\u003e ( AccessFlags::NONE, AccessFlags::TRANSFER_WRITE, PipelineStageFlags::TOP_OF_PIPE, PipelineStageFlags::TRANSFER, ), (ImageLayout::TRANSFER_DST_OPTIMAL, ImageLayout::SHADER_READ_ONLY_OPTIMAL) =\u003e ( AccessFlags::TRANSFER_WRITE, AccessFlags::SHADER_READ, PipelineStageFlags::TRANSFER, PipelineStageFlags::FRAGMENT_SHADER, ), _ =\u003e { return Err(anyhow!( \"Unsupported image layout transition from {old_layout:?} to {new_layout:?}\" )) } }; A brief description of the produced values is:\nsrc_access_mask =\u003e This defines the type of access within the source stages which represents the earliest opportunity that this barrier can be placed dst_access_mask =\u003e This defines the type of access within the destination stages and represents the latest opportunity for this barrier to be placed src_stage_flags =\u003e This defines the earliest stage in the pipeline that this barrier can be placed dst_stage_flags =\u003e This defines the latest stage in the pipeline that this barrier can be placed Now we have these we can go ahead and set up the description of our image memory barrier\nlet memory_barrier = ImageMemoryBarrier::builder() .old_layout(old_layout) .new_layout(new_layout) .src_queue_family_index(QUEUE_FAMILY_IGNORED) .dst_queue_family_index(QUEUE_FAMILY_IGNORED) .image(image) .subresource_range(subresource_range) .src_access_mask(src_access_mask) .dst_access_mask(dst_access_mask) .build(); Most of the parameters will be self explanatory, but we have two here src_queue_family_index and dst_queue_family_index which might need a little explaining.\nThese are used in the case that the transition also moves ownership of the image from on queue family to another. However in our case, we are keeping the image on the same queue and so we can ignore both of these parameters.\nWith all of the data in place that we need to actually tell Vulkan about the pipeline barrier, we can record it into the command buffer with the following that should also be self-explanatory\nunsafe { device.cmd_pipeline_barrier( command_buffer, src_stage_flags, dst_stage_flags, DependencyFlags::empty(), \u0026[], \u0026[], \u0026[memory_barrier], ); } Finally, one last thing left is to actually end the command buffer recording and submit it to the queue. This is just a call to the helper function we defined though\nend_and_submit_command_buffer(device, queue, command_pool, command_buffer) .context(\"Ending a command buffer for transitioning image layout\")?; Texture Struct To make it easier to pass things around, we’ll bundle up the data for a Texture into a struct which looks as follows\nstruct Texture { image: Image, image_memory: DeviceMemory, _width: u32, _height: u32, } The fields are self explanatory, however a note here is the _width and _height fields are prefixed with underscores to show that they’re unused (at the moment), but stored in case we do need them.\nCreate Texture Function With the above all implemented, we can now implement the actual create_texture function which the main program will then use to get Vulkan to prepare an Image and allocated memory. The signature will look as follows:\nfn create_texture( instance: \u0026Instance, device: \u0026Device, physical_device: PhysicalDevice, transfer_queue: Queue, transfer_command_pool: CommandPool, path: impl AsRef\u003cPath\u003e + Clone + Display, ) -\u003e Result\u003cTexture\u003e The parameters are self-explanatory here as they’ve been passed into various other functions thus far. Of special note is the path parameter which has an opaque trait type. This is the same type (combination of traits) as is passed into the file loading function.\n1. Loading the file The first step will be to load the file at the given path, and then calculate the total amount of bytes that are in the image data.\nlet (image_data, width, height) = load_image_from_file(path.clone()) .with_context(|| format!(\"Attempting to create texture for image at path {path}\"))?; let image_size = (width * height * 4) as DeviceSize; // 4 bytes per pixel RGBA8 Loading the image (and getting its width and height) is very simple as it’s just delegated to the load_image_from_file function we implemented. However we do add another bit of context to the error report in case it does error.\nFor the total number of bytes we have in the image, we need to multiply the number of pixels (width * height) by the number of bytes per pixel, which we know is 4 (because load_image_from_file converts the image format to RGBA8 after load).\n2. Creating a staging buffer We will need to allocate a buffer that is host visible that we can copy our data into on the CPU. The data isn’t kept there however and will be moved to GPU memory, so this is a temporary (or staging) buffer.\nWe can allocate it with the help of the create_buffer function that was made\nlet (staging_buffer, staging_buffer_memory) = create_buffer( instance, device, physical_device, BufferUsageFlags::TRANSFER_SRC, MemoryPropertyFlags::HOST_VISIBLE | MemoryPropertyFlags::HOST_COHERENT, image_size, ) .with_context(|| format!(\"Attempting to create texture for image at path {path}\"))?; Here we:\nSet BufferUsageFlags to TRANSFER_SRC. This is because the staging buffer will be copied from Set the MemoryPropertyFlags to HOST_VISIBLE and HOST_COHERENT. This is so we can memory map the buffer and copy our data into it Set the number of bytes we’re allocating to image_size which we’ve calculated are the number of bytes in the image data 3. Copying data into the staging buffer Next we can copy the data we have into the buffer we’ve allocated. This is an unsafe operation and as a refresher we need to:\nCall Device::map_memory in order to map the whole buffer memory, and return a (mutable) pointer to the data Use ptr::copy_nonoverlapping to copy the entire data from our Vec of bytes to the buffer memory Call Device::unmap_memory to close off writing and allow Vulkan to do whatever it needs to with the data to optimise it In code this looks as follows\nunsafe { let write_ptr = device .map_memory( staging_buffer_memory, 0, image_size, MemoryMapFlags::empty(), ) .context(\"Failed to map the staging buffer memory.\")? as *mut u8; ptr::copy_nonoverlapping(image_data.as_ptr(), write_ptr, image_size as usize); device.unmap_memory(staging_buffer_memory); } 4. Find a supported image format Now we have te data residing in (host visible) buffer memory, we need to create an Image as the destination to copy it to.\nBefore we can do this, we need to determine a suitable format for the image from those supported by the device.\nCan just use the get_best_image_format function that was implemented previously:\nlet format = get_best_image_format( instance, physical_device, \u0026[Format::R8G8B8A8_UNORM], ImageTiling::OPTIMAL, FormatFeatureFlags::TRANSFER_DST | FormatFeatureFlags::SAMPLED_IMAGE, ) .with_context(|| { format!(\"Attempting to find image format while creating a texture for image at path {path}\") })?; Nothing too surprising here:\nWe want R8G8B8A8_UNORM as it fits our RGBA8 data We want optimal tiling for the image We will use the image as a transfer destination (from the buffer), and to sample from - so the format we use must support both 5. Creating the image We can now use the create_image function to actually allocate and create the image for us which looks as follows:\nlet (image, image_memory) = create_image( instance, device, physical_device, width, height, ImageTiling::OPTIMAL, ImageUsageFlags::TRANSFER_DST | ImageUsageFlags::SAMPLED, ImageLayout::UNDEFINED, format, MemoryPropertyFlags::DEVICE_LOCAL, ) .with_context(|| format!(\"Attempting to create texture for image at path {path}\"))?; For the image, we know the width and the height which are fairly self-explanatory (those came from the image loading function). We require optimal tiling on the image, and we need it to be usable as a transfer destination, and sampled from shaders, so we specify those as ImageUsageFlags.\nFor the ImageLayout Vulkan only allows us to specify either UNDEFINED or PREINITIALIZED. In this case we don’t care which layout it comes as, and we’ll be transitioning it for the copy soon.\nWe want the image to be DEVICE_LOCAL to be as fast as possible here though.\n6. Copying the buffer to the image Now the image is allocated by Vulkan, we need to get the data from the staging buffer into there, which we can of course do with the copy_image_buffer helper function that was made. However, in order to copy the buffer to the image it needs to be put into the correct layout for being the destination of a transfer.\nWe can do that by calling the helper function transition_image_layout which in this case will be a transition from UNDEFINED (what we created it as), to TRANSFER_DST_OPTIMAL\ntransition_image_layout( device, transfer_queue, transfer_command_pool, image, ImageLayout::UNDEFINED, ImageLayout::TRANSFER_DST_OPTIMAL, ) .with_context(|| format!(\"Attempting to create texture for image at path {path}\"))?; THEN we can call the copy_image_buffer function\ncopy_image_buffer( device, transfer_queue, transfer_command_pool, staging_buffer, image, width, height, ) .with_context(|| format!(\"Attempting to create texture for image at path {path}\"))?; After we have copied the data from the staging buffer to the image however, we need to transition the image into the final layout which will be used for sampling, so we do that now after the copy\ntransition_image_layout( device, transfer_queue, transfer_command_pool, image, ImageLayout::TRANSFER_DST_OPTIMAL, ImageLayout::SHADER_READ_ONLY_OPTIMAL, ) .with_context(|| { format!(\"Attempting to transition texture to shader readable for image at path {path}\") })?; In this case, we need to put it into the SHADER_READ_ONLY_OPTIMAL layout for sampling\n7. Cleanup and return Finally we’ve finished preparing the image and can return it. However, we need to remember to do one thing. We need to clean up the staging buffer!\nThe staging buffer we allocated has done its job and now the image data is safely within the image memory in the correct layout. Simply clean up the staging buffer and memory\nunsafe { device.destroy_buffer(staging_buffer, None); device.free_memory(staging_buffer_memory, None); } And finally, we can now return the Texture to the caller, bundling up the image and memory (along with the currently unused width and height).\nOk(Texture { image, image_memory, _width: width, _height: height, }) Creating the texture Now the create_texture function is present, we can finally use it!\nUsing it in the main function here to allocate our texture for hooking up at a later point\nlet textures = vec![create_texture( \u0026instance, \u0026logical_device, physical_device, queues.graphics_queue, graphics_command_pool, \"assets/textures/image1.jpg\", ) .context(\"Creating texture for image1.jpg\")?]; Here it’s a Vec even though we only have one Texture in it, however this means it’s easier to add more later and not change the cleanup code.\nSpeaking of which, we need to remember to pass the Vec into the cleanup function and then run the following\nfor texture in textures { device.destroy_image(texture.image, None); device.free_memory(texture.image_memory, None); } Now it’s finished and we have a shiny new image in GPU memory ready to be bound to the fragment shader for sampling!\n",
-  "wordCount" : "3347",
-  "inLanguage": "en",
-  "datePublished": "2024-03-31T14:30:59+01:00",
-  "dateModified": "2024-03-31T14:30:59+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/textures-1/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -145,7 +73,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -173,17 +101,17 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -194,7 +122,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/">Vulkan</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/vulkan/lets-learn-vulkan/">Let&#39;s Learn Vulkan</a></div>
     <h1 class="post-title entry-hint-parent">
       17. Textures Part 1
     </h1>
@@ -678,7 +606,7 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>5. Adding an Impulse | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
 What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
+<link rel="canonical" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ What is an Impulse? An impulse in physics is an instantaneous force relating to 
         }
 
     </style>
-</noscript><meta property="og:title" content="5. Adding an Impulse" />
-<meta property="og:description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
-What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-04-06T16:28:03+01:00" />
-<meta property="article:modified_time" content="2024-04-06T16:28:03+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="5. Adding an Impulse"/>
-<meta name="twitter:description" content="After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.
-What is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Learn Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Project 1: Warehouse Wreckage",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "5. Adding an Impulse",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "5. Adding an Impulse",
-  "name": "5. Adding an Impulse",
-  "description": "After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.\nWhat is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.",
-  "keywords": [
-    
-  ],
-  "articleBody": "After covering the basics of taking references to actors in order to retrieve data from them, as in the last post that printed the mass, the next logical step is to be able to modify them. In particular, for warehouse wreckage which will be a physics sandbox type game, we need to be able to fire objects with an impulse.\nWhat is an Impulse? An impulse in physics is an instantaneous force relating to velocity change (which is an instantaneous amount), rather than acceleration which is a change over time.\nThe formula for force is \\(Force = Mass * Acceleration\\) which is a change over time (due to acceleration being a change in velocity over time).\nWhereas the formula for an impulse is \\(Impulse = Mass * Velocity Change\\).\nAdding an Impulse For this little example, let’s add an impulse to the cube that’s spawned in the scene by using blueprints.\nThe graph is simple enough to show here, the new nodes are circled and explained below.\nSpace Bar =\u003e This is an event node that triggers the Pressed pin when the space bar is pressed, and the Released pin when the space bar is released. Add Impulse =\u003e This node takes the Static Mesh Component to apply an impulse to. We can specify the impulse (in world space), which here we specify to be 70,000. NOTE: If we wanted to ignore mass and do a direct velocity change regardless of mass, then we can check the Vel Change box.\nResults Running the scene, and then tapping space bar allows us to apply upwards impulses to the cube to hop it around a bit.\n",
-  "wordCount" : "274",
-  "inLanguage": "en",
-  "datePublished": "2024-04-06T16:28:03+01:00",
-  "dateModified": "2024-04-06T16:28:03+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/adding-an-impulse/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ What is an Impulse? An impulse in physics is an instantaneous force relating to 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ What is an Impulse? An impulse in physics is an instantaneous force relating to 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ What is an Impulse? An impulse in physics is an instantaneous force relating to 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
     <h1 class="post-title entry-hint-parent">
       5. Adding an Impulse
     </h1>
@@ -260,7 +180,7 @@ What is an Impulse? An impulse in physics is an instantaneous force relating to 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

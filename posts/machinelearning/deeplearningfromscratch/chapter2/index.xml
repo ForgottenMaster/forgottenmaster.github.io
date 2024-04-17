@@ -2,34 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Chapter 2 - Fundamentals on Robin Smith</title>
-    <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/</link>
+    <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/</link>
     <description>Recent content in Chapter 2 - Fundamentals on Robin Smith</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 19 Feb 2022 09:43:54 +0000</lastBuildDate>
-    <atom:link href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2.3 - Neural Networks</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</link>
       <pubDate>Sat, 19 Feb 2022 09:43:54 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/neuralnetworks/</guid>
       <description>The previous post showed the most basic type of machine learning and how to train it, but the concepts learnt there (forward output calculations, backward gradient calculations) will apply equally here too.
 What was the problem with linear regression? The main problem with linear regression that we have is that we are training to find a set of weights, which are essentially the coefficients of an N-dimensional line. Therefore we&amp;rsquo;re trying to fit a straight line to a set of points.</description>
     </item>
     <item>
       <title>2.2 - Linear Regression</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</link>
       <pubDate>Fri, 11 Feb 2022 10:46:23 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/linearregression/</guid>
       <description>Introduction As mentioned previously, we can represent a training set as a matrix where each row of the matrix is a record/sample, and each column is a single feature of the record.
 Additionally we can have a weighting assigned to each feature so some features are &amp;ldquo;worth&amp;rdquo; more than others.
 However we also require a baseline value for when every numeric feature is a 0 (we would always give 0, but we may not want this).</description>
     </item>
     <item>
       <title>2.1 - Supervised Learning</title>
-      <link>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>
+      <link>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</link>
       <pubDate>Sat, 22 Jan 2022 11:47:50 +0000</pubDate>
-      <guid>https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</guid>
+      <guid>http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter2/supervisedlearning/</guid>
       <description>Overview Supervised learning is a branch of machine learning that can be described as finding patterns or relationships in data that has already been measured. The &amp;ldquo;supervised&amp;rdquo; part of the phrase comes from the fact that we need to monitor the output that the system gives for a given input and to tell the system how close or far away it is from the measured result.
 As a short example, suppose we looked at 100 houses and measured both their square footage and market value.</description>
     </item>

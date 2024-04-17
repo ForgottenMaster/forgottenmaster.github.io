@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>3.5 - The Network Type | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="In this post we&rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
 Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn&rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/network/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/network/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
         }
 
     </style>
-</noscript><meta property="og:title" content="3.5 - The Network Type" />
-<meta property="og:description" content="In this post we&rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
-Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn&rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-03-26T00:57:01+00:00" />
-<meta property="article:modified_time" content="2022-03-26T00:57:01+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="3.5 - The Network Type"/>
-<meta name="twitter:description" content="In this post we&rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.
-Just as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn&rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 3 - Deep Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "3.5 - The Network Type",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "3.5 - The Network Type",
-  "name": "3.5 - The Network Type",
-  "description": "In this post we\u0026rsquo;ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.\nJust as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn\u0026rsquo;t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions.",
-  "keywords": [
-    
-  ],
-  "articleBody": "In this post we’ll take a look at implementing the next (and final) level of abstraction for a neural network, the Network type itself.\nJust as how we encapsulated multiple operations in a Layer type, the Network is nothing more than a wrapper around multiple layers. However this isn’t entirely true, since the Network will also require a loss function in order to calculate the final single value measure of error for the predictions. We will then use the loss function also on the backward pass.\nThe way we train the network is the same as how we train the layers/operations and will consist of the following steps for a certain number of epochs:\nFeed the data batch into each layer, taking the output of that layer and passing it to the next, until the output of the final layer is captured. Feed the final output into the loss function, along with the expected targets to get the loss value. Perform the backward pass on the loss function to get the output gradient to feed to the last layer, and continue passing the input gradient of a layer to the output gradient of the previous one. Additionally, we’ll need a way to get an iterator over all the parameters and parameter gradients of the network for training purposes, but as we’ll see, this is nothing more than a wrapper over the layers as well.\nThe Definition The type definition itself is very straightforward:\npub struct Network\u003cT\u003e { layers: Vec\u003cLayer\u003cT\u003e\u003e, loss: Loss\u003cT\u003e, } T here is, as in the layers/operations, the underlying element type of the Array type we’re using to store the data.\nFor the Network type itself, it’s just a Vec of layers, and a loss function as mentioned above.\nThe “Constructor” For abstraction to allow for future private implementation changes, we will provide the user with a “new” method to create the Network as we do with the other types.\nThe type of T for creating a new Network doesn’t need to be constrained, so the implementation is straightforward:\nimpl\u003cT\u003e Network\u003cT\u003e { pub fn new(layers: Vec\u003cLayer\u003cT\u003e\u003e, loss: Loss\u003cT\u003e) -\u003e Self { Self { layers, loss } } } The rest of the methods we will implement require T to be clonable (due to the layers/operations needing to store off copies of their input for use on the backpropagation), these will therefore be in an impl block that looks like:\nimpl\u003cT: Clone\u003e Network\u003cT\u003e { ... } Forward Function We want a public function that represents the forward pass of the network, but doesn’t require a secondary testing array, since once the network is trained, we would like to use it to get predictions for new data such as from a testing data set.\nThis function does need to take a mutable reference to the Network since the forward pass causes copies of the input data to be stashed off in the layers/operations of the network. The signature for this function is pretty straightforward, just taking the input data and returning a batch of predictions:\npub fn forward(\u0026mut self, batch: Array\u003cT, Ix2\u003e) -\u003e Array\u003cT, Ix2\u003e { ... } As for the implementation, this is little more than running through each of the layers of the network, and calling its “forward” method to obtain output from that layer, then passing it through to the next and so on. In Rust with the iterator API we can easily model this as a fold expression:\nself.layers .iter_mut() .fold(batch, |state, layer| layer.forward(\u0026state)) Forward Loss Function While we’re training the network, we will want to run the forward pass, but also obtain the loss value at the end. This will never be called externally, and only is part of training the network, so it doesn’t need to be public.\nFor the signature, we will take the input batch as before, but also because we’re calculating the loss value will need to accept the array of targets as well.\nThe return value will be a tuple containing the predictions, and loss value.\nSince the function is very simple, I’ll just paste it in its entirety here:\nfn forward_loss(\u0026mut self, batch: Array\u003cT, Ix2\u003e, targets: Array\u003cT, Ix2\u003e) -\u003e (Array\u003cT, Ix2\u003e, T) { let predictions = self.forward(batch); let loss = self.loss.forward(predictions.clone(), targets); (predictions, loss) } Backward Pass Now that we have the forward pass covered, we need to look at the backward pass. Again, this is a private helper function that’s only called as part of the training process and not independently. For the backward pass, we don’t actually need to take any arguments.\nWe do however still need mutable access to the Network since the backward pass will calculate and update parameter gradients as it goes through.\nAs with the forward pass, this is modeled with a fold expression, calling the “backward” function on each layer with the result of the previous one. The code looks as follows:\nfn backward(\u0026mut self) { self.layers .iter_mut() .rev() .fold(self.loss.backward(), |gradient, layer| { layer.backward(\u0026gradient) }); } A couple of points to talk about:\nWe need to run through the layers in reverse order, because this is the backward pass. This is achieved by the rev() iterator adapter call. In order to get the initial gradient, we call backward on the loss function. For the rest, we pass it through the layer. Training When we train the network, we are always performing a forward pass, followed by a backward pass. Therefore the public API for training the network doesn’t expose the backward, or forward loss functions since the caller should only use the train function.\nThis function will take the input data, and target array. It will run the forward pass, followed by a backward pass. Finally it will return the loss that was determined from the forward pass because the training code may use this.\nThe function itself is just a wrapper around the forward_loss and backward function calls and looks as follows:\npub fn train(\u0026mut self, batch: Array\u003cT, Ix2\u003e, targets: Array\u003cT, Ix2\u003e) -\u003e T { let (_, loss) = self.forward_loss(batch, targets); self.backward(); loss } Parameter \u0026 Gradient Access This is the last part that’s missing, which is the ability after training for an epoch, to obtain the parameters and parameter gradients from the network so that they can be optimized (e.g. via gradient descent).\nAgain, the function itself is very simple since all the complexity is now buried in the lower levels. Network is a wrapper, or composite over the layers and loss function, and so we’re just composing the parameters and gradients from the layers.\nWhat we want, is a parameters_and_gradients method that will return an iterator over each parameter and gradient in the first layer, then in the second, and so on.\nWe can achieve this in Rust by using the iterator adapter flat_map.\nflat_map takes each element of the iterator it’s adapting (in our case an iterator over the layers), and calls a closure on it. This closure returns an iterator, which Rust will chain together.\nFor our case, calling parameters_and_gradients on a Layer also returns an iterator, so it fulfils the contract for flat_map.\nThe full function then looks as follows:\npub fn parameters_and_gradients( \u0026mut self, ) -\u003e impl Iterator\u003cItem = (\u0026mut Array\u003cT, Ix2\u003e, \u0026Array\u003cT, Ix2\u003e)\u003e { self.layers .iter_mut() .flat_map(|layer| layer.parameters_and_gradients()) } Conclusion And that’s all there is to the Network abstraction, just a bunch of composing and encapsulation!.\nThe final part of the implementation is to create types responsible for running the training of the Network, and for optimizing the parameters given the calculated gradients.\nWe’ll look at implementing these in the next post.\n",
-  "wordCount" : "1258",
-  "inLanguage": "en",
-  "datePublished": "2022-03-26T00:57:01Z",
-  "dateModified": "2022-03-26T00:57:01Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/network/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
     <h1 class="post-title entry-hint-parent">
       3.5 - The Network Type
     </h1>
@@ -345,7 +265,7 @@ Just as how we encapsulated multiple operations in a Layer type, the Network is 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

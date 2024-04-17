@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4.3 - Softmax | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="This post will describe a new loss function called &ldquo;cross entropy loss&rdquo;. Due to often being coupled with the &ldquo;softmax&rdquo; function, this is often just called the &ldquo;softmax cross entropy loss&rdquo; function. There are a couple of components needed to support that.
 Softmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that&rsquo;s sent in the backpropagation pass is which enables it to converge quite fast.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Softmax Thus far we used the mean squared error as a loss function which has a n
         }
 
     </style>
-</noscript><meta property="og:title" content="4.3 - Softmax" />
-<meta property="og:description" content="This post will describe a new loss function called &ldquo;cross entropy loss&rdquo;. Due to often being coupled with the &ldquo;softmax&rdquo; function, this is often just called the &ldquo;softmax cross entropy loss&rdquo; function. There are a couple of components needed to support that.
-Softmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that&rsquo;s sent in the backpropagation pass is which enables it to converge quite fast." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-02T19:33:53+01:00" />
-<meta property="article:modified_time" content="2022-05-02T19:33:53+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4.3 - Softmax"/>
-<meta name="twitter:description" content="This post will describe a new loss function called &ldquo;cross entropy loss&rdquo;. Due to often being coupled with the &ldquo;softmax&rdquo; function, this is often just called the &ldquo;softmax cross entropy loss&rdquo; function. There are a couple of components needed to support that.
-Softmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that&rsquo;s sent in the backpropagation pass is which enables it to converge quite fast."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 4 - Extensions",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4.3 - Softmax",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4.3 - Softmax",
-  "name": "4.3 - Softmax",
-  "description": "This post will describe a new loss function called \u0026ldquo;cross entropy loss\u0026rdquo;. Due to often being coupled with the \u0026ldquo;softmax\u0026rdquo; function, this is often just called the \u0026ldquo;softmax cross entropy loss\u0026rdquo; function. There are a couple of components needed to support that.\nSoftmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that\u0026rsquo;s sent in the backpropagation pass is which enables it to converge quite fast.",
-  "keywords": [
-    
-  ],
-  "articleBody": "This post will describe a new loss function called “cross entropy loss”. Due to often being coupled with the “softmax” function, this is often just called the “softmax cross entropy loss” function. There are a couple of components needed to support that.\nSoftmax Thus far we used the mean squared error as a loss function which has a nice property that the further the prediction is from the target, the steeper the gradient that’s sent in the backpropagation pass is which enables it to converge quite fast.\nHowever, if the problem is a classification problem where the output is identifying one of a set of classes which the observation evaluates to, then we know that the predictions that are output for those classes are the probabilities of the observation being in that category.\nDue to being a set of probabilities, we know:\nEach individual probability should be between 0 and 1 All probabilities summed up should total 1 The softmax function will exploit these properties in order to produce even steeper gradients to converge faster for classification problems.\nFor a problem with 3 classes, the network will output a vector of 3 elements per observation as predictions, however the network will provide these as raw floating point values which aren’t necessarily between 0 and 1.\nFor a vector such as \\(\\begin{bmatrix}5 \u0026 3 \u0026 2\\end{bmatrix}\\) we want to convert this into a vector of probabilities. The simplest way to do this would be to normalize the vector, that is dividing each element by the total sum. For this specific vector, it would look like follows\n$$ Normalize(\\begin{bmatrix}5 \\\\ 3 \\\\ 2\\end{bmatrix}) = \\begin{bmatrix}\\frac 5 {5 + 3 + 2} \\\\ \\frac 3 {5 + 3 + 2} \\\\ \\frac 2 {5 + 3 + 2}\\end{bmatrix} = \\begin{bmatrix}\\frac 5 {10} \\\\ \\frac 3 {10} \\\\ \\frac 2 {10}\\end{bmatrix} = \\begin{bmatrix}0.5 \\\\ 0.3 \\\\ 0.2\\end{bmatrix} $$\nHowever it turns out that the softmax function instead will provide steeper gradients which is to say that it will be able to bias the probabilities towards that which it thinks is correct.\nThe formula for softmax is much the same as regular normalization except that we’re using the values as powers of the mathematical constant, e.\nFor that same example then, the softmax function look like follows\n$$ Softmax(\\begin{bmatrix}5 \\\\ 3 \\\\ 2\\end{bmatrix}) = \\begin{bmatrix}\\frac {e^5} {{e^5} + {e^3} + {e^2}} \\\\ \\frac {e^3} {{e^5} + {e^3} + {e^2}} \\\\ \\frac {e^2} {{e^5} + {e^3} + {e^2}}\\end{bmatrix} = \\begin{bmatrix}\\frac {148.41315910257660342111558004055} {175.88775212469492138927453715571} \\\\ \\frac {20.085536923187667740928529654582} {175.88775212469492138927453715571} \\\\ \\frac {7.389056098930650227230427460575} {175.88775212469492138927453715571}\\end{bmatrix} = \\begin{bmatrix}0.84379473448133947005179288509305 \\\\ 0.11419519938459447893014170254169 \\\\ 0.04201006613406605101806541236525\\end{bmatrix} $$\nShortening these results to 2 decimal places gives us \\(\\begin{bmatrix}0.84 \u0026\u0026 0.11 \u0026\u0026 0.04\\end{bmatrix}\\)\nAs we can see the calculation is now less neutral to the answer already closest to 1 and so this function biases it more toward 1 by reducing the value of the less favourable results.\nIf we were to apply a max function which sets the probability of the highest prediciton to 1 and the others to 0, then we’d end up with \\(\\begin{bmatrix}1, 0, 0\\end{bmatrix}\\) instead.\nAs we can see, softmax generates results halfway between a standard normalization, and the max function, hence the name softmax.\nCross entropy loss The second portion is the actual loss calculation which is called cross entropy loss and again is specific to classification problems where the predictions and targets represent the probabilities of being in a particular class.\nThe cross entropy loss function which is represented by the following dual case formula\n$$ CE(p_i, y_i) = \\begin{cases} -log(1 - p_i), \u0026 \\text{if } y_i = 0 \\\\ -log(p_i), \u0026 \\text{if } y_i = 1 \\end{cases} $$\nWhere \\(p_i\\) is an entry in the predictions probabilities output by the softmax function at index \\(i\\), and \\(y_i\\) is the target at the same index which is guaranteed to be either a 0 or a 1 (since this is a classification problem).\nThis can actually be represented in a single formula due to the target being either a 0 or a 1\n$$ CE(p_i, y_i) = -y_i \\times log(p_i) - (1 - y_i) \\times log(1 - p_i) $$\nThis works because, if \\(y_i\\) is a 0 then the first term will be eliminated, and if it’s a 1 then the second term is eliminated (due to 1 - 1 being 0).\nIf we look at a graph comparing the loss values generated by the cross entropy loss, compared to those generated by the mean squared error function we can see that the penalties are not only higher from the beginning, but that they get higher at a much steeper rate\nIn fact, as can be seen from the graph, as the difference between our prediction and target approaches 1, the loss approaches infinity.\nThis produces greater penalties for loss, and the softmax function produces steeper gradients, so the two combined together will enable us to move weights by a larger amount and train the network much faster. These two are often used together, and so is usually seen as the softmax cross entropy loss\nThe formula for this can be written as follows (assuming 3 classes in the output)\n$$ SCE_1 = -y_1 \\times log(\\frac {e^{x_1}}{e^{x_1} + e^{x_2} + e^{x_3}}) - (1 - y_1) \\times log(1 - \\frac {e^{x_1}} {e^{x_1} + e^{x_2} + e^{x_3}}) $$\nThis more complex formula might seem to have an equally complex derivative calculation, however it’s a very simple formula in fact\n$$ \\frac {\\partial {SCE_1}} {\\partial x_1} = {\\frac {e^{x_1}} {e^{x_1} + e^{x_2} + e^{x_3}}} - y_1 $$\nWhich means that the derivative is simply\n$$ softmax(\\begin{bmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{bmatrix}) - \\begin{bmatrix} y_1 \\\\ y_2 \\\\ y_3 \\end{bmatrix} $$\nCoding Now we’re ready to implement this as a loss function which as it turns out will be fairly simple. Each row of the input data to the loss function will be a prediction with X columns (for X classes) that we pass through the softmax function to normalize them into a set of probabilities.\nAfter the softmax, we will do the cross entropy loss calculation, and this is where we must be careful. Cross entropy loss as mentioned before is asymptotic and will tend towards infinity as the difference approaches 1, so to avoid this we clip the output of the softmax function so that the prediction is neither 0 nor 1, but we’ll clamp to some small epsilon value.\nSoftmaxCrossEntropy struct For the struct, as with all of our other “vtable” style types, it will be an empty type - though we need to make sure it’s Clonable due to the cloning of the neural network required in the training process\n#[derive(Clone)] pub struct SoftmaxCrossEntropy; The only function we’ll have associated with this type is one that can create a new boxed instance for convenience. For consistency we call this new_boxed\npub fn new_boxed() -\u003e Box\u003cSelf\u003e { Box::new(Self) } LossImpl trait bounds For implementing the LossImpl trait, we require that we are implementing it only for those types that support the necessary functionality. These are mostly arithmetic, but in particular the num_traits::Float trait will provide us a few functions we’re going to make use of.\nWe need the following traits placed as bounds on the type T\nFloat - This is from num_traits and provides us functions such as epsilon() and exp() ScalarOperand - This is from ndarray and is required because there are a few points where we are dividing or otherwise operating on the whole array with a value of type T Therefore the declaration that we are implementing LossImpl for our SoftmaxCrossEntropy type will look as follows\nimpl\u003cT: Float + ScalarOperand\u003e LossImpl\u003cT\u003e for SoftmaxCrossEntropy LossImpl::calculate_output In order to calculate the output from our given set of predictions and targets, we firstly will need to apply the softmax function to turn the predictions into probabilities, and as mentioned previously need to also clamp the output to within +/- some epsilon value.\nThere is however something else we need to consider which is that if our predictions and targets have only a single class that a value either can be in (1) or not at all (0), then applying the softmax function would always produce a 1 since any number divided by itself is 1.\nIn order to ensure that the softmax can work on a single-class problem, we will need to modify it to be a dual class problem.\nWe can do this by treating the existing column as the probability that the observation is in the class, and therefore we can add a new column that is the probability of it not being in the class. We can calculate this by knowing that probabilities sum to 1, so the value of this column will be 1-x where x is the value in the existing one.\nTherefore the vector of predictions in a single class problem \\(\\begin{bmatrix} 0.4 \\\\ 0.1 \\\\ 0.9 \\end{bmatrix}\\) would be mapped onto the dual class problem matrix of \\(\\begin{bmatrix} 0.4 \u0026 0.6 \\\\ 0.1 \u0026 0.9 \\\\ 0.9 \u0026 0.1 \\end{bmatrix}\\)\nHowever, since we’re turning the single class problem into a dual class one, we need to also do the same for the target vector so that the cross entropy can be applied correctly.\nWe will wrap all this up into a helper function that we’ll detail shortly called calculate_softmax_predictions_and_targets which we call as such in our calculate_output method\nlet (predictions, targets) = calculate_softmax_predictions_and_targets((*predictions).clone(), (*targets).clone()); Next we can apply the cross loss to the predictions and targets. Recall from the formula of the cross entropy loss that we can calculate it as a subtraction sum.\nThe left hand side of the subtraction (called the minuend) is \\(-y \\times log(p) \\) which means that we need to get a version of the targets array that is negated, and a version of the predictions array that is the natural log of the elements.\nIn code this looks as follows\nlet minuend = targets.mapv(|elem| -elem) * predictions.mapv(|elem| elem.ln()); The right hand side of the formula (called the subtrahend) is \\((1 - y) \\times log(1 - p)\\) so the subtrahend looks as follows\nlet subtrahend = targets.mapv(|elem| T::one() - elem) * predictions.mapv(|elem| (T::one() - elem).ln()); Then we can perform the subtraction to get the loss Array\nlet result = minuend - subtrahend; Finally, the loss function is expected to return a single value representing the total loss over all predictions, so we need to sum the results to get the final loss value\nresult.sum() Putting all of this together we get the entire calculate_output function\nfn calculate_output(\u0026self, predictions: \u0026Array\u003cT, Ix2\u003e, targets: \u0026Array\u003cT, Ix2\u003e) -\u003e T { let (predictions, targets) = calculate_softmax_predictions_and_targets((*predictions).clone(), (*targets).clone()); let minuend = targets.mapv(|elem| -elem) * predictions.mapv(|elem| elem.ln()); let subtrahend = targets.mapv(|elem| T::one() - elem) * predictions.mapv(|elem| (T::one() - elem).ln()); let result = minuend - subtrahend; result.sum() } LossImpl::calculate_input_gradient The second required function is to be able to calculate the input gradients during the backward pass. For this we firstly need to know whether this is a single class problem or not, this is because when we calculate the softmax predictions on a single class problem, we are converting it to a dual class problem.\nBecause of this, the gradients produced will also be of a dual class nature, so before propagating back through the network, this extra dummy column we added needs to be stripped off.\nWe can cache whether it’s a single class Array by simply checking the number of columns in it is 1\nlet is_single_class = predictions.ncols() == 1; We need to go ahead and recalculate the predictions because we aren’t retaining any state in our vtable trait objects, but won’t show that here.\nRecalling that calculating the gradient for the cross entropy loss function is simply the result of subtracting the targets Array from the calculated predictions, we can implement it as such\nlet gradient = predictions - targets; The last step is to strip away that dummy column we added if the problem is a single class problem, which we can do through a helper function\nif is_single_class { dual_class_to_single(gradient) } else { gradient } Putting all of this together gives us the complete implementation for our gradient calculation function\nfn calculate_input_gradient( \u0026self, predictions: \u0026Array\u003cT, Ix2\u003e, targets: \u0026Array\u003cT, Ix2\u003e, ) -\u003e Array\u003cT, Ix2\u003e { let is_single_class = predictions.ncols() == 1; let (predictions, targets) = calculate_softmax_predictions_and_targets((*predictions).clone(), (*targets).clone()); let gradient = predictions - targets; if is_single_class { dual_class_to_single(gradient) } else { gradient } } calculate_softmax_predictions_and_targets (helper) As a reminder, we want this helper function to prepare the predictions and targets for our cross entropy loss calculation, by doing the following:\nAdding a dummy column if it’s a single class Array so that softmax can work with a dual class Array Run the predictions through the softmax function to turn them into probabilities Clamp the probabilities so that they don’t ever hit 0 or 1 due to asymptotic calculations when we use log during the cross entropy loss calculation The first step to this is easy enough, but we will delegate this to a helper function that we will cover later. For calling it, we will simply check if the number of columns in the predictions is 1, and if it is then we will update both predictions and targets to have the additional column\nif predictions.ncols() == 1 { predictions = single_class_to_dual(predictions); targets = single_class_to_dual(targets); } Then we apply the softmax function on the predictions which is done with a simple call, again we’ll defer covering the softmax function until later\nlet mut predictions = softmax(predictions) For the third point, clamping the probabilities, we can do this by using a method called “clamp” from the num_traits library. This function works with any T where T implements the Float trait. Conveniently, Float also gives us an associated method “epsilon” which gives us a small epsilon value to clamp with.\nWe can map the predictions in place, and for each element of the predictions array, perform the clamp. This looks as follows\npredictions.mapv_inplace(|elem| num_traits::clamp(elem, T::epsilon(), T::one() - T::epsilon())); Finally we’re able to return the predictions and targets. As an entire function it looks as follows\nfn calculate_softmax_predictions_and_targets\u003cT: Float\u003e( mut predictions: Array\u003cT, Ix2\u003e, mut targets: Array\u003cT, Ix2\u003e, ) -\u003e (Array\u003cT, Ix2\u003e, Array\u003cT, Ix2\u003e) { if predictions.ncols() == 1 { predictions = single_class_to_dual(predictions); targets = single_class_to_dual(targets); } let mut predictions = softmax(predictions); predictions.mapv_inplace(|elem| num_traits::clamp(elem, T::epsilon(), T::one() - T::epsilon())); (predictions, targets) } softmax This function will be responsible for applying softmax to the Array of predictions. We actually will need to apply this independently on each row\nWe know that in softmax calculation, we are working with values of \\(e^x\\) and don’t need to keep the original values around. Therefore the first step should be to prepare the input array by calculating each element to be e raised to that power as such\narr.map_inplace(|elem| *elem = elem.exp()); ndarray::Array contains a convenient function called map_axis which takes an axis to map over, and a function. The function will take an entire slice of that axis at a particular index, and should return a single value. This results in an Array that is one dimension less.\nFor our purposes we will iterate in the direction of the columns which is Axis(1), and the function will therefore accept one row at a time. We just sum the row to get the total of all features in that row.\nThis will give us a 1 dimensional array, but for the division we will be doing, to ensure that the broadcasting works correctly, we need to reshape this into a 2 dimensional array, with a single column. Therefore each entry in the column vector will be a total for the associated row in the input matrix.\nWe can use the into_shape function to reshape the totals, but we need to unwrap the Result as if the number of elements in the input don’t match the requested dimensions it will give an error. In this case we know it has to be correct so we can unwrap it safely.\nThis looks as follows\nlet totals = arr .map_axis(Axis(1), |row| row.sum()) .into_shape((arr.nrows(), 1)) .unwrap(); Finally we can divide the array by the totals. Due to the way operator broadcasting works, this will broadcast the division of a multi-column vector by a single column one such that each element in a given row is divided by the associated element in the divisor.\nFor clarity, this means that\n$$ \\begin{bmatrix} x_1 \u0026 x_2 \u0026 x_3 \\\\ y_1 \u0026 y_2 \u0026 y_3 \\end{bmatrix} / \\begin{bmatrix} z_1 \\\\ z_2 \\\\ \\end{bmatrix} = \\begin{bmatrix} x_1/z_1 \u0026 x_2/z_1 \u0026 x_3/z_1 \\\\ y_1/z_2 \u0026 y_2/z_2 \u0026 y_3 /z_2 \\end{bmatrix} $$\nThe total function is then as follows (note the Float trait bound so we have access to the exp function and also to arithmetical operators)\nfn softmax\u003cT: Float\u003e(mut arr: Array\u003cT, Ix2\u003e) -\u003e Array\u003cT, Ix2\u003e { arr.map_inplace(|elem| *elem = elem.exp()); let totals = arr .map_axis(Axis(1), |row| row.sum()) .into_shape((arr.nrows(), 1)) .unwrap(); arr / totals } single_class_to_dual This is the first of the two “mapping” functions we use to convert a single class problem into a dual class one for the purposes of being able to apply softmax and cross entropy appropriately.\nThis one takes the initial predictions array and adds an additional feature/column onto it representing the inverse probabilities, or the probabilities of not being in the single class.\nTo calculate this, we will iterate over the elements of the input array (which we validate is a single column so each element is a prediction for a row), we will then use a flat_map to map this single element onto an iterator that produces both the element, and then the inverse of the element (1 - element). We can then take this iterator and use Array::from_iter to convert it into a 1-D array.\nHowever, all of the code expects the array to be a 2-D array, so we must reshape it to be as such.\nThe function must also have appropriate bounds on “T” to be able to use the various functions. These bounds will be:\nClone - We need to be able to clone elements in the predictions array so as to be able to emit it, and also use it to calculate the value in the additional column One - We need this trait to be able to get “one” of a “T” as we’ll need it to calculate the value in the second column Sub",
-  "wordCount" : "3655",
-  "inLanguage": "en",
-  "datePublished": "2022-05-02T19:33:53+01:00",
-  "dateModified": "2022-05-02T19:33:53+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/softmax/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Softmax Thus far we used the mean squared error as a loss function which has a n
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Softmax Thus far we used the mean squared error as a loss function which has a n
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Softmax Thus far we used the mean squared error as a loss function which has a n
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter4/">Chapter 4 - Extensions</a></div>
     <h1 class="post-title entry-hint-parent">
       4.3 - Softmax
     </h1>
@@ -513,7 +433,7 @@ Accuracy (testing): 91.742%
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

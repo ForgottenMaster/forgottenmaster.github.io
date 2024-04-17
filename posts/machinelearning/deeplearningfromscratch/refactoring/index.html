@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Refactoring Eidetic | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="After finishing enough chapters of the book to have a full feed-forward neural network architecture/API I realised there were some holes in the API and it isn&rsquo;t as flexible as I&rsquo;d like. This intermediate chapter is about refactoring Eidetic to bring the missing functionality in.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/index.xml">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/index.xml">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,48 +56,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Refactoring Eidetic" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Refactoring Eidetic"/>
-<meta name="twitter:description" content=""/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Refactoring Eidetic",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/"
-    }
-  ]
-}
-</script>
+</noscript>
 </head>
 
 <body class="list" id="top">
@@ -115,7 +74,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -143,17 +102,17 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -161,7 +120,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
+<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a></div>
   <h1>
     Refactoring Eidetic
   </h1>
@@ -181,7 +140,7 @@
 In the last post I covered the Forward trait and described why it needs to be generic over a lifetime, so we have our way of performing the forward pass....</p>
   </div>
   <footer class="entry-footer"><span title='2022-10-07 00:23:32 +0100 BST'>October 7, 2022</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Part 6 - Forward &amp; Backward" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/"></a>
+  <a class="entry-link" aria-label="post link to Part 6 - Forward &amp; Backward" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/forwardbackward/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -194,7 +153,7 @@ In the last post I covered the Forward trait and described why it needs to be ge
 In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-26 20:26:21 +0100 BST'>July 26, 2022</span>&nbsp;·&nbsp;6 min</footer>
-  <a class="entry-link" aria-label="post link to Part 5 - Trainable State" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/"></a>
+  <a class="entry-link" aria-label="post link to Part 5 - Trainable State" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -207,7 +166,7 @@ In this typestate we are able to run training passes (as opposed to just predict
 We are only able to get an operation into the initialised state by first starting with an uninitialised version and then initialising it, we can’t directly construct new instances of this type because it’s not publicly visible/nameable....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-24 21:06:33 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Part 4 - Initialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/"></a>
+  <a class="entry-link" aria-label="post link to Part 4 - Initialised Operations" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/initialised/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -220,7 +179,7 @@ We are only able to get an operation into the initialised state by first startin
 What are typestates anyway? If you aren’t used to programming with generics at the type level, you may not have encountered type states before, so a quick explanation of what they are might be necessary....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-24 17:28:00 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;6 min</footer>
-  <a class="entry-link" aria-label="post link to Part 3 - Uninitialised Operations" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/uninitialisedoperations/"></a>
+  <a class="entry-link" aria-label="post link to Part 3 - Uninitialised Operations" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/uninitialisedoperations/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -232,7 +191,7 @@ What are typestates anyway? If you aren’t used to programming with generics at
     <p>A “tensor” is just a fancy name for “n-dimensional array” (AKA ndarray) and provides a way of thinking about scalars, vectors, matrices, etc. in a uniform way. We refactor Eidetic to use this concept because we want operations to be able to specify how many dimensions are in the input and output data. This post will provide a brief overview of what a tensor is, and how we implement it in Eidetic....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-24 12:48:11 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;7 min</footer>
-  <a class="entry-link" aria-label="post link to Part 2 - Tensors" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/tensors/"></a>
+  <a class="entry-link" aria-label="post link to Part 2 - Tensors" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/tensors/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -245,12 +204,12 @@ What are typestates anyway? If you aren’t used to programming with generics at
 This post in particular will provide a brief overview of the problems that the refactoring will address, then we will look at the step-by-step implementation of the new Eidetic API at a relatively high level since going into every line of code as we did with the initial implementation would take too long....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-24 12:06:05 +0100 BST'>July 24, 2022</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to Part 1 - Rationale" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/"></a>
+  <a class="entry-link" aria-label="post link to Part 1 - Rationale" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/rationale/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

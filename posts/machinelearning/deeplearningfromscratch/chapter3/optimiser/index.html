@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>3.6 - Optimiser | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
 The Trait An Optimiser has a single job in the network training process.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ The Trait An Optimiser has a single job in the network training process.">
         }
 
     </style>
-</noscript><meta property="og:title" content="3.6 - Optimiser" />
-<meta property="og:description" content="Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
-The Trait An Optimiser has a single job in the network training process." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-05T22:45:21+01:00" />
-<meta property="article:modified_time" content="2022-04-05T22:45:21+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="3.6 - Optimiser"/>
-<meta name="twitter:description" content="Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.
-The Trait An Optimiser has a single job in the network training process."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Chapter 3 - Deep Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "3.6 - Optimiser",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "3.6 - Optimiser",
-  "name": "3.6 - Optimiser",
-  "description": "Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.\nThe Trait An Optimiser has a single job in the network training process.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Now that the layers of abstraction are done, we need to work on actually running the training of the network. We will be encapsulating the optimisation process to allow for the API user to select the strategy they would like to use to apply the gradients to parameters when training the network. This will be a fairly short post as the actual optimisation process is pretty simple.\nThe Trait An Optimiser has a single job in the network training process. To apply the calculated partial derivatives for the parameter operations in the network to the parameters themselves. The basic form as we’ll see shortly is just applying some proportion of the gradients to the parameters.\nHowever, it’s entirely possible the API user may wish to update them in a different way, such as updating using a historical average to smooth out the modifications over time.\nAt the end of the day though, the Optimiser trait only needs a single method, which is called to update the provided Network. The trait definition is as follows:\npub trait Optimiser\u003cT\u003e { fn step(\u0026mut self, net: \u0026mut Network\u003cT\u003e); } Again it needs a generic type, T, which is the type of the underlying elements in the arrays within the network.\nThe step function operates on a mutable reference to the Optimiser object itself, because it may want to for example store a history of gradients, or other information. Updating that information stored in the members of the implementor requires mutable access.\nIt takes the Network in by mutable reference also. We don’t want the implementor to own the Network, but merely borrow it for the duration of the step function. We need mutable access because we need access to and to update the parameters within the network.\nStochastic Gradient Descent This is the official terminology for the optimisation algorithm used previously. This simply runs through the parameters and gradients of the network and applies some proportion of the gradient to the parameter. This multiplier is called the learning rate.\nAs far as the structure of the SGD struct itself, we need to store the learning rate that is to be applied. This is an instance of the generic type T since we don’t know what concrete type is being used to store data within the network.\nThis definition then looks fairly trivial:\npub struct SGD\u003cT\u003e { learning_rate: T, } Secondly, we will need a way to construct a new instance of the struct. We will do this by adding a new_boxed method, since we need to store the optimiser as a trait object, thus it will need to be placed behind a box.\nThe implementation of new_boxed then shouldn’t be much of a surprise:\nimpl\u003cT\u003e SGD\u003cT\u003e { pub fn new_boxed(learning_rate: T) -\u003e Box\u003cSelf\u003e { Box::new(Self { learning_rate }) } } For the implementation of the Optimiser trait on SGD, it will look as follows:\nimpl\u003cT: LinalgScalar + ScalarOperand\u003e Optimiser\u003cT\u003e for SGD\u003cT\u003e { ... } These bounds are required due to the implementation of the function requiring arithmetic operations on the elements of the parameters and gradients arrays.\nAs for the implementation of the step function, it’s simply running over each parameter \u0026 gradient pair, and subtracting a small portion of the gradient (dictated by learning_rate) from the parameter:\nnet.parameters_and_gradients() .for_each(|(param, gradient)| { *param = \u0026*param - (gradient * self.learning_rate); }); This runs the following sequence of operations:\nCalls parameters_and_gradients on the network which, as you may recall, returns an impl Iterator",
-  "wordCount" : "721",
-  "inLanguage": "en",
-  "datePublished": "2022-04-05T22:45:21+01:00",
-  "dateModified": "2022-04-05T22:45:21+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/optimiser/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ The Trait An Optimiser has a single job in the network training process."/>
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ The Trait An Optimiser has a single job in the network training process."/>
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ The Trait An Optimiser has a single job in the network training process."/>
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/chapter3/">Chapter 3 - Deep Learning</a></div>
     <h1 class="post-title entry-hint-parent">
       3.6 - Optimiser
     </h1>
@@ -281,7 +201,7 @@ The Trait An Optimiser has a single job in the network training process."/>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

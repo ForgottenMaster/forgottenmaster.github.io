@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>4. Object References | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we&rsquo;ll look at how to get a reference to an actor in the scene, along with how to get some information from it.
 Adding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/">
+<link rel="canonical" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/object-references/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/object-references/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ Adding Actor Reference In order to add a reference to an actor in the scene into
         }
 
     </style>
-</noscript><meta property="og:title" content="4. Object References" />
-<meta property="og:description" content="Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we&rsquo;ll look at how to get a reference to an actor in the scene, along with how to get some information from it.
-Adding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-04-06T13:31:41+01:00" />
-<meta property="article:modified_time" content="2024-04-06T13:31:41+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="4. Object References"/>
-<meta name="twitter:description" content="Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we&rsquo;ll look at how to get a reference to an actor in the scene, along with how to get some information from it.
-Adding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Learn Unreal",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Project 1: Warehouse Wreckage",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "4. Object References",
-      "item": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "4. Object References",
-  "name": "4. Object References",
-  "description": "Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we\u0026rsquo;ll look at how to get a reference to an actor in the scene, along with how to get some information from it.\nAdding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Next, if the blueprint Event Graph is going to do anything useful, it will be necessary to be able to interact with objects in the scene. In order to do that we’ll look at how to get a reference to an actor in the scene, along with how to get some information from it.\nAdding Actor Reference In order to add a reference to an actor in the scene into a blueprint event graph, just click the object in the scene to select it, and swap over to the event graph.\nRight-click in the event graph and there will be an option to create a reference to the selected object. In this case for testing, select the cube we spawned, and we’ll see the following\nGetting a Component Now we have an object in the event graph, we can get a component off it easily by dragging the output data pin to an empty spot in the graph which will pop up the node selection dialog.\nGetting the component off an object involves just searching for a node of the form Get (ComponentName).\nIn this case we’ll get access to the StaticMeshComponent\nAccessing Data Now we have a component, we can use a getter node to access properties off that node, for example the Get Mass node which will give us the physics mass of the object in question.\nWe can then go ahead and print it out. Note that Unreal adds in a conversion node because Get Mass returns a floating point value, whereas Print String requires a string.\nResults By playing the game we can see that indeed the mass of the cube is now printed out to the screen.\n",
-  "wordCount" : "282",
-  "inLanguage": "en",
-  "datePublished": "2024-04-06T13:31:41+01:00",
-  "dateModified": "2024-04-06T13:31:41+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/object-references/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ Adding Actor Reference In order to add a reference to an actor in the scene into
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ Adding Actor Reference In order to add a reference to an actor in the scene into
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ Adding Actor Reference In order to add a reference to an actor in the scene into
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/">Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/">Learn Unreal</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/unreal/learn-unreal/warehouse-wreckage/">Project 1: Warehouse Wreckage</a></div>
     <h1 class="post-title entry-hint-parent">
       4. Object References
     </h1>
@@ -264,7 +184,7 @@ Adding Actor Reference In order to add a reference to an actor in the scene into
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

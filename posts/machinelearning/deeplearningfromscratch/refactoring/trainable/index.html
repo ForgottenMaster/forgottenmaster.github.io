@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Part 5 - Trainable State | Robin Smith</title>
 <meta name="keywords" content="">
 <meta name="description" content="Now we&rsquo;ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren&rsquo;t needed in the previous initialised state.
 In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters.">
 <meta name="author" content="">
-<link rel="canonical" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/">
+<link rel="canonical" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://forgottenmaster.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://forgottenmaster.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://forgottenmaster.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://forgottenmaster.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://forgottenmaster.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,87 +56,7 @@ In this typestate we are able to run training passes (as opposed to just predict
         }
 
     </style>
-</noscript><meta property="og:title" content="Part 5 - Trainable State" />
-<meta property="og:description" content="Now we&rsquo;ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren&rsquo;t needed in the previous initialised state.
-In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-07-26T20:26:21+01:00" />
-<meta property="article:modified_time" content="2022-07-26T20:26:21+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Part 5 - Trainable State"/>
-<meta name="twitter:description" content="Now we&rsquo;ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren&rsquo;t needed in the previous initialised state.
-In this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://forgottenmaster.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Machine Learning",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Deep Learning From Scratch",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Refactoring Eidetic",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "Part 5 - Trainable State",
-      "item": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Part 5 - Trainable State",
-  "name": "Part 5 - Trainable State",
-  "description": "Now we\u0026rsquo;ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren\u0026rsquo;t needed in the previous initialised state.\nIn this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Now we’ve bound a particular optimiser to the operation(s) it is placed into the trainable state. The optimiser instances will retain additional state for gradients, learning rates, etc. that aren’t needed in the previous initialised state.\nIn this typestate we are able to run training passes (as opposed to just predictions) on the network and also, once finished, to go back to the initialised state again from which we can get the trained parameters.\nTrainableOperation This trait is pretty straightforward actually. Let’s take a look at the definition in it’s entirety for a network/operation that is ready to be trained:\npub trait TrainableOperation: Sealed { type Initialised; fn into_initialised(self) -\u003e Self::Initialised; fn init(\u0026mut self, epochs: u16); fn end_epoch(\u0026mut self); } There is only a single associated type with this one which is the type representing the previous state of operation (the initialised state). For functionality we have, as previously mentioned the two pieces of functionality we would like to use.\nDuring training For the actual training process we will need to initialise all the optimisers in the trainable network with the number of epochs that we’re running over. This is because those optimisers will use things such as learning rate decay, or otherwise be reliant on the total number of epochs we are running. Initialisation also lets them know we’re about to train in epoch 0, so can reset any data that needs to be (such as resetting those decaying learning rates back to starting values).\nAt the end of each epoch, the trainer will then call end_epoch to give any optimisers and such in the network the chance to update state before the next epoch (such as decaying learning rates).\nAfter training After we have finished running our training for however many epochs we’d like, we then need to be able to go back to the previous state in order to extract the trained weights for storage, or to make predictions without the overhead of the optimiser instances.\nThe into_initialised method will do this for us and it’s fairly straightforward. It simply consumes this trainable instance and produces an initialised form. In effect, this unwraps the trainable operation and strips away any additional data used during the training process (e.g. gradient velocities for momentum) and the resulting operation is lean, only containing what it needs to make predictions.\nWhere’s the forward pass? As you may have noticed, the trait defining an operation as being in the trainable state doesn’t actually have any functionality to run a forward pass (and thus to run a backward pass, etc.).\nThe reason for this is simple, we need to put that functionality into a separate trait, muchlike we did with the binding of the optimiser and it’s for the same reason - generics. However the generic parameters here are not generic types, but lifetimes.\nA consuming transition Let’s first take a moment to look at what the API would be if the typestate transition from “trainable” to “forward pass” consumed self in the same way as the transitions so far do:\nlet mut trainable = get_trainable_network(); // run one epoch...we'll pretend we know the output gradients before we've run our // forward pass for brevity. trainable = trainable.forward(input).backward(output_gradients).optimise(); As you can see, the API is a little….clumsy since you have to remember to re-assign to the trainable binding after running an epoch, since each step consumes self. If we didn’t re-assign and instead did something like:\nlet mut trainable = get_trainable_network(); // Epoch 0 trainable.forward(input).backward(output_gradient).optimise(); // Epoch 1 trainable.forward(input).backward(output_gradient).optimise(); // COMPILER ERROR! trainable already used A non-consuming transition Ideally, what we would like to do is to have the forward transition be non-consuming and only borrow the operation for its duration. We would like our API to look more like this:\nlet mut trainable = get_trainable_network(); trainable.forward(input_0).backward(output_gradient_0).optimise(); // Epoch 0 trainable.forward(input_1).backward(output_gradient_1).optimise(); // Epoch 1 // etc., more epochs The problem here of course is that we’re only borrowing trainable for each forward pass, and the borrow will last until it’s been finished with. Rust doesn’t allow multiple mutable borrows in existence at the same time because if it did, we could theoretically write something like this:\nlet mut trainable = get_trainable_network(); let epoch_0 = trainable.forward(input_0).backward(output_gradient_0); // calculate gradients to update parameters with for epoch 0 but don't apply let epoch_1 = trainable.forward(input_1).backward(output_gradient_1); // calculate gradients to update parameters with, but from the same parameters as epoch 0. epoch_0.optimise(); // apply gradients to parameters epoch_1.optimise(); // apply gradients to different parameters used to calculate them! So to avoid this, we take out a mutable borrow for the duration of one epoch which means that we always start the next training pass from a state that we are in sole control over changing - the previous pass has either been dropped or applied.\nThis means we need to store a mutable borrow in the struct as we go through the typestates, and storing a mutable borrow in a struct requires an explicit lifetime.\nWhy can’t we add forward to TrainableOperation? At first you might try to add the forward operation to the trainable trait, which we’d think would look something like this:\npub trait TrainableOperation : Sealed { .. // previous stuff we've covered type Forward; fn forward(\u0026mut self) -\u003e Self::Forward; } However, as mentioned the type of Self::Forward will require an explicit lifetime. The lifetime in this case will be the lifetime of the self borrow to forward. This implies that Forward itself needs to be generic over the lifetime, something like:\npub trait TrainableOperation : Sealed { .. // previous stuff we've covered type Forward\u003c'a\u003e; fn forward\u003c'a\u003e(\u0026'a mut self) -\u003e Self::Forward\u003c'a\u003e; } That is, when we define the associated type Forward, we define it as having a single generic parameter (the lifetime ‘a), and in the forward method we set that lifetime to be the same one that \u0026mut self has.\nThis, unfortunately, is not possible at the time of writing in Rust as it requires a feature called Generic Associated Types which is still being worked on.\nForward trait So, as mentioned before we can do this by putting our forward method into a trait which is itself generic over that lifetime. We can then implement this trait for all lifetimes and when we call “forward” on an implementor, Rust can determine which trait instance should be used.\nThe trait then looks as such:\npub trait Forward\u003c'a\u003e: Sealed + TrainableOperation { type Input; type Output; type Forward; fn forward(\u0026'a mut self, input: Self::Input) -\u003e Result\u003c(Self::Forward, Self::Output)\u003e; } I’ve put an additional bound here to make sure we only implement Forward on those operations that are in the TrainableOperation state. The trait as mentioned is generic over a single lifetime, ‘a, which we then use to explicitly say this is the lifetime of the \u0026mut self borrow.\nFor the function itself, we take in an input and run the forward pass, the result of this will be a tuple where we get access to the output (so we can calculate loss), along with the operation in a state ready to begin the backward pass.\nThe tuple is wrapped in Result because this is a fallible function, because the input provided, as with making predictions, might be incorrectly shaped for the number of neurons expected.\n",
-  "wordCount" : "1211",
-  "inLanguage": "en",
-  "datePublished": "2022-07-26T20:26:21+01:00",
-  "dateModified": "2022-07-26T20:26:21+01:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/trainable/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Robin Smith",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://forgottenmaster.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+</noscript>
 </head>
 
 <body class="" id="top">
@@ -154,7 +74,7 @@ In this typestate we are able to run training passes (as opposed to just predict
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://forgottenmaster.github.io/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Robin Smith (Alt + H)">Robin Smith</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -182,17 +102,17 @@ In this typestate we are able to run training passes (as opposed to just predict
         </div>
         <ul id="menu">
             <li>
-                <a href="https://forgottenmaster.github.io/resume/" title="Résumé">
+                <a href="http://localhost:1313/resume/" title="Résumé">
                     <span>Résumé</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://forgottenmaster.github.io/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -203,7 +123,7 @@ In this typestate we are able to run training passes (as opposed to just predict
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://forgottenmaster.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="https://forgottenmaster.github.io/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/">Machine Learning</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/">Deep Learning From Scratch</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/machinelearning/deeplearningfromscratch/refactoring/">Refactoring Eidetic</a></div>
     <h1 class="post-title entry-hint-parent">
       Part 5 - Trainable State
     </h1>
@@ -334,7 +254,7 @@ In this typestate we are able to run training passes (as opposed to just predict
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="https://forgottenmaster.github.io/">Robin Smith</a></span>
+    <span>&copy; 2024 <a href="http://localhost:1313/">Robin Smith</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
